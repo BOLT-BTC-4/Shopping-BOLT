@@ -4,6 +4,28 @@ import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
 
 export const EditShop = () => {
+  const [shop, setShop] = useState([]);
+  const [corners, setCorners] = useState([]);
+
+  useEffect(() => {
+    getItems();
+  }, []);
+  const [trashFlag, setTrashFlag] = useState(false);
+  const [selected, setSelected] = useState("");
+
+  const editCorner = () => {
+    setCorners(["野菜", "お肉", "お魚"]);
+  };
+
+  const editShop = (shopId) => {
+    setShop({
+      shopName: "イオン 安城店",
+      corner: corners,
+    });
+  };
+
+  console.log(shop);
+
   return (
     <View style={styles.editshop_container}>
       <View>
@@ -16,7 +38,18 @@ export const EditShop = () => {
         <Text>ゴミ箱</Text>
       </View>
       <View>
-        <CornerList />
+        <FlatList
+          data={shop}
+          renderItem={({ item }) => (
+            <ItemList
+              sales={item.sales}
+              item={item.itemName}
+              quantity={item.quantity}
+              unit={item.unit}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
       </View>
       <View>
         <Text>登録</Text>

@@ -11,26 +11,25 @@ import {
 // import { API, graphqlOperation } from "aws-amplify";
 // import { createTodo } from "./src/graphql/mutations";
 // import { listTodos } from "./src/graphql/queries";
-import { Amplify } from "aws-amplify";
-import awsExports from "./src/aws-exports";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { Amplify } from "aws-amplify";
+// import awsExports from "./src/aws-exports";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screen/Main";
-// import { EditShop } from "./src/screen/EditShop";
+import { EditShop } from "./src/screen/EditShop";
 
-Amplify.configure(awsExports);
+// Amplify.configure(awsExports);
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <Main />
-    // <NavigationContainer>
-    //   <Stack.Navigator>
-    //     <Stack.Screen name="Main" component={Main} />
-    //     <Stack.Screen name="EditShop" component={EditShop} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="買物リスト">
+        <Stack.Screen name="買物リスト" component={Main} />
+        <Stack.Screen name="売場登録" component={EditShop} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 export default App;
