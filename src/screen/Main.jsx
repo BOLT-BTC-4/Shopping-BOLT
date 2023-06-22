@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
 
 import {
   StyleSheet,
@@ -9,6 +11,7 @@ import {
   Pressable,
   SafeAreaView,
   FlatList,
+  Button,
 } from "react-native";
 import { ItemList } from "../components/ItemList";
 
@@ -17,6 +20,7 @@ export const Main = () => {
   useEffect(() => {
     getItems();
   }, []);
+  const [trashFlag, setTrashFlag] = useState(false);
 
   const getItems = () => {
     setItems([
@@ -100,6 +104,13 @@ export const Main = () => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+      <Button
+        title="購入したよ"
+        onPress={() => {
+          setTrashFlag = true;
+        }}
+      />
+      <MaterialIcons name="add-shopping-cart" size={24} color="black" />
     </View>
   );
 };
