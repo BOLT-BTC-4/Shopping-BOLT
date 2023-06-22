@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity,
   FlatList,
   Button,
   Modal,
@@ -13,8 +12,7 @@ import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
 
 export const EditShop = (props) => {
-  const { navigation } = props;
-
+  // テストデータ
   const testShop = {
     shopName: "イオン 安城店",
     corners: ["野菜", "お肉", "お魚"],
@@ -27,19 +25,23 @@ export const EditShop = (props) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [shop, setShop] = useState(testShop);
 
+  // モーダル画面を表示するための関数
   const openModal = () => {
     setModalVisible(true);
   };
 
+  // モーダル画面を閉じるための関数
   const closeModal = () => {
     setModalVisible(false);
   };
 
+  // 未実装（テストデータとして準備）
+  // DBから取得する情報
   const getAllCorners = () => {
     return ["野菜", "果物", "お魚", "お肉", "日用品", "お菓子", "お惣菜"];
   };
-  console.log("getAllCorners:", getAllCorners());
 
+  // DBから取得した売場から現状設定している売場を抜いた、売場を返す
   const filteredCorners = () => {
     console.log("=====追加ボタン押されました======");
     const allCorners = getAllCorners();
@@ -49,19 +51,26 @@ export const EditShop = (props) => {
     return result;
   };
 
+  // useStateに変更された売場を追加する
   const handleCornersChange = () => {
     const newCorners = [...corners]; // 現在のcornersのコピーを作成
     newCorners.push(selectedValue); // 新しい値を追加
     setCorners(newCorners); // 変更された値をセット
   };
 
+  // useStateに店の名前を追加する
   const handleInputChange = (value) => {
     setShopName(value);
   };
+
+  // 未実装
+  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
   const handleButtonPress = () => {
-    // 入力値の処理
-    console.log(shopName);
-    console.log(corners);
+    const shop = {
+      shopName: shopName,
+      corners: corners,
+    };
+    console.log("ショップ情報:", shop);
   };
 
   useEffect(() => {
@@ -167,24 +176,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
-
-{
-  /* <View>
-<TouchableOpacity
-  onLongPress={() => {
-    alert("長押しタップ成功！");
-  }}
->
-  <Text
-    style={{
-      color: "white",
-      backgroundColor: "blue",
-      height: 30,
-      fontSize: 30,
-    }}
-  >
-    ここを長押ししてください
-  </Text>
-</TouchableOpacity>
-</View> */
-}
