@@ -1,53 +1,44 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Button,
+} from "react-native";
 import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
 
 export const EditShop = () => {
-  const [shop, setShop] = useState([]);
-  const [corners, setCorners] = useState([]);
+  const testShop = {
+    shopName: "イオン 安城店",
+    corners: ["野菜", "お肉", "お魚"],
+  };
+
+  const getAllCorners = () => {
+    const AllCorners = ["野菜", "果物", "お魚", "お肉"];
+  };
+
+  const [corners, setCorners] = useState(testShop.corners);
+  const [shop, setShop] = useState(testShop);
 
   useEffect(() => {
-    getItems();
+    // getItems();
   }, []);
-  const [trashFlag, setTrashFlag] = useState(false);
-  const [selected, setSelected] = useState("");
 
-  const editCorner = () => {
-    setCorners(["野菜", "お肉", "お魚"]);
-  };
-
-  const editShop = (shopId) => {
-    setShop({
-      shopName: "イオン 安城店",
-      corner: corners,
-    });
-  };
-
+  console.log(corners);
   console.log(shop);
 
   return (
-    <View style={styles.editshop_container}>
+    <View style={styles.EditShopContainer}>
       <View>
-        <Text>売場登録</Text>
-      </View>
-      <View>
-        <Text>お店の名前</Text>
-      </View>
-      <View>
-        <Text>ゴミ箱</Text>
+        <Text>{shop.shopName}</Text>
       </View>
       <View>
         <FlatList
-          data={shop}
-          renderItem={({ item }) => (
-            <ItemList
-              sales={item.sales}
-              item={item.itemName}
-              quantity={item.quantity}
-              unit={item.unit}
-            />
-          )}
+          data={corners}
+          renderItem={({ item }) => <CornerList cornerName={item} />}
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
@@ -80,7 +71,7 @@ export const EditShop = () => {
 };
 
 const styles = StyleSheet.create({
-  editshop_container: {
+  EditShopContainer: {
     backgroundColor: "#f0f4f8",
   },
 });
