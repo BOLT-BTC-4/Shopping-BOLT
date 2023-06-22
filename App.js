@@ -52,11 +52,36 @@ const App = () => {
   }
 
   return (
-    );
-  };
-  
-  export default App;
-  
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={(value) => setInput("name", value)}
+          style={styles.input}
+          value={formState.name}
+          placeholder="Name"
+        />
+        <TextInput
+          onChangeText={(value) => setInput("description", value)}
+          style={styles.input}
+          value={formState.description}
+          placeholder="Description"
+        />
+        <Pressable onPress={addTodo} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Create todo</Text>
+        </Pressable>
+        {todos.map((todo, index) => (
+          <View key={todo.id ? todo.id : index} style={styles.todo}>
+            <Text style={styles.todoName}>{todo.name}</Text>
+            <Text style={styles.todoDescription}>{todo.description}</Text>
+          </View>
+        ))}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default App;
+
 const styles = StyleSheet.create({
   container: { width: 400, flex: 1, padding: 20, alignSelf: "center" },
   todo: { marginBottom: 15 },
@@ -74,29 +99,3 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: "white", padding: 16, fontSize: 18 },
 });
-
-// <SafeAreaView style={styles.container}>
-//   <View style={styles.container}>
-//     <TextInput
-//       onChangeText={(value) => setInput("name", value)}
-//       style={styles.input}
-//       value={formState.name}
-//       placeholder="Name"
-//     />
-//     <TextInput
-//       onChangeText={(value) => setInput("description", value)}
-//       style={styles.input}
-//       value={formState.description}
-//       placeholder="Description"
-//     />
-//     <Pressable onPress={addTodo} style={styles.buttonContainer}>
-//       <Text style={styles.buttonText}>Create todo</Text>
-//     </Pressable>
-//     {todos.map((todo, index) => (
-//       <View key={todo.id ? todo.id : index} style={styles.todo}>
-//         <Text style={styles.todoName}>{todo.name}</Text>
-//         <Text style={styles.todoDescription}>{todo.description}</Text>
-//       </View>
-//     ))}
-//   </View>
-// </SafeAreaView>
