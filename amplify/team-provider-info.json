@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-shoppingbolt2-dev-105151-authRole",
+      "UnauthRoleArn": "arn:aws:iam::340659282827:role/amplify-shoppingbolt2-dev-105151-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::340659282827:role/amplify-shoppingbolt2-dev-105151-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-shoppingbolt2-dev-105151-deployment",
+      "UnauthRoleName": "amplify-shoppingbolt2-dev-105151-unauthRole",
+      "StackName": "amplify-shoppingbolt2-dev-105151",
+      "StackId": "arn:aws:cloudformation:us-east-1:340659282827:stack/amplify-shoppingbolt2-dev-105151/5dd74ea0-109f-11ee-98c9-0a66f8553bf9",
+      "AmplifyAppId": "dencgodtlscyo"
+    },
+    "categories": {
+      "api": {
+        "shoppingbolt2": {}
+      }
+    }
+  }
+}
