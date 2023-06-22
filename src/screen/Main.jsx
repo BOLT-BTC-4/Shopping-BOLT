@@ -21,7 +21,7 @@ export const Main = () => {
   const getItems = () => {
     setItems([
       {
-        sales: "野菜",
+        sales: "🥦 野菜",
         itemName: "玉ねぎ",
         quantity: 2,
         unit: "個",
@@ -29,7 +29,7 @@ export const Main = () => {
         check: false,
       },
       {
-        sales: "肉",
+        sales: "🥩 肉",
         itemName: "鶏肉",
         quantity: 300,
         unit: "g",
@@ -37,7 +37,7 @@ export const Main = () => {
         check: false,
       },
       {
-        sales: "野菜",
+        sales: "🥦 野菜",
         itemName: "玉ねぎ",
         quantity: 2,
         unit: "個",
@@ -45,7 +45,7 @@ export const Main = () => {
         check: false,
       },
       {
-        sales: "肉",
+        sales: "🥩 肉",
         itemName: "鶏肉",
         quantity: 300,
         unit: "g",
@@ -53,7 +53,7 @@ export const Main = () => {
         check: false,
       },
       {
-        sales: "野菜",
+        sales: "🥦 野菜",
         itemName: "玉ねぎ",
         quantity: 2,
         unit: "個",
@@ -61,7 +61,7 @@ export const Main = () => {
         check: false,
       },
       {
-        sales: "肉",
+        sales: "🥩 肉",
         itemName: "鶏肉",
         quantity: 300,
         unit: "g",
@@ -84,11 +84,12 @@ export const Main = () => {
   return (
     <View style={styles.container}>
       <SelectList
+        style={styles.selectList} //cssが効かない
         setSelected={(val) => setSelected(val)}
         data={data}
         save="value"
       />
-      <FlatList
+      <FlatList //実体ない為CSS不要
         data={items}
         renderItem={({ item }) => (
           <ItemList
@@ -105,8 +106,19 @@ export const Main = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    backgroundColor: "#fff",
+    flex: 1,
+    top: 20,
+    backgroundColor: "#b6c471",
+    // justifyContent: "center",
+    // alignContent: "center",
+  },
+  selectList: {
+    flex: 1,
+    // backgroundColor: "powderblue",
+    // width: 90,
+    // haight: 50,
+    // marginTop: 20,
+    // marginleft: 100,
     // justifyContent: "center",
     // alignContent: "center",
   },
