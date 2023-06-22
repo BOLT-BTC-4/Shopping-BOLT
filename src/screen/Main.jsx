@@ -4,20 +4,30 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { ItemList } from "../components/ItemList";
 import { AddItem } from "../components/AddItem";
-
+import { Feather } from "@expo/vector-icons";
 import {
   StyleSheet,
   Text,
-  View,
   TextInput,
-  Pressable,
-  SafeAreaView,
+  View,
   FlatList,
   Button,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 
+// 追加
+import { useNavigation } from "@react-navigation/native";
+
 export const Main = () => {
+  // 追加
+  const navigation = useNavigation();
+
+  // ボタンを押した際の処理
+  const handleButtonPress = () => {
+    navigation.navigate("売場登録");
+  };
+
   const [items, setItems] = useState([]);
   useEffect(() => {
     getItems();
@@ -196,6 +206,10 @@ export const Main = () => {
         data={data}
         save="value"
       />
+      <TouchableOpacity onPress={handleButtonPress}>
+        <Feather name="edit" size={24} color="black" />
+        <Text>お店情報を変更</Text>
+      </TouchableOpacity>
       <FlatList
         data={items}
         renderItem={({ item }) => (
