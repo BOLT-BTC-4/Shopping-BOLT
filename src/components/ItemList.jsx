@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Feather } from "@expo/vector-icons";
 
 import {
   StyleSheet,
@@ -18,6 +19,8 @@ export const ItemList = ({ sales, item, quantity, unit }) => {
         <Text style={styles.text}>{item}</Text>
         <Text style={styles.text}>{quantity}</Text>
         <Text style={styles.text}>{unit}</Text>
+        <Feather name="edit" size={24} color="black" />
+        <Feather name="trash-2" size={24} color="black" />
       </View>
     </View>
   );
