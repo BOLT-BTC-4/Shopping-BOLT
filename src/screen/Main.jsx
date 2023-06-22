@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { SelectList } from "react-native-dropdown-select-list";
 
 import {
   StyleSheet,
@@ -7,46 +8,106 @@ import {
   TextInput,
   Pressable,
   SafeAreaView,
+  FlatList,
 } from "react-native";
+import { ItemList } from "../components/ItemList";
 
-export const Main = ({ sales, item, quantity, unit }) => {
+export const Main = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  const getItems = () => {
+    setItems([
+      {
+        sales: "野菜",
+        itemName: "玉ねぎ",
+        quantity: 2,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        sales: "肉",
+        itemName: "鶏肉",
+        quantity: 300,
+        unit: "g",
+        directions: 3,
+        check: false,
+      },
+      {
+        sales: "野菜",
+        itemName: "玉ねぎ",
+        quantity: 2,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        sales: "肉",
+        itemName: "鶏肉",
+        quantity: 300,
+        unit: "g",
+        directions: 3,
+        check: false,
+      },
+      {
+        sales: "野菜",
+        itemName: "玉ねぎ",
+        quantity: 2,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        sales: "肉",
+        itemName: "鶏肉",
+        quantity: 300,
+        unit: "g",
+        directions: 3,
+        check: false,
+      },
+    ]);
+  };
+  const [selected, setSelected] = useState("");
+
+  const data = [
+    { key: "1", value: "Mobiles", disabled: true },
+    { key: "2", value: "Appliances" },
+    { key: "3", value: "Cameras" },
+    { key: "4", value: "Computers", disabled: true },
+    { key: "5", value: "Vegetables" },
+    { key: "6", value: "Diary Products" },
+    { key: "7", value: "Drinks" },
+  ];
   return (
-    <View style={styles.box}>
-      <View style={styles.moziBox}>
-        <Text style={styles.text}>{sales}</Text>
-        <Text style={styles.text}>{item}</Text>
-        <Text style={styles.text}>{quantity}</Text>
-        <Text style={styles.text}>{unit}</Text>
-      </View>
+    <View style={styles.container}>
+      <SelectList
+        setSelected={(val) => setSelected(val)}
+        data={data}
+        save="value"
+      />
+      <FlatList
+        data={items}
+        renderItem={({ item }) => (
+          <ItemList
+            sales={item.sales}
+            item={item.itemName}
+            quantity={item.quantity}
+            unit={item.unit}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
-  box: {
-    height: 50,
-    width: "100%",
-    borderColor: "lightblue",
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-
-  moziBox: {
-    flex: 1,
-    backgroundColor: "steelblue",
-    padding: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-
-  text: {
-    fontSize: 16,
-  },
-
-  subText: {
-    fontSize: 12,
-    color: "red",
+  container: {
+    // flex: 1,
+    backgroundColor: "#fff",
+    // justifyContent: "center",
+    // alignContent: "center",
   },
 });
