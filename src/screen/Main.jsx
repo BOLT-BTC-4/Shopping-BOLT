@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
+import { ItemList } from "../components/ItemList";
+import { AddItem } from "../components/AddItem";
 
 import {
   StyleSheet,
@@ -12,8 +14,8 @@ import {
   SafeAreaView,
   FlatList,
   Button,
+  Modal,
 } from "react-native";
-import { ItemList } from "../components/ItemList";
 
 export const Main = () => {
   const [items, setItems] = useState([]);
@@ -22,6 +24,16 @@ export const Main = () => {
   }, []);
   const [trashFlag, setTrashFlag] = useState(false);
   const [selected, setSelected] = useState("");
+  // const { navigation } = props;
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const getItems = () => {
     setItems([
@@ -202,7 +214,20 @@ export const Main = () => {
           setTrashFlag = true;
         }}
       />
-      <MaterialIcons name="add-shopping-cart" size={24} color="black" />
+      <MaterialIcons
+        onPress={openModal}
+        name="add-shopping-cart"
+        size={24}
+        color="black"
+      />
+      <Modal visible={modalVisible} animationType="none" transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContents}>
+            <Button title="Close Modal" onPress={closeModal} />
+            <AddItem setItems={setItems} masterItemTable={masterItemTable} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -212,5 +237,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     // justifyContent: "center",
     // alignContent: "center",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContents: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
