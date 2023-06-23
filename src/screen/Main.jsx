@@ -27,10 +27,36 @@ export const Main = () => {
   // 追加
   const navigation = useNavigation();
 
-  // ボタンを押した際の処理
-  const handleButtonPress = () => {
-    navigation.navigate("売場登録");
-  };
+  const defaultShop = [
+    { key: "1", value: "カネスエ江南店", corners: ["野菜", "果物", "お肉"] },
+    { key: "2", value: "バロー安城店", corners: ["野菜", "卵", "お肉"] },
+    { key: "3", value: "イオン熱田店", corners: ["お菓子", "お魚", "お肉"] },
+    // {
+    //   key: "4",
+    //   value: "イオン安城店",
+    //   corners: ["乳製品", "冷凍", "大豆類"],
+    // },
+    // {
+    //   key: "5",
+    //   value: "世界のメグリアカルフォルニア店",
+    //   corners: ["パン", "ジャム", "お米"],
+    // },
+    // {
+    //   key: "6",
+    //   value: "ドン・キホーテ豊田店",
+    //   corners: ["麺類", "惣菜", "調味料"],
+    // },
+    // {
+    //   key: "7",
+    //   value: "世界一のスーパメグリア",
+    //   corners: ["飲料・酒", "日用品", "生活雑貨", "健康", "介護・ベビー"],
+    // },
+  ];
+
+  // // ボタンを押した際の処理
+  // const handleButtonPress = () => {
+  //   navigation.navigate("売場登録");
+  // };
 
   const [items, setItems] = useState([]);
   useEffect(() => {
@@ -44,6 +70,12 @@ export const Main = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
   const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
+
+  // Shop関連のuseState
+  const [corners, setCorners] = useState([]);
+  const [shopName, setShopName] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectShop, setSelectShop] = useState(defaultShop);
 
   // モーダルの表示制御の関数
   const openModal = () => {
@@ -93,27 +125,7 @@ export const Main = () => {
     ]);
   };
 
-  const selectShop = [
-    { key: "1", value: "カネスエ江南店", corners: ["野菜", "果物", "お肉"] },
-    { key: "2", value: "バロー安城店", corners: ["野菜", "卵", "お肉"] },
-    { key: "3", value: "イオン熱田店", corners: ["お菓子", "お魚", "お肉"] },
-    { key: "4", value: "イオン安城店", corners: ["乳製品", "冷凍", "大豆類"] },
-    {
-      key: "5",
-      value: "世界のメグリアカルフォルニア店",
-      corners: ["パン", "ジャム", "お米"],
-    },
-    {
-      key: "6",
-      value: "ドン・キホーテ豊田店",
-      corners: ["麺類", "惣菜", "調味料"],
-    },
-    {
-      key: "7",
-      value: "世界一のスーパメグリア",
-      corners: ["飲料・酒", "日用品", "生活雑貨", "健康", "介護・ベビー"],
-    },
-  ];
+  console.log(selectShop);
 
   const handleCheck = (localId) => {
     const newItems = [...items];
@@ -125,6 +137,21 @@ export const Main = () => {
   const handleRemoveItem = (localId) => {
     const newItems = items.filter((item) => item.localId !== localId);
     setItems(newItems);
+  };
+
+  // 未実装
+  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
+  const handleButtonPress = () => {
+    const shop = {
+      key: uuid.v4(),
+      value: shopName,
+      corners: corners,
+    };
+    const newShops = [...selectShop]; // 現在のcornersのコピーを作成
+    newShops.push(shop); // 新しい値を追加
+    setSelectShop(newShops); // 変更された値をセット
+    setCorners([]);
+    setShopName("");
   };
 
   console.log(items);
@@ -155,9 +182,22 @@ export const Main = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
-            <EditShop />
+            <AddShop
+              corners={corners}
+              setCorners={setCorners}
+              shopName={shopName}
+              setShopName={setShopName}
+              selectedValue={selectedValue}
+              setSelectedValue={setSelectedValue}
+            />
             <Button title="キャンセル" onPress={closeModalNewShop} />
-            <Button title="保存" onPress={closeModalNewShop} />
+            <Button
+              title="保存"
+              onPress={() => {
+                closeModalNewShop();
+                handleButtonPress();
+              }}
+            />
           </View>
         </View>
       </Modal>

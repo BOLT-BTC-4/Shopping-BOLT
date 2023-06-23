@@ -10,20 +10,21 @@ import {
 } from "react-native";
 import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
+import { table } from "../../table";
 
-export const EditShop = (props) => {
-  // テストデータ
-  const testShop = {
-    shopName: "イオン 安城店",
-    corners: ["野菜", "お肉", "お魚"],
-  };
+export const AddShop = (props) => {
+  console.log("=====AddShopだよ=====");
+  const {
+    corners,
+    setCorners,
+    shopName,
+    setShopName,
+    selectedValue,
+    setSelectedValue,
+  } = props;
 
   // useState一覧
   const [modalVisible, setModalVisible] = useState(false);
-  const [corners, setCorners] = useState(testShop.corners);
-  const [shopName, setShopName] = useState(testShop.shopName);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [shop, setShop] = useState(testShop);
 
   // モーダル画面を表示するための関数
   const openModal = () => {
@@ -38,7 +39,7 @@ export const EditShop = (props) => {
   // 未実装（テストデータとして準備）
   // DBから取得する情報
   const getAllCorners = () => {
-    return ["野菜", "果物", "お魚", "お肉", "日用品", "お菓子", "お惣菜"];
+    return table.masterCorner;
   };
 
   // DBから取得した売場から現状設定している売場を抜いた、売場を返す
@@ -63,16 +64,6 @@ export const EditShop = (props) => {
     setShopName(value);
   };
 
-  // 未実装
-  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
-  const handleButtonPress = () => {
-    const shop = {
-      shopName: shopName,
-      corners: corners,
-    };
-    console.log("ショップ情報:", shop);
-  };
-
   useEffect(() => {
     // getItems();
   }, []);
@@ -80,6 +71,9 @@ export const EditShop = (props) => {
   return (
     <View style={styles.EditShopContainer}>
       <View style={styles.container}>
+        <View>
+          <Text>AddShopだよ</Text>
+        </View>
         <View>
           <TextInput
             style={styles.input}
@@ -98,9 +92,8 @@ export const EditShop = (props) => {
       </View>
       <View style={styles.bottomContainer}>
         <View>
-          <Button title="登録ボタン" onPress={handleButtonPress} />
           <Button
-            title="追加"
+            title="売場追加"
             onPress={() => {
               openModal();
               filteredCorners();

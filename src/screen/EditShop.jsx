@@ -23,7 +23,6 @@ export const EditShop = (props) => {
   const [corners, setCorners] = useState(testShop.corners);
   const [shopName, setShopName] = useState(testShop.shopName);
   const [selectedValue, setSelectedValue] = useState("");
-  const [shop, setShop] = useState(testShop);
 
   // モーダル画面を表示するための関数
   const openModal = () => {
