@@ -125,8 +125,6 @@ export const Main = () => {
     ]);
   };
 
-  console.log(selectShop);
-
   const handleCheck = (localId) => {
     const newItems = [...items];
     const item = newItems.find((item) => item.localId === localId);
@@ -154,7 +152,6 @@ export const Main = () => {
     setShopName("");
   };
 
-  console.log(items);
   return (
     <View style={styles.container}>
       <Text>お店選択</Text>
@@ -217,7 +214,14 @@ export const Main = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
-            <EditShop />
+            <EditShop
+              corners={corners}
+              setCorners={setCorners}
+              shopName={shopName}
+              setShopName={setShopName}
+              selectedValue={selectedValue}
+              setSelectedValue={setSelectedValue}
+            />
             <Button title="キャンセル" onPress={closeModalEditShop} />
             <Button title="保存" onPress={closeModalEditShop} />
           </View>

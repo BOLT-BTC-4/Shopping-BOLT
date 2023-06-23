@@ -65,16 +65,6 @@ export const AddShop = (props) => {
 
   const handleAddAfter = () => {
     openModal();
-    // console.log("追加ボタン");
-    // const index = corners.findIndex(
-    //   (item) => item.targetString === targetString
-    // );
-    // if (index !== -1) {
-    //   const newCorner = selectedValue; // 新しい行のデータ
-    //   const newCorners = [...corners];
-    //   newCorners.splice(index + 1, 0, newCorner);
-    //   setCorners(newCorners);
-    // }
   };
 
   // useStateに変更された売場を追加する

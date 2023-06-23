@@ -25,9 +25,10 @@ export const EditShop = (props) => {
 
   // useState一覧
   const [modalVisible, setModalVisible] = useState(false);
+  const [targetString, setTargetString] = useState("");
 
   // モーダル画面を表示するための関数
-  const openModal = () => {
+  const openModal = (index) => {
     setModalVisible(true);
   };
 
@@ -48,22 +49,46 @@ export const EditShop = (props) => {
     const allCorners = getAllCorners();
     // getAllCorners配列にcornerが含まれていない場合に真となり配列に追加される
     const result = allCorners.filter((corner) => !corners.includes(corner));
-    console.log("result", result);
     return result;
   };
 
-  const handleDelete = (index) => {
-    // 選択された行のデータを配列から削除
-    const newData = [...data];
-    newData.splice(index, 1);
-    setData(newData);
+  const handleDelete = (str) => {
+    console.log(str);
+    // 選択された行のデータを配列から削除;
+    const newCorners = corners.filter((item) => item !== str);
+    setCorners(newCorners);
+  };
+
+  const handleTargetString = (str) => {
+    setTargetString(str);
+  };
+
+  const handleAddAfter = () => {
+    openModal();
   };
 
   // useStateに変更された売場を追加する
   const handleCornersChange = () => {
-    const newCorners = [...corners]; // 現在のcornersのコピーを作成
-    newCorners.push(selectedValue); // 新しい値を追加
-    setCorners(newCorners); // 変更された値をセット
+    console.log("targetString:", targetString);
+    if (targetString === "") {
+      console.log("空白だよ");
+      const newCorners = [...corners]; // 現在のcornersのコピーを作成
+      newCorners.push(selectedValue); // 新しい値を追加
+      setCorners(newCorners); // 変更された値をセット
+      setTargetString("");
+    } else {
+      console.log("空白じゃないよ");
+      console.log("corners:", corners);
+      const index = corners.findIndex((item) => item === targetString);
+      console.log("index:", index);
+      if (index !== -1) {
+        const newCorner = selectedValue; // 新しい行のデータ
+        const newCorners = [...corners];
+        newCorners.splice(index + 1, 0, newCorner);
+        setCorners(newCorners);
+      }
+      setTargetString("");
+    }
   };
 
   // useStateに店の名前を追加する
@@ -71,23 +96,14 @@ export const EditShop = (props) => {
     setShopName(value);
   };
 
-  // 未実装
-  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
-  const handleButtonPress = () => {
-    const shop = {
-      shopName: shopName,
-      corners: corners,
-    };
-    console.log("ショップ情報:", shop);
-  };
-
-  useEffect(() => {
-    // getItems();
-  }, []);
+  useEffect(() => {}, [corners]);
 
   return (
     <View style={styles.EditShopContainer}>
       <View style={styles.container}>
+        <View>
+          <Text>EditShopだよ</Text>
+        </View>
         <View>
           <TextInput
             style={styles.input}
@@ -99,19 +115,24 @@ export const EditShop = (props) => {
         <View>
           <FlatList
             data={corners}
-            renderItem={({ item }) => <CornerList cornerName={item} />}
+            renderItem={({ item }) => (
+              <CornerList
+                cornerName={item}
+                handleDelete={handleDelete}
+                handleAddAfter={handleAddAfter}
+                handleTargetString={handleTargetString}
+              />
+            )}
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>
       <View style={styles.bottomContainer}>
         <View>
-          <Button title="登録ボタン" onPress={handleButtonPress} />
           <Button
-            title="追加"
+            title="売場追加"
             onPress={() => {
               openModal();
-              filteredCorners();
             }}
           />
         </View>
@@ -151,7 +172,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    height: 425,
+    width: 300,
+    height: 475,
   },
   modalContainer: {
     flex: 1,
