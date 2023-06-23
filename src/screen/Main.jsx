@@ -39,10 +39,13 @@ export const Main = () => {
   const [trashFlag, setTrashFlag] = useState(false);
   const [selected, setSelected] = useState("");
   // const { navigation } = props;
+
+  // モーダルのuseState
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
   const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
 
+  // モーダルの表示制御の関数
   const openModal = () => {
     setModalVisible(true);
   };
@@ -91,13 +94,25 @@ export const Main = () => {
   };
 
   const selectShop = [
-    { key: "1", value: "カネスエ江南店" },
-    { key: "2", value: "バロー安城店" },
-    { key: "3", value: "イオン熱田店" },
-    { key: "4", value: "イオン安城店" },
-    { key: "5", value: "世界のメグリアカルフォルニア店" },
-    { key: "6", value: "ドン・キホーテ豊田店" },
-    { key: "7", value: "世界一のスーパメグリア" },
+    { key: "1", value: "カネスエ江南店", corners: ["野菜", "果物", "お肉"] },
+    { key: "2", value: "バロー安城店", corners: ["野菜", "卵", "お肉"] },
+    { key: "3", value: "イオン熱田店", corners: ["お菓子", "お魚", "お肉"] },
+    { key: "4", value: "イオン安城店", corners: ["乳製品", "冷凍", "大豆類"] },
+    {
+      key: "5",
+      value: "世界のメグリアカルフォルニア店",
+      corners: ["パン", "ジャム", "お米"],
+    },
+    {
+      key: "6",
+      value: "ドン・キホーテ豊田店",
+      corners: ["麺類", "惣菜", "調味料"],
+    },
+    {
+      key: "7",
+      value: "世界一のスーパメグリア",
+      corners: ["飲料・酒", "日用品", "生活雑貨", "健康", "介護・ベビー"],
+    },
   ];
 
   const handleCheck = (localId) => {

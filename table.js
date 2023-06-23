@@ -121,6 +121,31 @@ const masterItemTable = [
   },
 ];
 
+const masterCornerTable = [
+  "野菜",
+  "果物",
+  "お肉",
+  "卵",
+  "お魚",
+  "乳製品",
+  "冷凍",
+  "大豆類",
+  "お菓子",
+  "パン",
+  "ジャム",
+  "お米",
+  "麺類",
+  "惣菜",
+  "調味料",
+  "飲料・酒",
+  "日用品",
+  "生活雑貨",
+  "健康",
+  "介護・ベビー"
+]
+
+
 export const table = {
   masterItem: masterItemTable,
+  masterCorner: masterCornerTable
 };
