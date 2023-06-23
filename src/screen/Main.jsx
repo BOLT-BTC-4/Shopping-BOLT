@@ -53,18 +53,12 @@ export const Main = () => {
     // },
   ];
 
-  // // ボタンを押した際の処理
-  // const handleButtonPress = () => {
-  //   navigation.navigate("売場登録");
-  // };
-
   const [items, setItems] = useState([]);
   useEffect(() => {
     getItems();
   }, []);
   const [trashFlag, setTrashFlag] = useState(false);
   const [selected, setSelected] = useState("");
-  // const { navigation } = props;
 
   // モーダルのuseState
   const [modalVisible, setModalVisible] = useState(false);
@@ -218,13 +212,14 @@ export const Main = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <EditShop
-                setSelected={(val) => setSelected(val)}
+                selected={selected}
                 corners={corners}
                 setCorners={setCorners}
                 shopName={shopName}
                 setShopName={setShopName}
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
+                selectShop={selectShop}
               />
               <Button title="キャンセル" onPress={closeModalEditShop} />
               <Button title="保存" onPress={closeModalEditShop} />

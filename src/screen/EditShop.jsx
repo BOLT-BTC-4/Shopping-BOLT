@@ -15,14 +15,18 @@ import { table } from "../../table";
 export const EditShop = (props) => {
   console.log("=====EditShopだよ=====");
   const {
+    selected,
     corners,
     setCorners,
     shopName,
     setShopName,
     selectedValue,
     setSelectedValue,
+    selectShop,
   } = props;
 
+  console.log("selected:", selected);
+  console.log("selectShop:", selectShop);
   // useState一覧
   const [modalVisible, setModalVisible] = useState(false);
   const [targetString, setTargetString] = useState("");
