@@ -11,12 +11,15 @@ import {
   FlatList,
 } from "react-native";
 
-export const ItemList = ({ sales, item, quantity, unit }) => {
+export const ItemList = ({ key, sales, item, quantity, unit, handleCheck }) => {
+  console.log("key:", key);
   return (
-    <View style={styles.box}>
+    <View style={styles.box} aria-disabled={key}>
       <View style={styles.moziBox}>
         <Text style={styles.text}>{sales}</Text>
-        <Text style={styles.text}>{item}</Text>
+        <Text style={styles.text} onPress={() => handleCheck(key)}>
+          {item}
+        </Text>
         <Text style={styles.text}>{quantity}</Text>
         <Text style={styles.text}>{unit}</Text>
         <Feather name="edit" size={24} color="black" />

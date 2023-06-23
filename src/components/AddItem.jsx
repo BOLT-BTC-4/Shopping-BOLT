@@ -3,8 +3,9 @@ import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
+import { table } from "../../table";
 
-export const AddItem = ({ setItems, masterItemTable }) => {
+export const AddItem = ({ setItems }) => {
   const {
     register,
     setValue,
@@ -18,12 +19,11 @@ export const AddItem = ({ setItems, masterItemTable }) => {
       quantity: "1",
     },
   });
-
   const onSubmit = (data) => {
-    let cornarName = (masterItemTable) => {
-      return masterItemTable.itemName === data.itemName;
+    let cornarName = (item) => {
+      return item.itemName === data.itemName;
     };
-    let result = masterItemTable.find(cornarName);
+    let result = table.masterItem.find(cornarName);
     // console.log(result);
     if (result === undefined) {
       setItems((items) => [

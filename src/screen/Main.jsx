@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { ItemList } from "../components/ItemList";
 import { AddItem } from "../components/AddItem";
-
+import uuid from "react-native-uuid";
 import {
   StyleSheet,
   Text,
@@ -38,6 +38,7 @@ export const Main = () => {
   const getItems = () => {
     setItems([
       {
+        key: uuid.v4(),
         sales: "野菜",
         itemName: "玉ねぎ",
         quantity: 2,
@@ -46,6 +47,7 @@ export const Main = () => {
         check: false,
       },
       {
+        key: uuid.v4(),
         sales: "肉",
         itemName: "鶏肉",
         quantity: 300,
@@ -56,154 +58,44 @@ export const Main = () => {
     ]);
   };
 
-  const data = [
-    { key: "1", value: "Mobiles", disabled: true },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers", disabled: true },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
+  const selectShop = [
+    { key: "1", value: "カネスエ江南店" },
+    { key: "2", value: "バロー安城店" },
+    { key: "3", value: "イオン熱田店" },
+    { key: "4", value: "イオン安城店" },
+    { key: "5", value: "世界のメグリアカルフォルニア店" },
+    { key: "6", value: "ドン・キホーテ豊田店" },
+    { key: "7", value: "世界一のスーパメグリア" },
   ];
 
-  const masterItemTable = [
-    {
-      sales: "野菜",
-      itemName: "玉ねぎ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "果物",
-      itemName: "リンゴ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "お肉",
-      itemName: "鶏肉",
-      quantity: 200,
-      unit: "g",
-    },
-    {
-      sales: "卵",
-      itemName: "卵",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "お魚",
-      itemName: "サンマ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "乳製品",
-      itemName: "ヨーグルト",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "冷凍",
-      itemName: "アイス",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "大豆類",
-      itemName: "納豆",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "お菓子",
-      itemName: "ポテチ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "パン",
-      itemName: "食パン",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "ジャム",
-      itemName: "いちごジャム",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "お米",
-      itemName: "米",
-      quantity: 10,
-      unit: "kg",
-    },
-    {
-      sales: "麺類",
-      itemName: "パスタ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "惣菜",
-      itemName: "コロッケ",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "調味料",
-      itemName: "胡椒",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "飲料・酒",
-      itemName: "ビール",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "日用品",
-      itemName: "ごみ袋",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "生活雑貨",
-      itemName: "フライ返し",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "健康",
-      itemName: "サプリメント",
-      quantity: 1,
-      unit: "個",
-    },
-    {
-      sales: "介護・ベビー",
-      itemName: "おむつ",
-      quantity: 1,
-      unit: "個",
-    },
-  ];
-
+  const handleCheck = (uniquKey) => {
+    const newItems = [...items];
+    const item = newItems.find((item) => item.key === uniquKey);
+    item.check = !item.check;
+    setItems(newItems);
+  };
+  console.log(items);
   return (
     <View style={styles.container}>
+      <Text>お店選択</Text>
       <SelectList
         setSelected={(val) => setSelected(val)}
-        data={data}
+        data={selectShop}
         save="value"
+        searchPlaceholder="お店を入力"
+        placeholder="お店を選択"
+        maxHeight={200}
       />
       <FlatList
         data={items}
         renderItem={({ item }) => (
           <ItemList
+            key={item.key}
             sales={item.sales}
             item={item.itemName}
             quantity={item.quantity}
             unit={item.unit}
+            handleCheck={handleCheck}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
@@ -224,7 +116,7 @@ export const Main = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
             <Button title="Close Modal" onPress={closeModal} />
-            <AddItem setItems={setItems} masterItemTable={masterItemTable} />
+            <AddItem setItems={setItems} />
           </View>
         </View>
       </Modal>
