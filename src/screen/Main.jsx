@@ -154,79 +154,82 @@ export const Main = () => {
 
   return (
     <View style={styles.container}>
-      <Text>お店選択</Text>
-      <SelectList
-        setSelected={(val) => setSelected(val)}
-        data={selectShop}
-        save="value"
-        searchPlaceholder="お店を入力"
-        placeholder="お店を選択"
-        maxHeight={200}
-      />
-      {/* 新規店舗登録アイコン */}
-      <MaterialIcons
-        onPress={openModalNewShop}
-        name="add-business"
-        size={36}
-        color="black"
-      />
-
-      {/* 新規店舗登録モーダル */}
-      <Modal
-        visible={modalNewShopVisible}
-        animationType="none"
-        transparent={true}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContents}>
-            <AddShop
-              corners={corners}
-              setCorners={setCorners}
-              shopName={shopName}
-              setShopName={setShopName}
-              selectedValue={selectedValue}
-              setSelectedValue={setSelectedValue}
-            />
-            <Button title="キャンセル" onPress={closeModalNewShop} />
-            <Button
-              title="保存"
-              onPress={() => {
-                closeModalNewShop();
-                handleButtonPress();
-              }}
-            />
-          </View>
+      {/* <Text>お店選択</Text> */}
+      <View style={styles.shopselect}>
+        <View style={{ width: "90%", paddingRight: 10 }}>{/* ⭐️ここかえてます⭐️ */}
+          <SelectList
+            setSelected={(val) => setSelected(val)}
+            data={selectShop}
+            save="value"
+            searchPlaceholder="お店を入力"
+            placeholder="お店を選択"
+            maxHeight={200}
+          />
         </View>
-      </Modal>
+        {/* 新規店舗登録アイコン */}
+        <MaterialIcons
+          onPress={openModalNewShop}
+          name="add-business"
+          size={36}
+          color="black"
+        />
 
-      {/* 店情報修正アイコン */}
-      <FontAwesome
-        onPress={openModalEditShop}
-        name="pencil-square-o"
-        size={36}
-        color="black"
-      />
-      {/* 店情報修正モーダル */}
-      <Modal
-        visible={modalEditShopVisible}
-        animationType="none"
-        transparent={true}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContents}>
-            <EditShop
-              corners={corners}
-              setCorners={setCorners}
-              shopName={shopName}
-              setShopName={setShopName}
-              selectedValue={selectedValue}
-              setSelectedValue={setSelectedValue}
-            />
-            <Button title="キャンセル" onPress={closeModalEditShop} />
-            <Button title="保存" onPress={closeModalEditShop} />
+        {/* 新規店舗登録モーダル */}
+        <Modal
+          visible={modalNewShopVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <AddShop
+                corners={corners}
+                setCorners={setCorners}
+                shopName={shopName}
+                setShopName={setShopName}
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+              <Button title="キャンセル" onPress={closeModalNewShop} />
+              <Button
+                title="保存"
+                onPress={() => {
+                  closeModalNewShop();
+                  handleButtonPress();
+                }}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+        {/* 店情報修正アイコン */}
+        <FontAwesome
+          onPress={openModalEditShop}
+          name="pencil-square-o"
+          size={36}
+          color="black"
+        />
+        {/* 店情報修正モーダル */}
+        <Modal
+          visible={modalEditShopVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <EditShop
+                corners={corners}
+                setCorners={setCorners}
+                shopName={shopName}
+                setShopName={setShopName}
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+              <Button title="キャンセル" onPress={closeModalEditShop} />
+              <Button title="保存" onPress={closeModalEditShop} />
+            </View>
+          </View>
+        </Modal>
+      </View>
 
       <FlatList
         data={items}
@@ -244,33 +247,36 @@ export const Main = () => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+      <MaterialIcons
+        onPress={openModal}
+        name="add-shopping-cart"
+        size={35}
+        color="black"
+        style={styles.shoppingCart}
+      />
       <Button
         title="購入したよ"
         onPress={() => {
           setTrashFlag = true;
         }}
-      />
-      <MaterialIcons
-        onPress={openModal}
-        name="add-shopping-cart"
-        size={24}
-        color="black"
+        color="mediumseagreen"
       />
       <Modal visible={modalVisible} animationType="none" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
             <AddItem setItems={setItems} />
-            <Button title="Close Modal" onPress={closeModal} />
+            <Button color="#fff" title="✖️" onPress={closeModal} />
           </View>
         </View>
       </Modal>
     </View>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: "#fff",
+    padding: 10,
     // justifyContent: "center",
     // alignContent: "center",
   },
@@ -281,10 +287,25 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContents: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
+  shopselect: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // backgroundColor: "red",
+    padding: 10,
+    alignItems: 'center',
+  },
+  shoppingCart: {
+    textAlign: 'right',
+    marginRight: 30,
+    marginBottom: 30,
+    marginTop: 10
+    // backgroundColor: "red"
+
+  }
 });

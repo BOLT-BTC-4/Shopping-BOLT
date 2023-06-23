@@ -111,7 +111,7 @@ export const AddItem = ({ setItems }) => {
 
 const styles = StyleSheet.create({
   label: {
-    color: "white",
+    // color: "white",
     margin: 20,
     marginLeft: 0,
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     color: "white",
     height: 40,
-    backgroundColor: "#ec5990",
+    backgroundColor: "mediumseagreen",
     borderRadius: 4,
   },
   container: {
@@ -127,11 +127,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: Constants.statusBarHeight,
     padding: 8,
-    backgroundColor: "#0e101c",
+    backgroundColor: "white",
   },
   input: {
     backgroundColor: "white",
-    borderColor: "none",
+    borderColor: "gray",
+    borderWidth: 1,
     height: 40,
     padding: 10,
     borderRadius: 4,

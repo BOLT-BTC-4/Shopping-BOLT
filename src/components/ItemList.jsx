@@ -23,17 +23,24 @@ export const ItemList = ({
 }) => {
   console.log("key:", localId);
   return (
-    <View style={styles.box}>
-      <View style={check ? styles.moziBoxCheck : styles.moziBox}>
-        <Text style={check ? styles.textCheck : styles.text}>{sales}</Text>
+    <View style={check ? [styles.box, styles.check] : styles.box}>
+
+      <View style={styles.salesBox}>
+        <Text style={styles.text}>{sales}</Text>
+      </View>
+
+      <View style={styles.moziBox}>
         <Text
-          style={check ? styles.textCheck : styles.text}
+          style={styles.text}
           onPress={() => handleCheck(localId)}
         >
           {item}
         </Text>
-        <Text style={check ? styles.textCheck : styles.text}>{quantity}</Text>
-        <Text style={check ? styles.textCheck : styles.text}>{unit}</Text>
+        <Text style={styles.text}>{quantity}</Text>
+      </View>
+
+      <View style={styles.iconBox}>
+        <Text style={styles.text}>{unit}</Text>
         <Feather name="edit" size={24} color="black" />
         <Feather
           name="trash-2"
@@ -50,36 +57,48 @@ const styles = StyleSheet.create({
   box: {
     height: 50,
     width: "100%",
-    borderColor: "lightblue",
     borderWidth: 1,
+    borderBottomColor: "mediumseagreen",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
     flexDirection: "row",
     justifyContent: "center",
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+
+  check: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    textDecorationLine: "line-through"
   },
 
   moziBox: {
     flex: 1,
-    backgroundColor: "steelblue",
-    padding: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  moziBoxCheck: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "steelblue",
     padding: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
   },
 
+  salesBox: {
+    width: 80,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  iconBox: {
+    width: 100,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+  },
   text: {
     fontSize: 16,
   },
-  textCheck: {
-    fontSize: 16,
-    textDecorationLine: "line-through",
-  },
+
 
   subText: {
     fontSize: 12,
