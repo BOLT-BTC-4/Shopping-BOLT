@@ -156,7 +156,8 @@ export const Main = () => {
     <View style={styles.container}>
       {/* <Text>お店選択</Text> */}
       <View style={styles.shopselect}>
-        <View style={{ width: "90%", paddingRight: 10 }}>{/* ⭐️ここかえてます⭐️ */}
+        <View style={{ width: "90%", paddingRight: 10 }}>
+          {/* ⭐️ここかえてます⭐️ */}
           <SelectList
             setSelected={(val) => setSelected(val)}
             data={selectShop}
@@ -217,6 +218,7 @@ export const Main = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <EditShop
+                setSelected={(val) => setSelected(val)}
                 corners={corners}
                 setCorners={setCorners}
                 shopName={shopName}
@@ -271,7 +273,7 @@ export const Main = () => {
       </Modal>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -294,18 +296,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   shopselect: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     // backgroundColor: "red",
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   shoppingCart: {
-    textAlign: 'right',
+    textAlign: "right",
     marginRight: 30,
     marginBottom: 30,
-    marginTop: 10
+    marginTop: 10,
     // backgroundColor: "red"
-
-  }
+  },
 });
