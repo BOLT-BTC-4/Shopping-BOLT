@@ -11,19 +11,36 @@ import {
   FlatList,
 } from "react-native";
 
-export const ItemList = ({ key, sales, item, quantity, unit, handleCheck }) => {
-  console.log("key:", key);
+export const ItemList = ({
+  localId,
+  sales,
+  item,
+  quantity,
+  unit,
+  check,
+  handleCheck,
+  handleRemoveItem,
+}) => {
+  console.log("key:", localId);
   return (
-    <View style={styles.box} aria-disabled={key}>
-      <View style={styles.moziBox}>
-        <Text style={styles.text}>{sales}</Text>
-        <Text style={styles.text} onPress={() => handleCheck(key)}>
+    <View style={styles.box}>
+      <View style={check ? styles.moziBoxCheck : styles.moziBox}>
+        <Text style={check ? styles.textCheck : styles.text}>{sales}</Text>
+        <Text
+          style={check ? styles.textCheck : styles.text}
+          onPress={() => handleCheck(localId)}
+        >
           {item}
         </Text>
-        <Text style={styles.text}>{quantity}</Text>
-        <Text style={styles.text}>{unit}</Text>
+        <Text style={check ? styles.textCheck : styles.text}>{quantity}</Text>
+        <Text style={check ? styles.textCheck : styles.text}>{unit}</Text>
         <Feather name="edit" size={24} color="black" />
-        <Feather name="trash-2" size={24} color="black" />
+        <Feather
+          name="trash-2"
+          size={24}
+          color="black"
+          onPress={() => handleRemoveItem(localId)}
+        />
       </View>
     </View>
   );
@@ -47,9 +64,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  moziBoxCheck: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
 
   text: {
     fontSize: 16,
+  },
+  textCheck: {
+    fontSize: 16,
+    textDecorationLine: "line-through",
   },
 
   subText: {

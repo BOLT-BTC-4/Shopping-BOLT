@@ -49,7 +49,7 @@ export const Main = () => {
   const getItems = () => {
     setItems([
       {
-        key: uuid.v4(),
+        localId: uuid.v4(),
         sales: "野菜",
         itemName: "玉ねぎ",
         quantity: 2,
@@ -58,7 +58,7 @@ export const Main = () => {
         check: false,
       },
       {
-        key: uuid.v4(),
+        localId: uuid.v4(),
         sales: "肉",
         itemName: "鶏肉",
         quantity: 300,
@@ -79,12 +79,18 @@ export const Main = () => {
     { key: "7", value: "世界一のスーパメグリア" },
   ];
 
-  const handleCheck = (uniquKey) => {
+  const handleCheck = (localId) => {
     const newItems = [...items];
-    const item = newItems.find((item) => item.key === uniquKey);
+    const item = newItems.find((item) => item.localId === localId);
     item.check = !item.check;
     setItems(newItems);
   };
+
+  const handleRemoveItem = (localId) => {
+    const newItems = items.filter((item) => item.localId !== localId);
+    setItems(newItems);
+  };
+
   console.log(items);
   return (
     <View style={styles.container}>
@@ -105,12 +111,14 @@ export const Main = () => {
         data={items}
         renderItem={({ item }) => (
           <ItemList
-            key={item.key}
+            localId={item.localId}
             sales={item.sales}
             item={item.itemName}
             quantity={item.quantity}
             unit={item.unit}
+            check={item.check}
             handleCheck={handleCheck}
+            handleRemoveItem={handleRemoveItem}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
