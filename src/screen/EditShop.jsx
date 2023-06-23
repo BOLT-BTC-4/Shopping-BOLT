@@ -10,19 +10,21 @@ import {
 } from "react-native";
 import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
+import { table } from "../../table";
 
 export const EditShop = (props) => {
-  // テストデータ
-  const testShop = {
-    shopName: "イオン 安城店",
-    corners: ["野菜", "お肉", "お魚"],
-  };
+  console.log("=====EditShopだよ=====");
+  const {
+    corners,
+    setCorners,
+    shopName,
+    setShopName,
+    selectedValue,
+    setSelectedValue,
+  } = props;
 
   // useState一覧
   const [modalVisible, setModalVisible] = useState(false);
-  const [corners, setCorners] = useState(testShop.corners);
-  const [shopName, setShopName] = useState(testShop.shopName);
-  const [selectedValue, setSelectedValue] = useState("");
 
   // モーダル画面を表示するための関数
   const openModal = () => {
@@ -37,7 +39,7 @@ export const EditShop = (props) => {
   // 未実装（テストデータとして準備）
   // DBから取得する情報
   const getAllCorners = () => {
-    return ["野菜", "果物", "お魚", "お肉", "日用品", "お菓子", "お惣菜"];
+    return table.masterCorner;
   };
 
   // DBから取得した売場から現状設定している売場を抜いた、売場を返す
@@ -48,6 +50,13 @@ export const EditShop = (props) => {
     const result = allCorners.filter((corner) => !corners.includes(corner));
     console.log("result", result);
     return result;
+  };
+
+  const handleDelete = (index) => {
+    // 選択された行のデータを配列から削除
+    const newData = [...data];
+    newData.splice(index, 1);
+    setData(newData);
   };
 
   // useStateに変更された売場を追加する

@@ -6,13 +6,11 @@ export const AddCorner = (props) => {
   console.log("=====AddCorner側の処理です=====");
   const { filteredCorners, setCorners, selectedValue, setSelectedValue } =
     props;
-  console.log(filteredCorners);
-  console.log(setCorners);
   return (
     <View>
       <Text>AddCornerだよ！</Text>
       <Picker
-        style={{ width: 200 }}
+        style={{ width: 300 }}
         selectedValue={selectedValue}
         onValueChange={(itemValue) => setSelectedValue(itemValue)}
       >

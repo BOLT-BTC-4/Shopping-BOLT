@@ -1,20 +1,33 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { Button } from "react-native-web";
+import { AddShop } from "../screen/AddShop";
 
-export const CornerList = ({ cornerName }) => {
-  console.log(cornerName);
+export const CornerList = ({
+  cornerName,
+  handleDelete,
+  handleAddAfter,
+  handleTargetString,
+}) => {
   return (
     <View style={styles.box}>
       <View style={styles.moziBox}>
         <Text style={styles.text}>{cornerName}</Text>
-        <Feather name="edit" size={24} color="black" />
+        <MaterialIcons
+          name="add-circle-outline"
+          size={24}
+          color="black"
+          onPress={() => {
+            handleTargetString(cornerName);
+            handleAddAfter();
+          }}
+        />
         <Feather
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(localId)}
+          onPress={() => handleDelete(cornerName)}
         />
       </View>
     </View>

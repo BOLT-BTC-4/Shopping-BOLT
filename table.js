@@ -122,6 +122,7 @@ const masterItemTable = [
 ];
 
 const masterCornerTable = [
+  "売場を選択してください",
   "野菜",
   "果物",
   "お肉",
