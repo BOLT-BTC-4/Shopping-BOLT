@@ -138,7 +138,7 @@ export const EditShop = (props) => {
 
 const styles = StyleSheet.create({
   EditShopContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "space-between",
   },
   container: {

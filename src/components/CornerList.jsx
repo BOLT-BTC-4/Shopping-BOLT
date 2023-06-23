@@ -10,7 +10,12 @@ export const CornerList = ({ cornerName }) => {
       <View style={styles.moziBox}>
         <Text style={styles.text}>{cornerName}</Text>
         <Feather name="edit" size={24} color="black" />
-        <Feather name="trash-2" size={24} color="black" />
+        <Feather
+          name="trash-2"
+          size={24}
+          color="black"
+          onPress={() => handleRemoveItem(localId)}
+        />
       </View>
     </View>
   );
