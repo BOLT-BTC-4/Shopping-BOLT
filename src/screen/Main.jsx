@@ -181,6 +181,11 @@ export const Main = () => {
     setItems(newItems);
   };
 
+  const handleAllRemoveItem = () => {
+    const newItems = items.filter((item) => item.check === false);
+    setItems(newItems);
+  };
+
   // 未実装
   // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
   const handleButtonPress = () => {
@@ -331,9 +336,7 @@ export const Main = () => {
       />
       <Button
         title="購入したよ"
-        onPress={() => {
-          setTrashFlag = true;
-        }}
+        onPress={handleAllRemoveItem}
         color="mediumseagreen"
       />
       <Modal visible={modalVisible} animationType="none" transparent={true}>
