@@ -75,6 +75,7 @@ export const AddItem = ({ setItems, setAddFlag }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>新規商品</Text>
+      {errors.itemName && <Text>商品名を入力してください</Text>}
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -130,8 +131,10 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
+    width: 200,
+    height: 300,
     justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
+    // paddingTop: Constants.statusBarHeight,
     padding: 8,
     backgroundColor: "white",
   },
