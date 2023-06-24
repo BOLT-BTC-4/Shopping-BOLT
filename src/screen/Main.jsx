@@ -28,9 +28,21 @@ export const Main = () => {
   const navigation = useNavigation();
 
   const defaultShop = [
-    { key: "1", value: "カネスエ江南店", corners: ["野菜", "果物", "お肉"] },
-    { key: "2", value: "バロー安城店", corners: ["野菜", "卵", "お肉"] },
-    { key: "3", value: "イオン熱田店", corners: ["お菓子", "お魚", "お肉"] },
+    {
+      key: "1",
+      value: "カネスエ江南店",
+      corners: ["野菜", "果物", "お肉", "卵", "お菓子", "お魚"],
+    },
+    {
+      key: "2",
+      value: "バロー安城店",
+      corners: ["お魚", "お菓子", "卵", "お肉", "野菜", "果物"],
+    },
+    {
+      key: "3",
+      value: "イオン熱田店",
+      corners: ["お肉", "お魚", "野菜", "果物", "お菓子", "卵"],
+    },
     // {
     //   key: "4",
     //   value: "イオン安城店",
@@ -52,13 +64,13 @@ export const Main = () => {
     //   corners: ["飲料・酒", "日用品", "生活雑貨", "健康", "介護・ベビー"],
     // },
   ];
-
+  //アイテムリスト
   const [items, setItems] = useState([]);
   useEffect(() => {
     getItems();
   }, []);
   const [trashFlag, setTrashFlag] = useState(false);
-  const [selected, setSelected] = useState("");
+  // const [selected, setSelected] = useState("");  →selectedValueに変更
 
   // モーダルのuseState
   const [modalVisible, setModalVisible] = useState(false);
@@ -109,11 +121,47 @@ export const Main = () => {
       },
       {
         localId: uuid.v4(),
-        sales: "肉",
+        sales: "果物",
+        itemName: "リンゴ",
+        quantity: 1,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        localId: uuid.v4(),
+        sales: "お肉",
         itemName: "鶏肉",
         quantity: 300,
         unit: "g",
-        directions: 3,
+        directions: 1,
+        check: false,
+      },
+      {
+        localId: uuid.v4(),
+        sales: "卵",
+        itemName: "卵",
+        quantity: 1,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        localId: uuid.v4(),
+        sales: "お魚",
+        itemName: "サンマ",
+        quantity: 3,
+        unit: "個",
+        directions: 1,
+        check: false,
+      },
+      {
+        localId: uuid.v4(),
+        sales: "お菓子",
+        itemName: "ポテチ",
+        quantity: 30,
+        unit: "個",
+        directions: 1,
         check: false,
       },
     ]);
@@ -146,6 +194,31 @@ export const Main = () => {
     setShopName("");
   };
 
+  //順番付与
+  const directionAdd = () => {
+    console.log("selected:", selectShop);
+    const selectedShopObj = selectShop.find(
+      (shop) => shop.value === selectedValue
+    );
+    console.log("158");
+    const newItems = items.map((item) => {
+      selectedShopObj.corners.forEach((cornar, index) => {
+        if (item.sales === cornar) {
+          item.directions = index;
+        }
+      });
+      return item;
+    });
+    //ソート
+    console.log("169");
+    newItems.sort(function (a, b) {
+      if (a.directions > b.directions) return 1;
+      if (b.directions > a.directions) return -1;
+      return 0;
+    });
+    setItems(newItems);
+  };
+
   return (
     <View style={styles.container}>
       {/* <Text>お店選択</Text> */}
@@ -153,12 +226,13 @@ export const Main = () => {
         <View style={{ width: "90%", paddingRight: 10 }}>
           {/* ⭐️ここかえてます⭐️ */}
           <SelectList
-            setSelected={(val) => setSelected(val)}
+            setSelected={(val) => setSelectedValue(val)}
             data={selectShop}
             save="value"
             searchPlaceholder="お店を入力"
             placeholder="お店を選択"
             maxHeight={200}
+            onSelect={() => directionAdd()}
           />
         </View>
         {/* 新規店舗登録アイコン */}
@@ -212,7 +286,7 @@ export const Main = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <EditShop
-                selected={selected}
+                // selected={selected}
                 corners={corners}
                 setCorners={setCorners}
                 shopName={shopName}
