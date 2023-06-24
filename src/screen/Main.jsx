@@ -134,31 +134,12 @@ export const Main = () => {
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
   const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
-  const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
+  const [modalAddShopVisible, setModalAddShopVisible] = useState(false);
 
   // Shop関連のuseState
   const [corners, setCorners] = useState([]);
-  const [shopName, setShopName] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
   const [selectShop, setSelectShop] = useState(defaultShop);
-
-  // モーダルの表示制御の関数
-
-  const openModalEditShop = () => {
-    setModalEditShopVisible(true);
-  };
-
-  const closeModalEditShop = () => {
-    setModalEditShopVisible(false);
-  };
-
-  const openModalNewShop = () => {
-    setModalNewShopVisible(true);
-  };
-
-  const closeModalNewShop = () => {
-    setModalNewShopVisible(false);
-  };
 
   const handleCheck = (localId) => {
     const newItems = [...items];
@@ -175,21 +156,6 @@ export const Main = () => {
   const handleAllRemoveItem = () => {
     const newItems = items.filter((item) => item.check === false);
     setItems(newItems);
-  };
-
-  // 未実装
-  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
-  const handleButtonPress = () => {
-    const shop = {
-      key: uuid.v4(),
-      value: shopName,
-      corners: corners,
-    };
-    const newShops = [...selectShop]; // 現在のcornersのコピーを作成
-    newShops.push(shop); // 新しい値を追加
-    setSelectShop(newShops); // 変更された値をセット
-    setCorners([]);
-    setShopName("");
   };
 
   //順番付与
@@ -242,7 +208,9 @@ export const Main = () => {
         </View>
         {/* 新規店舗登録アイコン */}
         <MaterialIcons
-          onPress={openModalNewShop}
+          onPress={() => {
+            setModalAddShopVisible(true);
+          }}
           name="add-business"
           size={36}
           color="black"
@@ -250,7 +218,7 @@ export const Main = () => {
 
         {/* 新規店舗登録モーダル */}
         <Modal
-          visible={modalNewShopVisible}
+          visible={modalAddShopVisible}
           animationType="none"
           transparent={true}
         >
@@ -259,25 +227,18 @@ export const Main = () => {
               <AddShop
                 corners={corners}
                 setCorners={setCorners}
-                shopName={shopName}
-                setShopName={setShopName}
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
-              />
-              <Button title="キャンセル" onPress={closeModalNewShop} />
-              <Button
-                title="保存"
-                onPress={() => {
-                  closeModalNewShop();
-                  handleButtonPress();
-                }}
+                selectShop={selectShop}
+                setSelectShop={setSelectShop}
+                setModalAddShopVisible={setModalAddShopVisible}
               />
             </View>
           </View>
         </Modal>
         {/* 店情報修正アイコン */}
         <FontAwesome
-          onPress={openModalEditShop}
+          onPress={() => modalEditShopVisible(true)}
           name="pencil-square-o"
           size={36}
           color="black"
@@ -294,19 +255,22 @@ export const Main = () => {
                 // selected={selected}
                 corners={corners}
                 setCorners={setCorners}
-                shopName={shopName}
-                setShopName={setShopName}
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
                 selectShop={selectShop}
               />
-              <Button title="キャンセル" onPress={closeModalEditShop} />
-              <Button title="保存" onPress={closeModalEditShop} />
+              <Button
+                title="キャンセル"
+                onPress={() => modalEditShopVisible(false)}
+              />
+              <Button
+                title="保存"
+                onPress={() => modalEditShopVisible(false)}
+              />
             </View>
           </View>
         </Modal>
       </View>
-
       <FlatList
         data={items}
         renderItem={({ item }) => (

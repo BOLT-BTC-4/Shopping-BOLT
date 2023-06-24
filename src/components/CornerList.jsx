@@ -1,26 +1,32 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { Button } from "react-native-web";
-import { AddShop } from "../screen/AddShop";
 
 export const CornerList = ({
+  corner,
+  setCorner,
   cornerName,
-  handleDelete,
-  handleAddAfter,
-  handleTargetString,
+  setModalAddCornerVisible,
+  setTargetString,
 }) => {
+  const handleDelete = (str) => {
+    console.log(str);
+    // 選択された行のデータを配列から削除;
+    const newCorner = corner.filter((item) => item !== str);
+    setCorner(newCorner);
+  };
+
   return (
-    <View style={styles.box}>
-      <View style={styles.moziBox}>
-        <Text style={styles.text}>{cornerName}</Text>
+    <View style={styles.container}>
+      <View style={{ flexDirection: "row" }}>
+        <Text>{cornerName}</Text>
         <MaterialIcons
           name="add-circle-outline"
           size={24}
           color="black"
           onPress={() => {
-            handleTargetString(cornerName);
-            handleAddAfter();
+            setTargetString(cornerName);
+            setModalAddCornerVisible(true);
           }}
         />
         <Feather
@@ -35,30 +41,28 @@ export const CornerList = ({
 };
 
 const styles = StyleSheet.create({
-  box: {
-    height: 50,
-    width: "100%",
-    borderColor: "lightblue",
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+  label: {
+    // color: "white",
+    margin: 20,
+    marginLeft: 0,
   },
-
-  moziBox: {
+  button: {
+    marginTop: 40,
+    color: "white",
+    height: 40,
+    backgroundColor: "mediumseagreen",
+    borderRadius: 4,
+  },
+  container: {
     flex: 1,
-    backgroundColor: "steelblue",
-    padding: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
+    width: 200,
+    height: 300,
+    // justifyContent: "center",
+    // paddingTop: Constants.statusBarHeight,
+    padding: 8,
+    backgroundColor: "white",
   },
-
   text: {
-    fontSize: 16,
-  },
-
-  subText: {
-    fontSize: 12,
-    color: "red",
+    lineHeight: 20, // 行間の値を調整する
   },
 });
