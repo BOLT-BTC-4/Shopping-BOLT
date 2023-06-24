@@ -55,6 +55,7 @@ export const AddItem = ({ setItems, setAddFlag }) => {
       ]);
     }
     setAddFlag(true);
+    reset();
   };
 
   const onChange = (arg) => {
