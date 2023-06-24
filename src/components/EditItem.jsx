@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    width: 200,
-    height: 700,
+    minWidth: "70%",
+    minHeight: "50%",
     justifyContent: "center",
     // paddingTop: Constants.statusBarHeight,
     padding: 8,
