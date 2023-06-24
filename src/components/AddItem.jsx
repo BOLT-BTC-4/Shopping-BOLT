@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../table";
+import uuid from "react-native-uuid";
 
 export const AddItem = ({ setItems }) => {
   const {
@@ -29,6 +30,7 @@ export const AddItem = ({ setItems }) => {
       setItems((items) => [
         ...items,
         {
+          localId: uuid.v4(),
           sales: "",
           itemName: data.itemName,
           quantity: data.quantity,
@@ -41,6 +43,7 @@ export const AddItem = ({ setItems }) => {
       setItems((items) => [
         ...items,
         {
+          localId: uuid.v4(),
           sales: result.sales,
           itemName: data.itemName,
           quantity: data.quantity,
