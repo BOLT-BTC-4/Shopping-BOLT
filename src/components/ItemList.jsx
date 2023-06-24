@@ -21,19 +21,14 @@ export const ItemList = ({
   handleCheck,
   handleRemoveItem,
 }) => {
-  console.log("key:", localId);
   return (
     <View style={check ? [styles.box, styles.check] : styles.box}>
-
       <View style={styles.salesBox}>
         <Text style={styles.text}>{sales}</Text>
       </View>
 
       <View style={styles.moziBox}>
-        <Text
-          style={styles.text}
-          onPress={() => handleCheck(localId)}
-        >
+        <Text style={styles.text} onPress={() => handleCheck(localId)}>
           {item}
         </Text>
         <Text style={styles.text}>{quantity}</Text>
@@ -65,12 +60,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
 
   check: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    textDecorationLine: "line-through"
+    textDecorationLine: "line-through",
   },
 
   moziBox: {
@@ -93,12 +88,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
   },
   text: {
     fontSize: 16,
   },
-
 
   subText: {
     fontSize: 12,

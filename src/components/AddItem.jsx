@@ -6,7 +6,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../table";
 import uuid from "react-native-uuid";
 
-export const AddItem = ({ setItems }) => {
+export const AddItem = ({ setItems, setAddFlag }) => {
   const {
     register,
     setValue,
@@ -20,6 +20,7 @@ export const AddItem = ({ setItems }) => {
       quantity: "1",
     },
   });
+
   const onSubmit = (data) => {
     let cornarName = (item) => {
       return item.itemName === data.itemName;
@@ -35,7 +36,7 @@ export const AddItem = ({ setItems }) => {
           itemName: data.itemName,
           quantity: data.quantity,
           unit: "個",
-          directions: 1,
+          directions: 99,
           check: false,
         },
       ]);
@@ -48,11 +49,12 @@ export const AddItem = ({ setItems }) => {
           itemName: data.itemName,
           quantity: data.quantity,
           unit: result.unit,
-          directions: 1,
+          directions: 99,
           check: false,
         },
       ]);
     }
+    setAddFlag(true);
   };
 
   const onChange = (arg) => {
@@ -61,7 +63,7 @@ export const AddItem = ({ setItems }) => {
     };
   };
 
-  console.log("errors", errors);
+  // console.log("errors", errors);
 
   //   const [open, setOpen] = useState(false);
   //   const [quantity, setQuantity] = useState(null);

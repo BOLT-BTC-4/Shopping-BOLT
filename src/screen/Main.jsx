@@ -70,6 +70,8 @@ export const Main = () => {
     getItems();
   }, []);
   const [trashFlag, setTrashFlag] = useState(false);
+  const [addFlag, setAddFlag] = useState(false);
+
   // const [selected, setSelected] = useState("");  →selectedValueに変更
 
   // モーダルのuseState
@@ -214,7 +216,12 @@ export const Main = () => {
       return 0;
     });
     setItems(newItems);
+    setAddFlag(false);
   };
+
+  if (addFlag) {
+    directionAdd();
+  }
 
   return (
     <View style={styles.container}>
@@ -332,7 +339,7 @@ export const Main = () => {
       <Modal visible={modalVisible} animationType="none" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
-            <AddItem setItems={setItems} />
+            <AddItem setItems={setItems} setAddFlag={setAddFlag} />
             <Button color="#fff" title="✖️" onPress={closeModal} />
           </View>
         </View>
