@@ -44,7 +44,7 @@ export const AddItem = ({ setItems }) => {
           sales: result.sales,
           itemName: data.itemName,
           quantity: data.quantity,
-          unit: "個",
+          unit: result.unit,
           directions: 1,
           check: false,
         },
