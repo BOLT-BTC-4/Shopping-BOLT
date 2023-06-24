@@ -196,11 +196,9 @@ export const Main = () => {
 
   //順番付与
   const directionAdd = () => {
-    console.log("selected:", selectShop);
     const selectedShopObj = selectShop.find(
       (shop) => shop.value === selectedValue
     );
-    console.log("158");
     const newItems = items.map((item) => {
       selectedShopObj.corners.forEach((cornar, index) => {
         if (item.sales === cornar) {
@@ -210,7 +208,6 @@ export const Main = () => {
       return item;
     });
     //ソート
-    console.log("169");
     newItems.sort(function (a, b) {
       if (a.directions > b.directions) return 1;
       if (b.directions > a.directions) return -1;
