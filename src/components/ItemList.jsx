@@ -60,7 +60,7 @@ export const ItemList = ({
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(localId)}
+          onPress={() => handleRemoveItem(item.localId)}
         />
       </View>
     </View>

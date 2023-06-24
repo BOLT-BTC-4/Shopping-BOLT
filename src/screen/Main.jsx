@@ -19,6 +19,7 @@ import {
 
 // 追加
 import { useNavigation } from "@react-navigation/native";
+import { table } from "../../table";
 
 export const Main = () => {
   // 追加
@@ -70,62 +71,7 @@ export const Main = () => {
     getItems();
   }, []);
   const getItems = () => {
-    setItems([
-      {
-        localId: uuid.v4(),
-        sales: "野菜",
-        itemName: "玉ねぎ",
-        quantity: 2,
-        unit: "個",
-        directions: 1,
-        check: false,
-      },
-      {
-        localId: uuid.v4(),
-        sales: "果物",
-        itemName: "リンゴ",
-        quantity: 1,
-        unit: "個",
-        directions: 1,
-        check: false,
-      },
-      {
-        localId: uuid.v4(),
-        sales: "お肉",
-        itemName: "鶏肉",
-        quantity: 300,
-        unit: "g",
-        directions: 1,
-        check: false,
-      },
-      {
-        localId: uuid.v4(),
-        sales: "卵",
-        itemName: "卵",
-        quantity: 1,
-        unit: "個",
-        directions: 1,
-        check: false,
-      },
-      {
-        localId: uuid.v4(),
-        sales: "お魚",
-        itemName: "サンマ",
-        quantity: 3,
-        unit: "個",
-        directions: 1,
-        check: false,
-      },
-      {
-        localId: uuid.v4(),
-        sales: "お菓子",
-        itemName: "ポテチ",
-        quantity: 30,
-        unit: "個",
-        directions: 1,
-        check: false,
-      },
-    ]);
+    setItems(table.defaultItems);
   };
 
   // const [trashFlag, setTrashFlag] = useState(false);
