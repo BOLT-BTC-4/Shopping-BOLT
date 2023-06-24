@@ -10,6 +10,7 @@ export const AddCorner = (props) => {
     <View>
       <Text>AddCornerだよ！</Text>
       <Picker
+        mode="dialog"
         style={{ width: 300 }}
         selectedValue={selectedValue}
         onValueChange={(itemValue) => setSelectedValue(itemValue)}

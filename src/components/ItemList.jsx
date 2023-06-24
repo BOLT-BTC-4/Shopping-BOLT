@@ -1,42 +1,61 @@
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import { EditItem } from "./EditItem";
 
 export const ItemList = ({
-  localId,
-  sales,
   item,
-  quantity,
-  unit,
-  check,
   handleCheck,
   handleRemoveItem,
+  items,
+  setItems,
+  setAddFlag,
 }) => {
+  //モーダルのuseState
+  const [modalEditItemVisible, setModalEditItemVisible] = useState(false);
+
   return (
-    <View style={check ? [styles.box, styles.check] : styles.box}>
+    <View style={item.check ? [styles.box, styles.check] : styles.box}>
       <View style={styles.salesBox}>
-        <Text style={styles.text}>{sales}</Text>
+        <Text style={styles.text}>{item.sales}</Text>
       </View>
 
       <View style={styles.moziBox}>
-        <Text style={styles.text} onPress={() => handleCheck(localId)}>
-          {item}
+        <Text style={styles.text} onPress={() => handleCheck(item.localId)}>
+          {item.itemName}
         </Text>
-        <Text style={styles.text}>{quantity}</Text>
+        <Text style={styles.text}>{item.quantity}</Text>
       </View>
 
       <View style={styles.iconBox}>
-        <Text style={styles.text}>{unit}</Text>
-        <Feather name="edit" size={24} color="black" />
+        <Text style={styles.text}>{item.unit}</Text>
+
+        <Feather
+          name="edit"
+          size={24}
+          color="black"
+          onPress={() => setModalEditItemVisible(true)}
+        />
+        {/* item編集モーダル */}
+        <Modal
+          visible={modalEditItemVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <EditItem
+                items={items}
+                setItems={setItems}
+                setAddFlag={setAddFlag}
+                item={item}
+                setModalEditItemVisible={setModalEditItemVisible}
+              />
+            </View>
+          </View>
+        </Modal>
+
         <Feather
           name="trash-2"
           size={24}
@@ -96,5 +115,18 @@ const styles = StyleSheet.create({
   subText: {
     fontSize: 12,
     color: "red",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContents: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

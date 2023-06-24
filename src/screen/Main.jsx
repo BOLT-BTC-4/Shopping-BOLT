@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Fontisto } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { ItemList } from "../components/ItemList";
 import { AddItem } from "../components/AddItem";
 import { EditShop } from "./EditShop";
 import { AddShop } from "./AddShop";
-import { Feather } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
 import {
   StyleSheet,
@@ -66,50 +63,12 @@ export const Main = () => {
   ];
   //アイテムリスト
   const [items, setItems] = useState([]);
+  //商品追加用flag
+  const [addFlag, setAddFlag] = useState(false);
+  //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
     getItems();
   }, []);
-  // const [trashFlag, setTrashFlag] = useState(false);
-  const [addFlag, setAddFlag] = useState(false);
-
-  // const [selected, setSelected] = useState("");  →selectedValueに変更
-
-  // モーダルのuseState
-  const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
-  const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
-  const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
-
-  // Shop関連のuseState
-  const [corners, setCorners] = useState([]);
-  const [shopName, setShopName] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
-  const [selectShop, setSelectShop] = useState(defaultShop);
-
-  // モーダルの表示制御の関数
-  const openModal = () => {
-    setModalAddItemVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalAddItemVisible(false);
-  };
-
-  const openModalEditShop = () => {
-    setModalEditShopVisible(true);
-  };
-
-  const closeModalEditShop = () => {
-    setModalEditShopVisible(false);
-  };
-
-  const openModalNewShop = () => {
-    setModalNewShopVisible(true);
-  };
-
-  const closeModalNewShop = () => {
-    setModalNewShopVisible(false);
-  };
-
   const getItems = () => {
     setItems([
       {
@@ -167,6 +126,38 @@ export const Main = () => {
         check: false,
       },
     ]);
+  };
+
+  // const [trashFlag, setTrashFlag] = useState(false);
+  // const [selected, setSelected] = useState("");  →selectedValueに変更
+
+  // モーダルのuseState
+  const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
+  const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
+  const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
+
+  // Shop関連のuseState
+  const [corners, setCorners] = useState([]);
+  const [shopName, setShopName] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectShop, setSelectShop] = useState(defaultShop);
+
+  // モーダルの表示制御の関数
+
+  const openModalEditShop = () => {
+    setModalEditShopVisible(true);
+  };
+
+  const closeModalEditShop = () => {
+    setModalEditShopVisible(false);
+  };
+
+  const openModalNewShop = () => {
+    setModalNewShopVisible(true);
+  };
+
+  const closeModalNewShop = () => {
+    setModalNewShopVisible(false);
   };
 
   const handleCheck = (localId) => {
@@ -320,20 +311,18 @@ export const Main = () => {
         data={items}
         renderItem={({ item }) => (
           <ItemList
-            localId={item.localId}
-            sales={item.sales}
-            item={item.itemName}
-            quantity={item.quantity}
-            unit={item.unit}
-            check={item.check}
+            item={item}
             handleCheck={handleCheck}
             handleRemoveItem={handleRemoveItem}
+            items={items}
+            setItems={setItems}
+            setAddFlag={setAddFlag}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
       />
       <MaterialIcons
-        onPress={openModal}
+        onPress={() => setModalAddItemVisible(true)}
         name="add-shopping-cart"
         size={35}
         color="black"
@@ -352,8 +341,11 @@ export const Main = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
-            <AddItem setItems={setItems} setAddFlag={setAddFlag} />
-            <Button color="#fff" title="✖️" onPress={closeModal} />
+            <AddItem
+              setItems={setItems}
+              setAddFlag={setAddFlag}
+              setModalAddItemVisible={setModalAddItemVisible}
+            />
           </View>
         </View>
       </Modal>
