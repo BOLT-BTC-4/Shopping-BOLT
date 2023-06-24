@@ -321,18 +321,19 @@ export const Main = () => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <MaterialIcons
-        onPress={() => setModalAddItemVisible(true)}
-        name="add-shopping-cart"
-        size={35}
-        color="black"
-        style={styles.shoppingCart}
-      />
-      <Button
-        title="購入したよ"
-        onPress={handleAllRemoveItem}
-        color="mediumseagreen"
-      />
+      <View style={styles.underBar}>
+        <Button
+          title="購入したよ"
+          onPress={handleAllRemoveItem}
+          color="mediumseagreen"
+        />
+        <MaterialIcons
+          onPress={() => setModalAddItemVisible(true)}
+          name="add-shopping-cart"
+          size={35}
+          color="black"
+        />
+      </View>
       {/* 商品追加モーダル */}
       <Modal
         visible={modalAddItemVisible}
@@ -376,15 +377,23 @@ const styles = StyleSheet.create({
   shopselect: {
     flexDirection: "row",
     justifyContent: "center",
-    // backgroundColor: "red",
     padding: 10,
     alignItems: "center",
   },
-  shoppingCart: {
-    textAlign: "right",
-    marginRight: 30,
+  // shoppingCart: {
+  //   textAlign: "right",
+  //   marginRight: 30,
+  //   marginBottom: 30,
+  //   marginTop: 10,
+  // },
+  underBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    alignItems: "center",
     marginBottom: 30,
+    marginRight: 30,
+    marginLeft: 20,
     marginTop: 10,
-    // backgroundColor: "red"
   },
 });
