@@ -69,13 +69,13 @@ export const Main = () => {
   useEffect(() => {
     getItems();
   }, []);
-  const [trashFlag, setTrashFlag] = useState(false);
+  // const [trashFlag, setTrashFlag] = useState(false);
   const [addFlag, setAddFlag] = useState(false);
 
   // const [selected, setSelected] = useState("");  →selectedValueに変更
 
   // モーダルのuseState
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
   const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
   const [modalNewShopVisible, setModalNewShopVisible] = useState(false);
 
@@ -87,11 +87,11 @@ export const Main = () => {
 
   // モーダルの表示制御の関数
   const openModal = () => {
-    setModalVisible(true);
+    setModalAddItemVisible(true);
   };
 
   const closeModal = () => {
-    setModalVisible(false);
+    setModalAddItemVisible(false);
   };
 
   const openModalEditShop = () => {
@@ -206,6 +206,11 @@ export const Main = () => {
     const selectedShopObj = selectShop.find(
       (shop) => shop.value === selectedValue
     );
+    //店舗が選択されていなければ処理を抜ける
+    if (selectedShopObj === undefined) {
+      setAddFlag(false);
+      return;
+    }
     const newItems = items.map((item) => {
       selectedShopObj.corners.forEach((cornar, index) => {
         if (item.sales === cornar) {
@@ -339,7 +344,12 @@ export const Main = () => {
         onPress={handleAllRemoveItem}
         color="mediumseagreen"
       />
-      <Modal visible={modalVisible} animationType="none" transparent={true}>
+      {/* 商品追加モーダル */}
+      <Modal
+        visible={modalAddItemVisible}
+        animationType="none"
+        transparent={true}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
             <AddItem setItems={setItems} setAddFlag={setAddFlag} />
