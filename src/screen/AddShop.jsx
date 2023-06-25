@@ -16,10 +16,12 @@ import { table } from "../../table";
 import uuid from "react-native-uuid";
 
 export const AddShop = ({
+  selectedValue,
   selectShop,
   setSelectShop,
   setModalAddShopVisible,
 }) => {
+  console.log(selectedValue);
   const {
     // shopName,
     // setShopName,
@@ -64,7 +66,7 @@ export const AddShop = ({
   const onSubmit = (data) => {
     const shop = {
       key: uuid.v4(),
-      value: data.value,
+      value: data.shopName,
       corners: corner,
     };
     const newShopList = [...selectShop];
