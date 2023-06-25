@@ -61,13 +61,12 @@ export const EditItem = ({
     <View style={styles.container}>
       <Text style={styles.label}>売り場</Text>
       <View>
-        {/* ⭐️ここかえてます⭐️ */}
         <SelectList
           setSelected={(val) => setSelectedCorner(val)}
           data={table.masterCorner}
           save="value"
-          searchPlaceholder="お店を入力"
-          placeholder="お店を選択"
+          searchPlaceholder="売り場を入力"
+          placeholder="売り場を選択"
           maxHeight={200}
           defaultOption={{ key: item.sales, value: item.sales }}
         />
