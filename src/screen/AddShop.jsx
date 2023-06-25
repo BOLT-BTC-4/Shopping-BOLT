@@ -20,7 +20,6 @@ export const AddShop = ({
   setSelectShop,
   setModalAddShopVisible,
 }) => {
-  console.log("=====AddShopだよ=====");
   const {
     // shopName,
     // setShopName,
@@ -70,13 +69,17 @@ export const AddShop = ({
     };
     const newShopList = [...selectShop];
     newShopList.push(shop);
+    console.log(newShopList);
     setSelectShop(newShopList); // 変更された値をセット
     setCorner([]);
     setShopName("");
     setModalAddShopVisible(false);
+    console.log("AddShopのonSubmitのselectShopの結果");
+    console.log(selectShop);
+    console.log("=====ここまで=====");
   };
 
-  useEffect(() => {}, [corner]);
+  useEffect(() => {}, [corner, selectShop]);
 
   return (
     <View style={styles.container}>
@@ -145,6 +148,14 @@ export const AddShop = ({
       {/* {errors.shopName && <Text>This is required.</Text>} */}
       {/* <Button title="キャンセル" onPress={handleSubmit(onSubmit)} /> */}
       {/* closeModalNewShop */}
+      <Button
+        title="キャンセル"
+        onPress={() => {
+          setModalAddShopVisible(false);
+          setSelectedCorner("");
+          setShopName("");
+        }}
+      />
       <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
     </View>
   );

@@ -109,6 +109,7 @@ export const Main = () => {
     const selectedShopObj = selectShop.find(
       (shop) => shop.value === selectedValue
     );
+    // console.log(selectedShopObj);
     //店舗が選択されていなければ処理を抜ける
     if (selectedShopObj === undefined) {
       setAddFlag(false);
