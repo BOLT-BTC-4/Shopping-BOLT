@@ -83,7 +83,7 @@ export const Main = () => {
   const [modalAddShopVisible, setModalAddShopVisible] = useState(false);
 
   // Shop関連のuseState
-  const [corners, setCorners] = useState([]);
+  // const [corners, setCorners] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [selectShop, setSelectShop] = useState(defaultShop);
 
@@ -172,8 +172,8 @@ export const Main = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <AddShop
-                corners={corners}
-                setCorners={setCorners}
+                // corners={corners}
+                // setCorners={setCorners}
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
                 selectShop={selectShop}

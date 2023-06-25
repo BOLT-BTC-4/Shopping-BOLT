@@ -22,27 +22,30 @@ export const EditShop = ({
   setSelectShop,
   setModalEditShopVisible,
 }) => {
-  const {
-    // shopName,
-    // setShopName,
+  const selectShopFiltered = () => {
+    console.log(selectedValue);
+    const result = selectShop.filter((obj) => obj.value === selectedValue);
+    return result;
+  };
 
-    handleSubmit,
-    control,
-    // errors,
-    // reset,
-  } = useForm({
-    defaultValues: {
-      shopName: "",
-    },
-  });
+  const editShop = selectShopFiltered();
+  const editShopName = editShop[0].value;
+  const editShopCorner = editShop[0].corners;
+  const editShopKey = editShop[0].key;
 
   // useState一覧
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
-  const [corner, setCorner] = useState([]);
+  const [corner, setCorner] = useState(editShopCorner);
   const [selectedCorner, setSelectedCorner] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
   const [targetString, setTargetString] = useState("");
-  const [shopName, setShopName] = useState("");
+  const [shopName, setShopName] = useState(editShopName);
+
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      shopName: editShopName,
+    },
+  });
 
   // 未実装（テストデータとして準備）
   // DBから取得する情報
@@ -62,25 +65,29 @@ export const EditShop = ({
   // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
   // useStateで対応
   const onSubmit = (data) => {
-    const shop = {
-      key: uuid.v4(),
-      value: data.shopName,
-      corners: corner,
-    };
     const newShopList = [...selectShop];
-    newShopList.push(shop);
-    console.log(newShopList);
+    newShopList.forEach((obj) => {
+      if (obj.key === editShopKey) {
+        console.log("obj:", obj);
+        obj.value = data.shopName;
+        obj.corners = corner;
+      }
+    });
+
+    setSelectedValue(data.shopName);
     setSelectShop(newShopList); // 変更された値をセット
     setCorner([]);
     setShopName("");
-    setModalAddShopVisible(false);
+    setModalEditShopVisible(false);
   };
 
-  useEffect(() => {}, [corner, selectShop]);
+  useEffect(() => {
+    // getShopCorner(), getShopName();
+  }, [selectShop, shopName, corner]);
 
   return (
     <View style={styles.container}>
-      <Text>お店の追加</Text>
+      <Text>お店の内容変更（完成しました）</Text>
       <Text style={styles.label}>お店の名前</Text>
       <Controller
         control={control}
@@ -148,12 +155,12 @@ export const EditShop = ({
       <Button
         title="キャンセル"
         onPress={() => {
-          setModalAddShopVisible(false);
+          setModalEditShopVisible(false);
           setSelectedCorner("");
           setShopName("");
         }}
       />
-      <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
+      <Button title="更新" onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };

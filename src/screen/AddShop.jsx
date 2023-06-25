@@ -40,7 +40,7 @@ export const AddShop = ({
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
   const [corner, setCorner] = useState([]);
   const [selectedCorner, setSelectedCorner] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
   const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState("");
 
@@ -64,7 +64,7 @@ export const AddShop = ({
   const onSubmit = (data) => {
     const shop = {
       key: uuid.v4(),
-      value: data.shopName,
+      value: data.value,
       corners: corner,
     };
     const newShopList = [...selectShop];
