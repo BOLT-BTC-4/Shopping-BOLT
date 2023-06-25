@@ -22,7 +22,11 @@ export const ItemList = ({
       </View>
 
       <View style={styles.moziBox}>
-        <Text style={styles.text} onPress={() => handleCheck(item.localId)}>
+        <Text
+          style={styles.text}
+          width={100}
+          onPress={() => handleCheck(item.localId)}
+        >
           {item.itemName}
         </Text>
         <Text style={styles.text}>{item.quantity}</Text>
