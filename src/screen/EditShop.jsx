@@ -87,7 +87,7 @@ export const EditShop = ({
 
   return (
     <View style={styles.container}>
-      <Text>お店の内容変更（完成しました）</Text>
+      <Text>お店の内容変更</Text>
       <Text style={styles.label}>お店の名前</Text>
       <Controller
         control={control}

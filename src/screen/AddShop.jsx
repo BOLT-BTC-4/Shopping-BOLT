@@ -80,7 +80,7 @@ export const AddShop = ({
 
   return (
     <View style={styles.container}>
-      <Text>お店の内容変更（未完成です）</Text>
+      <Text>新しいお店の登録</Text>
       <Text style={styles.label}>お店の名前</Text>
       <Controller
         control={control}
