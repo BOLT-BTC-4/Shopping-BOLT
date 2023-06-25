@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
   Text,
@@ -8,179 +9,167 @@ import {
   Button,
   Modal,
 } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "../components/CornerList";
 import { AddCorner } from "../components/AddCorner";
 import { table } from "../../table";
+import uuid from "react-native-uuid";
 
-export const EditShop = (props) => {
-  console.log("=====EditShopだよ=====");
+export const EditShop = ({
+  selectedValue,
+  setSelectedValue,
+  selectShop,
+  setSelectShop,
+  setModalEditShopVisible,
+}) => {
   const {
-    selected,
-    corners,
-    setCorners,
-    shopName,
-    setShopName,
-    selectedValue,
-    setSelectedValue,
-    selectShop,
-  } = props;
+    // shopName,
+    // setShopName,
 
-  console.log("selected:", selected);
-  console.log("selectShop:", selectShop);
+    handleSubmit,
+    control,
+    // errors,
+    // reset,
+  } = useForm({
+    defaultValues: {
+      shopName: "",
+    },
+  });
+
   // useState一覧
+  const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
+  const [corner, setCorner] = useState([]);
+  const [selectedCorner, setSelectedCorner] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [targetString, setTargetString] = useState("");
-
-  // モーダル画面を表示するための関数
-  const openModal = (index) => {
-    setModalVisible(true);
-  };
-
-  // モーダル画面を閉じるための関数
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  const [shopName, setShopName] = useState("");
 
   // 未実装（テストデータとして準備）
   // DBから取得する情報
-  const getAllCorners = () => {
+  const getAllCorner = () => {
     return table.masterCorner;
   };
 
   // DBから取得した売場から現状設定している売場を抜いた、売場を返す
-  const filteredCorners = () => {
-    console.log("=====追加ボタン押されました======");
-    const allCorners = getAllCorners();
-    // getAllCorners配列にcornerが含まれていない場合に真となり配列に追加される
-    const result = allCorners.filter((corner) => !corners.includes(corner));
+  const filteredCorner = () => {
+    const allCorner = getAllCorner();
+    // getAllCorner配列にcornerが含まれていない場合に真となり配列に追加される
+    const result = allCorner.filter((val) => !corner.includes(val));
     return result;
   };
 
-  const handleDelete = (str) => {
-    console.log(str);
-    // 選択された行のデータを配列から削除;
-    const newCorners = corners.filter((item) => item !== str);
-    setCorners(newCorners);
+  // 未実装
+  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
+  // useStateで対応
+  const onSubmit = (data) => {
+    const shop = {
+      key: uuid.v4(),
+      value: data.shopName,
+      corners: corner,
+    };
+    const newShopList = [...selectShop];
+    newShopList.push(shop);
+    console.log(newShopList);
+    setSelectShop(newShopList); // 変更された値をセット
+    setCorner([]);
+    setShopName("");
+    setModalAddShopVisible(false);
   };
 
-  const handleTargetString = (str) => {
-    setTargetString(str);
-  };
-
-  const handleAddAfter = () => {
-    openModal();
-  };
-
-  // useStateに変更された売場を追加する
-  const handleCornersChange = () => {
-    console.log("targetString:", targetString);
-    if (targetString === "") {
-      console.log("空白だよ");
-      const newCorners = [...corners]; // 現在のcornersのコピーを作成
-      newCorners.push(selectedValue); // 新しい値を追加
-      setCorners(newCorners); // 変更された値をセット
-      setTargetString("");
-    } else {
-      console.log("空白じゃないよ");
-      console.log("corners:", corners);
-      const index = corners.findIndex((item) => item === targetString);
-      console.log("index:", index);
-      if (index !== -1) {
-        const newCorner = selectedValue; // 新しい行のデータ
-        const newCorners = [...corners];
-        newCorners.splice(index + 1, 0, newCorner);
-        setCorners(newCorners);
-      }
-      setTargetString("");
-    }
-  };
-
-  // useStateに店の名前を追加する
-  const handleInputChange = (value) => {
-    setShopName(value);
-  };
-
-  useEffect(() => {}, [corners]);
+  useEffect(() => {}, [corner, selectShop]);
 
   return (
-    <View style={styles.EditShopContainer}>
-      <View style={styles.container}>
-        <View>
-          <Text>EditShopだよ</Text>
-        </View>
-        <View>
+    <View style={styles.container}>
+      <Text>お店の追加</Text>
+      <Text style={styles.label}>お店の名前</Text>
+      <Controller
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             style={styles.input}
-            value={shopName}
-            onChangeText={handleInputChange}
-            placeholder="入力してください"
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)} //handleInputChange
+            value={value}
           />
-        </View>
-        <View>
-          <FlatList
-            data={corners}
-            renderItem={({ item }) => (
-              <CornerList
-                cornerName={item}
-                handleDelete={handleDelete}
-                handleAddAfter={handleAddAfter}
-                handleTargetString={handleTargetString}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
+        )}
+        name="shopName"
+      />
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.label}>売場の並び順</Text>
+        <MaterialIcons
+          name="add-circle-outline"
+          size={24}
+          color="black"
+          onPress={() => setModalAddCornerVisible(true)}
+        />
       </View>
-      <View style={styles.bottomContainer}>
-        <View>
-          <Button
-            title="売場追加"
-            onPress={() => {
-              openModal();
-            }}
+      <Modal
+        visible={modalAddCornerVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContents}>
+            <AddCorner
+              filteredCorner={filteredCorner()}
+              corner={corner}
+              setCorner={setCorner}
+              selectedCorner={selectedCorner}
+              setSelectedCorner={setSelectedCorner}
+              setModalAddCornerVisible={setModalAddCornerVisible}
+              targetString={targetString}
+              setTargetString={setTargetString}
+            />
+          </View>
+        </View>
+      </Modal>
+
+      <FlatList
+        data={corner}
+        renderItem={({ item }) => (
+          <CornerList
+            corner={corner}
+            setCorner={setCorner}
+            cornerName={item}
+            setModalAddCornerVisible={setModalAddCornerVisible}
+            setTargetString={setTargetString}
+            // handleDelete={handleDelete}
+            // handleAddAfter={handleAddAfter}
+            // handleTargetString={handleTargetString}
           />
-        </View>
-        <View>
-          <Modal visible={modalVisible} animationType="none" transparent={true}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <AddCorner
-                  filteredCorners={filteredCorners()}
-                  setCorners={setCorners}
-                  selectedValue={selectedValue}
-                  setSelectedValue={setSelectedValue}
-                />
-                <View style={styles.buttonContainer}>
-                  <Button title="キャンセル" onPress={closeModal} />
-                  <Button
-                    title="OK"
-                    onPress={() => {
-                      closeModal();
-                      handleCornersChange();
-                    }}
-                  />
-                </View>
-              </View>
-            </View>
-          </Modal>
-        </View>
-      </View>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
+
+      {/* {errors.shopName && <Text>This is required.</Text>} */}
+      {/* <Button title="キャンセル" onPress={handleSubmit(onSubmit)} /> */}
+      {/* closeModalNewShop */}
+      <Button
+        title="キャンセル"
+        onPress={() => {
+          setModalAddShopVisible(false);
+          setSelectedCorner("");
+          setShopName("");
+        }}
+      />
+      <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  EditShopContainer: {
-    // flex: 1,
-    justifyContent: "space-between",
-  },
   container: {
     // flex: 1,
-    width: 300,
-    height: 475,
+    backgroundColor: "#fff",
+    padding: 10,
+    width: 375,
+    height: 600,
+    // justifyContent: "center",
+    // alignContent: "center",
   },
   modalContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -193,20 +182,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonContainer: {
-    flexDirection: "row", // 横方向に配置
-    justifyContent: "space-between", // ボタンを均等に配置
-    marginTop: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-  },
-  bottomContainer: {
-    marginBottom: 40,
-    paddingHorizontal: 16,
-  },
+  // buttonContainer: {
+  //   flexDirection: "row", // 横方向に配置
+  //   justifyContent: "space-between", // ボタンを均等に配置
+  //   marginTop: 20,
+  // },
+  // input: {
+  //   height: 40,
+  //   borderColor: "gray",
+  //   borderWidth: 1,
+  //   marginBottom: 16,
+  //   paddingHorizontal: 8,
+  // },
+  // bottomContainer: {
+  //   marginBottom: 40,
+  //   paddingHorizontal: 16,
+  // },
+  // separator: {
+  //   height: 1,
+  //   backgroundColor: "gray",
+  // },
 });

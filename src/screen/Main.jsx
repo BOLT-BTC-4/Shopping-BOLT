@@ -185,7 +185,9 @@ export const Main = () => {
         </Modal>
         {/* 店情報修正アイコン */}
         <FontAwesome
-          onPress={() => modalEditShopVisible(true)}
+          onPress={() => {
+            setModalEditShopVisible(true);
+          }}
           name="pencil-square-o"
           size={36}
           color="black"
@@ -199,20 +201,14 @@ export const Main = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <EditShop
-                // selected={selected}
-                corners={corners}
-                setCorners={setCorners}
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
                 selectShop={selectShop}
-              />
-              <Button
-                title="キャンセル"
-                onPress={() => modalEditShopVisible(false)}
-              />
-              <Button
-                title="保存"
-                onPress={() => modalEditShopVisible(false)}
+                setSelectShop={setSelectShop}
+                setModalEditShopVisible={setModalEditShopVisible}
+
+                // corners={corners}
+                // setCorners={setCorners}
               />
             </View>
           </View>

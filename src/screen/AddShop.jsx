@@ -24,12 +24,12 @@ export const AddShop = ({
     // shopName,
     // setShopName,
 
-    selectedValue,
-    setSelectedValue,
+    // selectedValue,
+    // setSelectedValue,
     handleSubmit,
     control,
-    errors,
-    reset,
+    // errors,
+    // reset,
   } = useForm({
     defaultValues: {
       shopName: "",
@@ -80,7 +80,7 @@ export const AddShop = ({
 
   return (
     <View style={styles.container}>
-      <Text>お店の追加</Text>
+      <Text>お店の内容変更（未完成です）</Text>
       <Text style={styles.label}>お店の名前</Text>
       <Controller
         control={control}
