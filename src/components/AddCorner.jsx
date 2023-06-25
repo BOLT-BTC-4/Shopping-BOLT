@@ -12,7 +12,6 @@ import {
 } from "react-native";
 
 export const AddCorner = (props) => {
-  console.log("=====AddCorner側の処理です=====");
   const {
     filteredCorner,
     corner,
@@ -26,7 +25,6 @@ export const AddCorner = (props) => {
 
   const onSubmit = (data) => {
     if (targetString === "") {
-      console.log("targetString", targetString);
       const newCorner = [...corner]; // 現在のcornersのコピーを作成
       newCorner.push(data); // 新しい値を追加
       setCorner(newCorner); // 変更された値をセット

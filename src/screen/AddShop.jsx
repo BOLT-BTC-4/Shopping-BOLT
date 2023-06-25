@@ -74,9 +74,6 @@ export const AddShop = ({
     setCorner([]);
     setShopName("");
     setModalAddShopVisible(false);
-    console.log("AddShopのonSubmitのselectShopの結果");
-    console.log(selectShop);
-    console.log("=====ここまで=====");
   };
 
   useEffect(() => {}, [corner, selectShop]);
