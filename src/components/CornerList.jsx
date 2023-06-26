@@ -1,20 +1,39 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { Button } from "react-native-web";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 
-export const CornerList = ({ cornerName }) => {
-  console.log(cornerName);
+export const CornerList = ({
+  corner,
+  setCorner,
+  cornerName,
+  setModalAddCornerVisible,
+  setTargetString,
+}) => {
+  const handleDelete = (str) => {
+    console.log(str);
+    // 選択された行のデータを配列から削除;
+    const newCorner = corner.filter((item) => item !== str);
+    setCorner(newCorner);
+  };
+
   return (
-    <View style={styles.box}>
+    <View style={styles.container}>
       <View style={styles.moziBox}>
-        <Text style={styles.text}>{cornerName}</Text>
-        <Feather name="edit" size={24} color="black" />
+        <Text>{cornerName}</Text>
+        <MaterialIcons
+          name="add-circle-outline"
+          size={24}
+          color="black"
+          onPress={() => {
+            setTargetString(cornerName);
+            setModalAddCornerVisible(true);
+          }}
+        />
         <Feather
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(localId)}
+          onPress={() => handleDelete(cornerName)}
         />
       </View>
     </View>
@@ -22,30 +41,39 @@ export const CornerList = ({ cornerName }) => {
 };
 
 const styles = StyleSheet.create({
-  box: {
-    height: 50,
-    width: "100%",
-    borderColor: "lightblue",
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+  label: {
+    // color: "white",
+    margin: 20,
+    marginLeft: 0,
   },
-
+  button: {
+    marginTop: 40,
+    color: "white",
+    height: 40,
+    backgroundColor: "mediumseagreen",
+    borderRadius: 4,
+  },
+  container: {
+    // flex: 1,
+    // width: 200,
+    // height: 300,
+    // // justifyContent: "center",
+    // // paddingTop: Constants.statusBarHeight,
+    // padding: 8,
+    // backgroundColor: "white",
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 10,
+  },
+  text: {
+    lineHeight: 20, // 行間の値を調整する
+  },
   moziBox: {
     flex: 1,
-    backgroundColor: "steelblue",
+    // backgroundColor: "steelblue",
     padding: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-  },
-
-  text: {
-    fontSize: 16,
-  },
-
-  subText: {
-    fontSize: 12,
-    color: "red",
   },
 });

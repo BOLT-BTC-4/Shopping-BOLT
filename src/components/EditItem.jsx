@@ -1,12 +1,19 @@
 import * as React from "react";
 import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { SelectList } from "react-native-dropdown-select-list";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../table";
 import uuid from "react-native-uuid";
 
-export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
+export const EditItem = ({
+  items,
+  setItems,
+  setAddFlag,
+  item,
+  setModalEditItemVisible,
+}) => {
   const {
     register,
     setValue,
@@ -16,46 +23,25 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      itemName: "",
-      quantity: "1",
+      itemName: item.itemName,
+      quantity: item.quantity.toString(),
+      unit: item.unit,
     },
   });
+  const [selectedCorner, setSelectedCorner] = React.useState("");
 
   const onSubmit = (data) => {
-    let cornarName = (item) => {
-      return item.itemName === data.itemName;
-    };
-    let result = table.masterItem.find(cornarName);
-    // console.log(result);
-    if (result === undefined) {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: "",
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: "個",
-          directions: 99,
-          check: false,
-        },
-      ]);
-    } else {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: result.sales,
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: result.unit,
-          directions: 99,
-          check: false,
-        },
-      ]);
-    }
+    const newItems = [...items];
+    const itemCopy = newItems.find(
+      (newItem) => newItem.localId === item.localId
+    );
+    itemCopy.sales = selectedCorner;
+    itemCopy.itemName = data.itemName;
+    itemCopy.quantity = data.quantity;
+    itemCopy.unit = data.unit;
+    setItems(newItems);
     setAddFlag(true);
-    reset();
+    setModalEditItemVisible(false);
   };
 
   const onChange = (arg) => {
@@ -63,7 +49,6 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
       value: arg.nativeEvent.text,
     };
   };
-
   // console.log("errors", errors);
 
   //   const [open, setOpen] = useState(false);
@@ -74,7 +59,19 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
   //   ]);
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>新規商品</Text>
+      <Text style={styles.label}>売り場</Text>
+      <View>
+        <SelectList
+          setSelected={(val) => setSelectedCorner(val)}
+          data={table.masterCorner}
+          save="value"
+          searchPlaceholder="売り場を入力"
+          placeholder="売り場を選択"
+          maxHeight={200}
+          defaultOption={{ key: item.sales, value: item.sales }}
+        />
+      </View>
+      <Text style={styles.label}>商品名</Text>
       {errors.itemName && (
         <Text style={styles.alertFont}>商品名を入力してください</Text>
       )}
@@ -105,19 +102,33 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
         name="quantity"
         rules={{ required: false }}
       />
+      <Text style={styles.label}>単位</Text>
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)}
+            value={value}
+          />
+        )}
+        name="unit"
+        rules={{ required: false }}
+      />
 
       <View style={styles.button}>
         <Button
           style={styles.buttonInner}
           color
-          title="追加"
+          title="変更"
           onPress={handleSubmit(onSubmit)}
         />
       </View>
       <Button
         color="#fff"
         title="✖️"
-        onPress={() => setModalAddItemVisible(false)}
+        onPress={() => setModalEditItemVisible(false)}
       />
     </View>
   );
@@ -138,8 +149,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    width: 200,
-    height: 300,
+    minWidth: "70%",
+    minHeight: "50%",
     justifyContent: "center",
     // paddingTop: Constants.statusBarHeight,
     padding: 8,
