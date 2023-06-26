@@ -18,7 +18,7 @@ export const CornerList = ({
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row" }}>
+      <View style={styles.moziBox}>
         <Text>{cornerName}</Text>
         <MaterialIcons
           name="add-circle-outline"
@@ -54,15 +54,26 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   container: {
+    // flex: 1,
+    // width: 200,
+    // height: 300,
+    // // justifyContent: "center",
+    // // paddingTop: Constants.statusBarHeight,
+    // padding: 8,
+    // backgroundColor: "white",
     flex: 1,
-    width: 200,
-    height: 300,
-    // justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
-    padding: 8,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
+    padding: 10,
   },
   text: {
     lineHeight: 20, // 行間の値を調整する
+  },
+  moziBox: {
+    flex: 1,
+    // backgroundColor: "steelblue",
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
