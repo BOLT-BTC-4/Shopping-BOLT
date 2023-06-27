@@ -25,43 +25,6 @@ export const Main = () => {
   // 追加
   const navigation = useNavigation();
 
-  const defaultShop = [
-    {
-      key: "1",
-      value: "カネスエ江南店",
-      corners: ["野菜", "果物", "お肉", "卵", "お菓子", "お魚"],
-    },
-    {
-      key: "2",
-      value: "バロー安城店",
-      corners: ["お魚", "お菓子", "卵", "お肉", "野菜", "果物"],
-    },
-    {
-      key: "3",
-      value: "イオン熱田店",
-      corners: ["お肉", "お魚", "野菜", "果物", "お菓子", "卵"],
-    },
-    // {
-    //   key: "4",
-    //   value: "イオン安城店",
-    //   corners: ["乳製品", "冷凍", "大豆類"],
-    // },
-    // {
-    //   key: "5",
-    //   value: "世界のメグリアカルフォルニア店",
-    //   corners: ["パン", "ジャム", "お米"],
-    // },
-    // {
-    //   key: "6",
-    //   value: "ドン・キホーテ豊田店",
-    //   corners: ["麺類", "惣菜", "調味料"],
-    // },
-    // {
-    //   key: "7",
-    //   value: "世界一のスーパメグリア",
-    //   corners: ["飲料・酒", "日用品", "生活雑貨", "健康", "介護・ベビー"],
-    // },
-  ];
   //アイテムリスト
   const [items, setItems] = useState([]);
   //商品追加用flag
@@ -85,7 +48,7 @@ export const Main = () => {
   // Shop関連のuseState
   // const [corners, setCorners] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectShop, setSelectShop] = useState(defaultShop);
+  const [selectShop, setSelectShop] = useState(table.defaultShops);
 
   const handleCheck = (localId) => {
     const newItems = [...items];
