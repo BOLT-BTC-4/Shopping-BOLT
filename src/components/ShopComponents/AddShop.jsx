@@ -10,9 +10,9 @@ import {
   Modal,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { CornerList } from "../components/MainComponents/CornerList";
-import { AddCorner } from "../components/MainComponents/AddCorner";
-import { table } from "../../table";
+import { CornerList } from "../MainComponents/CornerList";
+import { AddCorner } from "../MainComponents/AddCorner";
+import { table } from "../../../table";
 import uuid from "react-native-uuid";
 
 export const AddShop = ({
