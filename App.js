@@ -16,26 +16,66 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screen/Main";
-import { EditShop } from "./src/screen/EditShop";
 import { Menu } from "./src/screen/Menu";
+
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { MenuScreen } from "./src/screen/MenuScreen";
+import { RecipeScreen } from "./src/screen/RecipeScreen";
+import { MainScreen } from "./src/screen/MainScreen";
+import { ShopScreen } from "./src/screen/ShopScreen";
 
 // Amplify.configure(awsExports);
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const App = () => {
+const MenuStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="献立リスト" component={MenuScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const RecipeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="レシピリスト" component={RecipeScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const MainStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="買い物リスト" component={MainScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const ShopStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="お店リスト" component={ShopScreen} />
+    </Stack.Navigator>
+  );
+};
+
+
+export default App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="献立">
-        <Stack.Screen name="買物リスト" component={Main} />
-        <Stack.Screen name="売場登録" component={EditShop} />
-        <Stack.Screen name="献立" component={Menu} />
-      </Stack.Navigator>
+      <Tab.Navigator initialRouteName="買物">
+        <Tab.Screen name="献立" component={MenuStack} />
+        <Tab.Screen name="レシピ" component={RecipeStack} />
+        <Tab.Screen name="買物" component={MainStack} />
+        <Tab.Screen name="お店" component={ShopStack} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
-export default App;
-
+// export default App;
+// <Stack.Navigator initialRouteName="ShopScreen">
 // <SafeAreaView style={styles.container}>
 //   <View style={styles.container}>
 //     <TextInput
