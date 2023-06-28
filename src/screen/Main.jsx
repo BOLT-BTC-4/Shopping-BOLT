@@ -20,7 +20,6 @@ import {
 // 追加
 import { useNavigation } from "@react-navigation/native";
 import { table } from "../../table";
-import { Menu } from "./Menu";
 
 export const Main = () => {
   // 追加
@@ -102,127 +101,126 @@ export const Main = () => {
   }
 
   return (
-    // <View style={styles.container}>
-    //   {/* <Text>お店選択</Text> */}
-    //   <View style={styles.shopselect}>
-    //     <View style={{ width: "90%", paddingRight: 10 }}>
-    //       {/* ⭐️ここかえてます⭐️ */}
-    //       <SelectList
-    //         setSelected={(val) => setSelectedValue(val)}
-    //         data={selectShop}
-    //         save="value"
-    //         searchPlaceholder="お店を入力"
-    //         placeholder="お店を選択"
-    //         maxHeight={200}
-    //         onSelect={() => directionAdd()}
-    //       />
-    //     </View>
-    //     {/* 新規店舗登録アイコン */}
-    //     <MaterialIcons
-    //       onPress={() => {
-    //         setModalAddShopVisible(true);
-    //       }}
-    //       name="add-business"
-    //       size={36}
-    //       color="black"
-    //     />
+    <View style={styles.container}>
+      {/* <Text>お店選択</Text> */}
+      <View style={styles.shopselect}>
+        <View style={{ width: "90%", paddingRight: 10 }}>
+          {/* ⭐️ここかえてます⭐️ */}
+          <SelectList
+            setSelected={(val) => setSelectedValue(val)}
+            data={selectShop}
+            save="value"
+            searchPlaceholder="お店を入力"
+            placeholder="お店を選択"
+            maxHeight={200}
+            onSelect={() => directionAdd()}
+          />
+        </View>
+        {/* 新規店舗登録アイコン */}
+        <MaterialIcons
+          onPress={() => {
+            setModalAddShopVisible(true);
+          }}
+          name="add-business"
+          size={36}
+          color="black"
+        />
 
-    //     {/* 新規店舗登録モーダル */}
-    //     <Modal
-    //       visible={modalAddShopVisible}
-    //       animationType="none"
-    //       transparent={true}
-    //     >
-    //       <View style={styles.modalContainer}>
-    //         <View style={styles.modalContents}>
-    //           <AddShop
-    //             // corners={corners}
-    //             // setCorners={setCorners}
-    //             selectedValue={selectedValue}
-    //             setSelectedValue={setSelectedValue}
-    //             selectShop={selectShop}
-    //             setSelectShop={setSelectShop}
-    //             setModalAddShopVisible={setModalAddShopVisible}
-    //           />
-    //         </View>
-    //       </View>
-    //     </Modal>
-    //     {/* 店情報修正アイコン */}
-    //     <FontAwesome
-    //       onPress={() => {
-    //         setModalEditShopVisible(true);
-    //       }}
-    //       name="pencil-square-o"
-    //       size={36}
-    //       color="black"
-    //     />
-    //     {/* 店情報修正モーダル */}
-    //     <Modal
-    //       visible={modalEditShopVisible}
-    //       animationType="none"
-    //       transparent={true}
-    //     >
-    //       <View style={styles.modalContainer}>
-    //         <View style={styles.modalContents}>
-    //           <EditShop
-    //             selectedValue={selectedValue}
-    //             setSelectedValue={setSelectedValue}
-    //             selectShop={selectShop}
-    //             setSelectShop={setSelectShop}
-    //             setModalEditShopVisible={setModalEditShopVisible}
+        {/* 新規店舗登録モーダル */}
+        <Modal
+          visible={modalAddShopVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <AddShop
+                // corners={corners}
+                // setCorners={setCorners}
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+                selectShop={selectShop}
+                setSelectShop={setSelectShop}
+                setModalAddShopVisible={setModalAddShopVisible}
+              />
+            </View>
+          </View>
+        </Modal>
+        {/* 店情報修正アイコン */}
+        <FontAwesome
+          onPress={() => {
+            setModalEditShopVisible(true);
+          }}
+          name="pencil-square-o"
+          size={36}
+          color="black"
+        />
+        {/* 店情報修正モーダル */}
+        <Modal
+          visible={modalEditShopVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <EditShop
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+                selectShop={selectShop}
+                setSelectShop={setSelectShop}
+                setModalEditShopVisible={setModalEditShopVisible}
 
-    //             // corners={corners}
-    //             // setCorners={setCorners}
-    //           />
-    //         </View>
-    //       </View>
-    //     </Modal>
-    //   </View>
-    //   <FlatList
-    //     data={items}
-    //     renderItem={({ item }) => (
-    //       <ItemList
-    //         item={item}
-    //         handleCheck={handleCheck}
-    //         handleRemoveItem={handleRemoveItem}
-    //         items={items}
-    //         setItems={setItems}
-    //         setAddFlag={setAddFlag}
-    //       />
-    //     )}
-    //     keyExtractor={(item, index) => index.toString()}
-    //   />
-    //   <View style={styles.underBar}>
-    //     <Button
-    //       title="購入したよ"
-    //       onPress={handleAllRemoveItem}
-    //       color="mediumseagreen"
-    //     />
-    //     <MaterialIcons
-    //       onPress={() => setModalAddItemVisible(true)}
-    //       name="add-shopping-cart"
-    //       size={35}
-    //       color="black"
-    //     />
-    //   </View>
-    //   {/* 商品追加モーダル */}
-    //   <Modal
-    //     visible={modalAddItemVisible}
-    //     animationType="none"
-    //     transparent={true}
-    //   >
-    //     <View style={styles.modalContainer}>
-    //       <View style={styles.modalContents}>
-    //         <AddItem
-    //           setItems={setItems}
-    //           setAddFlag={setAddFlag}
-    //           setModalAddItemVisible={setModalAddItemVisible}
-    //         />
-    //       </View>
-    //     </View>
-    //   </Modal>
-    // </View>
-    <Menu />
+                // corners={corners}
+                // setCorners={setCorners}
+              />
+            </View>
+          </View>
+        </Modal>
+      </View>
+      <FlatList
+        data={items}
+        renderItem={({ item }) => (
+          <ItemList
+            item={item}
+            handleCheck={handleCheck}
+            handleRemoveItem={handleRemoveItem}
+            items={items}
+            setItems={setItems}
+            setAddFlag={setAddFlag}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <View style={styles.underBar}>
+        <Button
+          title="購入したよ"
+          onPress={handleAllRemoveItem}
+          color="mediumseagreen"
+        />
+        <MaterialIcons
+          onPress={() => setModalAddItemVisible(true)}
+          name="add-shopping-cart"
+          size={35}
+          color="black"
+        />
+      </View>
+      {/* 商品追加モーダル */}
+      <Modal
+        visible={modalAddItemVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContents}>
+            <AddItem
+              setItems={setItems}
+              setAddFlag={setAddFlag}
+              setModalAddItemVisible={setModalAddItemVisible}
+            />
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 };
 const styles = StyleSheet.create({
