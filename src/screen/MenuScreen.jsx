@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,10 +7,14 @@ import {
   FlatList,
   Button,
   Modal,
+  TouchableOpacity,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
 import { MenuList } from "../components/MenwComponents/MenuList";
-
 export const MenuScreen = () => {
-  return <MenuList />;
+  return (
+    <View>
+      <Text>MenuList</Text>
+      <MenuList />
+    </View>
+  );
 };

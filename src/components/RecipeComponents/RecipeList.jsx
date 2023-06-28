@@ -14,5 +14,9 @@ import { table } from "../../../table";
 import uuid from "react-native-uuid";
 
 export const RecipeList = () => {
-  return <RecipeList />;
+  return (
+    <View>
+      <Text>レシピリストです</Text>
+    </View>
+  );
 };
