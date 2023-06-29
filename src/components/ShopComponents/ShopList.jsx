@@ -11,7 +11,7 @@ export const ShopList = ({
   handleRemoveItem,
   navigation,
 }) => {
-  const Stack = createNativeStackNavigator();
+  //   const Stack = createNativeStackNavigator();
   const { newShopButton, setNewShopButton } = useContext(ShareShopDataContext);
   useEffect(() => {}, [newShopButton]);
   return (
