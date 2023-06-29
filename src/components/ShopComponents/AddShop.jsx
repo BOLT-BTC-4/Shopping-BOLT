@@ -87,7 +87,7 @@ export const AddShop = ({
     setShopName("");
   };
 
-  useEffect(() => {}, [corner]);
+  useEffect(() => {}, [corner, shopName]);
 
   return (
     <View>
@@ -161,11 +161,11 @@ export const AddShop = ({
         />
         <Button
           title="新規登録"
-          onPress={() => {
-            handleSubmit(onSubmit);
-            handleOpenPopup();
+          onPress={
+            handleSubmit(onSubmit)
+            // handleOpenPopup();
             // navigation.navigate("お店リスト");
-          }}
+          }
           // onPress={handleSubmit(onSubmit, () => {
           //   navigation.navigate("お店リスト");
           // })}
