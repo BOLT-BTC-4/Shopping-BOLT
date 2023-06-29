@@ -15,16 +15,19 @@ import { Agenda } from "react-native-calendars";
 import { AntDesign } from "@expo/vector-icons";
 
 export const MenuList = ({ navigation }) => {
+  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+    useContext(ShareShopDataContext);
+
   const selectReceipes = {
     "2023-06-28": [
       {
         categry1: "主食",
         recipe: "俺のチャーハン",
-        url: "https://dig-zamas.com/",
+        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
       },
       {
-        categry1: "主食",
-        recipe: "俺のチャーハン",
+        categry1: "主菜",
+        recipe: "俺のからあげ",
         url: "https://dig-zamas.com/",
       },
     ],
@@ -32,11 +35,11 @@ export const MenuList = ({ navigation }) => {
       {
         categry1: "主菜",
         recipe: "俺の卵焼き",
-        url: "https://cpoint-lab.co.jp/article/202011/17618/",
+        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
       },
       {
-        categry1: "主菜",
-        recipe: "俺の卵焼き",
+        categry1: "汁物",
+        recipe: "具だくさん味噌汁",
         url: "https://cpoint-lab.co.jp/article/202011/17618/",
       },
     ],
@@ -56,27 +59,12 @@ export const MenuList = ({ navigation }) => {
   return (
     <View style={{ height: 600 }}>
       <Agenda
-        // {selectReceipes.forEach((recipe, index) => {
-        items={
-          selectReceipes
-          // "2023-06-28": [
-          //   {
-          //     categry1: "主食",
-          //     recipe: "俺のチャーハン",
-          //     url: "https://dig-zamas.com/",
-          //   },
-          //   {
-          //     categry1: "主菜",
-          //     recipe: "俺のからあげ",
-          //     url: "https://dig-zamas.com/",
-          //   },
-          // ],
-        }
-        // })}
+        //日付を押したらeditmenuに遷移
         onDayPress={(day) => {
-          console.log(day.dateString);
-          navigation.navigate("献立登録/編集", {});
+          setSelectedDay(day.dateString);
+          navigation.navigate("献立登録/編集");
         }}
+        items={selectedMenu}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
             <View style={styles.salesBox}>
