@@ -75,7 +75,7 @@ export default App = () => {
     <ShareShopDataProvider>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="買物"
+          initialRouteName="献立"
           activeColor="#f0edf6"
           inactiveColor="#3e2465"
           barStyle={{ backgroundColor: "#694fad" }}

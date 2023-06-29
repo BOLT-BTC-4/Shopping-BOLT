@@ -56,7 +56,6 @@ export const MainScreen = () => {
   // const [selectShop, setSelectShop] = useState(table.defaultShops);
   // shopタブでも利用するため下記のshopDataに名称変更
   const { shopData, setShopData } = useContext(ShareShopDataContext);
-  console.log("MainScreen:", shopData);
 
   const handleCheck = (localId) => {
     const newItems = [...items];
@@ -80,7 +79,6 @@ export const MainScreen = () => {
     const selectedShopObj = shopData.find(
       (shop) => shop.value === selectedValue
     );
-    // console.log(selectedShopObj);
     //店舗が選択されていなければ処理を抜ける
     if (selectedShopObj === undefined) {
       setAddFlag(false);

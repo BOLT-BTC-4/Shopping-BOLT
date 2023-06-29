@@ -845,9 +845,85 @@ const defaultShopTable = [
   // },
 ];
 
+const defaultSelectdMenu = {
+  "2023-06-28": [
+    {
+      categry1: "主食",
+      recipe: "俺のチャーハン",
+      url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
+    },
+    {
+      categry1: "主菜",
+      recipe: "俺のからあげ",
+      url: "https://dig-zamas.com/",
+    },
+  ],
+  "2023-06-29": [
+    {
+      categry1: "主菜",
+      recipe: "俺の卵焼き",
+      url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
+    },
+    {
+      categry1: "汁物",
+      recipe: "具だくさん味噌汁",
+      url: "https://cpoint-lab.co.jp/article/202011/17618/",
+    },
+  ],
+  "2023-06-30": [
+    {
+      categry1: "主食",
+      recipe: "俺のチャーハン",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      categry1: "主菜",
+      recipe: "俺のからあげ",
+      url: "https://dig-zamas.com/",
+    },
+  ],
+  "2023-07-01": [
+    {
+      categry1: "主菜",
+      recipe: "俺の卵焼き",
+      url: "https://cpoint-lab.co.jp/article/202011/17618/",
+    },
+    {
+      categry1: "汁物",
+      recipe: "具だくさん味噌汁",
+      url: "https://cpoint-lab.co.jp/article/202011/17618/",
+    },
+  ],
+  "2023-07-02": [
+    {
+      categry1: "主食",
+      recipe: "俺のチャーハン",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      categry1: "主菜",
+      recipe: "俺のからあげ",
+      url: "https://dig-zamas.com/",
+    },
+  ],
+  "2023-07-03": [
+    {
+      categry1: "主菜",
+      recipe: "俺の卵焼き",
+      url: "https://cpoint-lab.co.jp/article/202011/17618/",
+    },
+    {
+      categry1: "汁物",
+      recipe: "具だくさん味噌汁",
+      url: "https://cpoint-lab.co.jp/article/202011/17618/",
+    },
+  ],
+};
+
 export const table = {
   masterItem: masterItemTable,
   masterCorner: masterCornerTable,
   defaultItems: defaultItemsTable,
   defaultShops: defaultShopTable,
+  defaultMenu: defaultSelectdMenu,
 };

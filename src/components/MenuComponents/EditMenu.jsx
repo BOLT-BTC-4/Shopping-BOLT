@@ -1,45 +1,121 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
-export const EditMenu = () => {
+export const EditMenu = ({ navigation }) => {
+  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+    useContext(ShareShopDataContext);
+  const handleMenuSubmit = () => {
+    const newSelectedMenu = {
+      ...selectedMenu,
+      [selectedDay]: selectedElement,
+    };
+    setSelectedMenu(newSelectedMenu);
+    navigation.navigate("献立リスト");
+  };
+
   const categories = [
-    { id: 1, name: "主食" },
-    { id: 2, name: "主菜" },
-    { id: 3, name: "副菜" },
-    { id: 4, name: "汁物" },
-    { id: 5, name: "その他" },
+    { id: 1, categry1: "主食" },
+    { id: 2, categry1: "主菜" },
+    { id: 3, categry1: "副菜" },
+    { id: 4, categry1: "汁物" },
+    { id: 5, categry1: "その他" },
     // 他のカテゴリー...
   ];
-
   const elementsByCategory = {
     1: [
-      { id: 1, name: "そば" },
-      { id: 2, name: "パスタ" },
-      { id: 3, name: "うどん" },
-      { id: 4, name: "お米" },
-      { id: 5, name: "混ぜ込みご飯" },
+      {
+        id: 1,
+        categry1: "主食",
+        recipe: "そば",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 2,
+        categry1: "主食",
+        recipe: "パスタ",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 3,
+        categry1: "主食",
+        recipe: "うどん",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 4,
+        categry1: "主食",
+        recipe: "お米",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 5,
+        categry1: "主食",
+        recipe: "混ぜ込みご飯",
+        url: "https://dig-zamas.com/",
+      },
       // カテゴリー1に属する要素...
     ],
     2: [
-      { id: 1, name: "ハンバーグ" },
-      { id: 2, name: "コロッケ" },
+      {
+        id: 1,
+        categry1: "主菜",
+        recipe: "ハンバーグ",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 2,
+        categry1: "主菜",
+        recipe: "コロッケ",
+        url: "https://dig-zamas.com/",
+      },
       // カテゴリー2に属する要素...
     ],
     3: [
-      { id: 1, name: "きんぴらごぼう" },
-      { id: 2, name: "ポテサラ" },
+      {
+        id: 1,
+        categry1: "副菜",
+        recipe: "きんぴらごぼう",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 2,
+        categry1: "副菜",
+        recipe: "ポテサラ",
+        url: "https://dig-zamas.com/",
+      },
       // カテゴリー3に属する要素...
     ],
     4: [
-      { id: 1, name: "具だくさん味噌汁" },
-      { id: 2, name: "トマトスープ" },
+      {
+        id: 1,
+        categry1: "汁物",
+        recipe: "具だくさん味噌汁",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 2,
+        categry1: "汁物",
+        recipe: "トマトスープ",
+        url: "https://dig-zamas.com/",
+      },
       // カテゴリー4に属する要素...
     ],
     5: [
-      { id: 1, name: "ぶどう" },
-      { id: 2, name: "牛乳" },
+      {
+        id: 1,
+        categry1: "その他",
+        recipe: "ぶどう",
+        url: "https://dig-zamas.com/",
+      },
+      {
+        id: 2,
+        categry1: "その他",
+        recipe: "牛乳",
+        url: "https://dig-zamas.com/",
+      },
       // カテゴリー5に属する要素...
     ],
     // 他のカテゴリーに属する要素...
@@ -69,7 +145,7 @@ export const EditMenu = () => {
       style={selectedCategory === item.id ? styles.activeTab : styles.tab}
       onPress={() => handleCategorySelect(item.id)}
     >
-      <Text>{item.name}</Text>
+      <Text>{item.categry1}</Text>
     </TouchableOpacity>
   );
   //recipe表示
@@ -82,7 +158,7 @@ export const EditMenu = () => {
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleElementSelect(item)}>
             <View style={styles.elementContainer}>
-              <Text>{item.name}</Text>
+              <Text>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -98,12 +174,12 @@ export const EditMenu = () => {
     }
     return (
       <View style={styles.selectedElementContainer}>
-        <Text>選択した料理</Text>
+        <Text>選択した料理（ 人前 ）</Text>
         <FlatList
           data={selectedElement}
           renderItem={({ item }) => (
             <View style={styles.box}>
-              <Text>{item.name}</Text>
+              <Text>{item.recipe}</Text>
               <AntDesign name="minuscircleo" size={24} color="black" />
               <Text>4</Text>
               <AntDesign name="pluscircleo" size={24} color="black" />
@@ -131,7 +207,7 @@ export const EditMenu = () => {
           style={styles.buttonInner}
           color
           title="こんだてを登録"
-          // onPress={handleSubmit(onSubmit)}
+          onPress={handleMenuSubmit}
         />
       </View>
     </View>
