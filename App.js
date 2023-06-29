@@ -18,6 +18,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Main } from "./src/screen/Main";
 import { EditShop } from "./src/screen/EditShop";
 import { Menu } from "./src/screen/Menu";
+import { EditMenu } from "./src/screen/EditMenu";
 
 // Amplify.configure(awsExports);
 
@@ -26,10 +27,11 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="献立">
+      <Stack.Navigator initialRouteName="献立登録/編集">
         <Stack.Screen name="買物リスト" component={Main} />
         <Stack.Screen name="売場登録" component={EditShop} />
         <Stack.Screen name="献立" component={Menu} />
+        <Stack.Screen name="献立登録/編集" component={EditMenu} />
       </Stack.Navigator>
     </NavigationContainer>
   );
