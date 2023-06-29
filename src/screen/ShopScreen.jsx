@@ -45,7 +45,6 @@ export const ShopScreen = ({ navigation }) => {
         onPress={() => {
           console.log("お店の新規登録ボタン押されたよ");
           navigation.navigate("新規登録", { newShopButton });
-          console.log("ShopScreen_newShopButton:", newShopButton);
         }}
       >
         <MaterialIcons name="add-circle-outline" size={24} color="black" />
