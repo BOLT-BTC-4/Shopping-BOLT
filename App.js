@@ -15,18 +15,18 @@ import {
 // import awsExports from "./src/aws-exports";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-import { ShareShopDataProvider } from './src/screen/ShareShopDataContext';
+import { ShareShopDataProvider } from "./src/screen/ShareShopDataContext";
 import { MenuScreen } from "./src/screen/MenuScreen";
 import { RecipeScreen } from "./src/screen/RecipeScreen";
 import { MainScreen } from "./src/screen/MainScreen";
 import { ShopScreen } from "./src/screen/ShopScreen";
-import { AddShop } from './src/components/ShopComponents/AddShop';
-import { ShopList } from './src/components/ShopComponents/ShopList';
+import { AddShop } from "./src/components/ShopComponents/AddShop";
+import { ShopList } from "./src/components/ShopComponents/ShopList";
 
 // Amplify.configure(awsExports);
 
@@ -68,7 +68,6 @@ const ShopStack = () => {
   );
 };
 
-
 export default App = () => {
   return (
     <ShareShopDataProvider>
@@ -77,13 +76,13 @@ export default App = () => {
           initialRouteName="買物"
           activeColor="#f0edf6"
           inactiveColor="#3e2465"
-          barStyle={{ backgroundColor: '#694fad' }}
+          barStyle={{ backgroundColor: "#694fad" }}
         >
           <Tab.Screen
             name="献立"
             component={MenuStack}
             options={{
-              tabBarLabel: '献立',
+              tabBarLabel: "献立",
               tabBarIcon: ({ color }) => (
                 <AntDesign name="calendar" color={color} size={26} />
               ),
@@ -93,7 +92,7 @@ export default App = () => {
             name="レシピ"
             component={RecipeStack}
             options={{
-              tabBarLabel: 'レシピ',
+              tabBarLabel: "レシピ",
               tabBarIcon: ({ color }) => (
                 <FontAwesome5 name="utensils" color={color} size={26} />
               ),
@@ -103,23 +102,25 @@ export default App = () => {
             name="買物"
             component={MainStack}
             options={{
-              tabBarLabel: '買物',
+              tabBarLabel: "買物",
               tabBarIcon: ({ color }) => (
                 <AntDesign name="shoppingcart" color={color} size={26} />
               ),
-            }} />
+            }}
+          />
 
           <Tab.Screen
             name="お店"
             component={ShopStack}
             options={{
-              tabBarLabel: 'お店',
+              tabBarLabel: "お店",
               tabBarIcon: ({ color }) => (
                 <Entypo name="shop" color={color} size={26} />
               ),
-            }} />
+            }}
+          />
         </Tab.Navigator>
-      </NavigationContainer >
+      </NavigationContainer>
     </ShareShopDataProvider>
   );
 };

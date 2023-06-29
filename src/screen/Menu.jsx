@@ -13,8 +13,8 @@ import { MenuList } from "../components/MenwComponents/MenuList";
 export const Menu = () => {
   return (
     <View>
-      <Text>MenuList</Text>
       <MenuList />
+      <Text>献立から買い物リストに追加</Text>
     </View>
   );
 };

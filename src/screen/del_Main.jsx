@@ -20,7 +20,6 @@ import {
 // 追加
 import { useNavigation } from "@react-navigation/native";
 import { table } from "../../table";
-
 export const Main = () => {
   // 追加
   const navigation = useNavigation();
