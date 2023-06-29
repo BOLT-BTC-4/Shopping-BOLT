@@ -65,7 +65,7 @@ const ShopStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="お店リスト" component={ShopScreen} />
       <Stack.Screen name="リスト表示" component={ShopList} />
-      <Stack.Screen name="お店編集" component={AddShop} />
+      <Stack.Screen name="新規登録" component={AddShop} />
     </Stack.Navigator>
   );
 };

@@ -23,8 +23,6 @@ export const ShopScreen = ({ navigation }) => {
   const { newShopButton, setNewShopButton } = useContext(ShareShopDataContext);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
-  // console.log("shopScreen_shopData:", shopData);
-  // console.log("shopScreen_selectedValue:", selectedValue);
 
   useEffect(() => {}, [shopData, newShopButton]);
   return (
@@ -46,9 +44,8 @@ export const ShopScreen = ({ navigation }) => {
         style={styles.box}
         onPress={() => {
           console.log("お店の新規登録ボタン押されたよ");
-          setNewShopButton(true);
+          navigation.navigate("新規登録", { newShopButton });
           console.log("ShopScreen_newShopButton:", newShopButton);
-          navigation.navigate("お店編集", { newShopButton });
         }}
       >
         <MaterialIcons name="add-circle-outline" size={24} color="black" />

@@ -13,7 +13,7 @@ export const ShopList = ({
 }) => {
   const Stack = createNativeStackNavigator();
   const { newShopButton, setNewShopButton } = useContext(ShareShopDataContext);
-
+  useEffect(() => {}, [newShopButton]);
   return (
     <View style={styles.box}>
       <View style={styles.moziBox}>
