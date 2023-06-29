@@ -15,103 +15,112 @@ import {
 // import awsExports from "./src/aws-exports";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Main } from "./src/screen/Main";
-import { EditShop } from "./src/screen/EditShop";
-import { Menu } from "./src/screen/Menu";
-import { EditMenu } from "./src/screen/EditMenu";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+
+import { ShareShopDataProvider } from "./src/screen/ShareShopDataContext";
+import { MenuScreen } from "./src/screen/MenuScreen";
+import { RecipeScreen } from "./src/screen/RecipeScreen";
+import { MainScreen } from "./src/screen/MainScreen";
+import { ShopScreen } from "./src/screen/ShopScreen";
+import { AddShop } from "./src/components/ShopComponents/AddShop";
+import { ShopList } from "./src/components/ShopComponents/ShopList";
 
 // Amplify.configure(awsExports);
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const App = () => {
+// 各タブ内のコンポーネントをまとめる
+const MenuStack = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="献立登録/編集">
-        <Stack.Screen name="買物リスト" component={Main} />
-        <Stack.Screen name="売場登録" component={EditShop} />
-        <Stack.Screen name="献立" component={Menu} />
-        <Stack.Screen name="献立登録/編集" component={EditMenu} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="献立リスト" component={MenuScreen} />
+    </Stack.Navigator>
   );
 };
-export default App;
 
-// <SafeAreaView style={styles.container}>
-//   <View style={styles.container}>
-//     <TextInput
-//       onChangeText={(value) => setInput("name", value)}
-//       style={styles.input}
-//       value={formState.name}
-//       placeholder="Name"
-//     />
-//     <TextInput
-//       onChangeText={(value) => setInput("description", value)}
-//       style={styles.input}
-//       value={formState.description}
-//       placeholder="Description"
-//     />
-//     <Pressable onPress={addTodo} style={styles.buttonContainer}>
-//       <Text style={styles.buttonText}>Create todo</Text>
-//     </Pressable>
-//     {todos.map((todo, index) => (
-//       <View key={todo.id ? todo.id : index} style={styles.todo}>
-//         <Text style={styles.todoName}>{todo.name}</Text>
-//         <Text style={styles.todoDescription}>{todo.description}</Text>
-//       </View>
-//     ))}
-//   </View>
-// </SafeAreaView>
+const RecipeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="レシピリスト" component={RecipeScreen} />
+    </Stack.Navigator>
+  );
+};
 
-// const styles = StyleSheet.create({
-//   container: { width: 400, flex: 1, padding: 20, alignSelf: "center" },
-//   todo: { marginBottom: 15 },
-//   input: {
-//     backgroundColor: "#ddd",
-//     marginBottom: 10,
-//     padding: 8,
-//     fontSize: 18,
-//   },
-//   todoName: { fontSize: 20, fontWeight: "bold" },
-//   buttonContainer: {
-//     alignSelf: "center",
-//     backgroundColor: "black",
-//     paddingHorizontal: 8,
-//   },
-//   buttonText: { color: "white", padding: 16, fontSize: 18 },
-// });
+const MainStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="買い物リスト" component={MainScreen} />
+    </Stack.Navigator>
+  );
+};
 
-// const initialState = { name: "", desrcription: "" };
-// const [formState, setFormState] = useState(initialState);
-// const [todos, setTodos] = useState([]);
+const ShopStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="お店リスト" component={ShopScreen} />
+      <Stack.Screen name="リスト表示" component={ShopList} />
+      <Stack.Screen name="お店編集" component={AddShop} />
+    </Stack.Navigator>
+  );
+};
 
-// useEffect(() => {
-//   fetchTodos();
-// }, []);
+export default App = () => {
+  return (
+    <ShareShopDataProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="買物"
+          activeColor="#f0edf6"
+          inactiveColor="#3e2465"
+          barStyle={{ backgroundColor: "#694fad" }}
+        >
+          <Tab.Screen
+            name="献立"
+            component={MenuStack}
+            options={{
+              tabBarLabel: "献立",
+              tabBarIcon: ({ color }) => (
+                <AntDesign name="calendar" color={color} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="レシピ"
+            component={RecipeStack}
+            options={{
+              tabBarLabel: "レシピ",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome5 name="utensils" color={color} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="買物"
+            component={MainStack}
+            options={{
+              tabBarLabel: "買物",
+              tabBarIcon: ({ color }) => (
+                <AntDesign name="shoppingcart" color={color} size={26} />
+              ),
+            }}
+          />
 
-// function setInput(key, value) {
-//   setFormState({ ...formState, [key]: value });
-// }
-
-// async function fetchTodos() {
-//   try {
-//     const todoData = await API.graphql(graphqlOperation(listTodos));
-//     const todos = todoData.data.listTodos.items;
-//     setTodos(todos);
-//   } catch (err) {
-//     console.log("error fetching todos");
-//   }
-// }
-
-// async function addTodo() {
-//   try {
-//     if (!formState.name || !formState.description) return;
-//     const todo = { ...formState };
-//     setTodos([...todos, todo]);
-//     setFormState(initialState);
-//     await API.graphql(graphqlOperation(createTodo, { input: todo }));
-//   } catch (err) {
-//     console.log("error creating todo:", err);
-//   }
-// }
+          <Tab.Screen
+            name="お店"
+            component={ShopStack}
+            options={{
+              tabBarLabel: "お店",
+              tabBarIcon: ({ color }) => (
+                <Entypo name="shop" color={color} size={26} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ShareShopDataProvider>
+  );
+};
