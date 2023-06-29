@@ -51,11 +51,10 @@ export const MainScreen = () => {
   const [modalAddShopVisible, setModalAddShopVisible] = useState(false);
 
   // Shop関連のuseState
-  // const [corners, setCorners] = useState([]);
-  const [selectedValue, setSelectedValue] = useState("");
-
+  // 買物/お店タブで利用するため2つともContext化
+  const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
   // const [selectShop, setSelectShop] = useState(table.defaultShops);
-  // shopタブでも利用するため下記のshopDataに変更Context化
+  // shopタブでも利用するため下記のshopDataに名称変更
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   console.log("MainScreen:", shopData);
 

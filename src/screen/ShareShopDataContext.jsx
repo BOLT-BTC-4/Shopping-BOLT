@@ -5,9 +5,19 @@ export const ShareShopDataContext = createContext();
 
 export const ShareShopDataProvider = ({ children }) => {
   const [shopData, setShopData] = useState("");
-  console.log("context", shopData);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [newShopButton, setNewShopButton] = useState(true);
   return (
-    <ShareShopDataContext.Provider value={{ shopData, setShopData }}>
+    <ShareShopDataContext.Provider
+      value={{
+        shopData,
+        setShopData,
+        selectedValue,
+        setSelectedValue,
+        newShopButton,
+        setNewShopButton,
+      }}
+    >
       {children}
     </ShareShopDataContext.Provider>
   );

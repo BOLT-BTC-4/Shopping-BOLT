@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
-// import { ShareShopDataContext } from "./ShareShopDataContext";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
 export const ShopList = ({
   value,
   handleCheck,
   handleRemoveItem,
-  items,
-  setItems,
-  setAddFlag,
+  navigation,
 }) => {
-  //モーダルのuseState
-  const [modalEditItemVisible, setModalEditItemVisible] = useState(false);
+  const Stack = createNativeStackNavigator();
+  const { newShopButton, setNewShopButton } = useContext(ShareShopDataContext);
+
   return (
-    <View>
+    <View style={styles.box}>
       <View style={styles.moziBox}>
         <Text style={styles.text}>{value}</Text>
       </View>
@@ -23,7 +24,12 @@ export const ShopList = ({
           name="edit"
           size={24}
           color="black"
-          onPress={() => setModalEditItemVisible(true)}
+          onPress={() => {
+            console.log("お店の修正ボタン押されたよ");
+            setNewShopButton(false);
+            console.log("ShopList_newShopButton:", newShopButton);
+            navigation.navigate("お店編集", { newShopButton });
+          }}
         />
         <Feather
           name="trash-2"

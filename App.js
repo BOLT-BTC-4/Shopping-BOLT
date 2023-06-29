@@ -16,16 +16,17 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
+import { ShareShopDataProvider } from './src/screen/ShareShopDataContext';
 import { MenuScreen } from "./src/screen/MenuScreen";
 import { RecipeScreen } from "./src/screen/RecipeScreen";
 import { MainScreen } from "./src/screen/MainScreen";
 import { ShopScreen } from "./src/screen/ShopScreen";
-import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { ShareShopDataProvider } from './src/screen/ShareShopDataContext';
-
+import { AddShop } from './src/components/ShopComponents/AddShop';
+import { ShopList } from './src/components/ShopComponents/ShopList';
 
 // Amplify.configure(awsExports);
 
@@ -61,16 +62,14 @@ const ShopStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="お店リスト" component={ShopScreen} />
+      <Stack.Screen name="リスト表示" component={ShopList} />
+      <Stack.Screen name="お店編集" component={AddShop} />
     </Stack.Navigator>
   );
 };
 
 
-
-
 export default App = () => {
-
-
   return (
     <ShareShopDataProvider>
       <NavigationContainer>
