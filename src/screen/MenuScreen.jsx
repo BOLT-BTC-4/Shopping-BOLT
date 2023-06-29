@@ -9,7 +9,7 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { MenuList } from "../components/MenwComponents/MenuList";
+import { MenuList } from "../components/MenuComponents/MenuList";
 export const MenuScreen = () => {
   return (
     <View>

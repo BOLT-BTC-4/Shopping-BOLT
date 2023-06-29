@@ -1,4 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useContext } from "react";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+
 import {
   SafeAreaView,
   View,
@@ -12,7 +14,7 @@ import {
 import { Agenda } from "react-native-calendars";
 import { AntDesign } from "@expo/vector-icons";
 
-export const MenuList = () => {
+export const MenuList = ({ navigation }) => {
   const selectReceipes = {
     "2023-06-28": [
       {
@@ -40,9 +42,6 @@ export const MenuList = () => {
     ],
   };
 
-  const onPressTest = () => {
-    console.log("test");
-  };
   const openURL = (url) => {
     Linking.canOpenURL(url)
       .then((supported) => {
@@ -76,6 +75,7 @@ export const MenuList = () => {
         // })}
         onDayPress={(day) => {
           console.log(day.dateString);
+          navigation.navigate("献立登録/編集", {});
         }}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
