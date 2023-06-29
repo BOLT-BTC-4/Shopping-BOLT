@@ -90,6 +90,16 @@ export const MenuList = ({ navigation }) => {
           </View>
         )}
       />
+      <View style={styles.button}>
+        <Button
+          style={styles.buttonInner}
+          color
+          title="献立を登録"
+          onPress={() => {
+            navigation.navigate("献立から買い物リストへ追加");
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -123,5 +133,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  button: {
+    marginTop: 5,
+    marginVertical: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    height: 40,
+    backgroundColor: "mediumseagreen",
+    borderRadius: 20,
+    width: "50%",
+    marginLeft: "25%",
   },
 });

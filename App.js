@@ -28,6 +28,7 @@ import { ShopScreen } from "./src/screen/ShopScreen";
 import { AddShop } from "./src/components/ShopComponents/AddShop";
 import { ShopList } from "./src/components/ShopComponents/ShopList";
 import { EditMenu } from "./src/components/MenuComponents/EditMenu";
+import { AddMenu } from "./src/components/MenuComponents/AddMenu";
 
 // Amplify.configure(awsExports);
 
@@ -40,6 +41,7 @@ const MenuStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="献立リスト" component={MenuScreen} />
       <Stack.Screen name="献立登録/編集" component={EditMenu} />
+      <Stack.Screen name="献立から買い物リストへ追加" component={AddMenu} />
     </Stack.Navigator>
   );
 };
