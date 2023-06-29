@@ -10,11 +10,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MenuList } from "../components/MenuComponents/MenuList";
-export const MenuScreen = () => {
+export const MenuScreen = ({ navigation }) => {
   return (
     <View>
       <Text>MenuList</Text>
-      <MenuList />
+      <MenuList navigation={navigation} />
     </View>
   );
 };
