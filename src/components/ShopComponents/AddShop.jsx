@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
@@ -8,6 +11,7 @@ import {
   FlatList,
   Button,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "../MainComponents/CornerList";
@@ -15,13 +19,15 @@ import { AddCorner } from "../MainComponents/AddCorner";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
 
-export const AddShop = ({
-  selectedValue,
-  selectShop,
-  setSelectShop,
-  setModalAddShopVisible,
-}) => {
-  console.log(selectedValue);
+export const AddShop = (
+  props,
+  { selectedValue, selectShop, setSelectShop, navigation }
+) => {
+  const Stack = createNativeStackNavigator();
+  console.log("selectedValue:", selectedValue);
+  const { route } = props;
+  const { newShopButton } = route.params;
+  console.log("AddShop_newShopButton:", newShopButton);
   const {
     // shopName,
     // setShopName,
@@ -43,7 +49,7 @@ export const AddShop = ({
   const [corner, setCorner] = useState([]);
   const [selectedCorner, setSelectedCorner] = useState("");
   // const [modalVisible, setModalVisible] = useState(false);
-  const [targetString, setTargetString] = useState("");
+  // const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState("");
 
   // 未実装（テストデータとして準備）
@@ -75,14 +81,12 @@ export const AddShop = ({
     setSelectShop(newShopList); // 変更された値をセット
     setCorner([]);
     setShopName("");
-    setModalAddShopVisible(false);
   };
 
-  useEffect(() => {}, [corner, selectShop]);
+  useEffect(() => {}, [newShopButton, corner, selectShop]);
 
   return (
     <View style={styles.container}>
-      <Text>新しいお店の登録</Text>
       <Text style={styles.label}>お店の名前</Text>
       <Controller
         control={control}
@@ -93,6 +97,7 @@ export const AddShop = ({
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)} //handleInputChange
             value={value}
+            placeholder="お店の名前を入力してください"
           />
         )}
         name="shopName"
@@ -119,9 +124,9 @@ export const AddShop = ({
               setCorner={setCorner}
               selectedCorner={selectedCorner}
               setSelectedCorner={setSelectedCorner}
-              setModalAddCornerVisible={setModalAddCornerVisible}
-              targetString={targetString}
-              setTargetString={setTargetString}
+              // setModalAddCornerVisible={setModalAddCornerVisible}
+              // targetString={targetString}
+              // setTargetString={setTargetString}
             />
           </View>
         </View>
@@ -147,15 +152,26 @@ export const AddShop = ({
       {/* {errors.shopName && <Text>This is required.</Text>} */}
       {/* <Button title="キャンセル" onPress={handleSubmit(onSubmit)} /> */}
       {/* closeModalNewShop */}
+      {/* <TouchableOpacity
+        style={styles.box}
+        onPress={() => {
+          navigation.navigate("お店編集");
+        }}
+      > */}
       <Button
         title="キャンセル"
         onPress={() => {
-          setModalAddShopVisible(false);
+          navigation.navigate("お店リスト");
           setSelectedCorner("");
           setShopName("");
         }}
       />
-      <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
+      {/* </TouchableOpacity> */}
+      {newShopButton ? (
+        <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
+      ) : (
+        <Button title="更新" onPress={handleSubmit(onSubmit)} />
+      )}
     </View>
   );
 };
@@ -164,9 +180,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: "#fff",
-    padding: 10,
-    width: 375,
-    height: 600,
+
     // justifyContent: "center",
     // alignContent: "center",
   },
