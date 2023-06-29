@@ -20,13 +20,15 @@ import { table } from "../../../table";
 import uuid from "react-native-uuid";
 
 export const AddShop = (
-  props,
-  { selectedValue, selectShop, setSelectShop, navigation }
+  props
+  // { selectedValue, selectShop, setSelectShop, navigation }
 ) => {
   const Stack = createNativeStackNavigator();
-  console.log("selectedValue:", selectedValue);
-  const { route } = props;
-  const { newShopButton } = route.params;
+  console.log(props);
+  const { newShopButton, navigation } = props;
+
+  // console.log("navigation:", navigation);
+  // console.log("selectedValue:", selectedValue);
   console.log("AddShop_newShopButton:", newShopButton);
   const {
     // shopName,
@@ -83,7 +85,7 @@ export const AddShop = (
     setShopName("");
   };
 
-  useEffect(() => {}, [newShopButton, corner, selectShop]);
+  useEffect(() => {}, [newShopButton, corner]);
 
   return (
     <View style={styles.container}>
@@ -162,16 +164,18 @@ export const AddShop = (
         title="キャンセル"
         onPress={() => {
           navigation.navigate("お店リスト");
-          setSelectedCorner("");
-          setShopName("");
+          // setSelectedCorner("");
+          // setShopName("");
         }}
       />
-      {/* </TouchableOpacity> */}
+      <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
+
+      {/* 正常に動作しなかったため、ボタンだけ変更はボツ
       {newShopButton ? (
         <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
       ) : (
         <Button title="更新" onPress={handleSubmit(onSubmit)} />
-      )}
+      )} */}
     </View>
   );
 };
