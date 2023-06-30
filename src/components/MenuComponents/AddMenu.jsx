@@ -22,6 +22,8 @@ export const AddMenu = ({ navigation }) => {
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
 
+  const newItems = [...items];
+
   const createAddMenu = () => {
     const updatedNewMenu = [...newMenu];
     for (const elm in selectedMenu) {
@@ -51,8 +53,6 @@ export const AddMenu = ({ navigation }) => {
   // console.log("newMenu:", newMenu);
 
   const handleAddItems = () => {
-    const newItems = [...items];
-    const newItems2 = [...items];
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
         if (recipeItem.checked) {
@@ -64,39 +64,34 @@ export const AddMenu = ({ navigation }) => {
           let result = table.masterItem.find(cornarName);
           // console.log(result);
           if (result === undefined) {
-            newItems = [
-              ...items,
-              {
-                localId: recipeItem.itemId,
-                sales: "",
-                itemName: recipeItem.itemName,
-                quantity: recipeItem.quantity,
-                unit: recipeItem.unit,
-                directions: 99,
-                check: false,
-                recipeId: recipe.recipeId,
-              },
-            ];
+            newItems.push({
+              localId: recipeItem.itemId,
+              sales: "",
+              itemName: recipeItem.itemName,
+              quantity: recipeItem.quantity,
+              unit: recipeItem.unit,
+              directions: 99,
+              check: false,
+              recipeId: recipe.recipeId,
+            });
           } else {
-            setItems((items) => [
-              ...items,
-              {
-                localId: recipeItem.itemId,
-                sales: "",
-                itemName: recipeItem.itemName,
-                quantity: recipeItem.quantity,
-                unit: recipeItem.unit,
-                directions: 99,
-                check: false,
-                recipeId: recipe.recipeId,
-              },
-            ]);
+            newItems.push({
+              localId: recipeItem.itemId,
+              sales: result.sales,
+              itemName: recipeItem.itemName,
+              quantity: recipeItem.quantity,
+              unit: recipeItem.unit,
+              directions: 99,
+              check: false,
+              recipeId: recipe.recipeId,
+            });
           }
         }
       }
     }
-    // setAddFlag(true);
-    // navigation.navigate("献立リスト");
+    setItems(newItems);
+    setAddFlag(true);
+    navigation.navigate("献立リスト");
   };
 
   return (
