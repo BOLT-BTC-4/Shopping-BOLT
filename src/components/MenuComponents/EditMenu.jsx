@@ -203,14 +203,9 @@ export const EditMenu = ({ navigation }) => {
       {renderElements()}
       {renderSelectedElement()}
 
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="こんだてを登録"
-          onPress={handleMenuSubmit}
-        />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={handleMenuSubmit}>
+        <Text style={styles.buttonInner}>こんだてを登録</Text>
+      </TouchableOpacity>
     </View>
   );
 };

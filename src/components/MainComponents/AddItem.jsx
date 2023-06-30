@@ -51,24 +51,19 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
         setItems((items) => [...items, newData]);
     } else {
       (newData = {
-        // localId: uuid.v4(),
+        localId: uuid.v4(),
         corner: result.corner,
         item: data.itemName,
         quantity: Number(data.quantity),
         unit: result.unit,
-        // directions: 99,
-        // check: false,
+        directions: 99,
+        check: false,
       }),
         setItems((items) => [...items, newData]);
     }
-    console.log("/////", newData);
-    await createShoppingListAPI(newData);
-    //     const onSubmit = async (data) => {
-    //   const shop = {
-    //     shop: data.shopName,
-    //     corner: corner,
-    //   };
-    //   await createShopAPI(shop);
+    // console.log("/////", newData);
+    //追加するitemをDBの保存////////////////////////////////////////////////////////API
+    // await createShoppingListAPI(newData);
     setAddFlag(true);
     reset();
   };

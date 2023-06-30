@@ -62,6 +62,7 @@ export const createShoppingListAPI = async (data) => {
 };
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
+//献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
   // API動作確認用ダミーデータ
   data = {

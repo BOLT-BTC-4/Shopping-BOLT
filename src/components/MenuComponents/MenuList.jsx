@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
-    marginVertical: 5,
+    marginVertical: "20%",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
