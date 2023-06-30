@@ -68,7 +68,7 @@ export const MenuList = ({ navigation }) => {
         items={selectedMenu}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
-            <View style={styles.salesBox}>
+            <View style={styles.cornerBox}>
               <Text>{item.categry1}</Text>
             </View>
             <View style={styles.moziBox}>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
     marginTop: 33,
   },
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",

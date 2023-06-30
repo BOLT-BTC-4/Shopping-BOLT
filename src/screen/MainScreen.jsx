@@ -74,7 +74,7 @@ export const MainScreen = () => {
     }
     const newItems = items.map((item) => {
       selectedShopObj.corners.forEach((cornar, index) => {
-        if (item.sales === cornar) {
+        if (item.corner === cornar) {
           item.directions = index;
         }
       });

@@ -12,6 +12,7 @@ export const EditMenu = ({ navigation }) => {
       ...selectedMenu,
       [selectedDay]: selectedElement,
     };
+    console.log("newselectedMenu", newSelectedMenu);
     setSelectedMenu(newSelectedMenu);
     navigation.navigate("献立リスト");
   };
