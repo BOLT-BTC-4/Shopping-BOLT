@@ -3,7 +3,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { ItemList } from "../components/MainComponents/ItemList";
 import { AddItem } from "../components/MainComponents/AddItem";
-import { EditShop } from "./EditShop";
+import { EditShop } from "../components/ShopComponents/EditShop";
 import { AddShop } from "../components/ShopComponents/AddShop";
 import { ShareShopDataContext } from "./ShareShopDataContext";
 import { table } from "../../table";
@@ -98,7 +98,7 @@ export const MainScreen = () => {
     <View style={styles.container}>
       {/* <Text>お店選択</Text> */}
       <View style={styles.shopselect}>
-        <View style={{ width: "90%", paddingRight: 10 }}>
+        <View style={{ width: "100%" }}>
           {/* ⭐️ここかえてます⭐️ */}
           <SelectList
             setSelected={(val) => setSelectedValue(val)}
@@ -110,66 +110,6 @@ export const MainScreen = () => {
             onSelect={() => directionAdd()}
           />
         </View>
-        {/* 新規店舗登録アイコン */}
-        <MaterialIcons
-          onPress={() => {
-            setModalAddShopVisible(true);
-          }}
-          name="add-business"
-          size={36}
-          color="black"
-        />
-
-        {/* 新規店舗登録モーダル */}
-        <Modal
-          visible={modalAddShopVisible}
-          animationType="none"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContents}>
-              <AddShop
-                // corners={corners}
-                // setCorners={setCorners}
-                selectedValue={selectedValue}
-                setSelectedValue={setSelectedValue}
-                shopData={shopData}
-                setShopData={setShopData}
-                setModalAddShopVisible={setModalAddShopVisible}
-              />
-            </View>
-          </View>
-        </Modal>
-        {/* 店情報修正アイコン */}
-        <FontAwesome
-          onPress={() => {
-            setModalEditShopVisible(true);
-          }}
-          name="pencil-square-o"
-          size={36}
-          color="black"
-        />
-        {/* 店情報修正モーダル */}
-        <Modal
-          visible={modalEditShopVisible}
-          animationType="none"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContents}>
-              <EditShop
-                selectedValue={selectedValue}
-                setSelectedValue={setSelectedValue}
-                shopData={shopData}
-                setShopData={setShopData}
-                setModalEditShopVisible={setModalEditShopVisible}
-
-                // corners={corners}
-                // setCorners={setCorners}
-              />
-            </View>
-          </View>
-        </Modal>
       </View>
       <FlatList
         data={items}

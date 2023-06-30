@@ -20,13 +20,25 @@ import { useForm, Controller } from "react-hook-form";
 
 export const ShopScreen = ({ navigation }) => {
   const Stack = createNativeStackNavigator();
-  const { newShopButton, setNewShopButton } = useContext(ShareShopDataContext);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
 
-  useEffect(() => {}, [shopData, newShopButton]);
+  const handleRemoveItem = (key) => {
+    const newShopData = shopData.filter((item) => item.key !== key);
+    setShopData(newShopData);
+  };
+
+  useEffect(() => {}, [shopData]);
   return (
-    <View>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.box}
+        onPress={() => {
+          navigation.navigate("新規登録");
+        }}
+      >
+        <MaterialIcons name="add-circle-outline" size={24} color="black" />
+      </TouchableOpacity>
       <FlatList
         data={shopData}
         renderItem={({ item }) => (
@@ -34,21 +46,12 @@ export const ShopScreen = ({ navigation }) => {
             value={item.value}
             navigation={navigation}
             // handleCheck={handleCheck}
-            // handleRemoveItem={handleRemoveItem}
-            // items={items}
+            handleRemoveItem={handleRemoveItem}
+            item={item}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <TouchableOpacity
-        style={styles.box}
-        onPress={() => {
-          console.log("お店の新規登録ボタン押されたよ");
-          navigation.navigate("新規登録", { newShopButton });
-        }}
-      >
-        <MaterialIcons name="add-circle-outline" size={24} color="black" />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -74,18 +77,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  shopselect: {
+  shopSelect: {
     flexDirection: "row",
     justifyContent: "center",
     padding: 10,
     alignItems: "center",
   },
-  // shoppingCart: {
-  //   textAlign: "right",
-  //   marginRight: 30,
-  //   marginBottom: 30,
-  //   marginTop: 10,
-  // },
   underBar: {
     flexDirection: "row",
     justifyContent: "space-between",

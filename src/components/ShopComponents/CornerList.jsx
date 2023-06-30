@@ -1,32 +1,42 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 
-import { Feather } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+export const CornerList = ({
+  corner,
+  setCorner,
+  cornerName,
+  setModalAddCornerVisible,
+  setTargetString,
+}) => {
+  const handleDelete = (str) => {
+    console.log(str);
+    // 選択された行のデータを配列から削除;
+    const newCorner = corner.filter((item) => item !== str);
+    setCorner(newCorner);
+  };
 
-export const ShopList = ({ item, value, handleRemoveItem, navigation }) => {
-  //   const Stack = createNativeStackNavigator();
-
-  useEffect(() => {}, []);
   return (
     <View style={styles.box}>
       <View style={styles.moziBox}>
-        <Text style={styles.text}>{value}</Text>
-      </View>
-      <View style={styles.iconBox}>
-        <Feather
-          name="edit"
-          size={24}
-          color="black"
-          onPress={() => {
-            navigation.navigate("お店編集", { item });
-          }}
-        />
-        <Feather
-          name="trash-2"
-          size={24}
-          color="black"
-          onPress={() => handleRemoveItem(item.key)}
-        />
+        <Text style={styles.text}>{cornerName}</Text>
+        <View style={styles.iconBox}>
+          <MaterialIcons
+            name="add-circle-outline"
+            size={24}
+            color="black"
+            onPress={() => {
+              setTargetString(cornerName);
+              setModalAddCornerVisible(true);
+            }}
+          />
+          <Feather
+            name="trash-2"
+            size={24}
+            color="black"
+            onPress={() => handleDelete(cornerName)}
+          />
+        </View>
       </View>
     </View>
   );

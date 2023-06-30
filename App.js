@@ -28,6 +28,7 @@ import { ShopScreen } from "./src/screen/ShopScreen";
 import { AddShop } from "./src/components/ShopComponents/AddShop";
 import { ShopList } from "./src/components/ShopComponents/ShopList";
 import { EditMenu } from "./src/components/MenuComponents/EditMenu";
+import { EditShop } from "./src/components/ShopComponents/EditShop";
 import { AddMenu } from "./src/components/MenuComponents/AddMenu";
 
 // Amplify.configure(awsExports);
@@ -68,6 +69,7 @@ const ShopStack = () => {
       <Stack.Screen name="お店リスト" component={ShopScreen} />
       <Stack.Screen name="リスト表示" component={ShopList} />
       <Stack.Screen name="新規登録" component={AddShop} />
+      <Stack.Screen name="お店編集" component={EditShop} />
     </Stack.Navigator>
   );
 };
@@ -77,7 +79,7 @@ export default App = () => {
     <ShareShopDataProvider>
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="献立"
+          initialRouteName="買物"
           activeColor="#f0edf6"
           inactiveColor="#3e2465"
           barStyle={{ backgroundColor: "#694fad" }}

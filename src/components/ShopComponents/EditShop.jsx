@@ -14,14 +14,17 @@ import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
-import uuid from "react-native-uuid";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
-export const AddShop = ({ navigation }) => {
-  const [corner, setCorner] = useState([]);
+export const EditShop = (props) => {
+  const { navigation } = props;
+  const { route } = props;
+  const { item } = route.params;
+
+  const [corner, setCorner] = useState(item.corners);
   const [selectedCorner, setSelectedCorner] = useState("");
   const [targetString, setTargetString] = useState("");
-  const [shopName, setShopName] = useState("");
+  const [shopName, setShopName] = useState(item.value);
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
 
@@ -32,7 +35,7 @@ export const AddShop = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      shopName: "",
+      shopName: shopName,
     },
   });
 
@@ -54,13 +57,13 @@ export const AddShop = ({ navigation }) => {
   // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
   // useStateで対応
   const onSubmit = (data) => {
-    const shop = {
-      key: uuid.v4(),
-      value: data.shopName,
-      corners: corner,
-    };
     const newShopData = [...shopData];
-    newShopData.push(shop);
+    newShopData.forEach((obj) => {
+      if (obj.key === item.key) {
+        obj.value = data.shopName;
+        obj.corners = corner;
+      }
+    });
     setShopData(newShopData); // 変更された値をセット
     setCorner([]);
     setShopName("");
@@ -147,7 +150,7 @@ export const AddShop = ({ navigation }) => {
           />
           <Button
             color="mediumseagreen"
-            title="お店を登録"
+            title="お店を更新"
             onPress={handleSubmit(onSubmit)}
           />
         </View>
