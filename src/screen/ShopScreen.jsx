@@ -43,7 +43,7 @@ export const ShopScreen = ({ navigation }) => {
         data={shopData}
         renderItem={({ item }) => (
           <ShopList
-            value={item.value}
+            shop={item.shop}
             navigation={navigation}
             // handleCheck={handleCheck}
             handleRemoveItem={handleRemoveItem}

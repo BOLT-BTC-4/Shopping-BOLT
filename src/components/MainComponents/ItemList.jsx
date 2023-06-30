@@ -35,7 +35,10 @@ export const ItemList = ({
         style={styles.moziBox}
         onPress={() => handleCheck(item.localId)}
       >
-        <Text style={styles.text}>{item.itemName}</Text>
+        <View style={styles.stack}>
+          <Text style={styles.textSmall}>{item.recipe}</Text>
+          <Text style={styles.text}>{item.itemName}</Text>
+        </View>
         <Text style={styles.text}>{item.quantity}</Text>
       </TouchableOpacity>
 
@@ -122,7 +125,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
   },
-
+  textSmall: {
+    fontSize: 10,
+    color: "mediumseagreen",
+  },
   subText: {
     fontSize: 12,
     color: "red",
@@ -140,4 +146,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  stack: {},
 });

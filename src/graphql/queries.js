@@ -9,6 +9,9 @@ export const getShop = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -27,10 +30,45 @@ export const listShops = /* GraphQL */ `
         corner
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncShops = /* GraphQL */ `
+  query SyncShops(
+    $filter: ModelShopFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncShops(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        shop
+        corner
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -45,6 +83,9 @@ export const getShoppingList = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -65,10 +106,47 @@ export const listShoppingLists = /* GraphQL */ `
         corner
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncShoppingLists = /* GraphQL */ `
+  query SyncShoppingLists(
+    $filter: ModelShoppingListFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncShoppingLists(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        item
+        unit
+        quantity
+        corner
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -85,14 +163,21 @@ export const getMenu = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -110,14 +195,54 @@ export const listMenus = /* GraphQL */ `
         date
         recipes {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncMenus = /* GraphQL */ `
+  query SyncMenus(
+    $filter: ModelMenuFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncMenus(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        date
+        recipes {
+          nextToken
+          startedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -131,6 +256,9 @@ export const getItem = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -150,10 +278,46 @@ export const listItems = /* GraphQL */ `
         corner
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncItems = /* GraphQL */ `
+  query SyncItems(
+    $filter: ModelItemFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncItems(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        item
+        unit
+        corner
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -167,6 +331,9 @@ export const getItemPreset = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -185,9 +352,44 @@ export const listItemPresets = /* GraphQL */ `
         corner
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncItemPresets = /* GraphQL */ `
+  query SyncItemPresets(
+    $filter: ModelItemPresetFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncItemPresets(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        item
+        unit
+        corner
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -203,6 +405,9 @@ export const getRecipeItem = /* GraphQL */ `
       unit
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -224,10 +429,48 @@ export const listRecipeItems = /* GraphQL */ `
         unit
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncRecipeItems = /* GraphQL */ `
+  query SyncRecipeItems(
+    $filter: ModelRecipeItemFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRecipeItems(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        recipeItem
+        quantity
+        corner
+        recipeID
+        unit
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -256,10 +499,14 @@ export const recipeItemsByRecipeID = /* GraphQL */ `
         unit
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
       __typename
     }
   }
@@ -282,10 +529,14 @@ export const getRecipe = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       RecipeItems {
@@ -298,14 +549,21 @@ export const getRecipe = /* GraphQL */ `
           unit
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -329,18 +587,70 @@ export const listRecipes = /* GraphQL */ `
         like
         Menus {
           nextToken
+          startedAt
           __typename
         }
         RecipeItems {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncRecipes = /* GraphQL */ `
+  query SyncRecipes(
+    $filter: ModelRecipeFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRecipes(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        recipe
+        memo
+        url
+        serving
+        category1
+        category2
+        like
+        Menus {
+          nextToken
+          startedAt
+          __typename
+        }
+        RecipeItems {
+          nextToken
+          startedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -356,10 +666,14 @@ export const getRecipeMenu = /* GraphQL */ `
         date
         recipes {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
@@ -374,19 +688,27 @@ export const getRecipeMenu = /* GraphQL */ `
         like
         Menus {
           nextToken
+          startedAt
           __typename
         }
         RecipeItems {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -408,6 +730,9 @@ export const listRecipeMenus = /* GraphQL */ `
           date
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
@@ -422,15 +747,81 @@ export const listRecipeMenus = /* GraphQL */ `
           like
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncRecipeMenus = /* GraphQL */ `
+  query SyncRecipeMenus(
+    $filter: ModelRecipeMenuFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRecipeMenus(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        menuId
+        recipeId
+        menu {
+          id
+          date
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+          __typename
+        }
+        recipe {
+          id
+          recipe
+          memo
+          url
+          serving
+          category1
+          category2
+          like
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+          __typename
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+        __typename
+      }
+      nextToken
+      startedAt
       __typename
     }
   }
@@ -459,6 +850,9 @@ export const recipeMenusByMenuId = /* GraphQL */ `
           date
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
@@ -473,15 +867,22 @@ export const recipeMenusByMenuId = /* GraphQL */ `
           like
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
       __typename
     }
   }
@@ -510,6 +911,9 @@ export const recipeMenusByRecipeId = /* GraphQL */ `
           date
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
@@ -524,15 +928,22 @@ export const recipeMenusByRecipeId = /* GraphQL */ `
           like
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       nextToken
+      startedAt
       __typename
     }
   }

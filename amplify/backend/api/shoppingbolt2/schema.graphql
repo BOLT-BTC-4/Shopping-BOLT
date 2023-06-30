@@ -1,10 +1,10 @@
-type Shop @model @auth(rules: [{ allow: owner }]) {
+type Shop @model @auth(rules: [{allow: owner}]) {
   id: ID!
   shop: String!
   corner: [String]
 }
 
-type ShoppingList @model @auth(rules: [{ allow: owner }]) {
+type ShoppingList @model @auth(rules: [{allow: owner}]) {
   id: ID!
   item: String!
   unit: String
@@ -12,27 +12,27 @@ type ShoppingList @model @auth(rules: [{ allow: owner }]) {
   corner: String
 }
 
-type Menu @model @auth(rules: [{ allow: owner }]) {
+type Menu @model @auth(rules: [{allow: owner}]) {
   id: ID!
   date: AWSDate
   recipes: [Recipe] @manyToMany(relationName: "RecipeMenu")
 }
 
-type Item @model @auth(rules: [{ allow: owner }]) {
+type Item @model @auth(rules: [{allow: owner}]) {
   id: ID!
   item: String!
   unit: String
   corner: String
 }
 
-type ItemPreset @model @auth(rules: [{ allow: public }]) {
+type ItemPreset @model @auth(rules: [{allow: public}]) {
   id: ID!
   item: String!
   unit: String
   corner: String
 }
 
-type RecipeItem @model @auth(rules: [{ allow: owner }]) {
+type RecipeItem @model @auth(rules: [{allow: owner}]) {
   id: ID!
   recipeItem: String!
   quantity: Float
@@ -41,7 +41,7 @@ type RecipeItem @model @auth(rules: [{ allow: owner }]) {
   unit: String
 }
 
-type Recipe @model @auth(rules: [{ allow: owner }]) {
+type Recipe @model @auth(rules: [{allow: owner}]) {
   id: ID!
   recipe: String!
   memo: String
@@ -52,4 +52,4 @@ type Recipe @model @auth(rules: [{ allow: owner }]) {
   like: Int
   Menus: [Menu] @manyToMany(relationName: "RecipeMenu")
   RecipeItems: [RecipeItem] @hasMany(indexName: "byRecipe", fields: ["id"])
-}
+} 

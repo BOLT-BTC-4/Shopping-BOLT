@@ -21,7 +21,7 @@ export const EditShop = (props) => {
   const { route } = props;
   const { item } = route.params;
 
-  const [corner, setCorner] = useState(item.corners);
+  const [corner, setCorner] = useState(item.corner);
   const [selectedCorner, setSelectedCorner] = useState("");
   const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState(item.value);
@@ -54,14 +54,14 @@ export const EditShop = (props) => {
   };
 
   // 未実装
-  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
+  // ローカルストレージに、shopNameとcornerをオブジェクトとして保存
   // useStateで対応
   const onSubmit = (data) => {
     const newShopData = [...shopData];
     newShopData.forEach((obj) => {
       if (obj.key === item.key) {
-        obj.value = data.shopName;
-        obj.corners = corner;
+        obj.shop = data.shopName;
+        obj.corner = corner;
       }
     });
     setShopData(newShopData); // 変更された値をセット

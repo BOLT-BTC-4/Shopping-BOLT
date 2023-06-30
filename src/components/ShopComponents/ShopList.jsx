@@ -3,14 +3,14 @@ import React, { useEffect, useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
 
-export const ShopList = ({ item, value, handleRemoveItem, navigation }) => {
+export const ShopList = ({ item, shop, handleRemoveItem, navigation }) => {
   //   const Stack = createNativeStackNavigator();
 
   useEffect(() => {}, []);
   return (
     <View style={styles.box}>
       <View style={styles.moziBox}>
-        <Text style={styles.text}>{value}</Text>
+        <Text style={styles.text}>{shop}</Text>
       </View>
       <View style={styles.iconBox}>
         <Feather

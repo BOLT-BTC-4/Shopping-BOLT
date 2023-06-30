@@ -12,6 +12,9 @@ export const onCreateShop = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -28,6 +31,9 @@ export const onUpdateShop = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -44,6 +50,9 @@ export const onDeleteShop = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -62,6 +71,9 @@ export const onCreateShoppingList = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -80,6 +92,9 @@ export const onUpdateShoppingList = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -98,6 +113,9 @@ export const onDeleteShoppingList = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -118,14 +136,21 @@ export const onCreateMenu = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -146,14 +171,21 @@ export const onUpdateMenu = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -174,14 +206,21 @@ export const onDeleteMenu = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -199,6 +238,9 @@ export const onCreateItem = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -216,6 +258,9 @@ export const onUpdateItem = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -233,6 +278,9 @@ export const onDeleteItem = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -249,6 +297,9 @@ export const onCreateItemPreset = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -264,6 +315,9 @@ export const onUpdateItemPreset = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -279,6 +333,9 @@ export const onDeleteItemPreset = /* GraphQL */ `
       corner
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -297,6 +354,9 @@ export const onCreateRecipeItem = /* GraphQL */ `
       unit
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -316,6 +376,9 @@ export const onUpdateRecipeItem = /* GraphQL */ `
       unit
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -335,6 +398,9 @@ export const onDeleteRecipeItem = /* GraphQL */ `
       unit
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -361,10 +427,14 @@ export const onCreateRecipe = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       RecipeItems {
@@ -377,14 +447,21 @@ export const onCreateRecipe = /* GraphQL */ `
           unit
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -411,10 +488,14 @@ export const onUpdateRecipe = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       RecipeItems {
@@ -427,14 +508,21 @@ export const onUpdateRecipe = /* GraphQL */ `
           unit
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -461,10 +549,14 @@ export const onDeleteRecipe = /* GraphQL */ `
           recipeId
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       RecipeItems {
@@ -477,14 +569,21 @@ export const onDeleteRecipe = /* GraphQL */ `
           unit
           createdAt
           updatedAt
+          _version
+          _deleted
+          _lastChangedAt
           owner
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -504,10 +603,14 @@ export const onCreateRecipeMenu = /* GraphQL */ `
         date
         recipes {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
@@ -522,19 +625,27 @@ export const onCreateRecipeMenu = /* GraphQL */ `
         like
         Menus {
           nextToken
+          startedAt
           __typename
         }
         RecipeItems {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -554,10 +665,14 @@ export const onUpdateRecipeMenu = /* GraphQL */ `
         date
         recipes {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
@@ -572,19 +687,27 @@ export const onUpdateRecipeMenu = /* GraphQL */ `
         like
         Menus {
           nextToken
+          startedAt
           __typename
         }
         RecipeItems {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }
@@ -604,10 +727,14 @@ export const onDeleteRecipeMenu = /* GraphQL */ `
         date
         recipes {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
@@ -622,19 +749,27 @@ export const onDeleteRecipeMenu = /* GraphQL */ `
         like
         Menus {
           nextToken
+          startedAt
           __typename
         }
         RecipeItems {
           nextToken
+          startedAt
           __typename
         }
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
         __typename
       }
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
       __typename
     }

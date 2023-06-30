@@ -9,7 +9,7 @@
     },
     "conflictResolution": {
       "defaultResolutionStrategy": {
-        "type": "NONE"
+        "type": "AUTOMERGE"
       }
     },
     "additionalAuthTypes": [
@@ -18,9 +18,8 @@
       },
       {
         "mode": "API_KEY",
-        "expirationTime": 365,
-        "apiKeyExpirationDate": "2024-06-29T02:39:16.221Z",
-        "keyDescription": "db"
+        "keyDescription": "api key description",
+        "expirationTime": 30
       }
     ]
   }

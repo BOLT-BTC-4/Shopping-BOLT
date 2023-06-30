@@ -16,6 +16,7 @@ import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { createShopAPI } from "../../boltAPI";
 
 export const AddShop = ({ navigation }) => {
   const [corner, setCorner] = useState([]);
@@ -53,12 +54,13 @@ export const AddShop = ({ navigation }) => {
   // 未実装
   // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
   // useStateで対応
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const shop = {
-      key: uuid.v4(),
-      value: data.shopName,
-      corners: corner,
+      shop: data.shopName,
+      corner: corner,
     };
+    console.log("shop", shop);
+    await createShopAPI(shop);
     const newShopData = [...shopData];
     newShopData.push(shop);
     setShopData(newShopData); // 変更された値をセット
