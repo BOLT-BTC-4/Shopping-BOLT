@@ -92,8 +92,8 @@ export const AddMenu = ({ navigation }) => {
       }
     }
     setItems(newItems);
-    setAddFlag(true);
     navigation.navigate("献立リスト");
+    // setAddFlag(true);
   };
 
   return (

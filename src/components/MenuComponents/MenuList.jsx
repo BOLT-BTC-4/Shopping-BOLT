@@ -97,7 +97,7 @@ export const MenuList = ({ navigation }) => {
           navigation.navigate("献立から買い物リストへ追加");
         }}
       >
-        <Text style={styles.buttonInner}>献立を登録</Text>
+        <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
       </TouchableOpacity>
     </View>
   );
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: "mediumseagreen",
     borderRadius: 20,
-    width: "50%",
-    marginLeft: "25%",
+    width: "80%",
+    marginLeft: "10%",
   },
   buttonInner: {
     fontSize: 20,

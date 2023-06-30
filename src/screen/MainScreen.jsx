@@ -28,7 +28,7 @@ export const MainScreen = () => {
   useEffect(() => {
     getItems();
     setShopData(table.defaultShops);
-    // handleButtonClick();
+    // setAddFlag(true);
   }, [shopData]);
   const getItems = () => {
     setItems(table.defaultItems);
@@ -62,8 +62,10 @@ export const MainScreen = () => {
     setItems(newItems);
   };
 
+  console.log("//////", selectedValue);
   //順番付与
   const directionAdd = () => {
+    // console.log(shopData);
     const selectedShopObj = shopData.find(
       (shop) => shop.value === selectedValue
     );
@@ -99,7 +101,6 @@ export const MainScreen = () => {
       {/* <Text>お店選択</Text> */}
       <View style={styles.shopselect}>
         <View style={{ width: "100%" }}>
-          {/* ⭐️ここかえてます⭐️ */}
           <SelectList
             setSelected={(val) => setSelectedValue(val)}
             data={shopData}
@@ -107,6 +108,7 @@ export const MainScreen = () => {
             searchPlaceholder="お店を入力"
             placeholder="お店を選択"
             maxHeight={200}
+            // defaultOption={shopData[0]}
             onSelect={() => directionAdd()}
           />
         </View>
