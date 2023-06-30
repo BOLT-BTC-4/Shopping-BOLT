@@ -1,31 +1,535 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
+export const getShop = /* GraphQL */ `
+  query GetShop($id: ID!) {
+    getShop(id: $id) {
       id
-      name
-      description
+      shop
+      corner
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listShops = /* GraphQL */ `
+  query ListShops(
+    $filter: ModelShopFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShops(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        shop
+        corner
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getShoppingList = /* GraphQL */ `
+  query GetShoppingList($id: ID!) {
+    getShoppingList(id: $id) {
+      id
+      item
+      unit
+      quantity
+      corner
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listShoppingLists = /* GraphQL */ `
+  query ListShoppingLists(
+    $filter: ModelShoppingListFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShoppingLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        item
+        unit
+        quantity
+        corner
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getMenu = /* GraphQL */ `
+  query GetMenu($id: ID!) {
+    getMenu(id: $id) {
+      id
+      date
+      recipes {
+        items {
+          id
+          menuId
+          recipeId
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listMenus = /* GraphQL */ `
+  query ListMenus(
+    $filter: ModelMenuFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMenus(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        recipes {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getItem = /* GraphQL */ `
+  query GetItem($id: ID!) {
+    getItem(id: $id) {
+      id
+      item
+      unit
+      corner
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listItems = /* GraphQL */ `
+  query ListItems(
+    $filter: ModelItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        item
+        unit
+        corner
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getItemPreset = /* GraphQL */ `
+  query GetItemPreset($id: ID!) {
+    getItemPreset(id: $id) {
+      id
+      item
+      unit
+      corner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listItemPresets = /* GraphQL */ `
+  query ListItemPresets(
+    $filter: ModelItemPresetFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listItemPresets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        description
+        item
+        unit
+        corner
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRecipeItem = /* GraphQL */ `
+  query GetRecipeItem($id: ID!) {
+    getRecipeItem(id: $id) {
+      id
+      recipeItem
+      quantity
+      corner
+      recipeID
+      unit
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listRecipeItems = /* GraphQL */ `
+  query ListRecipeItems(
+    $filter: ModelRecipeItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecipeItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        recipeItem
+        quantity
+        corner
+        recipeID
+        unit
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const recipeItemsByRecipeID = /* GraphQL */ `
+  query RecipeItemsByRecipeID(
+    $recipeID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    recipeItemsByRecipeID(
+      recipeID: $recipeID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        recipeItem
+        quantity
+        corner
+        recipeID
+        unit
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRecipe = /* GraphQL */ `
+  query GetRecipe($id: ID!) {
+    getRecipe(id: $id) {
+      id
+      recipe
+      memo
+      url
+      serving
+      category1
+      category2
+      like
+      Menus {
+        items {
+          id
+          menuId
+          recipeId
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      RecipeItems {
+        items {
+          id
+          recipeItem
+          quantity
+          corner
+          recipeID
+          unit
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listRecipes = /* GraphQL */ `
+  query ListRecipes(
+    $filter: ModelRecipeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecipes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        recipe
+        memo
+        url
+        serving
+        category1
+        category2
+        like
+        Menus {
+          nextToken
+          __typename
+        }
+        RecipeItems {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRecipeMenu = /* GraphQL */ `
+  query GetRecipeMenu($id: ID!) {
+    getRecipeMenu(id: $id) {
+      id
+      menuId
+      recipeId
+      menu {
+        id
+        date
+        recipes {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      recipe {
+        id
+        recipe
+        memo
+        url
+        serving
+        category1
+        category2
+        like
+        Menus {
+          nextToken
+          __typename
+        }
+        RecipeItems {
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listRecipeMenus = /* GraphQL */ `
+  query ListRecipeMenus(
+    $filter: ModelRecipeMenuFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecipeMenus(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        menuId
+        recipeId
+        menu {
+          id
+          date
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        recipe {
+          id
+          recipe
+          memo
+          url
+          serving
+          category1
+          category2
+          like
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const recipeMenusByMenuId = /* GraphQL */ `
+  query RecipeMenusByMenuId(
+    $menuId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeMenuFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    recipeMenusByMenuId(
+      menuId: $menuId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        menuId
+        recipeId
+        menu {
+          id
+          date
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        recipe {
+          id
+          recipe
+          memo
+          url
+          serving
+          category1
+          category2
+          like
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const recipeMenusByRecipeId = /* GraphQL */ `
+  query RecipeMenusByRecipeId(
+    $recipeId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRecipeMenuFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    recipeMenusByRecipeId(
+      recipeId: $recipeId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        menuId
+        recipeId
+        menu {
+          id
+          date
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        recipe {
+          id
+          recipe
+          memo
+          url
+          serving
+          category1
+          category2
+          like
+          createdAt
+          updatedAt
+          owner
+          __typename
+        }
+        createdAt
+        updatedAt
+        owner
         __typename
       }
       nextToken

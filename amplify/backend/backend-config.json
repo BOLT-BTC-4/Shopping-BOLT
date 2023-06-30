@@ -1,15 +1,35 @@
 {
   "api": {
     "shoppingbolt2": {
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "shoppingbolt21c1c517d"
+        }
+      ],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
             },
-            "authenticationType": "API_KEY"
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2024-06-29T02:39:16.221Z",
+                "apiKeyExpirationDays": 365,
+                "description": "db"
+              },
+              "authenticationType": "API_KEY"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authshoppingbolt21c1c517d"
+            }
           }
         }
       },

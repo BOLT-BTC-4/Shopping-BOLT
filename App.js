@@ -94,7 +94,7 @@ const ShopStack = () => {
 const App = () => {
   return (
     <>
-      <SignOutButton />
+      {/* <SignOutButton /> */}
       <ShareShopDataProvider>
         <NavigationContainer>
           <Tab.Navigator
