@@ -19,19 +19,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-// 追加
-// import { useNavigation } from "@react-navigation/native";
-// const navigation = useNavigation();
-
 export const MainScreen = () => {
-  // const handleButtonClick = () => {
-  //   setShopData(table.defaultShops);
-  // };
-
   //アイテムリスト
-  const [items, setItems] = useState([]);
+  const { items, setItems } = useContext(ShareShopDataContext);
   //商品追加用flag
-  const [addFlag, setAddFlag] = useState(false);
+  const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
   //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
     getItems();
@@ -42,9 +34,6 @@ export const MainScreen = () => {
     setItems(table.defaultItems);
   };
 
-  // const [trashFlag, setTrashFlag] = useState(false);
-  // const [selected, setSelected] = useState("");  →selectedValueに変更
-
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
   const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
@@ -53,7 +42,6 @@ export const MainScreen = () => {
   // Shop関連のuseState
   // 買物/お店タブで利用するため2つともContext化
   const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
-  // const [selectShop, setSelectShop] = useState(table.defaultShops);
   // shopタブでも利用するため下記のshopDataに名称変更
   const { shopData, setShopData } = useContext(ShareShopDataContext);
 

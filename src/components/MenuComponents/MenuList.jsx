@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Alert,
   Linking,
+  TouchableOpacity,
 } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { AntDesign } from "@expo/vector-icons";
@@ -90,16 +91,14 @@ export const MenuList = ({ navigation }) => {
           </View>
         )}
       />
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="献立を登録"
-          onPress={() => {
-            navigation.navigate("献立から買い物リストへ追加");
-          }}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate("献立から買い物リストへ追加");
+        }}
+      >
+        <Text style={styles.buttonInner}>献立を登録</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -145,5 +144,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "50%",
     marginLeft: "25%",
+  },
+  buttonInner: {
+    fontSize: 20,
   },
 });

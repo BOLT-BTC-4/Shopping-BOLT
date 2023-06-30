@@ -22,6 +22,7 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
   });
 
   const onSubmit = (data) => {
+    //下のfindでマスターitemsからitemを取り出し一致するobjを返す
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };

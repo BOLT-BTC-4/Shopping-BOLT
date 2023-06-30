@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { EditItem } from "./EditItem";
 
 export const ItemList = ({
@@ -17,20 +24,20 @@ export const ItemList = ({
 
   return (
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
-      <View style={styles.salesBox}>
+      <TouchableOpacity
+        style={styles.salesBox}
+        onPress={() => handleCheck(item.localId)}
+      >
         <Text style={styles.text}>{item.sales}</Text>
-      </View>
+      </TouchableOpacity>
 
-      <View style={styles.moziBox}>
-        <Text
-          style={styles.text}
-          width={100}
-          onPress={() => handleCheck(item.localId)}
-        >
-          {item.itemName}
-        </Text>
+      <TouchableOpacity
+        style={styles.moziBox}
+        onPress={() => handleCheck(item.localId)}
+      >
+        <Text style={styles.text}>{item.itemName}</Text>
         <Text style={styles.text}>{item.quantity}</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.iconBox}>
         <Text style={styles.text}>{item.unit}</Text>
