@@ -1032,10 +1032,108 @@ const defaultSelectdMenu = {
   ],
 };
 
+const defaultRecipes = {
+  1: [
+    {
+      id: 1,
+      categry1: "主食",
+      recipe: "そば",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 2,
+      categry1: "主食",
+      recipe: "パスタ",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 3,
+      categry1: "主食",
+      recipe: "うどん",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 4,
+      categry1: "主食",
+      recipe: "お米",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 5,
+      categry1: "主食",
+      recipe: "混ぜ込みご飯",
+      url: "https://dig-zamas.com/",
+    },
+    // カテゴリー1に属する要素...
+  ],
+  2: [
+    {
+      id: 1,
+      categry1: "主菜",
+      recipe: "ハンバーグ",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 2,
+      categry1: "主菜",
+      recipe: "コロッケ",
+      url: "https://dig-zamas.com/",
+    },
+    // カテゴリー2に属する要素...
+  ],
+  3: [
+    {
+      id: 1,
+      categry1: "副菜",
+      recipe: "きんぴらごぼう",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 2,
+      categry1: "副菜",
+      recipe: "ポテサラ",
+      url: "https://dig-zamas.com/",
+    },
+    // カテゴリー3に属する要素...
+  ],
+  4: [
+    {
+      id: 1,
+      categry1: "汁物",
+      recipe: "具だくさん味噌汁",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 2,
+      categry1: "汁物",
+      recipe: "トマトスープ",
+      url: "https://dig-zamas.com/",
+    },
+    // カテゴリー4に属する要素...
+  ],
+  5: [
+    {
+      id: 1,
+      categry1: "その他",
+      recipe: "ぶどう",
+      url: "https://dig-zamas.com/",
+    },
+    {
+      id: 2,
+      categry1: "その他",
+      recipe: "牛乳",
+      url: "https://dig-zamas.com/",
+    },
+    // カテゴリー5に属する要素...
+  ],
+  // 他のカテゴリーに属する要素...
+};
+
 export const table = {
   masterItem: masterItemTable,
   masterCorner: masterCornerTable,
   defaultItems: defaultItemsTable,
   defaultShops: defaultShopTable,
   defaultMenu: defaultSelectdMenu,
+  defaultRecipes: defaultRecipes,
 };
