@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,83 +9,126 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
+import { table } from "../../../table";
 
-const DATA = [
-  {
-    title: "俺の唐揚げ",
-    data: [
-      ["パン", "2個"],
-      ["肉", "300g"],
-    ],
-  },
-  {
-    title: "俺のチャーハン",
-    data: ["French Fries", "Onion Rings", "Fried Shrimps"],
-  },
-  {
-    title: "副菜",
-    data: ["Water", "Coke", "Beer"],
-  },
-  {
-    title: "汁物",
-    data: ["Cheese Cake", "Ice Cream"],
-  },
-];
-const newMenu = [];
 export const AddMenu = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
-    useContext(ShareShopDataContext);
+  const [newMenu, setNewMenu] = useState([]);
+  const { selectedMenu, setSelectedMenu } = useContext(ShareShopDataContext);
+  //アイテムリスト
+  const { items, setItems } = useContext(ShareShopDataContext);
+  //商品追加用flag
+  const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
+
   const createAddMenu = () => {
+    const updatedNewMenu = [...newMenu];
     for (const elm in selectedMenu) {
       if (elm >= moment().format("YYYY-MM-DD")) {
-        console.log("////////////", selectedMenu[elm]);
         for (let recipes of selectedMenu[elm]) {
-          console.log("?????", recipes);
           const result = {};
           result.title = recipes.recipe;
           result.data = recipes.items;
-          newMenu.push(result);
+          result.recipeId = recipes.recipeId;
+          updatedNewMenu.push(result);
         }
       }
     }
-    console.log("newMenu", newMenu);
+    setNewMenu(updatedNewMenu);
   };
-  createAddMenu();
-  // const handleMenuSubmit = () => {
-  //   const newSelectedMenu = {
-  //     ...selectedMenu,
-  //     [selectedDay]: selectedElement,
-  //   };
-  //   setSelectedMenu(newSelectedMenu);
-  //   navigation.navigate("献立リスト");
-  // };
-  //  const handleCheck = (localId) => {
-  //    const newItems = [...items];
-  //    const item = newItems.find((item) => item.localId === localId);
-  //    item.check = !item.check;
-  //    setItems(newItems);
-  //  };
+  useEffect(() => {
+    createAddMenu();
+  }, []);
+  const handleCheck = (sectionId, itemIndex) => {
+    const updatedData = [...newMenu];
+    const updatedItem = updatedData.find(
+      (recipe) => recipe.recipeId === sectionId
+    );
+    updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
+    setNewMenu(updatedData);
+  };
+  // console.log("newMenu:", newMenu);
+
+  const handleAddItems = () => {
+    const newItems = [...items];
+    const newItems2 = [...items];
+    for (const recipe of newMenu) {
+      for (const recipeItem of recipe.data) {
+        if (recipeItem.checked) {
+          console.log("item:", recipeItem);
+          let cornarName = (item) => {
+            //下のfindでマスターitemsからitemを取り出し一致するobjを返す
+            return item.itemName === recipeItem.itemName;
+          };
+          let result = table.masterItem.find(cornarName);
+          // console.log(result);
+          if (result === undefined) {
+            newItems = [
+              ...items,
+              {
+                localId: recipeItem.itemId,
+                sales: "",
+                itemName: recipeItem.itemName,
+                quantity: recipeItem.quantity,
+                unit: recipeItem.unit,
+                directions: 99,
+                check: false,
+                recipeId: recipe.recipeId,
+              },
+            ];
+          } else {
+            setItems((items) => [
+              ...items,
+              {
+                localId: recipeItem.itemId,
+                sales: "",
+                itemName: recipeItem.itemName,
+                quantity: recipeItem.quantity,
+                unit: recipeItem.unit,
+                directions: 99,
+                check: false,
+                recipeId: recipe.recipeId,
+              },
+            ]);
+          }
+        }
+      }
+    }
+    // setAddFlag(true);
+    // navigation.navigate("献立リスト");
+  };
+
   return (
     <View style={styles.container}>
       {/* <Text>{moment().format("YYYY-MM-DD")}</Text> */}
       <SectionList
         sections={newMenu}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => (
+        renderItem={({ item, index, section }) => (
           <View style={styles.item}>
-            <View style={styles.moziBox}>
-              <AntDesign name="checkcircleo" size={24} color="black" />
-              <Text style={styles.title}>{item}</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.moziBox}
+              onPress={() => handleCheck(section.recipeId, index)}
+            >
+              {item.checked ? (
+                <AntDesign name="checkcircleo" size={24} color="black" />
+              ) : (
+                <Feather name="circle" size={24} color="black" />
+              )}
+              <Text style={styles.title}>{item.itemName}</Text>
+              <Text style={styles.title}>{item.quantity}</Text>
+              <Text style={styles.title}>{item.unit}</Text>
+            </TouchableOpacity>
           </View>
         )}
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
+        keyExtractor={(item, index) => item.itemId}
       />
+      <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
+        <Text style={styles.buttonInner}>買物リストへ追加</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -112,9 +155,10 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     backgroundColor: "mediumseagreen",
+    padding: 5,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
   },
   moziBox: {
     flex: 1,
@@ -123,5 +167,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  button: {
+    marginTop: 10,
+    marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    height: 40,
+    backgroundColor: "mediumseagreen",
+    borderRadius: 20,
+    width: "50%",
+    marginLeft: "25%",
+  },
+  buttonInner: {
+    fontSize: 20,
   },
 });
