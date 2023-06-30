@@ -12,9 +12,6 @@ import {
 // Shop お店登録
 export const createShopAPI = async (data) => {
   const { shop, corner } = data;
-  console.log("shop", shop);
-  console.log("corner", corner);
-
   try {
     await DataStore.save(
       new Shop({
@@ -24,6 +21,16 @@ export const createShopAPI = async (data) => {
     );
   } catch (error) {
     throw error;
+  }
+};
+
+// Shop一覧の取得
+export const fetchShopAPI = async () => {
+  try {
+    const shopList = await DataStore.query(Shop);
+    return JSON.stringify(shopList, null, 2);
+  } catch (err) {
+    throw err;
   }
 };
 

@@ -16,7 +16,7 @@ import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
-import { createShopAPI } from "../../boltAPI";
+import { createShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const AddShop = ({ navigation }) => {
   const [corner, setCorner] = useState([]);
@@ -59,15 +59,44 @@ export const AddShop = ({ navigation }) => {
       shop: data.shopName,
       corner: corner,
     };
-    console.log("shop", shop);
     await createShopAPI(shop);
-    const newShopData = [...shopData];
-    newShopData.push(shop);
+    // const newShopData = [...shopData];
+    // newShopData.push(shop);
+    const newShopData = await fetchShopAPI();
+    console.log("newShopData", newShopData);
     setShopData(newShopData); // 変更された値をセット
+    console.log("shopData", shopData);
     setCorner([]);
     setShopName("");
     navigation.navigate("お店リスト");
   };
+  // newShopData[
+  //   ({
+  //     shop: "テスト",
+  //     corner: ["果物", "お魚"],
+  //     id: "bddb3246-e5aa-47b1-a46e-b3b04f2ca1bf",
+  //     createdAt: null,
+  //     updatedAt: null,
+  //   },
+  //   {
+  //     id: "eb85dd04-4457-4506-bc95-6051987ea0f1",
+  //     shop: "めぐりあ",
+  //     corner: ["乳製品"],
+  //     createdAt: "2023-06-30T05:21:47.995Z",
+  //     updatedAt: "2023-06-30T05:21:47.995Z",
+  //     owner: "admin",
+  //     _version: 1,
+  //     _lastChangedAt: 1688102508021,
+  //     _deleted: null,
+  //   },
+  //   {
+  //     shop: "てst",
+  //     corner: ["果物"],
+  //     id: "7a50ca06-a101-41a6-a16f-cea1833a0468",
+  //     createdAt: null,
+  //     updatedAt: null,
+  //   })
+  // ];
 
   useEffect(() => {}, [corner, shopName]);
 
