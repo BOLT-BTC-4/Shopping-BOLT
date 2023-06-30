@@ -83,10 +83,26 @@ const MainStack = () => {
 const ShopStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="お店リスト" component={ShopScreen} />
-      <Stack.Screen name="リスト表示" component={ShopList} />
-      <Stack.Screen name="新規登録" component={AddShop} />
-      <Stack.Screen name="お店編集" component={EditShop} />
+      <Stack.Screen
+        name="お店リスト"
+        options={{ headerShown: false }}
+        component={ShopScreen}
+      />
+      <Stack.Screen
+        name="リスト表示"
+        options={{ headerShown: false }}
+        component={ShopList}
+      />
+      <Stack.Screen
+        name="新規登録"
+        options={{ headerShown: false }}
+        component={AddShop}
+      />
+      <Stack.Screen
+        name="お店編集"
+        options={{ headerShown: false }}
+        component={EditShop}
+      />
     </Stack.Navigator>
   );
 };
@@ -107,6 +123,7 @@ const App = () => {
               name="献立"
               component={MenuStack}
               options={{
+                headerShown: false,
                 tabBarLabel: "献立",
                 tabBarIcon: ({ color }) => (
                   <AntDesign name="calendar" color={color} size={26} />
@@ -117,6 +134,7 @@ const App = () => {
               name="レシピ"
               component={RecipeStack}
               options={{
+                headerShown: false,
                 tabBarLabel: "レシピ",
                 tabBarIcon: ({ color }) => (
                   <FontAwesome5 name="utensils" color={color} size={26} />
@@ -127,6 +145,7 @@ const App = () => {
               name="買物"
               component={MainStack}
               options={{
+                headerShown: false,
                 tabBarLabel: "買物",
                 tabBarIcon: ({ color }) => (
                   <AntDesign name="shoppingcart" color={color} size={26} />
