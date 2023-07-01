@@ -17,7 +17,7 @@ import { table } from "../../../table";
 export const AddMenu = ({ navigation }) => {
   console.log("addmenu!!!!!!!!!!");
   const [newMenu, setNewMenu] = useState([]);
-  const { selectedMenu, setSelectedMenu } = useContext(ShareShopDataContext);
+  const { menu, setMenu } = useContext(ShareShopDataContext);
   //アイテムリスト
   const { items, setItems } = useContext(ShareShopDataContext);
   //商品追加用flag
@@ -27,9 +27,9 @@ export const AddMenu = ({ navigation }) => {
 
   const createAddMenu = () => {
     const updatedNewMenu = [...newMenu];
-    for (const elm in selectedMenu) {
+    for (const elm in menu) {
       if (elm >= moment().format("YYYY-MM-DD")) {
-        for (let recipes of selectedMenu[elm]) {
+        for (let recipes of menu[elm]) {
           const result = {};
           result.title = recipes.recipe;
           result.data = recipes.items;

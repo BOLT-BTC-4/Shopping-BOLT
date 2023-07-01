@@ -15,7 +15,7 @@ export const EditMenu = ({ navigation }) => {
   ];
   const defaultRecipes = table.defaultRecipes;
 
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+  const { selectedDay, setSelectedDay, menu, setMenu } =
     useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
@@ -28,11 +28,11 @@ export const EditMenu = ({ navigation }) => {
   const handleSelectedRecipesSubmit = () => {
     console.log("selected!!!!!!!!!!!!");
     const newSelectedMenu = {
-      ...selectedMenu,
+      ...menu,
       [selectedDay]: selectedRecipe,
     };
-    console.log("newselectedMenu", newSelectedMenu);
-    setSelectedMenu(newSelectedMenu);
+    console.log("newmenu", newSelectedMenu);
+    setMenu(newSelectedMenu);
     navigation.navigate("献立リスト");
   };
 

@@ -16,7 +16,7 @@ import { Agenda } from "react-native-calendars";
 import { AntDesign } from "@expo/vector-icons";
 
 export const MenuList = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+  const { selectedDay, setSelectedDay, menu, setMenu } =
     useContext(ShareShopDataContext);
 
   const openURL = (url) => {
@@ -38,7 +38,7 @@ export const MenuList = ({ navigation }) => {
           setSelectedDay(day.dateString);
           navigation.navigate("献立登録/編集");
         }}
-        items={selectedMenu}
+        items={menu}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
             <View style={styles.cornerBox}>
