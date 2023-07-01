@@ -15,7 +15,10 @@ import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
-import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import {
+  ShareShopDataContext,
+  getAllShop,
+} from "../../screen/ShareShopDataContext";
 import { createShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const AddShop = ({ navigation }) => {
@@ -25,6 +28,7 @@ export const AddShop = ({ navigation }) => {
   const [shopName, setShopName] = useState("");
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   const {
     handleSubmit,
@@ -60,10 +64,17 @@ export const AddShop = ({ navigation }) => {
       corner: corner,
     };
     await createShopAPI(shop);
-    // const newShopData = [...shopData];
-    // newShopData.push(shop);
-    const newShopData = await fetchShopAPI();
-    setShopData(newShopData); // 変更された値をセット
+
+    // ここからShareShopDataContext.jsxのgetAllShopと同じ内容（1つにまとめたい）
+    const initShopData = await fetchShopAPI();
+    //ドロップダウンで利用できるようにオブジェクトキー変更
+    const getArrayDropDownList = initShopData.map((item) => {
+      return { key: item.id, value: item.shop, corner: item.corner };
+    });
+    setShopData(initShopData);
+    setShopDataDrop(getArrayDropDownList);
+    // ここまで同じ内容
+
     setCorner([]);
     setShopName("");
     navigation.navigate("お店リスト");
