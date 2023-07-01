@@ -15,6 +15,7 @@ import moment from "moment";
 import { table } from "../../../table";
 
 export const AddMenu = ({ navigation }) => {
+  console.log("addmenu!!!!!!!!!!");
   const [newMenu, setNewMenu] = useState([]);
   const { selectedMenu, setSelectedMenu } = useContext(ShareShopDataContext);
   //アイテムリスト
@@ -50,7 +51,7 @@ export const AddMenu = ({ navigation }) => {
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
-  // console.log("newMenu:", newMenu);
+  console.log("newMenu:", newMenu);
 
   const handleAddItems = () => {
     for (const recipe of newMenu) {
@@ -98,7 +99,6 @@ export const AddMenu = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Text>{moment().format("YYYY-MM-DD")}</Text> */}
       <SectionList
         sections={newMenu}
         renderItem={({ item, index, section }) => (

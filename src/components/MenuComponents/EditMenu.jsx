@@ -19,9 +19,14 @@ export const EditMenu = ({ navigation }) => {
     useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
+  const [displayedRecipes, setDisplayedRecipes] = useState(
+    defaultRecipes[selectedCategory]
+  );
+  console.log("displayedRecipes!!!!!!!!", displayedRecipes);
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
+    console.log("selected!!!!!!!!!!!!");
     const newSelectedMenu = {
       ...selectedMenu,
       [selectedDay]: selectedRecipe,
@@ -44,9 +49,6 @@ export const EditMenu = ({ navigation }) => {
       prevElements.filter((item) => item.id !== element.id)
     );
   };
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
@@ -57,7 +59,7 @@ export const EditMenu = ({ navigation }) => {
     </TouchableOpacity>
   );
   //登録されているrecipe表示
-  const renderElements = () => {
+  const renderRecipes = () => {
     // const elements = defaultRecipes[selectedCategory];
     return (
       <FlatGrid
@@ -65,12 +67,12 @@ export const EditMenu = ({ navigation }) => {
         data={displayedRecipes} // 表示される配列を使用する
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
-            <View style={styles.elementContainer}>
-              <Text>{item.recipe}</Text>
+            <View style={styles.recipeContainer}>
+              <Text style={styles.recipeText}>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.recipeId}
       />
     );
   };
@@ -120,7 +122,7 @@ export const EditMenu = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         itemDimension={60} // 要素の幅
       />
-      {renderElements()}
+      {renderRecipes()}
       {renderselectedRecipe()}
 
       <TouchableOpacity
@@ -139,18 +141,27 @@ const styles = {
   },
   tab: {
     padding: 10,
-    // width: "0%",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
   activeTab: {
     padding: 10,
     backgroundColor: "lightblue",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  elementContainer: {
+  recipeContainer: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgray",
-    padding: 10,
-    height: 50,
+    backgroundColor: "lightgreen",
+    padding: 6,
+    borderRadius: 20,
+  },
+  recipeText: {
+    fontSize: 12,
   },
   selectedRecipeContainer: {
     justifyContent: "center",

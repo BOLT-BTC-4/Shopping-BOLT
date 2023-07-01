@@ -1035,98 +1035,314 @@ const defaultSelectdMenu = {
 const defaultRecipes = {
   1: [
     {
-      id: 1,
+      recipeId: uuid.v4(),
       categry1: "主食",
-      recipe: "そば",
+      recipe: "わかめご飯",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "わかめ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ご飯",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
     },
     {
-      id: 2,
+      recipeId: uuid.v4(),
       categry1: "主食",
-      recipe: "パスタ",
+      recipe: "たけのこ飯",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "たけのこ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ご飯",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
     },
-    {
-      id: 3,
-      categry1: "主食",
-      recipe: "うどん",
-      url: "https://dig-zamas.com/",
-    },
-    {
-      id: 4,
-      categry1: "主食",
-      recipe: "お米",
-      url: "https://dig-zamas.com/",
-    },
-    {
-      id: 5,
-      categry1: "主食",
-      recipe: "混ぜ込みご飯",
-      url: "https://dig-zamas.com/",
-    },
-    // カテゴリー1に属する要素...
   ],
   2: [
     {
-      id: 1,
+      recipeId: uuid.v4(),
       categry1: "主菜",
-      recipe: "ハンバーグ",
+      recipe: "私のハンバーグ",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "にんじん",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "鶏胸肉",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
     },
     {
-      id: 2,
+      recipeId: uuid.v4(),
       categry1: "主菜",
-      recipe: "コロッケ",
+      recipe: "私のホイル焼き",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "マグロ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "豚肉",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
     },
-    // カテゴリー2に属する要素...
+    {
+      recipeId: uuid.v4(),
+      categry1: "主菜",
+      recipe: "私のカレー",
+      url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "じゃがいも",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "にんじん",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "玉ねぎ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "豚肉",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
+    },
+    {
+      recipeId: uuid.v4(),
+      categry1: "主菜",
+      recipe: "私のオムレツ",
+      url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "卵",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ブロッコリー",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
+    },
+    {
+      recipeId: uuid.v4(),
+      categry1: "主菜",
+      recipe: "私の蒸し焼き",
+      url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "トマト",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "豚バラ",
+          quantity: 300,
+          unit: "g",
+        },
+      ],
+    },
   ],
   3: [
     {
-      id: 1,
+      recipeId: uuid.v4(),
       categry1: "副菜",
-      recipe: "きんぴらごぼう",
+      recipe: "私のきんぴら",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "にんじん",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ごま",
+          quantity: 30,
+          unit: "g",
+        },
+      ],
     },
     {
-      id: 2,
+      recipeId: uuid.v4(),
       categry1: "副菜",
-      recipe: "ポテサラ",
+      recipe: "私のひじき煮",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "納豆",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ひじき",
+          quantity: 200,
+          unit: "g",
+        },
+      ],
     },
-    // カテゴリー3に属する要素...
   ],
   4: [
     {
-      id: 1,
+      recipeId: uuid.v4(),
       categry1: "汁物",
-      recipe: "具だくさん味噌汁",
+      recipe: "私の豚汁",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "こんにゃく",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "味噌",
+          quantity: 30,
+          unit: "g",
+        },
+      ],
     },
     {
-      id: 2,
+      recipeId: uuid.v4(),
       categry1: "汁物",
-      recipe: "トマトスープ",
+      recipe: "私の芋汁",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "じゃがいも",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "味噌",
+          quantity: 200,
+          unit: "g",
+        },
+      ],
     },
-    // カテゴリー4に属する要素...
   ],
   5: [
     {
-      id: 1,
+      recipeId: uuid.v4(),
       categry1: "その他",
-      recipe: "ぶどう",
+      recipe: "私のスムージ",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "バナナ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "ごま",
+          quantity: 30,
+          unit: "g",
+        },
+      ],
     },
     {
-      id: 2,
-      categry1: "その他",
-      recipe: "牛乳",
+      recipeId: uuid.v4(),
+      categry1: "副菜",
+      recipe: "私のチーズケーキ",
       url: "https://dig-zamas.com/",
+      items: [
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "チーズ",
+          quantity: 2,
+          unit: "個",
+        },
+        {
+          itemId: uuid.v4(),
+          checked: true,
+          itemName: "牛乳",
+          quantity: 200,
+          unit: "g",
+        },
+      ],
     },
-    // カテゴリー5に属する要素...
   ],
-  // 他のカテゴリーに属する要素...
 };
 
 export const table = {
