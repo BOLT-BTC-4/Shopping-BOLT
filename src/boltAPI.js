@@ -35,6 +35,18 @@ export const fetchShopAPI = async () => {
   }
 };
 
+// Shop お店の削除
+export const deleteShopAPI = async (id) => {
+  try {
+    const deleteShop = await DataStore.query(Shop, id);
+    DataStore.delete(Shop, deleteShop)
+
+  } catch (err) {
+    throw err;
+  }
+}
+
+
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
   // API動作確認用ダミーデータ
