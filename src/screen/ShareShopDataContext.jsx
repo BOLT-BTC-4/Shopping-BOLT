@@ -27,7 +27,7 @@ export const ShareShopDataProvider = ({ children }) => {
   const [addFlag, setAddFlag] = useState(false);
   const [items, setItems] = useState([]);
   //デフォルトで何人前かの状態変数
-  const [serving, setServing] = useState(4);
+  const [defaultServing, setDefaultServing] = useState(4);
   console.log("shopData:", shopData);
 
   useEffect(() => {
@@ -52,8 +52,8 @@ export const ShareShopDataProvider = ({ children }) => {
         setAddFlag,
         items,
         setItems,
-        serving,
-        setServing,
+        defaultServing,
+        setDefaultServing,
       }}
     >
       {children}

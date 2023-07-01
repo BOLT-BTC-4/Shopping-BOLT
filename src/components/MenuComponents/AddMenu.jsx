@@ -15,7 +15,6 @@ import moment from "moment";
 import { table } from "../../../table";
 
 export const AddMenu = ({ navigation }) => {
-  console.log("addmenu!!!!!!!!!!");
   const [newMenu, setNewMenu] = useState([]);
   const { menu, setMenu } = useContext(ShareShopDataContext);
   //アイテムリスト
@@ -51,19 +50,19 @@ export const AddMenu = ({ navigation }) => {
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
-  console.log("newMenu:", newMenu);
+  "newMenu:", newMenu;
 
   const handleAddItems = () => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
         if (recipeItem.checked) {
-          console.log("recipe:", recipe);
+          "recipe:", recipe;
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.itemName;
           };
           let result = table.masterItem.find(cornarName);
-          // console.log(result);
+          // (result);
           if (result === undefined) {
             newItems.push({
               localId: recipeItem.itemId,
