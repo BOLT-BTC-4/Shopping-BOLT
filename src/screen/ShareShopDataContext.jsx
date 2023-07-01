@@ -8,12 +8,18 @@ export const ShareShopDataProvider = ({ children }) => {
   console.log("===== comp_ShareShopDataContext =====");
 
   // お店の一覧を取得
-  const initShop = async () => {
+  const getAllShop = async () => {
     const initShopData = await fetchShopAPI();
+    //ドロップダウンで利用できるようにオブジェクトキー変更
+    const arrayDropDown = initShopData.map((item) => {
+      return { key: item.id, value: item.shop, corner: item.corner };
+    });
     setShopData(initShopData);
+    setShopDataDrop(arrayDropDown);
   };
 
-  const [shopData, setShopData] = useState("");
+  const [shopData, setShopData] = useState([]);
+  const [shopDataDrop, setShopDataDrop] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [newShopButton, setNewShopButton] = useState(true);
   const [selectedDay, setSelectedDay] = useState("");
@@ -23,13 +29,15 @@ export const ShareShopDataProvider = ({ children }) => {
   console.log("shopData:", shopData);
 
   useEffect(() => {
-    initShop();
+    getAllShop();
   }, []);
   return (
     <ShareShopDataContext.Provider
       value={{
         shopData,
         setShopData,
+        shopDataDrop,
+        setShopDataDrop,
         selectedValue,
         setSelectedValue,
         newShopButton,

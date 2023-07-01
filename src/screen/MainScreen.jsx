@@ -33,7 +33,7 @@ export const MainScreen = () => {
 
   // shopタブでも利用するため下記のshopDataに名称変更
   const { shopData, setShopData } = useContext(ShareShopDataContext);
-  console.log("shopData:", shopData);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
@@ -68,7 +68,7 @@ export const MainScreen = () => {
   //順番付与
   const directionAdd = () => {
     // console.log(shopData);
-    const selectedShopObj = shopData.find(
+    const selectedShopObj = shopDataDrop.find(
       (shop) => shop.value === selectedValue
     );
     //店舗が選択されていなければ処理を抜ける
@@ -105,13 +105,15 @@ export const MainScreen = () => {
         <View style={{ width: "100%" }}>
           <SelectList
             setSelected={(val) => setSelectedValue(val)}
-            data={shopData}
-            save="shop"
+            data={shopDataDrop}
+            save="value"
             searchPlaceholder="お店を入力"
             placeholder="お店を選択"
             maxHeight={200}
             // defaultOption={shopData[0]}
-            onSelect={() => directionAdd()}
+            onSelect={() => {
+              directionAdd();
+            }}
           />
         </View>
       </View>
