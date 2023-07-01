@@ -46,7 +46,7 @@ export const EditMenu = ({ navigation }) => {
     setSelectedRecipe((recipes) => [...recipes, element]);
     // 要素をレシピ表示配列から削除する
     setDisplayedRecipes((prevElements) =>
-      prevElements.filter((item) => item.id !== element.id)
+      prevElements.filter((item) => item.recipeId !== element.recipeId)
     );
   };
   //カテゴリタブ表示
