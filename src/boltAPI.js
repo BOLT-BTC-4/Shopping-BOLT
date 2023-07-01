@@ -28,7 +28,8 @@ export const createShopAPI = async (data) => {
 export const fetchShopAPI = async () => {
   try {
     const shopList = await DataStore.query(Shop);
-    return JSON.stringify(shopList, null, 2);
+    return shopList
+    // return JSON.stringify(shopList, null, 2);
   } catch (err) {
     throw err;
   }

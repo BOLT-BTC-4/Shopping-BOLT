@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createShopAPI, fetchShopAPI } from "../boltAPI";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
@@ -19,16 +19,16 @@ import { ShopList } from "../components/ShopComponents/ShopList";
 import { useForm, Controller } from "react-hook-form";
 
 export const ShopScreen = ({ navigation }) => {
-  const Stack = createNativeStackNavigator();
+  console.log("===== comp_ShopScreen =====");
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
 
   const handleRemoveItem = (key) => {
-    const newShopData = shopData.filter((item) => item.key !== key);
+    const newShopData = shopData.filter((item) => item.id !== key);
     setShopData(newShopData);
   };
 
-  useEffect(() => {}, [shopData]);
+  useEffect(() => {}, []);
   return (
     <View style={styles.container}>
       <TouchableOpacity

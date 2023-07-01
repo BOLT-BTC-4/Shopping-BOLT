@@ -4,8 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
 
 export const ShopList = ({ item, shop, handleRemoveItem, navigation }) => {
-  //   const Stack = createNativeStackNavigator();
-
+  console.log("===== comp_ShopList =====");
   useEffect(() => {}, []);
   return (
     <View style={styles.box}>
@@ -25,7 +24,7 @@ export const ShopList = ({ item, shop, handleRemoveItem, navigation }) => {
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(item.key)}
+          onPress={() => handleRemoveItem(item.id)}
         />
       </View>
     </View>

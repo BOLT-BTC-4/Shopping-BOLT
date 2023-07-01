@@ -20,30 +20,32 @@ import {
 } from "react-native";
 
 export const MainScreen = () => {
+  console.log("===== comp_MainScreen =====");
   //アイテムリスト
   const { items, setItems } = useContext(ShareShopDataContext);
+
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
+
+  // Shop関連のuseState
+  // 買物/お店タブで利用するため2つともContext化
+  const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
+
+  // shopタブでも利用するため下記のshopDataに名称変更
+  const { shopData, setShopData } = useContext(ShareShopDataContext);
+  console.log("shopData:", shopData);
+
   //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
     getItems();
-    setShopData(table.defaultShops);
     // handleButtonClick();
-  }, [shopData]);
+  }, []);
   const getItems = () => {
     setItems(table.defaultItems);
   };
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
-  const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
-  const [modalAddShopVisible, setModalAddShopVisible] = useState(false);
-
-  // Shop関連のuseState
-  // 買物/お店タブで利用するため2つともContext化
-  const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
-  // shopタブでも利用するため下記のshopDataに名称変更
-  const { shopData, setShopData } = useContext(ShareShopDataContext);
 
   const handleCheck = (localId) => {
     const newItems = [...items];
@@ -73,8 +75,8 @@ export const MainScreen = () => {
       return;
     }
     const newItems = items.map((item) => {
-      selectedShopObj.corners.forEach((cornar, index) => {
-        if (item.sales === cornar) {
+      selectedShopObj.corner.forEach((corner, index) => {
+        if (item.corner === corner) {
           item.directions = index;
         }
       });
@@ -103,7 +105,7 @@ export const MainScreen = () => {
           <SelectList
             setSelected={(val) => setSelectedValue(val)}
             data={shopData}
-            save="value"
+            save="shop"
             searchPlaceholder="お店を入力"
             placeholder="お店を選択"
             maxHeight={200}
