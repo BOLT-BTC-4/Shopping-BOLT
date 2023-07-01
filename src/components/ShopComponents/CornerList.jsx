@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",

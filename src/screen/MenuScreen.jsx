@@ -13,7 +13,6 @@ import { MenuList } from "../components/MenuComponents/MenuList";
 export const MenuScreen = ({ navigation }) => {
   return (
     <View>
-      <Text>MenuList</Text>
       <MenuList navigation={navigation} />
     </View>
   );

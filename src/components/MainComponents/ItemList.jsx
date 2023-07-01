@@ -25,10 +25,10 @@ export const ItemList = ({
   return (
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
       <TouchableOpacity
-        style={styles.salesBox}
+        style={styles.cornerBox}
         onPress={() => handleCheck(item.localId)}
       >
-        <Text style={styles.text}>{item.sales}</Text>
+        <Text style={styles.text}>{item.corner}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",

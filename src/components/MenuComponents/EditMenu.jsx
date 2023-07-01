@@ -3,141 +3,49 @@ import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { table } from "../../../table";
 
 export const EditMenu = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
-    useContext(ShareShopDataContext);
-  const handleMenuSubmit = () => {
-    const newSelectedMenu = {
-      ...selectedMenu,
-      [selectedDay]: selectedElement,
-    };
-    setSelectedMenu(newSelectedMenu);
-    navigation.navigate("献立リスト");
-  };
-
   const categories = [
     { id: 1, categry1: "主食" },
     { id: 2, categry1: "主菜" },
     { id: 3, categry1: "副菜" },
     { id: 4, categry1: "汁物" },
     { id: 5, categry1: "その他" },
-    // 他のカテゴリー...
   ];
-  const elementsByCategory = {
-    1: [
-      {
-        id: 1,
-        categry1: "主食",
-        recipe: "そば",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 2,
-        categry1: "主食",
-        recipe: "パスタ",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 3,
-        categry1: "主食",
-        recipe: "うどん",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 4,
-        categry1: "主食",
-        recipe: "お米",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 5,
-        categry1: "主食",
-        recipe: "混ぜ込みご飯",
-        url: "https://dig-zamas.com/",
-      },
-      // カテゴリー1に属する要素...
-    ],
-    2: [
-      {
-        id: 1,
-        categry1: "主菜",
-        recipe: "ハンバーグ",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 2,
-        categry1: "主菜",
-        recipe: "コロッケ",
-        url: "https://dig-zamas.com/",
-      },
-      // カテゴリー2に属する要素...
-    ],
-    3: [
-      {
-        id: 1,
-        categry1: "副菜",
-        recipe: "きんぴらごぼう",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 2,
-        categry1: "副菜",
-        recipe: "ポテサラ",
-        url: "https://dig-zamas.com/",
-      },
-      // カテゴリー3に属する要素...
-    ],
-    4: [
-      {
-        id: 1,
-        categry1: "汁物",
-        recipe: "具だくさん味噌汁",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 2,
-        categry1: "汁物",
-        recipe: "トマトスープ",
-        url: "https://dig-zamas.com/",
-      },
-      // カテゴリー4に属する要素...
-    ],
-    5: [
-      {
-        id: 1,
-        categry1: "その他",
-        recipe: "ぶどう",
-        url: "https://dig-zamas.com/",
-      },
-      {
-        id: 2,
-        categry1: "その他",
-        recipe: "牛乳",
-        url: "https://dig-zamas.com/",
-      },
-      // カテゴリー5に属する要素...
-    ],
-    // 他のカテゴリーに属する要素...
-  };
-  const [selectedCategory, setSelectedCategory] = useState(1);
+  const defaultRecipes = table.defaultRecipes;
 
+  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+    useContext(ShareShopDataContext);
+  const [selectedCategory, setSelectedCategory] = useState(1);
+  const [selectedRecipe, setSelectedRecipe] = useState([]);
+
+  //選択されたレシピを献立に登録
+  const handleSelectedRecipesSubmit = () => {
+    const newSelectedMenu = {
+      ...selectedMenu,
+      [selectedDay]: selectedRecipe,
+    };
+    console.log("newselectedMenu", newSelectedMenu);
+    setSelectedMenu(newSelectedMenu);
+    navigation.navigate("献立リスト");
+  };
+
+  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
-    setDisplayedElements(elementsByCategory[categoryId]);
+    setDisplayedRecipes(defaultRecipes[categoryId]);
   };
 
-  const [selectedElement, setSelectedElement] = useState([]);
-  const handleElementSelect = (element) => {
-    setSelectedElement((recipes) => [...recipes, element]);
-    // console.log("////", selectedElement);
+  const handleRecipeSelect = (element) => {
+    setSelectedRecipe((recipes) => [...recipes, element]);
     // 要素をレシピ表示配列から削除する
-    setDisplayedElements((prevElements) =>
+    setDisplayedRecipes((prevElements) =>
       prevElements.filter((item) => item.id !== element.id)
     );
   };
-  const [displayedElements, setDisplayedElements] = useState(
-    elementsByCategory[selectedCategory]
+  const [displayedRecipes, setDisplayedRecipes] = useState(
+    defaultRecipes[selectedCategory]
   );
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
@@ -148,15 +56,15 @@ export const EditMenu = ({ navigation }) => {
       <Text>{item.categry1}</Text>
     </TouchableOpacity>
   );
-  //recipe表示
+  //登録されているrecipe表示
   const renderElements = () => {
-    // const elements = elementsByCategory[selectedCategory];
+    // const elements = defaultRecipes[selectedCategory];
     return (
       <FlatGrid
         itemDimension={100} // 要素の幅
-        data={displayedElements} // 表示される配列を使用する
+        data={displayedRecipes} // 表示される配列を使用する
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleElementSelect(item)}>
+          <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.elementContainer}>
               <Text>{item.recipe}</Text>
             </View>
@@ -167,22 +75,34 @@ export const EditMenu = ({ navigation }) => {
     );
   };
 
-  //選択された料理表示
-  const renderSelectedElement = () => {
-    if (!selectedElement) {
+  //追加されたレシピ表示
+  const renderselectedRecipe = () => {
+    if (!selectedRecipe) {
       return null;
     }
     return (
-      <View style={styles.selectedElementContainer}>
-        <Text>選択した料理（ 人前 ）</Text>
+      <View style={styles.selectedRecipeContainer}>
+        {/* ヘッダー */}
+        <View style={styles.selectedRecipeTab}>
+          <Text style={styles.selectedRecipeTabText}>追加されたレシピ</Text>
+          <AntDesign name="minuscircleo" size={17} color="black" />
+          <Text style={styles.selectedRecipeTabTextSmall}>デフォルト4人前</Text>
+          <AntDesign name="pluscircleo" size={17} color="black" />
+        </View>
+
+        {/* コンテンツ */}
         <FlatList
-          data={selectedElement}
+          data={selectedRecipe}
           renderItem={({ item }) => (
             <View style={styles.box}>
-              <Text>{item.recipe}</Text>
-              <AntDesign name="minuscircleo" size={24} color="black" />
-              <Text>4</Text>
-              <AntDesign name="pluscircleo" size={24} color="black" />
+              <View style={styles.recipeBox}>
+                <Text>{item.recipe}</Text>
+              </View>
+              <View style={styles.innerBox}>
+                <AntDesign name="minuscircleo" size={20} color="black" />
+                <Text>4</Text>
+                <AntDesign name="pluscircleo" size={20} color="black" />
+              </View>
             </View>
           )}
           keyExtractor={(item, index) => index.toString()}
@@ -191,6 +111,7 @@ export const EditMenu = ({ navigation }) => {
     );
   };
 
+  //最初にレンダーされる
   return (
     <View style={styles.container}>
       <FlatGrid
@@ -200,16 +121,14 @@ export const EditMenu = ({ navigation }) => {
         itemDimension={60} // 要素の幅
       />
       {renderElements()}
-      {renderSelectedElement()}
+      {renderselectedRecipe()}
 
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="こんだてを登録"
-          onPress={handleMenuSubmit}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSelectedRecipesSubmit}
+      >
+        <Text style={styles.buttonInner}>こんだてを登録</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -233,30 +152,67 @@ const styles = {
     padding: 10,
     height: 50,
   },
-  selectedElementContainer: {
+  selectedRecipeContainer: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgreen",
+    // backgroundColor: "lightgreen",
     padding: 20,
     marginVertical: 10,
     height: 300,
     width: "100%",
   },
-  box: {
+  selectedRecipeTab: {
     height: 30,
-    width: "80%",
+    width: "100%",
+    backgroundColor: "mediumseagreen",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingLeft: 10,
+    paddingRight: 10,
+    alignItems: "center",
+    // borderRadius: 20,
+  },
+  selectedRecipeTabText: {
+    fontSize: 17,
+  },
+  selectedRecipeTabTextSmall: {
+    fontSize: 14,
+    // backgroundColor: "white",
+    justifyContent: "center",
+    padding: 5,
+    // color: "white",
+    // height: 30,
+    // backgroundColor: "mediumseagreen",
+    // width: "30%",
+  },
+  box: {
+    width: "100%",
+    height: 30,
     borderWidth: 1,
     borderBottomColor: "mediumseagreen",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingLeft: 10,
     paddingRight: 10,
     // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
-    marginTop: 33,
+    marginTop: 10,
+  },
+  innerBox: {
+    flex: 1,
+    // backgroundColor: "steelblue",
+    padding: 3,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  recipeBox: {
+    width: "65%",
+    flexDirection: "row",
+    alignItems: "center",
   },
   button: {
     marginTop: 1,

@@ -35,7 +35,7 @@ export const EditItem = ({
     const itemCopy = newItems.find(
       (newItem) => newItem.localId === item.localId
     );
-    itemCopy.sales = selectedCorner;
+    itemCopy.corner = selectedCorner;
     itemCopy.itemName = data.itemName;
     itemCopy.quantity = data.quantity;
     itemCopy.unit = data.unit;
@@ -68,7 +68,7 @@ export const EditItem = ({
           searchPlaceholder="売り場を入力"
           placeholder="売り場を選択"
           maxHeight={200}
-          defaultOption={{ key: item.sales, value: item.sales }}
+          defaultOption={{ key: item.corner, value: item.corner }}
         />
       </View>
       <Text style={styles.label}>商品名</Text>

@@ -38,13 +38,14 @@ export const fetchShopAPI = async () => {
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
   // API動作確認用ダミーデータ
-  data = {
-    item: "豚肉",
-    unit: "g",
-    quantity: 800,
-    corner: "肉",
-  };
+  // data = {
+  //   item: "豚肉",
+  //   unit: "g",
+  //   quantity: 800,
+  //   corner: "肉",
+  // };
   // ダミーここまで
+  console.log(data);
 
   const { item, unit, quantity, corner } = data;
   try {
@@ -62,6 +63,7 @@ export const createShoppingListAPI = async (data) => {
 };
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
+//献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
   // API動作確認用ダミーデータ
   data = {

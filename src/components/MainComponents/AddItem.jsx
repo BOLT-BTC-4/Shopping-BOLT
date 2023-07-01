@@ -1,10 +1,19 @@
 import * as React from "react";
-import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  FlatList,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
+import { createShoppingListAPI } from "../../boltAPI";
 
 export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
   const {
@@ -21,40 +30,40 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     //下のfindでマスターitemsからitemを取り出し一致するobjを返す
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };
     let result = table.masterItem.find(cornarName);
     // console.log(result);
+    let newData = {};
     if (result === undefined) {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: "",
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: "個",
-          directions: 99,
-          check: false,
-        },
-      ]);
+      (newData = {
+        localId: uuid.v4(),
+        corner: "",
+        itemName: data.itemName,
+        quantity: Number(data.quantity),
+        unit: "個",
+        directions: 99,
+        check: false,
+      }),
+        setItems((items) => [...items, newData]);
     } else {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: result.sales,
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: result.unit,
-          directions: 99,
-          check: false,
-        },
-      ]);
+      (newData = {
+        localId: uuid.v4(),
+        corner: result.corner,
+        item: data.itemName,
+        quantity: Number(data.quantity),
+        unit: result.unit,
+        directions: 99,
+        check: false,
+      }),
+        setItems((items) => [...items, newData]);
     }
+    // console.log("/////", newData);
+    //追加するitemをDBの保存////////////////////////////////////////////////////////API
+    // await createShoppingListAPI(newData);
     setAddFlag(true);
     reset();
   };
