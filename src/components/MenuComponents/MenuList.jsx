@@ -16,35 +16,8 @@ import { Agenda } from "react-native-calendars";
 import { AntDesign } from "@expo/vector-icons";
 
 export const MenuList = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
+  const { selectedDay, setSelectedDay, menu, setMenu } =
     useContext(ShareShopDataContext);
-
-  const selectReceipes = {
-    "2023-06-28": [
-      {
-        categry1: "主食",
-        recipe: "俺のチャーハン",
-        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
-      },
-      {
-        categry1: "主菜",
-        recipe: "俺のからあげ",
-        url: "https://dig-zamas.com/",
-      },
-    ],
-    "2023-06-29": [
-      {
-        categry1: "主菜",
-        recipe: "俺の卵焼き",
-        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
-      },
-      {
-        categry1: "汁物",
-        recipe: "具だくさん味噌汁",
-        url: "https://cpoint-lab.co.jp/article/202011/17618/",
-      },
-    ],
-  };
 
   const openURL = (url) => {
     Linking.canOpenURL(url)
@@ -65,7 +38,7 @@ export const MenuList = ({ navigation }) => {
           setSelectedDay(day.dateString);
           navigation.navigate("献立登録/編集");
         }}
-        items={selectedMenu}
+        items={menu}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
             <View style={styles.cornerBox}>

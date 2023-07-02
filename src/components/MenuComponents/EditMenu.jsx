@@ -14,20 +14,40 @@ export const EditMenu = ({ navigation }) => {
     { id: 5, categry1: "その他" },
   ];
   const defaultRecipes = table.defaultRecipes;
-
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
-    useContext(ShareShopDataContext);
+  const {
+    selectedDay,
+    setSelectedDay,
+    menu,
+    setMenu,
+    defaultServing,
+    setDefaultServing,
+  } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
+  const [displayedRecipes, setDisplayedRecipes] = useState(
+    defaultRecipes[selectedCategory]
+  );
+  const [serving, setServing] = useState(defaultServing);
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
-    const newSelectedMenu = {
-      ...selectedMenu,
-      [selectedDay]: selectedRecipe,
+    const newSelectedRecipe = [...selectedRecipe];
+    // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
+    newSelectedRecipe.forEach((recipe, indexOut) => {
+      recipe.items.forEach((item, index) => {
+        console.log("////////////////////////////////////", recipe.serving);
+        newSelectedRecipe[indexOut].items[index].quantity =
+          item.quantity * recipe.serving;
+      });
+    });
+    console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
+
+    const newMenu = {
+      ...menu,
+      [selectedDay]: newSelectedRecipe,
     };
-    console.log("newselectedMenu", newSelectedMenu);
-    setSelectedMenu(newSelectedMenu);
+    "newmenu", newMenu;
+    setMenu(newMenu);
     navigation.navigate("献立リスト");
   };
 
@@ -36,17 +56,40 @@ export const EditMenu = ({ navigation }) => {
     setSelectedCategory(categoryId);
     setDisplayedRecipes(defaultRecipes[categoryId]);
   };
-
-  const handleRecipeSelect = (element) => {
-    setSelectedRecipe((recipes) => [...recipes, element]);
+  //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
+  const handleRecipeSelect = (recipe) => {
+    const deepCopyRecipe = JSON.parse(JSON.stringify(recipe));
+    setSelectedRecipe((recipes) => [
+      ...recipes,
+      {
+        recipeId: deepCopyRecipe.recipeId,
+        categry1: deepCopyRecipe.categry1,
+        recipe: deepCopyRecipe.recipe,
+        url: deepCopyRecipe.url,
+        serving: defaultServing,
+        like: deepCopyRecipe.like,
+        items: deepCopyRecipe.items,
+      },
+    ]);
     // 要素をレシピ表示配列から削除する
-    setDisplayedRecipes((prevElements) =>
-      prevElements.filter((item) => item.id !== element.id)
+    setDisplayedRecipes((prevRecipes) =>
+      prevRecipes.filter(
+        (prevRecipe) => prevRecipe.recipeId !== deepCopyRecipe.recipeId
+      )
     );
   };
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
+
+  const handleChangeServing = (parmRecipeId, num) => {
+    const newSelectedRecipe = [...selectedRecipe];
+    const copySelectedRecipe = newSelectedRecipe.find(
+      (recipe) => recipe.recipeId === parmRecipeId
+    );
+    copySelectedRecipe.serving = copySelectedRecipe.serving + num;
+    setSelectedRecipe(newSelectedRecipe);
+  };
+
+  //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
@@ -57,7 +100,7 @@ export const EditMenu = ({ navigation }) => {
     </TouchableOpacity>
   );
   //登録されているrecipe表示
-  const renderElements = () => {
+  const renderRecipes = () => {
     // const elements = defaultRecipes[selectedCategory];
     return (
       <FlatGrid
@@ -65,12 +108,12 @@ export const EditMenu = ({ navigation }) => {
         data={displayedRecipes} // 表示される配列を使用する
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
-            <View style={styles.elementContainer}>
-              <Text>{item.recipe}</Text>
+            <View style={styles.recipeContainer}>
+              <Text style={styles.recipeText}>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.recipeId}
       />
     );
   };
@@ -85,9 +128,21 @@ export const EditMenu = ({ navigation }) => {
         {/* ヘッダー */}
         <View style={styles.selectedRecipeTab}>
           <Text style={styles.selectedRecipeTabText}>追加されたレシピ</Text>
-          <AntDesign name="minuscircleo" size={17} color="black" />
-          <Text style={styles.selectedRecipeTabTextSmall}>デフォルト4人前</Text>
-          <AntDesign name="pluscircleo" size={17} color="black" />
+          <AntDesign
+            name="minuscircleo"
+            size={17}
+            color="black"
+            onPress={() => setDefaultServing((prev) => prev - 1)}
+          />
+          <Text
+            style={styles.selectedRecipeTabTextSmall}
+          >{`デフォルト${defaultServing}人前`}</Text>
+          <AntDesign
+            name="pluscircleo"
+            size={17}
+            color="black"
+            onPress={() => setDefaultServing((prev) => prev + 1)}
+          />
         </View>
 
         {/* コンテンツ */}
@@ -99,9 +154,19 @@ export const EditMenu = ({ navigation }) => {
                 <Text>{item.recipe}</Text>
               </View>
               <View style={styles.innerBox}>
-                <AntDesign name="minuscircleo" size={20} color="black" />
-                <Text>4</Text>
-                <AntDesign name="pluscircleo" size={20} color="black" />
+                <AntDesign
+                  name="minuscircleo"
+                  size={20}
+                  color="black"
+                  onPress={() => handleChangeServing(item.recipeId, -1)}
+                />
+                <Text>{`${item.serving}人前`}</Text>
+                <AntDesign
+                  name="pluscircleo"
+                  size={20}
+                  color="black"
+                  onPress={() => handleChangeServing(item.recipeId, 1)}
+                />
               </View>
             </View>
           )}
@@ -120,7 +185,7 @@ export const EditMenu = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         itemDimension={60} // 要素の幅
       />
-      {renderElements()}
+      {renderRecipes()}
       {renderselectedRecipe()}
 
       <TouchableOpacity
@@ -139,18 +204,27 @@ const styles = {
   },
   tab: {
     padding: 10,
-    // width: "0%",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
   activeTab: {
     padding: 10,
     backgroundColor: "lightblue",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  elementContainer: {
+  recipeContainer: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgray",
-    padding: 10,
-    height: 50,
+    backgroundColor: "lightgreen",
+    padding: 6,
+    borderRadius: 20,
+  },
+  recipeText: {
+    fontSize: 12,
   },
   selectedRecipeContainer: {
     justifyContent: "center",

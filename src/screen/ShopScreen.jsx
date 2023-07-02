@@ -17,18 +17,33 @@ import { ShareShopDataContext } from "./ShareShopDataContext";
 import { ShopList } from "../components/ShopComponents/ShopList";
 
 import { useForm, Controller } from "react-hook-form";
+import { deleteShopAPI } from "../boltAPI";
 
 export const ShopScreen = ({ navigation }) => {
   console.log("===== comp_ShopScreen =====");
   const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
 
-  const handleRemoveItem = (key) => {
-    const newShopData = shopData.filter((item) => item.id !== key);
-    setShopData(newShopData);
+  const handleRemoveItem = async (id) => {
+
+    await deleteShopAPI(id);
+    const initShopData = await fetchShopAPI();
+    setShopData(initShopData);
+
+    //ドロップダウンで利用できるようにオブジェクトキー変更
+    const getArrayDropDownList = initShopData.map((item) => {
+      return { key: item.id, value: item.shop, corner: item.corner };
+    });
+    setShopDataDrop(getArrayDropDownList);
+
+
+    // ↑バックと連携完了したので↓コメントアウト
+    // const newShopData = shopData.filter((item) => item.id !== key);
+    // setShopData(newShopData);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <View style={styles.container}>
       <TouchableOpacity

@@ -36,7 +36,7 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
       return item.itemName === data.itemName;
     };
     let result = table.masterItem.find(cornarName);
-    // console.log(result);
+    // (result);
     let newData = {};
     if (result === undefined) {
       (newData = {
@@ -61,7 +61,7 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
       }),
         setItems((items) => [...items, newData]);
     }
-    // console.log("/////", newData);
+    // ("/////", newData);
     //追加するitemをDBの保存////////////////////////////////////////////////////////API
     // await createShoppingListAPI(newData);
     setAddFlag(true);
@@ -74,7 +74,7 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     };
   };
 
-  // console.log("errors", errors);
+  // ("errors", errors);
 
   //   const [open, setOpen] = useState(false);
   //   const [quantity, setQuantity] = useState(null);

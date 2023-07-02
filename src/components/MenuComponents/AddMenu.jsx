@@ -16,7 +16,7 @@ import { table } from "../../../table";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
-  const { selectedMenu, setSelectedMenu } = useContext(ShareShopDataContext);
+  const { menu, setMenu } = useContext(ShareShopDataContext);
   //アイテムリスト
   const { items, setItems } = useContext(ShareShopDataContext);
   //商品追加用flag
@@ -26,9 +26,9 @@ export const AddMenu = ({ navigation }) => {
 
   const createAddMenu = () => {
     const updatedNewMenu = [...newMenu];
-    for (const elm in selectedMenu) {
+    for (const elm in menu) {
       if (elm >= moment().format("YYYY-MM-DD")) {
-        for (let recipes of selectedMenu[elm]) {
+        for (let recipes of menu[elm]) {
           const result = {};
           result.title = recipes.recipe;
           result.data = recipes.items;
@@ -50,19 +50,19 @@ export const AddMenu = ({ navigation }) => {
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
-  // console.log("newMenu:", newMenu);
+  "newMenu:", newMenu;
 
   const handleAddItems = () => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
         if (recipeItem.checked) {
-          console.log("recipe:", recipe);
+          "recipe:", recipe;
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.itemName;
           };
           let result = table.masterItem.find(cornarName);
-          // console.log(result);
+          // (result);
           if (result === undefined) {
             newItems.push({
               localId: recipeItem.itemId,
@@ -98,7 +98,6 @@ export const AddMenu = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Text>{moment().format("YYYY-MM-DD")}</Text> */}
       <SectionList
         sections={newMenu}
         renderItem={({ item, index, section }) => (
