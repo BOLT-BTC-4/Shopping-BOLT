@@ -58,15 +58,8 @@ export const ShopScreen = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.box}
-        onPress={() => {
-          navigation.navigate("新規登録");
-        }}
-      >
-        <MaterialIcons name="add-circle-outline" size={24} color="black" />
-      </TouchableOpacity>
       <FlatList
+        style={styles.list}
         data={shopData}
         renderItem={({ item }) => (
           <ShopList
@@ -79,6 +72,14 @@ export const ShopScreen = ({ navigation }) => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
+      <TouchableOpacity
+        style={styles.addbtn}
+        onPress={() => {
+          navigation.navigate("新規登録");
+        }}
+      >
+        <MaterialIcons name="add-circle-outline" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -88,36 +89,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 10,
-    // justifyContent: "center",
-    // alignContent: "center",
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
+  list: {
+
+  },
+
+  addbtn: {
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 10
   },
-  modalContents: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  shopSelect: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-    alignItems: "center",
-  },
-  underBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 10,
-    alignItems: "center",
-    marginBottom: 30,
-    marginRight: 30,
-    marginLeft: 20,
-    marginTop: 10,
-  },
+  // modalContainer: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   backgroundColor: "rgba(0, 0, 0, 0.5)",
+  // },
+  // modalContents: {
+  //   backgroundColor: "#fff",
+  //   padding: 20,
+  //   borderRadius: 10,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // shopSelect: {
+  //   flexDirection: "row",
+  //   justifyContent: "center",
+  //   padding: 10,
+  //   alignItems: "center",
+  // },
+  // underBar: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   padding: 10,
+  //   alignItems: "center",
+  //   marginBottom: 30,
+  //   marginRight: 30,
+  //   marginLeft: 20,
+  //   marginTop: 10,
+  // },
 });
