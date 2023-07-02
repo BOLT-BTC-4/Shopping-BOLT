@@ -11,7 +11,7 @@ import {
 // import { API, graphqlOperation } from "aws-amplify";
 // import { createTodo } from "./src/graphql/mutations";
 // import { listTodos } from "./src/graphql/queries";
-import { Amplify } from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import awsExports from "./src/aws-exports";
 Amplify.configure(awsExports);
 import { NavigationContainer } from "@react-navigation/native";
@@ -35,14 +35,25 @@ import {
   withAuthenticator,
   useAuthenticator,
 } from "@aws-amplify/ui-react-native";
+import { dataClearAPI } from "./src/boltAPI";
 
 // retrieves only the current value of 'user' from 'useAuthenticator'
 const userSelector = (context) => [context.user];
 
 const SignOutButton = () => {
-  const { user, signOut } = useAuthenticator(userSelector);
+  const { user } = useAuthenticator(userSelector);
+  // サインアウトしたら、ローカルのデータをクリアする
+  async function signOutOriginal() {
+    try {
+      await dataClearAPI(); // サインアウトしたら、ローカルのデータをクリアする
+      await Auth.signOut();
+      console.log("===サインアウト完了===")
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
+  }
   return (
-    <Pressable onPress={signOut} style={styles.buttonContainer}>
+    <Pressable onPress={signOutOriginal} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>
         Hello, {user.username}! Click here to sign out!
       </Text>
@@ -106,7 +117,7 @@ const ShopStack = () => {
 const App = () => {
   return (
     <>
-      {/* <SignOutButton /> */}
+      <SignOutButton />
       <ShareShopDataProvider>
         <NavigationContainer>
           <Tab.Navigator
