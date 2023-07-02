@@ -50,7 +50,7 @@ export const AddCorner = (props) => {
       <View style={styles.aaa}>
         <Text>売場を選択</Text>
         <Button
-          title="キャンセル"
+          title="閉じる"
           onPress={() => {
             setModalAddCornerVisible(false);
             setSelectedCorner("");
