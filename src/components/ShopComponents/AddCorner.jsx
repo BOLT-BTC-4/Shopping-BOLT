@@ -1,6 +1,6 @@
 import React from "react";
 import { SelectList } from "react-native-dropdown-select-list";
-import { Picker } from "@react-native-picker/picker";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   FlatList,
   Button,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 
 export const AddCorner = (props) => {
@@ -25,7 +26,7 @@ export const AddCorner = (props) => {
 
   const onSubmit = (data) => {
     if (targetString === "") {
-      const newCorner = [...corner]; // 現在のcornersのコピーを作成
+      const newCorner = [...corner]; // 現在のcornerのコピーを作成
       newCorner.push(data); // 新しい値を追加
       setCorner(newCorner); // 変更された値をセット
     } else {
@@ -37,24 +38,17 @@ export const AddCorner = (props) => {
         setCorner(newCorner);
       }
     }
-    setModalAddCornerVisible(false);
     setTargetString("");
   };
+
+  function Divider() {
+    return <View style={{ height: 15, borderBottomWidth: 1 }} />;
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.aaa}>
-        <View>
-          <SelectList
-            setSelected={(val) => setSelectedCorner(val)}
-            data={filteredCorner}
-            save="value"
-            searchPlaceholder="売場を入力して検索"
-            placeholder="売場を選択"
-            maxHeight={400}
-            onSelect={() => onSubmit(selectedCorner)}
-          />
-        </View>
+        <Text>売場を選択</Text>
         <Button
           title="キャンセル"
           onPress={() => {
@@ -62,6 +56,31 @@ export const AddCorner = (props) => {
             setSelectedCorner("");
           }}
         />
+        <View>
+          <FlatList
+            data={filteredCorner}
+            keyExtractor={(item, index) => index.toString()}
+            // horizontal={true}
+            ItemSeparatorComponent={<Divider />}
+            renderItem={({ item }) => {
+              return (
+                <View>
+                  <TouchableOpacity
+                    // style={styles.buttonLabel}
+                    onPress={() => onSubmit(item)}
+                  >
+                    <Text> {item}</Text>
+                    <MaterialIcons
+                      name="add-circle-outline"
+                      size={24}
+                      color="black"
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -75,7 +94,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   aaa: {
-    minWidth: "80%",
+    minWidth: "60%",
     height: "60%",
     backgroundColor: "white",
     padding: 20,

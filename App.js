@@ -85,22 +85,18 @@ const ShopStack = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="お店リスト"
-        options={{ headerShown: false }}
         component={ShopScreen}
       />
       <Stack.Screen
         name="リスト表示"
-        options={{ headerShown: false }}
         component={ShopList}
       />
       <Stack.Screen
         name="新規登録"
-        options={{ headerShown: false }}
         component={AddShop}
       />
       <Stack.Screen
         name="お店編集"
-        options={{ headerShown: false }}
         component={EditShop}
       />
     </Stack.Navigator>
@@ -157,6 +153,7 @@ const App = () => {
               name="お店"
               component={ShopStack}
               options={{
+                headerShown: false,
                 tabBarLabel: "お店",
                 tabBarIcon: ({ color }) => (
                   <Entypo name="shop" color={color} size={26} />

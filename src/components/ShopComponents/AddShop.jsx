@@ -15,10 +15,7 @@ import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
-import {
-  ShareShopDataContext,
-  getAllShop,
-} from "../../screen/ShareShopDataContext";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { createShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const AddShop = ({ navigation }) => {
@@ -107,6 +104,25 @@ export const AddShop = ({ navigation }) => {
         />
         <View style={styles.labelBox}>
           <Text style={styles.label}>売場の並び順</Text>
+          <FlatList
+            data={filteredCorner}
+            keyExtractor={(item, index) => index.toString()}
+            // horizontal={true}
+            renderItem={({ item }) => {
+              return (
+                <View>
+                  <Text> {item}</Text>
+                  {console.log("item;", item)}
+                  <MaterialIcons
+                    name="add-circle-outline"
+                    size={24}
+                    color="black"
+                  />
+                </View>
+              );
+            }}
+          />
+
           <TouchableOpacity
             style={styles.buttonLabel}
             onPress={() => setModalAddCornerVisible(true)}
