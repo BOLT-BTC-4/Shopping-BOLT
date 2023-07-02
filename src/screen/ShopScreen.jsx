@@ -43,7 +43,19 @@ export const ShopScreen = ({ navigation }) => {
     // setShopData(newShopData);
   };
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    // お店の一覧を取得
+    const getAllShop = async () => {
+      const initShopData = await fetchShopAPI();
+      //ドロップダウンで利用できるようにオブジェクトキー変更
+      const getArrayDropDownList = initShopData.map((item) => {
+        return { key: item.id, value: item.shop, corner: item.corner };
+      });
+      setShopData(initShopData);
+      setShopDataDrop(getArrayDropDownList);
+    };
+    getAllShop()
+  }, []);
   return (
     <View style={styles.container}>
       <TouchableOpacity
