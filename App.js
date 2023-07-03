@@ -31,6 +31,8 @@ import { ShopList } from "./src/components/ShopComponents/ShopList";
 import { EditMenu } from "./src/components/MenuComponents/EditMenu";
 import { EditShop } from "./src/components/ShopComponents/EditShop";
 import { AddMenu } from "./src/components/MenuComponents/AddMenu";
+import { EditRecipe } from "./src/components/RecipeComponents/EditRecipe";
+
 import {
   withAuthenticator,
   useAuthenticator,
@@ -78,6 +80,7 @@ const MenuStack = () => {
 const RecipeStack = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="レシピ登録/編集" component={EditRecipe} />
       <Stack.Screen name="レシピリスト" component={RecipeScreen} />
     </Stack.Navigator>
   );

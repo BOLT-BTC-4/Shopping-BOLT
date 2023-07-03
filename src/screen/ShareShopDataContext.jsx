@@ -12,7 +12,7 @@ export const ShareShopDataProvider = ({ children }) => {
     const initShopData = await fetchShopAPI();
     //ドロップダウンで利用できるようにオブジェクトキー変更
     const getArrayDropDownList = initShopData.map((item) => {
-      return { key: item.id, value: item.shop, corner: item.corner };
+      return { key: item.id, value: item.shopName, corner: item.corner };
     });
     setShopData(initShopData);
     setShopDataDrop(getArrayDropDownList);

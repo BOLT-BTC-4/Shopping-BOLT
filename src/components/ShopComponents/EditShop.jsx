@@ -27,6 +27,7 @@ export const EditShop = (props) => {
   const [shopName, setShopName] = useState(item.value);
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   const {
     handleSubmit,
@@ -59,7 +60,7 @@ export const EditShop = (props) => {
   const onSubmit = (data) => {
     const newShopData = [...shopData];
     newShopData.forEach((obj) => {
-      if (obj.key === item.key) {
+      if (obj.id === item.id) {
         obj.shop = data.shopName;
         obj.corner = corner;
       }

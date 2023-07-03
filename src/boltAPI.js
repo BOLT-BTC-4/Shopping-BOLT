@@ -11,11 +11,11 @@ import {
 
 // Shop お店登録
 export const createShopAPI = async (data) => {
-  const { shop, corner } = data;
+  const { shopName, corner } = data;
   try {
     await DataStore.save(
       new Shop({
-        shop,
+        shopName,
         corner,
       })
     );
@@ -213,7 +213,7 @@ export const deleteRecipeAPI = async (id) => {
 
 
 
-// ログアウト時にローカルデータをクリアする 
+// ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。
 export const dataClearAPI = async () => {
   try {

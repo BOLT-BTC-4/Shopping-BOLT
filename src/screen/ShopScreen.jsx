@@ -26,17 +26,15 @@ export const ShopScreen = ({ navigation }) => {
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
 
   const handleRemoveItem = async (id) => {
-
     await deleteShopAPI(id);
     const initShopData = await fetchShopAPI();
     setShopData(initShopData);
 
     //ドロップダウンで利用できるようにオブジェクトキー変更
     const getArrayDropDownList = initShopData.map((item) => {
-      return { key: item.id, value: item.shop, corner: item.corner };
+      return { key: item.id, value: item.shopName, corner: item.corner };
     });
     setShopDataDrop(getArrayDropDownList);
-
 
     // ↑バックと連携完了したので↓コメントアウト
     // const newShopData = shopData.filter((item) => item.id !== key);
@@ -49,12 +47,12 @@ export const ShopScreen = ({ navigation }) => {
       const initShopData = await fetchShopAPI();
       //ドロップダウンで利用できるようにオブジェクトキー変更
       const getArrayDropDownList = initShopData.map((item) => {
-        return { key: item.id, value: item.shop, corner: item.corner };
+        return { key: item.id, value: item.shopName, corner: item.corner };
       });
       setShopData(initShopData);
       setShopDataDrop(getArrayDropDownList);
     };
-    getAllShop()
+    getAllShop();
   }, []);
   return (
     <View style={styles.container}>
@@ -63,7 +61,7 @@ export const ShopScreen = ({ navigation }) => {
         data={shopData}
         renderItem={({ item }) => (
           <ShopList
-            shop={item.shop}
+            shopName={item.shopName}
             navigation={navigation}
             // handleCheck={handleCheck}
             handleRemoveItem={handleRemoveItem}
@@ -90,13 +88,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
   },
-  list: {
-
-  },
+  list: {},
 
   addbtn: {
     alignItems: "center",
-    padding: 10
+    padding: 10,
   },
   // modalContainer: {
   //   flex: 1,

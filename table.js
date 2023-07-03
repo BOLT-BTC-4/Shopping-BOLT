@@ -809,17 +809,17 @@ const defaultItemsTable = [
 const defaultShopTable = [
   {
     id: "1",
-    shop: "カネスエ江南店",
+    shopName: "カネスエ江南店",
     corner: ["お肉", "果物", "野菜", "卵", "お菓子", "お魚"],
   },
   {
     id: "2",
-    shop: "バロー安城店",
+    shopName: "バロー安城店",
     corner: ["お魚", "お菓子", "卵", "お肉", "野菜", "果物"],
   },
   {
     id: "3",
-    shop: "イオン熱田店",
+    shopName: "イオン熱田店",
     corner: ["野菜", "お魚", "お肉", "果物", "お菓子", "卵", "調味料"],
   },
   // {
