@@ -31,7 +31,7 @@ export const ShareShopDataProvider = ({ children }) => {
   console.log("shopData:", shopData);
 
   useEffect(() => {
-    getAllShop();
+    // getAllShop();
   }, []);
   return (
     <ShareShopDataContext.Provider
