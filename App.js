@@ -54,9 +54,9 @@ const MenuStack = () => {
 const RecipeStack = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="レシピリスト" component={RecipeScreen} />
       <Stack.Screen name="レシピ登録/編集" component={EditRecipe} />
       <Stack.Screen name="レシピアイテム登録/編集" component={AddRecipeItem} />
-      <Stack.Screen name="レシピリスト" component={RecipeScreen} />
     </Stack.Navigator>
   );
 };
