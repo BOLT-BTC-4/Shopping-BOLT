@@ -33,6 +33,7 @@ import { EditMenu } from "./src/components/MenuComponents/EditMenu";
 import { EditShop } from "./src/components/ShopComponents/EditShop";
 import { AddMenu } from "./src/components/MenuComponents/AddMenu";
 import { EditRecipe } from "./src/components/RecipeComponents/EditRecipe";
+import { AddRecipeItem } from "./src/components/RecipeComponents/AddRecipeItem";
 
 import { withAuthenticator } from "@aws-amplify/ui-react-native";
 
@@ -54,6 +55,7 @@ const RecipeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="レシピ登録/編集" component={EditRecipe} />
+      <Stack.Screen name="レシピアイテム登録/編集" component={AddRecipeItem} />
       <Stack.Screen name="レシピリスト" component={RecipeScreen} />
     </Stack.Navigator>
   );

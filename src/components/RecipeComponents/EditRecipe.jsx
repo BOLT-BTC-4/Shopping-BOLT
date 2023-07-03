@@ -1,11 +1,34 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Button,
+  Modal,
+} from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { AddRecipeItem } from "./AddRecipeItem";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
+import { useForm, Controller } from "react-hook-form";
 
 export const EditRecipe = ({ navigation }) => {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      recipeName: "",
+    },
+  });
+
   const categories = [
     { id: 1, categry1: "主食" },
     { id: 2, categry1: "主菜" },
@@ -28,6 +51,12 @@ export const EditRecipe = ({ navigation }) => {
     defaultRecipes[selectedCategory]
   );
   const [serving, setServing] = useState(defaultServing);
+
+  // モーダルのuseState
+  const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
+    useState(false);
+  const [recipeItems, setRecipeItems] = useState([]);
+  const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
@@ -99,94 +128,117 @@ export const EditRecipe = ({ navigation }) => {
       <Text>{item.categry1}</Text>
     </TouchableOpacity>
   );
-  //登録されているrecipe表示
-  const renderRecipes = () => {
-    // const elements = defaultRecipes[selectedCategory];
-    return (
-      <FlatGrid
-        itemDimension={100} // 要素の幅
-        data={displayedRecipes} // 表示される配列を使用する
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
-            <View style={styles.recipeContainer}>
-              <Text style={styles.recipeText}>{item.recipe}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.recipeId}
-      />
-    );
-  };
-
-  //追加されたレシピ表示
-  const renderselectedRecipe = () => {
-    if (!selectedRecipe) {
-      return null;
-    }
-    return (
-      <View style={styles.selectedRecipeContainer}>
-        {/* ヘッダー */}
-        <View style={styles.selectedRecipeTab}>
-          <Text style={styles.selectedRecipeTabText}>追加されたレシピ</Text>
-          <AntDesign
-            name="minuscircleo"
-            size={17}
-            color="black"
-            onPress={() => setDefaultServing((prev) => prev - 1)}
-          />
-          <Text
-            style={styles.selectedRecipeTabTextSmall}
-          >{`デフォルト${defaultServing}人前`}</Text>
-          <AntDesign
-            name="pluscircleo"
-            size={17}
-            color="black"
-            onPress={() => setDefaultServing((prev) => prev + 1)}
-          />
-        </View>
-
-        {/* コンテンツ */}
-        <FlatList
-          data={selectedRecipe}
-          renderItem={({ item }) => (
-            <View style={styles.box}>
-              <View style={styles.recipeBox}>
-                <Text>{item.recipe}</Text>
-              </View>
-              <View style={styles.innerBox}>
-                <AntDesign
-                  name="minuscircleo"
-                  size={20}
-                  color="black"
-                  onPress={() => handleChangeServing(item.recipeId, -1)}
-                />
-                <Text>{`${item.serving}人前`}</Text>
-                <AntDesign
-                  name="pluscircleo"
-                  size={20}
-                  color="black"
-                  onPress={() => handleChangeServing(item.recipeId, 1)}
-                />
-              </View>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-    );
-  };
 
   //最初にレンダーされる
   return (
     <View style={styles.container}>
       <FlatGrid
         data={categories}
-        renderItem={renderCategoryTab}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              style={
+                selectedCategory === item.id ? styles.activeTab : styles.tab
+              }
+              onPress={() => handleCategorySelect(item.id)}
+            >
+              <Text>{item.categry1}</Text>
+            </TouchableOpacity>
+          );
+        }}
         keyExtractor={(item) => item.id.toString()}
         itemDimension={60} // 要素の幅
       />
-      {renderRecipes()}
-      {renderselectedRecipe()}
+      <View>
+        <Text>お気に入り</Text>
+      </View>
+      <View>
+        <Text style={styles.label}>レシピ名</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="recipeName"
+        />
+      </View>
+      <View>
+        <Text>URL</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="url"
+        />
+      </View>
+      <View>
+        <Text>メモ</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="memo"
+        />
+      </View>
+      <View>
+        <Text>？人前</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="serving"
+        />
+      </View>
+      <View>
+        <Text>食材</Text>
+        <Button
+          title="食材追加はこちらから"
+          onPress={() => {
+            console.log(setModalAddRecipeItemVisible(true));
+          }}
+          color="mediumseagreen"
+        />
+        {/* 食材追加モーダル */}
+
+        <Modal
+          visible={modalAddRecipeItemVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <AddRecipeItem
+                setRecipeItems={setRecipeItems}
+                setAddRecipeItemFlag={setAddRecipeItemFlag}
+                setModalAddRecipeItemVisible={setModalAddRecipeItemVisible}
+              />
+            </View>
+          </View>
+        </Modal>
+      </View>
 
       <TouchableOpacity
         style={styles.button}
@@ -299,5 +351,22 @@ const styles = {
     borderRadius: 20,
     width: "50%",
     marginLeft: "25%",
+  },
+
+  label: {
+    // color: "white",
+    margin: 20,
+    marginLeft: 0,
+  },
+  input: {
+    backgroundColor: "white",
+    borderColor: "gray",
+    borderWidth: 1,
+    height: 40,
+    padding: 10,
+    borderRadius: 4,
+  },
+  alertFont: {
+    color: "red",
   },
 };

@@ -14,6 +14,7 @@ type EagerShop = {
   readonly id: string;
   readonly shopName: string;
   readonly corner?: (string | null)[] | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -26,6 +27,7 @@ type LazyShop = {
   readonly id: string;
   readonly shopName: string;
   readonly corner?: (string | null)[] | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -50,6 +52,7 @@ type EagerShoppingList = {
   readonly directions?: number | null;
   readonly recipeID?: string | null;
   readonly recipeName?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -68,6 +71,7 @@ type LazyShoppingList = {
   readonly directions?: number | null;
   readonly recipeID?: string | null;
   readonly recipeName?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -86,6 +90,7 @@ type EagerMenu = {
   readonly id: string;
   readonly date?: string | null;
   readonly recipes?: (RecipeMenu | null)[] | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -98,6 +103,7 @@ type LazyMenu = {
   readonly id: string;
   readonly date?: string | null;
   readonly recipes: AsyncCollection<RecipeMenu>;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -117,6 +123,7 @@ type EagerItem = {
   readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -130,6 +137,7 @@ type LazyItem = {
   readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -183,6 +191,7 @@ type EagerRecipeItem = {
   readonly corner?: string | null;
   readonly recipeID?: string | null;
   readonly unit?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -198,6 +207,7 @@ type LazyRecipeItem = {
   readonly corner?: string | null;
   readonly recipeID?: string | null;
   readonly unit?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -222,6 +232,7 @@ type EagerRecipe = {
   readonly like?: number | null;
   readonly Menus?: (RecipeMenu | null)[] | null;
   readonly RecipeItems?: (RecipeItem | null)[] | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -240,6 +251,7 @@ type LazyRecipe = {
   readonly like?: number | null;
   readonly Menus: AsyncCollection<RecipeMenu>;
   readonly RecipeItems: AsyncCollection<RecipeItem>;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
