@@ -29,14 +29,20 @@ export const RecipeScreen = ({ navigation }) => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
-      console.log("initRecipeData:", initRecipeData);
       setRecipeData(initRecipeData);
+      setDisplayedRecipes(initRecipeData[selectedCategory]);
     };
     getAllRecipe();
   }, []);
 
   return (
     <View style={styles.container}>
+      <FlatGrid
+        data={categories}
+        renderItem={renderCategoryTab}
+        keyExtractor={(item) => item.id.toString()}
+        itemDimension={60} // 要素の幅
+      />
       <FlatList
         style={styles.list}
         data={recipeData}
