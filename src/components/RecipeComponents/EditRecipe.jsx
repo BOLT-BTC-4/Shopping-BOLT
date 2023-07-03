@@ -11,9 +11,11 @@ import {
 import { FlatGrid } from "react-native-super-grid";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { AddRecipeItem } from "./AddRecipeItem";
+import { RecipeItemList } from "./RecipeItemList";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 import { useForm, Controller } from "react-hook-form";
+import { Rating, AirbnbRating } from "react-native-ratings";
 
 export const EditRecipe = ({ navigation }) => {
   const {
@@ -36,6 +38,12 @@ export const EditRecipe = ({ navigation }) => {
     { id: 4, categry1: "汁物" },
     { id: 5, categry1: "その他" },
   ];
+
+  const testDataRecipeItems = [
+    { id: 1, itemName: "にんじん", quantity: "1", unit: "個" },
+    { id: 2, itemName: "じゃがいも", quantity: "1", unit: "個" },
+  ];
+
   const defaultRecipes = table.defaultRecipes;
   const {
     selectedDay,
@@ -55,29 +63,35 @@ export const EditRecipe = ({ navigation }) => {
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
     useState(false);
-  const [recipeItems, setRecipeItems] = useState([]);
+  const [recipeItems, setRecipeItems] = useState(testDataRecipeItems);
   const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
+
+  // レーティングのuseStateと設定
+  const [sliderRating, setSliderRating] = useState(0);
+
+  const handleSliderRating = (rating) => {
+    setSliderRating(rating);
+  };
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
-    const newSelectedRecipe = [...selectedRecipe];
-    // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
-    newSelectedRecipe.forEach((recipe, indexOut) => {
-      recipe.items.forEach((item, index) => {
-        console.log("////////////////////////////////////", recipe.serving);
-        newSelectedRecipe[indexOut].items[index].quantity =
-          item.quantity * recipe.serving;
-      });
-    });
-    console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
-
-    const newMenu = {
-      ...menu,
-      [selectedDay]: newSelectedRecipe,
-    };
-    "newmenu", newMenu;
-    setMenu(newMenu);
-    navigation.navigate("献立リスト");
+    // const newSelectedRecipe = [...selectedRecipe];
+    // // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
+    // newSelectedRecipe.forEach((recipe, indexOut) => {
+    //   recipe.items.forEach((item, index) => {
+    //     console.log("////////////////////////////////////", recipe.serving);
+    //     newSelectedRecipe[indexOut].items[index].quantity =
+    //       item.quantity * recipe.serving;
+    //   });
+    // });
+    // console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
+    // const newMenu = {
+    //   ...menu,
+    //   [selectedDay]: newSelectedRecipe,
+    // };
+    // "newmenu", newMenu;
+    // setMenu(newMenu);
+    // navigation.navigate("献立リスト");
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
@@ -150,7 +164,21 @@ export const EditRecipe = ({ navigation }) => {
         itemDimension={60} // 要素の幅
       />
       <View>
-        <Text>お気に入り</Text>
+        {/* <Text>評価: {starRating}</Text>
+        <Rating
+          showRating
+          onFinishRating={handleStarRating}
+          style={{ paddingVertical: 10 }}
+        /> */}
+        <Text>おすすめ度: {sliderRating}</Text>
+        <AirbnbRating
+          count={5}
+          reviews={["Bad", "OK", "Good"]}
+          defaultRating={sliderRating}
+          showRating={false}
+          size={20}
+          onFinishRating={handleSliderRating}
+        />
       </View>
       <View>
         <Text style={styles.label}>レシピ名</Text>
@@ -215,11 +243,25 @@ export const EditRecipe = ({ navigation }) => {
       <View>
         <Text>食材</Text>
         <Button
-          title="食材追加はこちらから"
+          title="食材追加"
           onPress={() => {
             console.log(setModalAddRecipeItemVisible(true));
           }}
           color="mediumseagreen"
+        />
+        <FlatList
+          data={recipeItems}
+          renderItem={({ item }) => (
+            <RecipeItemList
+              item={item}
+              // handleCheck={handleCheck}
+              // handleRemoveItem={handleRemoveItem}
+              recipeItems={recipeItems}
+              setRecipeItems={setRecipeItems}
+              setAddRecipeItemFlag={setAddRecipeItemFlag}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
         />
         {/* 食材追加モーダル */}
 
@@ -231,6 +273,7 @@ export const EditRecipe = ({ navigation }) => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <AddRecipeItem
+                recipeItems={recipeItems}
                 setRecipeItems={setRecipeItems}
                 setAddRecipeItemFlag={setAddRecipeItemFlag}
                 setModalAddRecipeItemVisible={setModalAddRecipeItemVisible}
@@ -244,7 +287,7 @@ export const EditRecipe = ({ navigation }) => {
         style={styles.button}
         onPress={handleSelectedRecipesSubmit}
       >
-        <Text style={styles.buttonInner}>こんだてを登録</Text>
+        <Text style={styles.buttonInner}>レシピを登録</Text>
       </TouchableOpacity>
     </View>
   );
