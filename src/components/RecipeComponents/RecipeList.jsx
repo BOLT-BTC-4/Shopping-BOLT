@@ -1,37 +1,124 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import { StyleSheet, Text, View, Modal, Button, Alert, Linking, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 
 export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) => {
   console.log("===== comp_RecipeList =====");
-  useEffect(() => { }, []);
+
+
+  // Like★★★イメージを作成
+  const likeImage = (like) => {
+    if (like === 1) {
+      return (
+        <>
+          <AntDesign name="star" size={10} color="blue" />
+          <AntDesign name="staro" size={10} color="blue" />
+          <AntDesign name="staro" size={10} color="blue" />
+        </>
+      )
+    }
+    else if (like === 2) {
+      return (
+        <>
+          <AntDesign name="star" size={10} color="blue" />
+          <AntDesign name="star" size={10} color="blue" />
+          <AntDesign name="staro" size={10} color="blue" />
+        </>
+      )
+    }
+    else if (like === 3) {
+      return (
+        <>
+          <AntDesign name="staro" size={10} color="blue" />
+          <AntDesign name="staro" size={10} color="blue" />
+          <AntDesign name="staro" size={10} color="blue" />
+        </>
+      )
+    }
+    else {
+      return (
+        <>
+          <AntDesign name="star" size={10} color="blue" />
+          <AntDesign name="star" size={10} color="blue" />
+          <AntDesign name="star" size={10} color="blue" />
+        </>
+      )
+    }
+  };
+
+  // レシピURLを開く
+  const openURL = (url) => {
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(url);
+        } else {
+          Alert.alert(`このURLは開けません: ${url}`);
+        }
+      })
+      .catch((error) => console.log("urlエラー", error));
+  };
+
+  // レンダリング///////////////////////////////////////////////////////////
   return (
-    <View style={styles.box}>
-      <View style={styles.moziBox}>
-        <Text style={styles.text}>{recipeName}</Text>
+    <>
+
+      <View style={styles.box}>
+        <View style={styles.moziBox}>
+          <View style={styles.stack}>
+            <Text style={styles.textSmall}>{item.category}</Text>
+            <Text style={styles.textSmall}>{likeImage(item.like)}</Text>
+            <Text style={styles.text}>{recipeName}</Text>
+          </View>
+          <AntDesign
+            name="link"
+            size={24}
+            color="black"
+            onPress={() => {
+              openURL(item.url);
+            }}
+          />
+        </View>
+        <View style={styles.iconBox}>
+          <Feather
+            name="edit"
+            size={24}
+            color="black"
+            onPress={() => {
+              navigation.navigate("レシピ登録/編集", { item });
+            }}
+          />
+          <Feather
+            name="trash-2"
+            size={24}
+            color="black"
+            onPress={() => handleRemoveItem(item.id)}
+          />
+        </View>
       </View>
-      <View style={styles.iconBox}>
-        <Feather
-          name="edit"
-          size={24}
-          color="black"
-          onPress={() => {
-            navigation.navigate("レシピ登録/編集", { item });
-          }}
-        />
-        <Feather
-          name="trash-2"
-          size={24}
-          color="black"
-          onPress={() => handleRemoveItem(item.id)}
-        />
-      </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  tab: {
+    padding: 10,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeTab: {
+    padding: 10,
+    backgroundColor: "lightblue",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   box: {
     height: 50,
     width: "100%",
@@ -76,9 +163,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  subText: {
-    fontSize: 12,
-    color: "red",
+  textSmall: {
+    fontSize: 10,
+    color: "mediumseagreen",
   },
   modalContainer: {
     flex: 1,
