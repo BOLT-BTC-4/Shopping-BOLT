@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 
@@ -104,11 +104,22 @@ export const EditMenu = ({ navigation }) => {
     // const elements = defaultRecipes[selectedCategory];
     return (
       <FlatGrid
-        itemDimension={100} // 要素の幅
+        itemDimension={110} // 要素の幅
         data={displayedRecipes} // 表示される配列を使用する
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.recipeContainer}>
+              {item.like === 2 && (
+                <>
+                  <Entypo name="star" size={14} color="black" />
+                  <Entypo name="star" size={14} color="black" />
+                </>
+              )}
+              {item.like === 1 && (
+                <>
+                  <Entypo name="star" size={14} color="black" />
+                </>
+              )}
               <Text style={styles.recipeText}>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
