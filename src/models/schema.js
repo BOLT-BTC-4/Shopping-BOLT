@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "shop": {
-                    "name": "shop",
+                "shopName": {
+                    "name": "shopName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -80,8 +80,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "item": {
-                    "name": "item",
+                "itemName": {
+                    "name": "itemName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -103,6 +103,34 @@ export const schema = {
                 },
                 "corner": {
                     "name": "corner",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "check": {
+                    "name": "check",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "directions": {
+                    "name": "directions",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "recipeID": {
+                    "name": "recipeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "recipeName": {
+                    "name": "recipeName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -241,8 +269,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "item": {
-                    "name": "item",
+                "itemName": {
+                    "name": "itemName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -317,8 +345,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "item": {
-                    "name": "item",
+                "itemName": {
+                    "name": "itemName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -390,8 +418,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "recipeItem": {
-                    "name": "recipeItem",
+                "recipeItemName": {
+                    "name": "recipeItemName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -489,8 +517,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "recipe": {
-                    "name": "recipe",
+                "recipeName": {
+                    "name": "recipeName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -517,15 +545,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "category1": {
-                    "name": "category1",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "category2": {
-                    "name": "category2",
+                "category": {
+                    "name": "category",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -717,5 +738,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "d120d494c1637fa0e1a9b7bb034a1f1a"
+    "version": "0b5159bd0997641a2ed028484be77fef"
 };

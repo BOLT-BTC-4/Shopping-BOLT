@@ -12,7 +12,7 @@ type EagerShop = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly shop: string;
+  readonly shopName: string;
   readonly corner?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -24,7 +24,7 @@ type LazyShop = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly shop: string;
+  readonly shopName: string;
   readonly corner?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -42,10 +42,14 @@ type EagerShoppingList = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly quantity?: number | null;
   readonly corner?: string | null;
+  readonly check?: boolean | null;
+  readonly directions?: number | null;
+  readonly recipeID?: string | null;
+  readonly recipeName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -56,10 +60,14 @@ type LazyShoppingList = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly quantity?: number | null;
   readonly corner?: string | null;
+  readonly check?: boolean | null;
+  readonly directions?: number | null;
+  readonly recipeID?: string | null;
+  readonly recipeName?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -106,7 +114,7 @@ type EagerItem = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
   readonly createdAt?: string | null;
@@ -119,7 +127,7 @@ type LazyItem = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
   readonly createdAt?: string | null;
@@ -138,7 +146,7 @@ type EagerItemPreset = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
   readonly createdAt?: string | null;
@@ -151,7 +159,7 @@ type LazyItemPreset = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly item: string;
+  readonly itemName: string;
   readonly unit?: string | null;
   readonly corner?: string | null;
   readonly createdAt?: string | null;
@@ -170,7 +178,7 @@ type EagerRecipeItem = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly recipeItem: string;
+  readonly recipeItemName: string;
   readonly quantity?: number | null;
   readonly corner?: string | null;
   readonly recipeID?: string | null;
@@ -185,7 +193,7 @@ type LazyRecipeItem = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly recipeItem: string;
+  readonly recipeItemName: string;
   readonly quantity?: number | null;
   readonly corner?: string | null;
   readonly recipeID?: string | null;
@@ -206,12 +214,11 @@ type EagerRecipe = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly recipe: string;
+  readonly recipeName: string;
   readonly memo?: string | null;
   readonly url?: string | null;
   readonly serving?: number | null;
-  readonly category1?: string | null;
-  readonly category2?: string | null;
+  readonly category?: string | null;
   readonly like?: number | null;
   readonly Menus?: (RecipeMenu | null)[] | null;
   readonly RecipeItems?: (RecipeItem | null)[] | null;
@@ -225,12 +232,11 @@ type LazyRecipe = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly recipe: string;
+  readonly recipeName: string;
   readonly memo?: string | null;
   readonly url?: string | null;
   readonly serving?: number | null;
-  readonly category1?: string | null;
-  readonly category2?: string | null;
+  readonly category?: string | null;
   readonly like?: number | null;
   readonly Menus: AsyncCollection<RecipeMenu>;
   readonly RecipeItems: AsyncCollection<RecipeItem>;

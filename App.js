@@ -8,58 +8,31 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
-// import { API, graphqlOperation } from "aws-amplify";
-// import { createTodo } from "./src/graphql/mutations";
-// import { listTodos } from "./src/graphql/queries";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "./src/aws-exports";
 Amplify.configure(awsExports);
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
 
 import { ShareShopDataProvider } from "./src/screen/ShareShopDataContext";
 import { MenuScreen } from "./src/screen/MenuScreen";
 import { RecipeScreen } from "./src/screen/RecipeScreen";
 import { MainScreen } from "./src/screen/MainScreen";
 import { ShopScreen } from "./src/screen/ShopScreen";
+import { SettingScreen } from "./src/screen/SettingScreen";
+
 import { AddShop } from "./src/components/ShopComponents/AddShop";
 import { ShopList } from "./src/components/ShopComponents/ShopList";
 import { EditMenu } from "./src/components/MenuComponents/EditMenu";
 import { EditShop } from "./src/components/ShopComponents/EditShop";
 import { AddMenu } from "./src/components/MenuComponents/AddMenu";
-import {
-  withAuthenticator,
-  useAuthenticator,
-} from "@aws-amplify/ui-react-native";
-import { dataClearAPI } from "./src/boltAPI";
-
-// retrieves only the current value of 'user' from 'useAuthenticator'
-const userSelector = (context) => [context.user];
-
-const SignOutButton = () => {
-  const { user } = useAuthenticator(userSelector);
-  // サインアウトしたら、ローカルのデータをクリアする
-  async function signOutOriginal() {
-    try {
-      await dataClearAPI(); // サインアウトしたら、ローカルのデータをクリアする
-      await Auth.signOut();
-      console.log("===サインアウト完了===")
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  }
-  return (
-    <Pressable onPress={signOutOriginal} style={styles.buttonContainer}>
-      <Text style={styles.buttonText}>
-        Hello, {user.username}! Click here to sign out!
-      </Text>
-    </Pressable>
-  );
-};
+import { withAuthenticator } from "@aws-amplify/ui-react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -114,10 +87,17 @@ const ShopStack = () => {
   );
 };
 
+const SettingStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="設定" component={SettingScreen} />
+    </Stack.Navigator>
+  );
+}
+
 const App = () => {
   return (
     <>
-      <SignOutButton />
       <ShareShopDataProvider>
         <NavigationContainer>
           <Tab.Navigator
@@ -168,6 +148,17 @@ const App = () => {
                 tabBarLabel: "お店",
                 tabBarIcon: ({ color }) => (
                   <Entypo name="shop" color={color} size={26} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="設定"
+              component={SettingStack}
+              options={{
+                headerShown: false,
+                tabBarLabel: "設定",
+                tabBarIcon: ({ color }) => (
+                  <FontAwesome name="gear" color={color} size={26} />
                 ),
               }}
             />
