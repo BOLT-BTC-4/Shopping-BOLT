@@ -9,12 +9,10 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { RecipeList } from "../components/RecipeComponents/RecipeList.jsx"
+import { RecipeList } from "../components/RecipeComponents/RecipeList.jsx";
 import { ShareShopDataContext } from "./ShareShopDataContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { fetchRecipeAPI, deleteRecipeAPI } from "../boltAPI";
-
-
 
 export const RecipeScreen = ({ navigation }) => {
   console.log("===== comp_RecipeScreen =====");
@@ -25,14 +23,13 @@ export const RecipeScreen = ({ navigation }) => {
     await deleteRecipeAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
-
   };
 
   useEffect(() => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
-      console.log("initRecipeData:", initRecipeData)
+      console.log("initRecipeData:", initRecipeData);
       setRecipeData(initRecipeData);
     };
     getAllRecipe();
@@ -62,7 +59,6 @@ export const RecipeScreen = ({ navigation }) => {
       >
         <MaterialIcons name="add-circle-outline" size={24} color="black" />
       </TouchableOpacity>
-
     </View>
   );
 };

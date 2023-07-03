@@ -79,29 +79,29 @@ export const createShoppingListAPI = async (data) => {
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
   // API動作確認用ダミーデータ
-  data = {
-    recipe: "俺のカレー",
-    memo: "香辛料で作るよ！（ルー不使用）",
-    url: "https://dancyu.jp/recipe/2021_00004322.html",
-    serving: 4,
-    category1: "主菜",
-    category2: "印",
-    like: 3,
-  };
+  // data = {
+  //   recipe: "俺のカレー",
+  //   memo: "香辛料で作るよ！（ルー不使用）",
+  //   url: "https://dancyu.jp/recipe/2021_00004322.html",
+  //   serving: 4,
+  //   category1: "主菜",
+  //   category2: "印",
+  //   like: 3,
+  // };
   // ダミーここまで
-
-  const { recipe, memo, url, serving, category1, category2, like } = data;
+  console.log("===== BoltAPI =====")
+  console.log("createRecipeAPI:", data);
+  const { recipeName, memo, url, serving, category, like } = data;
 
   try {
-    // 最初に recipt を作成 w/reciptItem (@hasMany ReciptItem, @manyToMany Manu)
+    // 最初に recipe を作成 w/recipeItem (@hasMany RecipeItem, @manyToMany Manu)
     const recipeMany = await DataStore.save(
       new Recipe({
-        recipe,
+        recipeName,
         memo,
         url,
         serving,
-        category1,
-        category2,
+        category,
         like,
         // Menus: [Menu] @manyToMany(relationName: "RecipeMenu"),
         // RecipeItems: [RecipeItem] @hasMany(indexName: "byRecipe", fields: ["id"])
@@ -110,7 +110,7 @@ export const createRecipeAPI = async (data) => {
 
     // API動作確認用ダミーデータ
     data = {
-      recipeItem: "トマト",
+      recipeItemName: "トマト",
       unit: "個",
       quantity: 2,
       corner: "野菜",
@@ -130,11 +130,11 @@ export const createRecipeAPI = async (data) => {
     // ];
     // ダミーここまで
 
-    const { recipeItem, unit, quantity, corner } = data;
+    const { recipeItemName, unit, quantity, corner } = data;
 
     await DataStore.save(
       new RecipeItem({
-        recipeItem,
+        recipeItemName,
         unit,
         quantity,
         corner,
@@ -159,7 +159,7 @@ export const createRecipeAPI = async (data) => {
     // 最後に Recipe と Menu のリンクモデルを作成
     await DataStore.save(
       new RecipeMenu({
-        recipe: recipeMany,
+        recipeName: recipeMany,
         menu: menu,
       })
     );

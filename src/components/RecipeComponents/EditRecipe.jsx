@@ -16,6 +16,7 @@ import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 import { useForm, Controller } from "react-hook-form";
 import { Rating, AirbnbRating } from "react-native-ratings";
+import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const EditRecipe = ({ navigation }) => {
   const {
@@ -28,6 +29,8 @@ export const EditRecipe = ({ navigation }) => {
   } = useForm({
     defaultValues: {
       recipeName: "",
+      memo: "",
+      url: null,
     },
   });
 
@@ -54,11 +57,13 @@ export const EditRecipe = ({ navigation }) => {
     setDefaultServing,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
+  const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [displayedRecipes, setDisplayedRecipes] = useState(
     defaultRecipes[selectedCategory]
   );
   const [serving, setServing] = useState(defaultServing);
+  const { recipeData, setRecipeData } = useContext(ShareShopDataContext);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
@@ -74,7 +79,35 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   //選択されたレシピを献立に登録
-  const handleSelectedRecipesSubmit = () => {
+  const onSubmit = async (data) => {
+    postData = {
+      recipeName: data.recipeName,
+      memo: data.memo,
+      url: data.url,
+      serving: Number(data.serving),
+      category: selectedCategoryName,
+      like: Number(sliderRating),
+    };
+    console.log("postData:", postData);
+
+    await createRecipeAPI(postData);
+
+    // レシピの一覧を取得
+    const getAllRecipe = async () => {
+      const initRecipeData = await fetchRecipeAPI();
+      console.log("initRecipeData:", initRecipeData);
+      setRecipeData(initRecipeData);
+    };
+
+    setRecipeData(getAllRecipe);
+    navigation.navigate("レシピリスト");
+
+    // const shop = {
+    //   shopName: data.shopName,
+    //   corner: corner,
+    // };
+    // await createShopAPI(shop);
+
     // const newSelectedRecipe = [...selectedRecipe];
     // // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     // newSelectedRecipe.forEach((recipe, indexOut) => {
@@ -154,7 +187,10 @@ export const EditRecipe = ({ navigation }) => {
               style={
                 selectedCategory === item.id ? styles.activeTab : styles.tab
               }
-              onPress={() => handleCategorySelect(item.id)}
+              onPress={() => {
+                handleCategorySelect(item.id);
+                setSelectedCategoryName(item.categry1);
+              }}
             >
               <Text>{item.categry1}</Text>
             </TouchableOpacity>
@@ -172,7 +208,7 @@ export const EditRecipe = ({ navigation }) => {
         /> */}
         <Text>おすすめ度: {sliderRating}</Text>
         <AirbnbRating
-          count={5}
+          count={3}
           reviews={["Bad", "OK", "Good"]}
           defaultRating={sliderRating}
           showRating={false}
@@ -283,10 +319,7 @@ export const EditRecipe = ({ navigation }) => {
         </Modal>
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSelectedRecipesSubmit}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonInner}>レシピを登録</Text>
       </TouchableOpacity>
     </View>
