@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Modal, Button, Alert, Linking, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Modal, Button, Alert, Linking } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
