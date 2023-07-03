@@ -57,7 +57,6 @@ export const RecipeScreen = ({ navigation }) => {
     console.log("categoryId:", categoryId)
     setSelectedCategory(categoryId);
     setDisplayedRecipes(recipeData.filter(item => item.category === categoryName));
-    console.log("displayedRecipes:", recipeData.filter(item => item.category === categoryName))
   };
 
 
@@ -66,7 +65,7 @@ export const RecipeScreen = ({ navigation }) => {
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(recipeData.filter(item => item.category === "主食"));
+      setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
     };
     getAllRecipe();
 
