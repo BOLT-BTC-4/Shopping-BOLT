@@ -24,6 +24,7 @@ export const RecipeScreen = ({ navigation }) => {
     await deleteRecipeAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
+    setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
   };
 
   // カテゴリ毎にレシピ一覧を表示させる
