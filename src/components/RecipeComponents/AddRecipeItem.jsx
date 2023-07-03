@@ -16,6 +16,7 @@ import uuid from "react-native-uuid";
 import { createShoppingListAPI } from "../../boltAPI";
 
 export const AddRecipeItem = ({
+  recipeItems,
   setRecipeItems,
   setAddRecipeItemFlag,
   setModalAddRecipeItemVisible,
@@ -35,43 +36,18 @@ export const AddRecipeItem = ({
     },
   });
 
-  const onSubmit = async (data) => {
-    //下のfindでマスターitemsからitemを取り出し一致するobjを返す
-    let cornarName = (item) => {
-      return item.itemName === data.itemName;
+  const onSubmit = (data) => {
+    // console.log("ITEMNAME:", data.itemName);
+    let newRecipeItemData = {
+      itemName: data.itemName,
+      quantity: Number(data.quantity),
+      unit: data.unit,
     };
-    let result = table.masterItem.find(cornarName);
-    // (result);
-    let newData = {};
-    if (result === undefined) {
-      (newData = {
-        localId: uuid.v4(),
-        corner: "",
-        itemName: data.itemName,
-        quantity: Number(data.quantity),
-        unit: "個",
-        directions: 99,
-        check: false,
-      }),
-        setRecipeItems((items) => [...items, newData]);
-    } else {
-      (newData = {
-        localId: uuid.v4(),
-        corner: result.corner,
-        item: data.itemName,
-        quantity: Number(data.quantity),
-        unit: result.unit,
-        directions: 99,
-        check: false,
-      }),
-        setRecipeItems((items) => [...items, newData]);
-    }
-    // ("/////", newData);
-    //追加するitemをDBの保存////////////////////////////////////////////////////////API
-    // await createShoppingListAPI(newData);
-    setAddRecipeItemFlag(true);
-    reset();
+    // console.log("newRecipeItemData", newRecipeItemData);
+    setRecipeItems((items) => [...items, newRecipeItemData]);
   };
+
+  console.log("recipeItems", recipeItems);
 
   const onChange = (arg) => {
     return {
@@ -82,8 +58,8 @@ export const AddRecipeItem = ({
   return (
     <View style={styles.container}>
       <Text style={styles.label}>新規食材</Text>
-      {errors.itemName && (
-        <Text style={styles.alertFont}>商品名を入力してください</Text>
+      {errors.ItemName && (
+        <Text style={styles.alertFont}>食材名を入力してください</Text>
       )}
       <Controller
         control={control}
