@@ -172,7 +172,7 @@ export const createRecipeAPI = async (data) => {
 export const fetchRecipeAPI = async () => {
   try {
     const recipeList = await DataStore.query(Recipe);
-    return JSON.stringify(recipeList, null, 2);
+    return recipeList;
   } catch (err) {
     throw err;
   }

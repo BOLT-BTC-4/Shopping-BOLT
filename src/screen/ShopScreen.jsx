@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createShopAPI, fetchShopAPI } from "../boltAPI";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
@@ -17,7 +16,7 @@ import { ShareShopDataContext } from "./ShareShopDataContext";
 import { ShopList } from "../components/ShopComponents/ShopList";
 
 import { useForm, Controller } from "react-hook-form";
-import { deleteShopAPI } from "../boltAPI";
+import { deleteShopAPI, fetchShopAPI } from "../boltAPI";
 
 export const ShopScreen = ({ navigation }) => {
   console.log("===== comp_ShopScreen =====");
