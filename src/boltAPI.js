@@ -137,7 +137,6 @@ export const createRecipeAPI = async (data) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
       console.log("item:", recipeItemName, unit, quantity, corner);
-      console.log("item:", recipeItemName, unit, quantity, corner);
       await DataStore.save(
         new RecipeItem({
           recipeItemName,
@@ -238,6 +237,22 @@ export const deleteRecipeAPI = async (id) => {
     DataStore.delete(Recipe, deleterecipe);
   } catch (err) {
     throw err;
+  }
+};
+
+// Item アイテムの登録
+export const createItemAPI = async (data) => {
+  const { itemName, corner, unit } = data;
+  try {
+    await DataStore.save(
+      new Item({
+        itemName,
+        corner,
+        unit,
+      })
+    );
+  } catch (error) {
+    throw error;
   }
 };
 
