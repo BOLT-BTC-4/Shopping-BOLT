@@ -10,6 +10,7 @@ import {
   Recipe,
   RecipeMenu,
 } from "./models";
+import { itemPresetData } from "./itemPreset";
 
 // Shop お店登録
 export const createShopAPI = async (data) => {
@@ -266,28 +267,25 @@ export const fetchItemAPI = async () => {
   }
 };
 
-// Itemリストが空だったら、ItemPresetからコピー
-// export const copyItemPresetAPI = async () => {
-//   // Step 1: Itemテーブルが空かどうかを確認する
-//   const itemData = await DataStore.query(Item);
-//   if (itemData.length === 0) {
-//     // Step 2: ItemPresetテーブルからデータをコピーする
-//     const itemPresetData = await DataStore.query(ItemPreset);
-//     console.log("⭐️", itemPresetData);
-//     await Promise.all(
-//       itemPresetData.map(async (itemPreset) => {
-//         // Itemテーブルにデータを追加する
-//         await DataStore.save(
-//           new Item({
-//             itemName: itemPreset.itemName,
-//             unit: itemPreset.unit,
-//             corner: itemPreset.corner,
-//           })
-//         );
-//       })
-//     );
-//   }
-// };
+
+// Itemリストが空だったら、itemPresetからコピー　
+export const copyItemPresetAPI = async () => {
+  // Itemテーブルが空かどうかを確認する
+  const itemData = await DataStore.query(Item);
+  if (itemData.length === 0) {
+    // itemtemPresetテーブルからデータをコピーする
+    itemPresetData.forEach(async (itemPreset) => {
+      // Itemテーブルにデータを追加する
+      await DataStore.save(
+        new Item({
+          itemName: itemPreset.itemName,
+          unit: itemPreset.unit,
+          corner: itemPreset.corner,
+        })
+      );
+    })
+  }
+};
 
 // ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。
