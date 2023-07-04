@@ -16,6 +16,7 @@ type ShoppingList @model @auth(rules: [{allow: owner}]) {
   recipeID: ID
   recipeName: String
   owner: String
+  bought: Boolean
 }
 
 type Menu @model @auth(rules: [{allow: owner}]) {

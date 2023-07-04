@@ -26,6 +26,7 @@ export const EditMenu = ({ navigation }) => {
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
+  console.log("selectedRecipe1 : ", selectedRecipe);
   const [displayedRecipes, setDisplayedRecipes] = useState(
     defaultRecipes[selectedCategory]
   );
@@ -36,6 +37,7 @@ export const EditMenu = ({ navigation }) => {
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
     const newSelectedRecipe = [...selectedRecipe];
+    console.log("selectedRecipe2 : ", selectedRecipe);
     // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     newSelectedRecipe.forEach((recipe, indexOut) => {
       recipe.items.forEach((item, index) => {
@@ -112,8 +114,7 @@ export const EditMenu = ({ navigation }) => {
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
       style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}
-    >
+      onPress={() => handleCategorySelect(item.id)}>
       <Text>{item.categry1}</Text>
     </TouchableOpacity>
   );
@@ -154,8 +155,9 @@ export const EditMenu = ({ navigation }) => {
             onPress={() => setDefaultServing((prev) => prev - 1)}
           />
           <Text
-            style={styles.selectedRecipeTabTextSmall}
-          >{`デフォルト${defaultServing}人前`}</Text>
+            style={
+              styles.selectedRecipeTabTextSmall
+            }>{`デフォルト${defaultServing}人前`}</Text>
           <AntDesign
             name="pluscircleo"
             size={17}
@@ -215,8 +217,7 @@ export const EditMenu = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={handleSelectedRecipesSubmit}
-      >
+        onPress={handleSelectedRecipesSubmit}>
         <Text style={styles.buttonInner}>こんだてを登録</Text>
       </TouchableOpacity>
     </View>
