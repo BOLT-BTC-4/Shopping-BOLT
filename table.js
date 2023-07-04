@@ -1329,7 +1329,7 @@ const defaultRecipes = {
       categry1: "その他",
       recipe: "私のスムージ",
       url: "https://dig-zamas.com/",
-      like: 2,
+      like: 3,
       items: [
         {
           itemId: uuid.v4(),
