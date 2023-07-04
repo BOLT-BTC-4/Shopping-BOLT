@@ -42,7 +42,7 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     let newData = {};
     if (result === undefined) {
       newData = {
-        // localId: uuid.v4(),
+        // id: uuid.v4(),
         corner: "",
         itemName: data.itemName,
         quantity: Number(data.quantity),
@@ -54,7 +54,7 @@ export const AddItem = ({ setModalAddItemVisible }) => {
       // setItems((items) => [...items, newData]);
     } else {
       newData = {
-        // localId: uuid.v4(),
+        // id: uuid.v4(),
         corner: result.corner,
         itemName: data.itemName,
         quantity: Number(data.quantity),
@@ -70,9 +70,7 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     await createShoppingListAPI(newData);
     //買い物リスト一覧をDBから取得///////////////////////////////////////API
     const getAllShoppingList = async () => {
-      console.log("getAll!!!!!!!!!!!");
       const getShoppingData = await fetchShoppingListAPI();
-      console.log("getShoppingData・・・・・・・・・・・", getShoppingData);
       setItems(getShoppingData);
     };
     getAllShoppingList();

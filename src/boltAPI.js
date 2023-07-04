@@ -82,11 +82,23 @@ export const fetchShoppingListAPI = async () => {
 };
 
 // ShoppingList 買い物リストの更新
-export const updateShoppingListAPI = async (id) => {
+export const updateShoppingListAPI = async (item) => {
+  // console.log("買い物リスト更新APIの中🤩", item);
   try {
-    const targetShoppingList = await DataStore.query(ShoppingList, id);
-    console.log("買い物リスト更新APIの中🤩", targetShoppingList);
-    return targetShoppingList;
+    const targetItem = await DataStore.query(ShoppingList, item.id);
+    console.log("買い物リスト更新APIの中🤩", targetItem);
+    await DataStore.save(
+      ShoppingList.copyOf(targetItem, (updated) => {
+        updated.bought = item.bought;
+        updated.check = item.check;
+        updated.corner = item.corner;
+        updated.directions = item.directions;
+        updated.itemName = item.itemName;
+        updated.quantity = item.quantity;
+        updated.unit = item.unit;
+        updated.recipeName = item.recipeName;
+      })
+    );
   } catch (err) {
     throw err;
   }
@@ -102,10 +114,11 @@ export const deleteShoppingListAPI = async (id) => {
   }
 };
 
-
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
+  const { recipeName, memo, url, serving, category, like, recipeItemList } =
+    data;
   const { recipeName, memo, url, serving, category, like, recipeItemList } =
     data;
 
@@ -126,6 +139,7 @@ export const createRecipeAPI = async (data) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
       console.log("item:", recipeItemName, unit, quantity, corner);
+      console.log("item:", recipeItemName, unit, quantity, corner);
       await DataStore.save(
         new RecipeItem({
           recipeItemName,
@@ -141,30 +155,43 @@ export const createRecipeAPI = async (data) => {
   }
 };
 
+//Menu 献立登録
 export const createMenuAPI = async (data) => {
-  const { recipeName, memo, url, serving, category, like, recipeItemList } =
-    data;
+  // API動作確認用ダミーデータ
+  data = {
+    date: "2023-07-12",
+  };
+  // ダミーここまで
+
+  const { date } = data;
 
   try {
-    // 次に, Menu を作成　(Recipt @manyToMany Manu)
-    // API動作確認用ダミーデータ
-    data = {
-      date: "2023-06-28",
-    };
-    // ダミーここまで
-
-    const { date } = data;
+    // const { date } = data;
     const menu = await DataStore.save(
       new Menu({
         date,
       })
     );
 
-    // 最後に Recipe と Menu のリンクモデルを作成
+    // // ""menu" は Model と判明
+    // console.log("menu: ", menu);
+    // console.log("menu.id: ", menu.id);
+
+    // API動作確認用ダミーデータ
+    //     recipeID: "589047b2-7fcd-454f-9d7e-0fc1f5557fa1",
+    //     // recipeName: "俺のカレー",
+
+    const recipePosted = await DataStore.query(
+      Recipe,
+      "589047b2-7fcd-454f-9d7e-0fc1f5557fa1" //リレーション対象のレシピID
+    );
+    // console.log("recipePosted: ", recipePosted);
+
+    // 次に Recipe と Menu のリンクモデルを作成
     await DataStore.save(
       new RecipeMenu({
-        recipeName: recipeMany,
         menu: menu,
+        recipe: recipePosted,
       })
     );
   } catch (error) {

@@ -18,7 +18,11 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { fetchShoppingListAPI, deleteShoppingListAPI } from "../boltAPI";
+import {
+  fetchShoppingListAPI,
+  deleteShoppingListAPI,
+  updateShoppingListAPI,
+} from "../boltAPI";
 
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
@@ -48,9 +52,9 @@ export const MainScreen = () => {
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
 
-  const handleCheck = (localId) => {
+  const handleCheck = (id) => {
     const newItems = [...items];
-    const item = newItems.find((item) => item.localId === localId);
+    const item = newItems.find((item) => item.id === id);
     item.check = !item.check;
     setItems(newItems);
   };
@@ -62,18 +66,27 @@ export const MainScreen = () => {
     setItems(shoppingListData);
   };
 
-  const handleAllRemoveItem = () => {
+  const handleAllRemoveItem = async () => {
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得///////////////////////////////////////API
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      console.log("getShoppingData@@@@@@@@@@@@@@@@@@@@", getShoppingData);
+      setItems(getShoppingData);
+    };
     const newBoughtedItems = [...items];
-    newBoughtedItems.map((item) => {
-      if (item.check) {
-        return (item.bought = true);
-      }
-    });
-    //DB上のshoppinglistを更新
-    //DBから
-    console.log("newBoughtedItems", newBoughtedItems);
-    // const newItems = items.filter((item) => item.check === false);
-    // setItems(newItems);
+    // //DB上のshoppinglistを更新
+    const updateShoppingList = async () => {
+      newBoughtedItems.forEach(async (item) => {
+        if (item.check) {
+          item.bought = true;
+          await updateShoppingListAPI(item);
+          getAllShoppingList();
+        }
+      });
+    };
+    updateShoppingList();
+    // // const newItems = items.filter((item) => item.check === false);
+    // setItems(newBoughtedItems);
   };
 
   console.log("//////", selectedValue);

@@ -26,14 +26,14 @@ export const ItemList = ({
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
       <TouchableOpacity
         style={styles.cornerBox}
-        onPress={() => handleCheck(item.localId)}
+        onPress={() => handleCheck(item.id)}
       >
         <Text style={styles.text}>{item.corner}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.moziBox}
-        onPress={() => handleCheck(item.localId)}
+        onPress={() => handleCheck(item.id)}
       >
         <View style={styles.stack}>
           <Text style={styles.textSmall}>{item.recipe}</Text>
