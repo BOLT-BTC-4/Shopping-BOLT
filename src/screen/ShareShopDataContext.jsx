@@ -3,7 +3,7 @@ import { table } from "../../table";
 import {
   createShopAPI,
   fetchShopAPI,
-  copyItemPresetAPI,
+  // copyItemPresetAPI,
   fetchShoppingListAPI,
 } from "../boltAPI";
 
@@ -45,7 +45,7 @@ export const ShareShopDataProvider = ({ children }) => {
 
   useEffect(() => {
     getAllShop();
-    copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
+    // copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
     getAllShoppingList();
   }, []);
   return (
