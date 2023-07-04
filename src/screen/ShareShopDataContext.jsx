@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { table } from "../../table";
-import { createShopAPI, fetchShopAPI, copyItemPresetAPI } from "../boltAPI";
+import { createShopAPI, fetchShopAPI, copyItemPresetAPI, fetchShoppingListAPI } from "../boltAPI";
 
 export const ShareShopDataContext = createContext();
 
@@ -16,6 +16,12 @@ export const ShareShopDataProvider = ({ children }) => {
     });
     setShopData(initShopData);
     setShopDataDrop(getArrayDropDownList);
+  };
+
+  // 買い物リスト一覧の取得
+  const getAllShoppingList = async () => {
+    const shoppingListData = await fetchShoppingListAPI();
+    setItems(shoppingListData);
   };
 
   // Itemテーブルが空であれば、ItemPresetの値をコピーする（初回のみの作業）
@@ -36,6 +42,7 @@ export const ShareShopDataProvider = ({ children }) => {
   useEffect(() => {
     getAllShop();
     copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
+    getAllShoppingList();
   }, []);
   return (
     <ShareShopDataContext.Provider

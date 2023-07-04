@@ -37,10 +37,10 @@ export const MainScreen = () => {
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   useEffect(() => {
-    // 買い物リスト一覧の取得
+    // // 買い物リスト一覧の取得
     const getAllShoppingList = async () => {
-      const shoppingLIstData = await fetchShoppingListAPI();
-      setItems(shoppingLIstData);
+      const shoppingListData = await fetchShoppingListAPI();
+      setItems(shoppingListData);
     };
     getAllShoppingList();
   }, []);
