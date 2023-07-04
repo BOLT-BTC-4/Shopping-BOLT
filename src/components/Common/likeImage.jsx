@@ -23,18 +23,18 @@ export const likeImage = (like) => {
     else if (like === 3) {
         return (
             <>
-                <AntDesign name="staro" size={10} color="blue" />
-                <AntDesign name="staro" size={10} color="blue" />
-                <AntDesign name="staro" size={10} color="blue" />
+                <AntDesign name="star" size={10} color="blue" />
+                <AntDesign name="star" size={10} color="blue" />
+                <AntDesign name="star" size={10} color="blue" />
             </>
         )
     }
     else {
         return (
             <>
-                <AntDesign name="star" size={10} color="blue" />
-                <AntDesign name="star" size={10} color="blue" />
-                <AntDesign name="star" size={10} color="blue" />
+                <AntDesign name="staro" size={10} color="blue" />
+                <AntDesign name="staro" size={10} color="blue" />
+                <AntDesign name="staro" size={10} color="blue" />
             </>
         )
     }

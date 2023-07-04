@@ -4,7 +4,7 @@ import { FlatGrid } from "react-native-super-grid";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
-import { SearchBar } from "react-native-elements";
+// import { SearchBar } from "react-native-elements";
 
 export const EditMenu = ({ navigation }) => {
   const categories = [
