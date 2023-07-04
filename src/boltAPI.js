@@ -3,10 +3,12 @@ import "@azure/core-asynciterator-polyfill";
 import {
   Shop,
   ShoppingList,
-  Recipe,
-  RecipeItem,
   Menu,
-  RecipeMenu,
+  Item,
+  ItemPreset,
+  RecipeItem,
+  Recipe,
+  RecipeMenu
 } from "./models";
 
 // Shop お店登録
@@ -27,7 +29,7 @@ export const createShopAPI = async (data) => {
 // Shop　お店一覧の取得
 export const fetchShopAPI = async () => {
   try {
-    console.log("APIお店の一覧取得");
+    console.log("API:お店の一覧取得");
     const shopList = await DataStore.query(Shop);
     return shopList
     // return JSON.stringify(shopList, null, 2);
@@ -211,6 +213,39 @@ export const deleteRecipeAPI = async (id) => {
   }
 }
 
+
+// Item　アイテム一覧の取得
+export const fetchItemAPI = async () => {
+  try {
+    const itemList = await DataStore.query(Item);
+    return itemList
+  } catch (err) {
+    throw err;
+  }
+};
+
+// Itemリストが空だったら、ItemPresetからコピー
+export const copyItemPresetAPI = async () => {
+  // Step 1: Itemテーブルが空かどうかを確認する
+  const itemData = await DataStore.query(Item);
+  if (itemData.length === 0) {
+    // Step 2: ItemPresetテーブルからデータをコピーする
+    const itemPresetData = await DataStore.query(ItemPreset);
+    console.log("⭐️", itemPresetData)
+    await Promise.all(
+      itemPresetData.map(async (itemPreset) => {
+        // Itemテーブルにデータを追加する
+        await DataStore.save(
+          new Item({
+            itemName: itemPreset.itemName,
+            unit: itemPreset.unit,
+            corner: itemPreset.corner
+          })
+        );
+      })
+    );
+  }
+}
 
 
 // ログアウト時にローカルデータをクリアする

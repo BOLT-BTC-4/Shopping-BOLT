@@ -2,51 +2,12 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Modal, Button, Alert, Linking } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { likeImage } from "../Common/likeImage";
 
 
 export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) => {
   console.log("===== comp_RecipeList =====");
 
-
-  // Like★★★イメージを作成
-  const likeImage = (like) => {
-    if (like === 1) {
-      return (
-        <>
-          <AntDesign name="star" size={10} color="blue" />
-          <AntDesign name="staro" size={10} color="blue" />
-          <AntDesign name="staro" size={10} color="blue" />
-        </>
-      )
-    }
-    else if (like === 2) {
-      return (
-        <>
-          <AntDesign name="star" size={10} color="blue" />
-          <AntDesign name="star" size={10} color="blue" />
-          <AntDesign name="staro" size={10} color="blue" />
-        </>
-      )
-    }
-    else if (like === 3) {
-      return (
-        <>
-          <AntDesign name="staro" size={10} color="blue" />
-          <AntDesign name="staro" size={10} color="blue" />
-          <AntDesign name="staro" size={10} color="blue" />
-        </>
-      )
-    }
-    else {
-      return (
-        <>
-          <AntDesign name="star" size={10} color="blue" />
-          <AntDesign name="star" size={10} color="blue" />
-          <AntDesign name="star" size={10} color="blue" />
-        </>
-      )
-    }
-  };
 
   // レシピURLを開く
   const openURL = (url) => {
