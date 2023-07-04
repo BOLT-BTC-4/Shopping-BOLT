@@ -95,20 +95,8 @@ export const updateShoppingListAPI = async (id) => {
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
-  // API動作確認用ダミーデータ
-  // data = {
-  //   recipe: "俺のカレー",
-  //   memo: "香辛料で作るよ！（ルー不使用）",
-  //   url: "https://dancyu.jp/recipe/2021_00004322.html",
-  //   serving: 4,
-  //   category1: "主菜",
-  //   category2: "印",
-  //   like: 3,
-  // };
-  // ダミーここまで
-  console.log("===== BoltAPI =====");
-  console.log("createRecipeAPI:", data);
-  const { recipeName, memo, url, serving, category, like } = data;
+  const { recipeName, memo, url, serving, category, like, recipeItemList } =
+    data;
 
   try {
     // 最初に recipe を作成 w/recipeItem (@hasMany RecipeItem, @manyToMany Manu)
@@ -120,45 +108,33 @@ export const createRecipeAPI = async (data) => {
         serving,
         category,
         like,
-        // Menus: [Menu] @manyToMany(relationName: "RecipeMenu"),
-        // RecipeItems: [RecipeItem] @hasMany(indexName: "byRecipe", fields: ["id"])
       })
     );
 
-    // API動作確認用ダミーデータ
-    data = {
-      recipeItemName: "トマト",
-      unit: "個",
-      quantity: 2,
-      corner: "野菜",
-    };
-    //   {
-    //     recipeItem: "枝豆",
-    //     // unit: "g",
-    //     quantity: 100,
-    //     corner: "野菜",
-    //   },
-    //   {
-    //     recipeItem: "豚挽肉",
-    //     // unit: "g",
-    //     quantity: 200,
-    //     corner: "肉",
-    //   },
-    // ];
-    // ダミーここまで
+    recipeItemList.forEach(async (item) => {
+      // console.log("item:", item)
+      const { recipeItemName, unit, quantity, corner } = item;
+      console.log("item:", recipeItemName, unit, quantity, corner);
+      await DataStore.save(
+        new RecipeItem({
+          recipeItemName,
+          unit,
+          quantity,
+          corner,
+          recipeID: recipeMany.id,
+        })
+      );
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
-    const { recipeItemName, unit, quantity, corner } = data;
+export const createMenuAPI = async (data) => {
+  const { recipeName, memo, url, serving, category, like, recipeItemList } =
+    data;
 
-    await DataStore.save(
-      new RecipeItem({
-        recipeItemName,
-        unit,
-        quantity,
-        corner,
-        recipeID: recipeMany.id,
-      })
-    );
-
+  try {
     // 次に, Menu を作成　(Recipt @manyToMany Manu)
     // API動作確認用ダミーデータ
     data = {

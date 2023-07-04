@@ -13,7 +13,7 @@ import {
 
 export const RecipeItemList = ({
   item,
-  handleCheck,
+  handleRemoveRecipeItem,
   handleRemoveItem,
   items,
   setItems,
@@ -25,7 +25,7 @@ export const RecipeItemList = ({
   return (
     <View>
       <View>
-        <Text style={styles.text}>{item.itemName}</Text>
+        <Text style={styles.text}>{item.recipeItemName}</Text>
       </View>
       <View>
         <Text style={styles.text}>{item.quantity}</Text>
@@ -61,7 +61,7 @@ export const RecipeItemList = ({
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(item.localId)}
+          onPress={() => handleRemoveRecipeItem(item.recipeItemName)}
         />
       </View>
     </View>

@@ -18,7 +18,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
-export const EditRecipe = ({ navigation }) => {
+export const AddRecipe = ({ navigation }) => {
   const {
     register,
     setValue,
@@ -35,16 +35,11 @@ export const EditRecipe = ({ navigation }) => {
   });
 
   const categories = [
-    { id: 1, categry1: "主食" },
-    { id: 2, categry1: "主菜" },
-    { id: 3, categry1: "副菜" },
-    { id: 4, categry1: "汁物" },
-    { id: 5, categry1: "その他" },
-  ];
-
-  const testDataRecipeItems = [
-    { id: 1, itemName: "にんじん", quantity: "1", unit: "個" },
-    { id: 2, itemName: "じゃがいも", quantity: "1", unit: "個" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
 
   const defaultRecipes = table.defaultRecipes;
@@ -68,7 +63,7 @@ export const EditRecipe = ({ navigation }) => {
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
     useState(false);
-  const [recipeItems, setRecipeItems] = useState(testDataRecipeItems);
+  const [recipeItems, setRecipeItems] = useState([]);
   const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
 
   // レーティングのuseStateと設定
@@ -87,6 +82,7 @@ export const EditRecipe = ({ navigation }) => {
       serving: Number(data.serving),
       category: selectedCategoryName,
       like: Number(sliderRating),
+      recipeItemList: recipeItems,
     };
     console.log("postData:", postData);
 
@@ -101,86 +97,33 @@ export const EditRecipe = ({ navigation }) => {
 
     setRecipeData(getAllRecipe);
     navigation.navigate("レシピリスト");
-
-    // const shop = {
-    //   shopName: data.shopName,
-    //   corner: corner,
-    // };
-    // await createShopAPI(shop);
-
-    // const newSelectedRecipe = [...selectedRecipe];
-    // // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
-    // newSelectedRecipe.forEach((recipe, indexOut) => {
-    //   recipe.items.forEach((item, index) => {
-    //     console.log("////////////////////////////////////", recipe.serving);
-    //     newSelectedRecipe[indexOut].items[index].quantity =
-    //       item.quantity * recipe.serving;
-    //   });
-    // });
-    // console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
-    // const newMenu = {
-    //   ...menu,
-    //   [selectedDay]: newSelectedRecipe,
-    // };
-    // "newmenu", newMenu;
-    // setMenu(newMenu);
-    // navigation.navigate("献立リスト");
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
-    setDisplayedRecipes(defaultRecipes[categoryId]);
+    // setDisplayedRecipes(defaultRecipes[categoryId]);
   };
-  //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
-  const handleRecipeSelect = (recipe) => {
-    const deepCopyRecipe = JSON.parse(JSON.stringify(recipe));
-    setSelectedRecipe((recipes) => [
-      ...recipes,
-      {
-        recipeId: deepCopyRecipe.recipeId,
-        categry1: deepCopyRecipe.categry1,
-        recipe: deepCopyRecipe.recipe,
-        url: deepCopyRecipe.url,
-        serving: defaultServing,
-        like: deepCopyRecipe.like,
-        items: deepCopyRecipe.items,
-      },
-    ]);
-    // 要素をレシピ表示配列から削除する
-    setDisplayedRecipes((prevRecipes) =>
-      prevRecipes.filter(
-        (prevRecipe) => prevRecipe.recipeId !== deepCopyRecipe.recipeId
-      )
+
+  const handleRemoveRecipeItem = (recipeItemName) => {
+    // 選択したレシピの削除
+    setRecipeItems((prevData) =>
+      prevData.filter((item) => item.recipeItemName !== recipeItemName)
+    );
+  };
+  const handleEditRecipeItem = (recipeItemName) => {
+    // 選択したレシピの削除
+    setRecipeItems((prevData) =>
+      prevData.filter((item) => item.recipeItemName !== recipeItemName)
     );
   };
 
-  const handleChangeServing = (parmRecipeId, num) => {
-    const newSelectedRecipe = [...selectedRecipe];
-    const copySelectedRecipe = newSelectedRecipe.find(
-      (recipe) => recipe.recipeId === parmRecipeId
-    );
-    copySelectedRecipe.serving = copySelectedRecipe.serving + num;
-    setSelectedRecipe(newSelectedRecipe);
-  };
-
-  //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
-  //カテゴリタブ表示
-  const renderCategoryTab = ({ item }) => (
-    <TouchableOpacity
-      style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}
-    >
-      <Text>{item.categry1}</Text>
-    </TouchableOpacity>
-  );
-
-  //最初にレンダーされる
   return (
     <View style={styles.container}>
       <FlatGrid
         data={categories}
+        keyExtractor={(item) => item.id.toString()}
+        itemDimension={60} // 要素の幅
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
@@ -189,23 +132,15 @@ export const EditRecipe = ({ navigation }) => {
               }
               onPress={() => {
                 handleCategorySelect(item.id);
-                setSelectedCategoryName(item.categry1);
+                setSelectedCategoryName(item.category);
               }}
             >
-              <Text>{item.categry1}</Text>
+              <Text>{item.category}</Text>
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
       />
       <View>
-        {/* <Text>評価: {starRating}</Text>
-        <Rating
-          showRating
-          onFinishRating={handleStarRating}
-          style={{ paddingVertical: 10 }}
-        /> */}
         <Text>おすすめ度: {sliderRating}</Text>
         <AirbnbRating
           count={3}
@@ -295,9 +230,10 @@ export const EditRecipe = ({ navigation }) => {
               recipeItems={recipeItems}
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
+              handleRemoveRecipeItem={handleRemoveRecipeItem}
+              keyExtractor={(item) => item.recipeItemName}
             />
           )}
-          keyExtractor={(item, index) => index.toString()}
         />
         {/* 食材追加モーダル */}
 

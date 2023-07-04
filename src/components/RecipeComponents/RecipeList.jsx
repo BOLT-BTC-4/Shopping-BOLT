@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Modal, Button, Alert, Linking } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Button,
+  Alert,
+  Linking,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { likeImage } from "../Common/likeImage";
 import { openURL } from "../Common/OpenURL";
 
-
-export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) => {
+export const RecipeList = ({
+  item,
+  recipeName,
+  handleRemoveItem,
+  navigation,
+}) => {
   console.log("===== comp_RecipeList =====");
-
 
   // レシピURLを開く
   // const openURL = (url) => {
@@ -26,7 +37,6 @@ export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) =
   // レンダリング///////////////////////////////////////////////////////////
   return (
     <>
-
       <View style={styles.box}>
         <View style={styles.moziBox}>
           <View style={styles.stack}>
@@ -49,7 +59,7 @@ export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) =
             size={24}
             color="black"
             onPress={() => {
-              navigation.navigate("レシピ登録/編集", { item });
+              navigation.navigate("レシピ登録", { item });
             }}
           />
           <Feather
@@ -143,4 +153,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
