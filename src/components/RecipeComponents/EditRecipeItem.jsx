@@ -15,11 +15,11 @@ import { table } from "../../../table";
 import uuid from "react-native-uuid";
 import { createShoppingListAPI } from "../../boltAPI";
 
-export const AddRecipeItem = ({
+export const EditRecipeItem = ({
   recipeItems,
   setRecipeItems,
   setAddRecipeItemFlag,
-  setModalAddRecipeItemVisible,
+  setModalEditRecipeItemVisible,
 }) => {
   const {
     register,
@@ -37,22 +37,31 @@ export const AddRecipeItem = ({
   });
 
   const onSubmit = (data) => {
+    // setRecipeItems((prevData) => {
+    //   const newData = [...prevData];
+    //   const index = newData.findIndex((item) => {
+    //     item.name === name);
+    //   if (index !== -1) {
+    //     newData[index].name = newName;
+    //   }
+    //   return newData;
+    // });
+    console.log("Edit:", data);
     // console.log("ITEMNAME:", data.itemName);
-    let newRecipeItemData = {
-      localId: uuid.v4(),
-      recipeItemName: data.itemName,
-      quantity: Number(data.quantity),
-      unit: data.unit,
-      corner: "",
-    };
-    console.log("newRecipeItemData", newRecipeItemData);
-    setRecipeItems((items) => [...items, newRecipeItemData]);
-    reset();
+    // let newRecipeItemData = {
+    //   recipeItemName: data.itemName,
+    //   quantity: Number(data.quantity),
+    //   unit: data.unit,
+    //   corner: "",
+    // };
+    // console.log("newRecipeItemData", newRecipeItemData);
+    // setRecipeItems((items) => [...items, newRecipeItemData]);
+    // reset();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>新規食材</Text>
+      <Text style={styles.label}>食材</Text>
       {errors.itemName && (
         <Text style={styles.alertFont}>食材名を入力してください</Text>
       )}
@@ -102,14 +111,14 @@ export const AddRecipeItem = ({
         <Button
           style={styles.buttonInner}
           color
-          title="追加"
+          title="更新"
           onPress={handleSubmit(onSubmit)}
         />
       </View>
       <Button
         color="#fff"
         title="✖️"
-        onPress={() => setModalAddRecipeItemVisible(false)}
+        onPress={() => setModalEditRecipeItemVisible(false)}
       />
     </View>
   );
