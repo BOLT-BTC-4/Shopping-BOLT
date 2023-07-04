@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -9,18 +9,22 @@ import {
   FlatList,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
 import { createShoppingListAPI } from "../../boltAPI";
 
-export const AddRecipeItem = ({
+export const EditRecipeItem = ({
   recipeItems,
   setRecipeItems,
   setAddRecipeItemFlag,
-  setModalAddRecipeItemVisible,
+  setModalEditRecipeItemVisible,
 }) => {
+  const { updateRecipeItem, setUpdateRecipeItem } =
+    useContext(ShareShopDataContext);
+
   const {
     register,
     setValue,
@@ -28,31 +32,39 @@ export const AddRecipeItem = ({
     control,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      itemName: "",
-      quantity: "1",
-      unit: "個",
-    },
-  });
+  } = useForm();
 
-  const onSubmit = (data) => {
-    // console.log("ITEMNAME:", data.itemName);
-    let newRecipeItemData = {
-      localId: uuid.v4(),
-      recipeItemName: data.itemName,
-      quantity: Number(data.quantity),
-      unit: data.unit,
-      corner: "",
-    };
-    console.log("newRecipeItemData", newRecipeItemData);
-    setRecipeItems((items) => [...items, newRecipeItemData]);
-    reset();
+  console.log("EditRecipeItem_updateRecipeItem", updateRecipeItem);
+
+  const initializeForm = () => {
+    setValue("recipeItemName", updateRecipeItem[0].recipeItemName);
+    setValue("quantity", String(updateRecipeItem[0].quantity)); // TextInputが文字列しか参照できないため文字列型にしている
+    setValue("unit", updateRecipeItem[0].unit);
   };
+
+  const onSubmit = async (data) => {
+    console.log("EditRecipe_onSubmit", data);
+    const newRecipeItems = [...recipeItems];
+    newRecipeItems.forEach((item) => {
+      if (updateRecipeItem[0].localId === item.localId) {
+        item.recipeItemName = data.recipeItemName;
+        item.quantity = data.quantity;
+        item.unit = data.unit;
+      }
+    });
+    await setRecipeItems(newRecipeItems);
+    setModalEditRecipeItemVisible(false);
+    console.log("recipeItems:", recipeItems);
+    console.log("更新完了");
+  };
+
+  useEffect(() => {
+    initializeForm();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>新規食材</Text>
+      <Text style={styles.label}>食材</Text>
       {errors.itemName && (
         <Text style={styles.alertFont}>食材名を入力してください</Text>
       )}
@@ -66,7 +78,7 @@ export const AddRecipeItem = ({
             value={value}
           />
         )}
-        name="itemName"
+        name="recipeItemName"
         rules={{ required: true }}
       />
       <Text style={styles.label}>量</Text>
@@ -102,14 +114,14 @@ export const AddRecipeItem = ({
         <Button
           style={styles.buttonInner}
           color
-          title="追加"
+          title="更新"
           onPress={handleSubmit(onSubmit)}
         />
       </View>
       <Button
         color="#fff"
         title="✖️"
-        onPress={() => setModalAddRecipeItemVisible(false)}
+        onPress={() => setModalEditRecipeItemVisible(false)}
       />
     </View>
   );

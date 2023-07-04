@@ -9,18 +9,21 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
+import { EditRecipeItem } from "./EditRecipeItem";
 // import { EditItem } from "./EditItem";
 
 export const RecipeItemList = ({
   item,
+  handleUpdateRecipeItem,
   handleRemoveRecipeItem,
-  handleRemoveItem,
-  items,
-  setItems,
-  setAddRecipeItemFlag,
+  setModalEditRecipeItemVisible,
+  recipeItems,
+  setRecipeItems,
+  // handleRemoveRecipeItem,
 }) => {
-  //モーダルのuseState
-  const [modalEditItemVisible, setModalEditItemVisible] = useState(false);
+  // //モーダルのuseState
+  // const [modalEditRecipeItemVisible, setModalEditRecipeItemVisible] =
+  //   useState(false);
 
   return (
     <View>
@@ -36,34 +39,35 @@ export const RecipeItemList = ({
           name="edit"
           size={24}
           color="black"
-          onPress={() => setModalEditItemVisible(true)}
+          onPress={() => handleUpdateRecipeItem(item.localId)}
         />
-        {/* item編集モーダル */}
-        {/* <Modal
-          visible={modalEditItemVisible}
-          animationType="none"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContents}>
-              <EditItem
-                items={items}
-                setItems={setItems}
-                setAddFlag={setAddFlag}
-                item={item}
-                setModalEditItemVisible={setModalEditItemVisible}
-              />
-            </View>
-          </View>
-        </Modal> */}
 
         <Feather
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveRecipeItem(item.recipeItemName)}
+          onPress={() => handleRemoveRecipeItem(item.localId)}
         />
       </View>
+
+      {/* item編集モーダル */}
+      {/* <Modal
+                    visible={modalEditItemVisible}
+                    animationType="none"
+                    transparent={true}
+                  >
+                    <View style={styles.modalContainer}>
+                      <View style={styles.modalContents}>
+                        <EditItem
+                          items={items}
+                          setItems={setItems}
+                          setAddFlag={setAddFlag}
+                          item={item}
+                          setModalEditItemVisible={setModalEditItemVisible}
+                        />
+                      </View>
+                    </View>
+                  </Modal> */}
     </View>
   );
 };
