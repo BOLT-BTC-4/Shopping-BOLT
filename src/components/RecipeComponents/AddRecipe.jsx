@@ -18,7 +18,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
-export const EditRecipe = ({ navigation }) => {
+export const AddRecipe = ({ navigation }) => {
   const {
     register,
     setValue,
@@ -105,9 +105,9 @@ export const EditRecipe = ({ navigation }) => {
   //   setDisplayedRecipes(defaultRecipes[categoryId]);
   // };
 
-  const handleRemoveRecipeItem = async (id) => {
+  const handleRemoveRecipeItem = async (recipeItemName) => {
     // 選択したレシピの削除
-    await deleteRecipeAPI(id);
+    await deleteRecipeItemAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
   };

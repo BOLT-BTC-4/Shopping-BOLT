@@ -24,7 +24,9 @@ export const RecipeScreen = ({ navigation }) => {
     await deleteRecipeAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
-    setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
+    setDisplayedRecipes(
+      initRecipeData.filter((item) => item.category === "主食")
+    );
   };
 
   // カテゴリ毎にレシピ一覧を表示させる
@@ -55,21 +57,23 @@ export const RecipeScreen = ({ navigation }) => {
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
   const handleCategorySelect = (categoryId, categoryName) => {
-    console.log("categoryId:", categoryId)
+    console.log("categoryId:", categoryId);
     setSelectedCategory(categoryId);
-    setDisplayedRecipes(recipeData.filter(item => item.category === categoryName));
+    setDisplayedRecipes(
+      recipeData.filter((item) => item.category === categoryName)
+    );
   };
-
 
   useEffect(() => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
+      setDisplayedRecipes(
+        initRecipeData.filter((item) => item.category === "主食")
+      );
     };
     getAllRecipe();
-
   }, []);
 
   return (
@@ -97,7 +101,7 @@ export const RecipeScreen = ({ navigation }) => {
       <TouchableOpacity
         style={styles.addbtn}
         onPress={() => {
-          navigation.navigate("レシピ登録/編集");
+          navigation.navigate("レシピ登録");
         }}
       >
         <MaterialIcons name="add-circle-outline" size={24} color="black" />
