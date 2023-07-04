@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Modal, Button, Alert, Linking } from "react-nat
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { likeImage } from "../Common/likeImage";
+import { openURL } from "../Common/OpenURL";
 
 
 export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) => {
@@ -10,17 +11,17 @@ export const RecipeList = ({ item, recipeName, handleRemoveItem, navigation }) =
 
 
   // レシピURLを開く
-  const openURL = (url) => {
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          return Linking.openURL(url);
-        } else {
-          Alert.alert(`このURLは開けません: ${url}`);
-        }
-      })
-      .catch((error) => console.log("urlエラー", error));
-  };
+  // const openURL = (url) => {
+  //   Linking.canOpenURL(url)
+  //     .then((supported) => {
+  //       if (supported) {
+  //         return Linking.openURL(url);
+  //       } else {
+  //         Alert.alert(`このURLは開けません: ${url}`);
+  //       }
+  //     })
+  //     .catch((error) => console.log("urlエラー", error));
+  // };
 
   // レンダリング///////////////////////////////////////////////////////////
   return (
