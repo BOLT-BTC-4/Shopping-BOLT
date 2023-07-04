@@ -8,14 +8,14 @@ export const onCreateShop = /* GraphQL */ `
   ) {
     onCreateShop(filter: $filter, owner: $owner) {
       id
-      shop
+      shopName
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -27,14 +27,14 @@ export const onUpdateShop = /* GraphQL */ `
   ) {
     onUpdateShop(filter: $filter, owner: $owner) {
       id
-      shop
+      shopName
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -46,14 +46,14 @@ export const onDeleteShop = /* GraphQL */ `
   ) {
     onDeleteShop(filter: $filter, owner: $owner) {
       id
-      shop
+      shopName
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -65,16 +65,21 @@ export const onCreateShoppingList = /* GraphQL */ `
   ) {
     onCreateShoppingList(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       quantity
       corner
+      check
+      directions
+      recipeID
+      recipeName
+      owner
+      bought
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -86,16 +91,21 @@ export const onUpdateShoppingList = /* GraphQL */ `
   ) {
     onUpdateShoppingList(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       quantity
       corner
+      check
+      directions
+      recipeID
+      recipeName
+      owner
+      bought
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -107,16 +117,21 @@ export const onDeleteShoppingList = /* GraphQL */ `
   ) {
     onDeleteShoppingList(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       quantity
       corner
+      check
+      directions
+      recipeID
+      recipeName
+      owner
+      bought
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -146,12 +161,12 @@ export const onCreateMenu = /* GraphQL */ `
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -181,12 +196,12 @@ export const onUpdateMenu = /* GraphQL */ `
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -216,12 +231,12 @@ export const onDeleteMenu = /* GraphQL */ `
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -233,15 +248,15 @@ export const onCreateItem = /* GraphQL */ `
   ) {
     onCreateItem(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -253,15 +268,15 @@ export const onUpdateItem = /* GraphQL */ `
   ) {
     onUpdateItem(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -273,15 +288,15 @@ export const onDeleteItem = /* GraphQL */ `
   ) {
     onDeleteItem(filter: $filter, owner: $owner) {
       id
-      item
+      itemName
       unit
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -292,7 +307,7 @@ export const onCreateItemPreset = /* GraphQL */ `
   ) {
     onCreateItemPreset(filter: $filter) {
       id
-      item
+      itemName
       unit
       corner
       createdAt
@@ -310,7 +325,7 @@ export const onUpdateItemPreset = /* GraphQL */ `
   ) {
     onUpdateItemPreset(filter: $filter) {
       id
-      item
+      itemName
       unit
       corner
       createdAt
@@ -328,7 +343,7 @@ export const onDeleteItemPreset = /* GraphQL */ `
   ) {
     onDeleteItemPreset(filter: $filter) {
       id
-      item
+      itemName
       unit
       corner
       createdAt
@@ -347,17 +362,17 @@ export const onCreateRecipeItem = /* GraphQL */ `
   ) {
     onCreateRecipeItem(filter: $filter, owner: $owner) {
       id
-      recipeItem
+      recipeItemName
       quantity
       corner
       recipeID
       unit
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -369,17 +384,17 @@ export const onUpdateRecipeItem = /* GraphQL */ `
   ) {
     onUpdateRecipeItem(filter: $filter, owner: $owner) {
       id
-      recipeItem
+      recipeItemName
       quantity
       corner
       recipeID
       unit
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -391,17 +406,17 @@ export const onDeleteRecipeItem = /* GraphQL */ `
   ) {
     onDeleteRecipeItem(filter: $filter, owner: $owner) {
       id
-      recipeItem
+      recipeItemName
       quantity
       corner
       recipeID
       unit
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -413,12 +428,11 @@ export const onCreateRecipe = /* GraphQL */ `
   ) {
     onCreateRecipe(filter: $filter, owner: $owner) {
       id
-      recipe
+      recipeName
       memo
       url
       serving
-      category1
-      category2
+      category
       like
       Menus {
         items {
@@ -440,29 +454,29 @@ export const onCreateRecipe = /* GraphQL */ `
       RecipeItems {
         items {
           id
-          recipeItem
+          recipeItemName
           quantity
           corner
           recipeID
           unit
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         nextToken
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -474,12 +488,11 @@ export const onUpdateRecipe = /* GraphQL */ `
   ) {
     onUpdateRecipe(filter: $filter, owner: $owner) {
       id
-      recipe
+      recipeName
       memo
       url
       serving
-      category1
-      category2
+      category
       like
       Menus {
         items {
@@ -501,29 +514,29 @@ export const onUpdateRecipe = /* GraphQL */ `
       RecipeItems {
         items {
           id
-          recipeItem
+          recipeItemName
           quantity
           corner
           recipeID
           unit
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         nextToken
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -535,12 +548,11 @@ export const onDeleteRecipe = /* GraphQL */ `
   ) {
     onDeleteRecipe(filter: $filter, owner: $owner) {
       id
-      recipe
+      recipeName
       memo
       url
       serving
-      category1
-      category2
+      category
       like
       Menus {
         items {
@@ -562,29 +574,29 @@ export const onDeleteRecipe = /* GraphQL */ `
       RecipeItems {
         items {
           id
-          recipeItem
+          recipeItemName
           quantity
           corner
           recipeID
           unit
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         nextToken
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -606,22 +618,21 @@ export const onCreateRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       recipe {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -633,12 +644,12 @@ export const onCreateRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       createdAt
@@ -668,22 +679,21 @@ export const onUpdateRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       recipe {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -695,12 +705,12 @@ export const onUpdateRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       createdAt
@@ -730,22 +740,21 @@ export const onDeleteRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       recipe {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -757,12 +766,12 @@ export const onDeleteRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       createdAt
