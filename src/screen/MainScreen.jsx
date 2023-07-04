@@ -18,6 +18,7 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import { updateShoppingListAPI } from "../boltAPI";
 
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
@@ -47,30 +48,31 @@ export const MainScreen = () => {
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
 
-  const handleCheck = (localId) => {
+  const handleCheck = (id) => {
     const newItems = [...items];
-    const item = newItems.find((item) => item.localId === localId);
+    const item = newItems.find((item) => item.id === id);
     item.check = !item.check;
     setItems(newItems);
   };
 
-  const handleRemoveItem = (localId) => {
-    const newItems = items.filter((item) => item.localId !== localId);
+  const handleRemoveItem = (id) => {
+    const newItems = items.filter((item) => item.id !== id);
     setItems(newItems);
   };
 
-  const handleAllRemoveItem = () => {
+  const handleAllRemoveItem = async () => {
     const newBoughtedItems = [...items];
-    newBoughtedItems.map((item) => {
+    newBoughtedItems.map(async (item) => {
+      await updateShoppingListAPI(item);
       if (item.check) {
-        return (item.bought = true);
+        item.bought = true;
       }
     });
-    //DB上のshoppinglistを更新
-    //DBから
+    // //DB上のshoppinglistを更新
+    // //DBからboughtがfalseのもののみ取得してレンダリング
     console.log("newBoughtedItems", newBoughtedItems);
-    // const newItems = items.filter((item) => item.check === false);
-    // setItems(newItems);
+    // // const newItems = items.filter((item) => item.check === false);
+    // setItems(newBoughtedItems);
   };
 
   console.log("//////", selectedValue);

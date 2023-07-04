@@ -65,7 +65,7 @@ export const AddMenu = ({ navigation }) => {
           // (result);
           if (result === undefined) {
             newItems.push({
-              localId: recipeItem.itemId,
+              id: recipeItem.itemId,
               corner: "",
               itemName: recipeItem.itemName,
               quantity: recipeItem.quantity,
@@ -77,7 +77,7 @@ export const AddMenu = ({ navigation }) => {
             });
           } else {
             newItems.push({
-              localId: recipeItem.itemId,
+              id: recipeItem.itemId,
               corner: result.corner,
               itemName: recipeItem.itemName,
               quantity: recipeItem.quantity,

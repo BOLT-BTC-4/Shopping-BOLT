@@ -48,7 +48,7 @@ export const MenuList = ({ navigation }) => {
               <Text
                 style={styles.text}
                 width={100}
-                // onPress={() => handleCheck(item.localId)}
+                // onPress={() => handleCheck(item.id)}
               >
                 {item.recipe}
               </Text>

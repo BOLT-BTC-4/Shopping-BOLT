@@ -82,14 +82,19 @@ export const fetchShoppingListAPI = async () => {
 };
 
 // ShoppingList 買い物リストの更新
-export const updateShoppingListAPI = async (id) => {
-  try {
-    const targetShoppingList = await DataStore.query(ShoppingList, id);
-    console.log("買い物リスト更新APIの中🤩", targetShoppingList);
-    return targetShoppingList;
-  } catch (err) {
-    throw err;
-  }
+export const updateShoppingListAPI = async (item) => {
+  console.log("買い物リスト更新APIの中🤩", item);
+  // try {
+  //   const targetItem = await DataStore.query(ShoppingList, id);
+  //   // console.log("買い物リスト更新APIの中🤩", targetItem);
+  //   await DataStore.save(
+  //     ShoppingList.copyOf(targetItem, (updated) => {
+  //       updated = item;
+  //     })
+  //   );
+  // } catch (err) {
+  //   throw err;
+  // }
 };
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
