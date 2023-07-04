@@ -150,6 +150,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "bought": {
+                    "name": "bought",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -780,5 +787,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "ab7add1af512631ade5a58de2ce99136"
+    "version": "15273a447f2c0a26be1c2c8035a6c688"
 };
