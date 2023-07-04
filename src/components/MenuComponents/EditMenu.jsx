@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Entypo, AntDesign } from "@expo/vector-icons";
@@ -6,23 +6,35 @@ import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 // import { SearchBar } from "react-native-elements";
 import { likeImage } from "../Common/likeImage";
+import { fetchRecipeAPI } from "../../boltAPI";
 
 export const EditMenu = ({ navigation }) => {
+  const [recipes, setRecipes] = useState([]);
   //カテゴリーに該当するレシピ配列を返す
-  const filterRecipes = (categry1) => {
-    const newSelectedRecipes = defaultRecipes.filter(
-      (recipe) => recipe.categry1 === categry1
+  const filterRecipes = (category) => {
+    const newSelectedRecipes = recipes.filter(
+      (recipe) => recipe.category === category
     );
     return newSelectedRecipes;
   };
   const categories = [
-    { id: 1, categry1: "主食" },
-    { id: 2, categry1: "主菜" },
-    { id: 3, categry1: "副菜" },
-    { id: 4, categry1: "汁物" },
-    { id: 5, categry1: "その他" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
-  const defaultRecipes = table.defaultRecipes;
+
+  useEffect(() => {
+    // レシピの一覧を取得
+    const getAllRecipe = async () => {
+      const newRecipes = await fetchRecipeAPI();
+      console.log("$$$$$$$$$$$$$$$$$$$$", newRecipes);
+      setRecipes(newRecipes);
+    };
+    getAllRecipe();
+  }, []);
+
   const {
     selectedDay,
     setSelectedDay,
@@ -36,7 +48,6 @@ export const EditMenu = ({ navigation }) => {
     filterRecipes(selectedCategory)
   );
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-  console.log("selectedRecipe1 : ", selectedRecipe);
   const [serving, setServing] = useState(defaultServing);
   // const [searchKeyword, setSearchKeyword] = useState("");
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
@@ -44,16 +55,13 @@ export const EditMenu = ({ navigation }) => {
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
     const newSelectedRecipe = [...selectedRecipe];
-    console.log("selectedRecipe2 : ", selectedRecipe);
     // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     newSelectedRecipe.forEach((recipe, indexOut) => {
       recipe.items.forEach((item, index) => {
-        console.log("////////////////////////////////////", recipe.serving);
         newSelectedRecipe[indexOut].items[index].quantity =
           item.quantity * recipe.serving;
       });
     });
-    console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
 
     const newMenu = {
       ...menu,
@@ -65,11 +73,9 @@ export const EditMenu = ({ navigation }) => {
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categry1) => {
-    setSelectedCategory(categry1);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@", filterRecipes(categry1));
-
-    setDisplayedRecipes(filterRecipes(categry1));
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setDisplayedRecipes(filterRecipes(category));
   };
   //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
   const handleRecipeSelect = (recipe) => {
@@ -78,7 +84,7 @@ export const EditMenu = ({ navigation }) => {
       ...recipes,
       {
         recipeId: deepCopyRecipe.recipeId,
-        categry1: deepCopyRecipe.categry1,
+        category: deepCopyRecipe.category,
         recipe: deepCopyRecipe.recipe,
         url: deepCopyRecipe.url,
         serving: defaultServing,
@@ -122,15 +128,15 @@ export const EditMenu = ({ navigation }) => {
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
-      style={selectedCategory === item.categry1 ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.categry1)}
+      style={selectedCategory === item.category ? styles.activeTab : styles.tab}
+      onPress={() => handleCategorySelect(item.category)}
     >
-      <Text>{item.categry1}</Text>
+      <Text>{item.category}</Text>
     </TouchableOpacity>
   );
   //登録されているrecipe表示
   const renderRecipes = () => {
-    // const elements = defaultRecipes[selectedCategory];
+    // const elements = recipes[selectedCategory];
     return (
       <FlatGrid
         itemDimension={110} // 要素の幅

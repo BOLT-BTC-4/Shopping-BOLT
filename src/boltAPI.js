@@ -212,7 +212,7 @@ export const fetchIdRecipeAPI = async (id) => {
   try {
     const recipe = await DataStore.query(Recipe, id);
     // const recipeItem = recipeList[0].RecipeItems.values.then(item => item = JSON.stringify(item, null, 2))
-    return JSON.stringify(recipe, null, 2);
+    return recipe;
   } catch (err) {
     throw err;
   }
