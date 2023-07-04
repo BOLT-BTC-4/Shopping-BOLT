@@ -5,6 +5,7 @@ import { Entypo, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 import { SearchBar } from "react-native-elements";
+import { likeImage } from "../Common/likeImage";
 
 export const EditMenu = ({ navigation }) => {
   const categories = [
@@ -126,17 +127,7 @@ export const EditMenu = ({ navigation }) => {
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.recipeContainer}>
-              {item.like === 2 && (
-                <>
-                  <Entypo name="star" size={14} color="black" />
-                  <Entypo name="star" size={14} color="black" />
-                </>
-              )}
-              {item.like === 1 && (
-                <>
-                  <Entypo name="star" size={14} color="black" />
-                </>
-              )}
+              <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
               <Text style={styles.recipeText}>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
@@ -250,7 +241,7 @@ const styles = {
     justifyContent: "center",
   },
   recipeContainer: {
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgreen",
