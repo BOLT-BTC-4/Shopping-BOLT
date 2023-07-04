@@ -119,8 +119,6 @@ export const deleteShoppingListAPI = async (id) => {
 export const createRecipeAPI = async (data) => {
   const { recipeName, memo, url, serving, category, like, recipeItemList } =
     data;
-  const { recipeName, memo, url, serving, category, like, recipeItemList } =
-    data;
 
   try {
     // 最初に recipe を作成 w/recipeItem (@hasMany RecipeItem, @manyToMany Manu)
