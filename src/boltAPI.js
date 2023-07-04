@@ -52,21 +52,12 @@ export const deleteShopAPI = async (id) => {
 
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
-  // API動作確認用ダミーデータ
-  // data = {
-  //   item: "豚肉",
-  //   unit: "g",
-  //   quantity: 800,
-  //   corner: "肉",
-  // };
-  // ダミーここまで
-  console.log(data);
 
-  const { item, unit, quantity, corner } = data;
+  const { itemName, unit, quantity, corner } = data;
   try {
     await DataStore.save(
       new ShoppingList({
-        item,
+        itemName,
         unit,
         quantity,
         corner,
