@@ -8,6 +8,13 @@ import { table } from "../../../table";
 import { likeImage } from "../Common/likeImage";
 
 export const EditMenu = ({ navigation }) => {
+  //カテゴリーに該当するレシピ配列を返す
+  const filterRecipes = (categry1) => {
+    const newSelectedRecipes = defaultRecipes.filter(
+      (recipe) => recipe.categry1 === categry1
+    );
+    return newSelectedRecipes;
+  };
   const categories = [
     { id: 1, categry1: "主食" },
     { id: 2, categry1: "主菜" },
@@ -24,12 +31,12 @@ export const EditMenu = ({ navigation }) => {
     defaultServing,
     setDefaultServing,
   } = useContext(ShareShopDataContext);
-  const [selectedCategory, setSelectedCategory] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("主食");
+  const [displayedRecipes, setDisplayedRecipes] = useState(
+    filterRecipes(selectedCategory)
+  );
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   console.log("selectedRecipe1 : ", selectedRecipe);
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
   const [serving, setServing] = useState(defaultServing);
   // const [searchKeyword, setSearchKeyword] = useState("");
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
@@ -58,9 +65,11 @@ export const EditMenu = ({ navigation }) => {
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(defaultRecipes[categoryId]);
+  const handleCategorySelect = (categry1) => {
+    setSelectedCategory(categry1);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@", filterRecipes(categry1));
+
+    setDisplayedRecipes(filterRecipes(categry1));
   };
   //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
   const handleRecipeSelect = (recipe) => {
@@ -113,8 +122,9 @@ export const EditMenu = ({ navigation }) => {
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
-      style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}>
+      style={selectedCategory === item.categry1 ? styles.activeTab : styles.tab}
+      onPress={() => handleCategorySelect(item.categry1)}
+    >
       <Text>{item.categry1}</Text>
     </TouchableOpacity>
   );
@@ -155,9 +165,8 @@ export const EditMenu = ({ navigation }) => {
             onPress={() => setDefaultServing((prev) => prev - 1)}
           />
           <Text
-            style={
-              styles.selectedRecipeTabTextSmall
-            }>{`デフォルト${defaultServing}人前`}</Text>
+            style={styles.selectedRecipeTabTextSmall}
+          >{`デフォルト${defaultServing}人前`}</Text>
           <AntDesign
             name="pluscircleo"
             size={17}
@@ -217,7 +226,8 @@ export const EditMenu = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={handleSelectedRecipesSubmit}>
+        onPress={handleSelectedRecipesSubmit}
+      >
         <Text style={styles.buttonInner}>こんだてを登録</Text>
       </TouchableOpacity>
     </View>
