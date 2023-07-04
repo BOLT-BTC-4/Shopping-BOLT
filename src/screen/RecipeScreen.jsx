@@ -19,12 +19,15 @@ export const RecipeScreen = ({ navigation }) => {
   console.log("===== comp_RecipeScreen =====");
   const { recipeData, setRecipeData } = useContext(ShareShopDataContext);
 
+  // 選択したレシピの削除 → レシピ一覧の取得
   const handleRemoveItem = async (id) => {
-    // 選択したレシピの削除
     await deleteRecipeAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
+    setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
   };
+
+  // カテゴリ毎にレシピ一覧を表示させる
 
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
@@ -38,30 +41,35 @@ export const RecipeScreen = ({ navigation }) => {
     { id: 5, categry: "その他" },
   ];
 
-  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(defaultRecipes[categoryId]);
-  };
-
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
-    <TouchableOpacity
-      style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}
-    >
-      <Text>{item.categry}</Text>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity
+        style={selectedCategory === item.id ? styles.activeTab : styles.tab}
+        onPress={() => handleCategorySelect(item.id, item.categry)}
+      >
+        <Text>{item.categry}</Text>
+      </TouchableOpacity>
+    </>
   );
+
+  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
+  const handleCategorySelect = (categoryId, categoryName) => {
+    console.log("categoryId:", categoryId)
+    setSelectedCategory(categoryId);
+    setDisplayedRecipes(recipeData.filter(item => item.category === categoryName));
+  };
+
 
   useEffect(() => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(initRecipeData[selectedCategory]);
+      setDisplayedRecipes(initRecipeData.filter(item => item.category === "主食"));
     };
     getAllRecipe();
+
   }, []);
 
   return (
@@ -74,7 +82,7 @@ export const RecipeScreen = ({ navigation }) => {
       />
       <FlatList
         style={styles.list}
-        data={recipeData}
+        data={displayedRecipes}
         renderItem={({ item }) => (
           <RecipeList
             recipeName={item.recipeName}
@@ -109,5 +117,18 @@ const styles = StyleSheet.create({
   addbtn: {
     alignItems: "center",
     padding: 10,
+  },
+  tab: {
+    padding: 10,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeTab: {
+    padding: 10,
+    backgroundColor: "lightblue",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

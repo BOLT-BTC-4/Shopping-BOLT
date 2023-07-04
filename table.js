@@ -1077,7 +1077,7 @@ const defaultRecipes = {
       categry1: "主食",
       recipe: "たけのこ飯",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 1,
       items: [
         {
           itemId: uuid.v4(),
@@ -1102,7 +1102,7 @@ const defaultRecipes = {
       categry1: "主菜",
       recipe: "私のハンバーグ",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 2,
       items: [
         {
           itemId: uuid.v4(),
@@ -1208,7 +1208,7 @@ const defaultRecipes = {
       categry1: "主菜",
       recipe: "私の蒸し焼き",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 1,
       items: [
         {
           itemId: uuid.v4(),
@@ -1233,7 +1233,7 @@ const defaultRecipes = {
       categry1: "副菜",
       recipe: "私のきんぴら",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 2,
       items: [
         {
           itemId: uuid.v4(),
@@ -1304,7 +1304,7 @@ const defaultRecipes = {
       categry1: "汁物",
       recipe: "私の芋汁",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 1,
       items: [
         {
           itemId: uuid.v4(),
@@ -1329,7 +1329,7 @@ const defaultRecipes = {
       categry1: "その他",
       recipe: "私のスムージ",
       url: "https://dig-zamas.com/",
-      like: 0,
+      like: 3,
       items: [
         {
           itemId: uuid.v4(),

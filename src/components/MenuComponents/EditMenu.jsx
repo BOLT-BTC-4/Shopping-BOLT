@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
+// import { SearchBar } from "react-native-elements";
+import { likeImage } from "../Common/likeImage";
 
 export const EditMenu = ({ navigation }) => {
   const categories = [
@@ -28,6 +30,8 @@ export const EditMenu = ({ navigation }) => {
     defaultRecipes[selectedCategory]
   );
   const [serving, setServing] = useState(defaultServing);
+  // const [searchKeyword, setSearchKeyword] = useState("");
+  // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
@@ -88,6 +92,20 @@ export const EditMenu = ({ navigation }) => {
     setSelectedRecipe(newSelectedRecipe);
   };
 
+  // //検索
+  // const handleSearch = (text) => {
+  //   setSearchKeyword(text);
+  //   console.log("text//////////////", text);
+  //   console.log("displayedRecipes//////////////", displayedRecipes);
+  //   const filtered = displayedRecipes.filter((oneRecipe) => {
+  //     console.log("oneRecipe//////////////", searchKeyword);
+  //     // console.log();
+  //     return oneRecipe.recipe.includes(text);
+  //   });
+  //   console.log("filtered/////////", filtered);
+  //   // setDisplayedRecipes(filtered);
+  // };
+
   //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
   //カテゴリタブ表示
@@ -104,11 +122,12 @@ export const EditMenu = ({ navigation }) => {
     // const elements = defaultRecipes[selectedCategory];
     return (
       <FlatGrid
-        itemDimension={100} // 要素の幅
+        itemDimension={110} // 要素の幅
         data={displayedRecipes} // 表示される配列を使用する
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.recipeContainer}>
+              <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
               <Text style={styles.recipeText}>{item.recipe}</Text>
             </View>
           </TouchableOpacity>
@@ -119,7 +138,7 @@ export const EditMenu = ({ navigation }) => {
   };
 
   //追加されたレシピ表示
-  const renderselectedRecipe = () => {
+  const renderSelectedRecipe = () => {
     if (!selectedRecipe) {
       return null;
     }
@@ -185,8 +204,14 @@ export const EditMenu = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         itemDimension={60} // 要素の幅
       />
+      {/* <SearchBar
+        placeholder="キーワード検索"
+        onChangeText={handleSearch}
+        onCancel={() => setSearchKeyword("")}
+        value={searchKeyword}
+      /> */}
       {renderRecipes()}
-      {renderselectedRecipe()}
+      {renderSelectedRecipe()}
 
       <TouchableOpacity
         style={styles.button}
@@ -216,7 +241,7 @@ const styles = {
     justifyContent: "center",
   },
   recipeContainer: {
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "lightgreen",
