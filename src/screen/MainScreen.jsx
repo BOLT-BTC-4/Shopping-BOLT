@@ -18,6 +18,11 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import {
+  fetchShoppingListAPI,
+  deleteShoppingListAPI,
+  updateShoppingListAPI,
+} from "../boltAPI";
 
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
@@ -35,33 +40,53 @@ export const MainScreen = () => {
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
-  //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
-    getItems();
-    // handleButtonClick();
+    // // 買い物リスト一覧の取得
+    const getAllShoppingList = async () => {
+      const shoppingListData = await fetchShoppingListAPI();
+      setItems(shoppingListData);
+    };
+    getAllShoppingList();
   }, []);
-  const getItems = () => {
-    setItems(table.defaultItems);
-  };
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
 
-  const handleCheck = (localId) => {
+  const handleCheck = (id) => {
     const newItems = [...items];
-    const item = newItems.find((item) => item.localId === localId);
+    const item = newItems.find((item) => item.id === id);
     item.check = !item.check;
     setItems(newItems);
   };
 
-  const handleRemoveItem = (localId) => {
-    const newItems = items.filter((item) => item.localId !== localId);
-    setItems(newItems);
+  // 選択した買い物リストアイテムの削除 → 買い物リスト一覧の取得
+  const handleRemoveItem = async (id) => {
+    await deleteShoppingListAPI(id);
+    const shoppingListData = await fetchShoppingListAPI();
+    setItems(shoppingListData);
   };
 
-  const handleAllRemoveItem = () => {
-    const newItems = items.filter((item) => item.check === false);
-    setItems(newItems);
+  const handleAllRemoveItem = async () => {
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得///////////////////////////////////////API
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      console.log("getShoppingData@@@@@@@@@@@@@@@@@@@@", getShoppingData);
+      setItems(getShoppingData);
+    };
+    const newBoughtedItems = [...items];
+    // //DB上のshoppinglistを更新
+    const updateShoppingList = async () => {
+      newBoughtedItems.forEach(async (item) => {
+        if (item.check) {
+          item.bought = true;
+          await updateShoppingListAPI(item);
+          getAllShoppingList();
+        }
+      });
+    };
+    updateShoppingList();
+    // // const newItems = items.filter((item) => item.check === false);
+    // setItems(newBoughtedItems);
   };
 
   console.log("//////", selectedValue);

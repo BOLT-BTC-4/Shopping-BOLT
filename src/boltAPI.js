@@ -50,7 +50,8 @@ export const deleteShopAPI = async (id) => {
 
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
-  const { itemName, unit, quantity, corner } = data;
+  const { itemName, unit, quantity, corner, directions, check, bought } = data;
+  console.log("data", data);
   try {
     await DataStore.save(
       new ShoppingList({
@@ -58,6 +59,9 @@ export const createShoppingListAPI = async (data) => {
         unit,
         quantity,
         corner,
+        directions,
+        check,
+        bought,
       })
     );
   } catch (error) {
@@ -65,9 +69,56 @@ export const createShoppingListAPI = async (data) => {
   }
 };
 
+// ShoppingList 買い物リストの取得（boughtがfalseのみ＝買ったよを押してない。）
+export const fetchShoppingListAPI = async () => {
+  try {
+    const shoppingList = await DataStore.query(ShoppingList, (r) =>
+      r.bought.eq(false)
+    );
+    return shoppingList;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ShoppingList 買い物リストの更新
+export const updateShoppingListAPI = async (item) => {
+  // console.log("買い物リスト更新APIの中🤩", item);
+  try {
+    const targetItem = await DataStore.query(ShoppingList, item.id);
+    console.log("買い物リスト更新APIの中🤩", targetItem);
+    await DataStore.save(
+      ShoppingList.copyOf(targetItem, (updated) => {
+        updated.bought = item.bought;
+        updated.check = item.check;
+        updated.corner = item.corner;
+        updated.directions = item.directions;
+        updated.itemName = item.itemName;
+        updated.quantity = item.quantity;
+        updated.unit = item.unit;
+        updated.recipeName = item.recipeName;
+      })
+    );
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ShoppingList 買い物リストの削除
+export const deleteShoppingListAPI = async (id) => {
+  try {
+    const deleteShoppingList = await DataStore.query(ShoppingList, id);
+    DataStore.delete(ShoppingList, deleteShoppingList);
+  } catch (err) {
+    throw err;
+  }
+};
+
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
+  const { recipeName, memo, url, serving, category, like, recipeItemList } =
+    data;
   const { recipeName, memo, url, serving, category, like, recipeItemList } =
     data;
 
@@ -87,6 +138,7 @@ export const createRecipeAPI = async (data) => {
     recipeItemList.forEach(async (item) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
+      console.log("item:", recipeItemName, unit, quantity, corner);
       console.log("item:", recipeItemName, unit, quantity, corner);
       await DataStore.save(
         new RecipeItem({

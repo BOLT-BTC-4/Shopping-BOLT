@@ -32,9 +32,7 @@ export const EditItem = ({
 
   const onSubmit = (data) => {
     const newItems = [...items];
-    const itemCopy = newItems.find(
-      (newItem) => newItem.localId === item.localId
-    );
+    const itemCopy = newItems.find((newItem) => newItem.id === item.id);
     itemCopy.corner = selectedCorner;
     itemCopy.itemName = data.itemName;
     itemCopy.quantity = data.quantity;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 import { FlatGrid } from "react-native-super-grid";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { AddRecipeItem } from "./AddRecipeItem";
+import { EditRecipeItem } from "./EditRecipeItem";
 import { RecipeItemList } from "./RecipeItemList";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
@@ -35,11 +36,11 @@ export const AddRecipe = ({ navigation }) => {
   });
 
   const categories = [
-    { id: 1, categry1: "主食" },
-    { id: 2, categry1: "主菜" },
-    { id: 3, categry1: "副菜" },
-    { id: 4, categry1: "汁物" },
-    { id: 5, categry1: "その他" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
 
   const defaultRecipes = table.defaultRecipes;
@@ -50,6 +51,9 @@ export const AddRecipe = ({ navigation }) => {
     setMenu,
     defaultServing,
     setDefaultServing,
+    setRecipeData,
+    updateRecipeItem,
+    setUpdateRecipeItem,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
@@ -57,11 +61,13 @@ export const AddRecipe = ({ navigation }) => {
   const [displayedRecipes, setDisplayedRecipes] = useState(
     defaultRecipes[selectedCategory]
   );
-  const [serving, setServing] = useState(defaultServing);
-  const { recipeData, setRecipeData } = useContext(ShareShopDataContext);
+
+  // const [serving, setServing] = useState(defaultServing);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
+    useState(false);
+  const [modalEditRecipeItemVisible, setModalEditRecipeItemVisible] =
     useState(false);
   const [recipeItems, setRecipeItems] = useState([]);
   const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
@@ -95,27 +101,38 @@ export const AddRecipe = ({ navigation }) => {
       setRecipeData(initRecipeData);
     };
 
-    setRecipeData(getAllRecipe);
-    navigation.navigate("レシピリスト");
+    await setRecipeData(getAllRecipe);
+    // navigation.navigate("レシピリスト");
   };
 
-  // //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  // const handleCategorySelect = (categoryId) => {
-  //   setSelectedCategory(categoryId);
-  //   setDisplayedRecipes(defaultRecipes[categoryId]);
-  // };
+  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory(categoryId);
+    // setDisplayedRecipes(defaultRecipes[categoryId]);
+  };
 
-  const handleRemoveRecipeItem = async (recipeItemName) => {
+  const handleRemoveRecipeItem = (localId) => {
+    console.log("localId:", localId);
     // 選択したレシピの削除
-    await deleteRecipeItemAPI(id);
-    const initRecipeData = await fetchRecipeAPI();
-    setRecipeData(initRecipeData);
+    setRecipeItems((prevData) =>
+      prevData.filter((item) => item.localId !== localId)
+    );
   };
+  const handleUpdateRecipeItem = async (localId) => {
+    const updateData = recipeItems.filter((item) => item.localId === localId);
+    console.log("AddRecipe_recipeItems:", updateData);
+    await setUpdateRecipeItem(updateData);
+    setModalEditRecipeItemVisible(true);
+  };
+
+  useEffect(() => {}, [recipeItems]);
 
   return (
     <View style={styles.container}>
       <FlatGrid
         data={categories}
+        keyExtractor={(item) => item.id.toString()}
+        itemDimension={60} // 要素の幅
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
@@ -123,16 +140,14 @@ export const AddRecipe = ({ navigation }) => {
                 selectedCategory === item.id ? styles.activeTab : styles.tab
               }
               onPress={() => {
-                // handleCategorySelect(item.id);
-                setSelectedCategoryName(item.categry1);
+                handleCategorySelect(item.id);
+                setSelectedCategoryName(item.category);
               }}
             >
-              <Text>{item.categry1}</Text>
+              <Text>{item.category}</Text>
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
       />
       <View>
         <Text>おすすめ度: {sliderRating}</Text>
@@ -224,13 +239,14 @@ export const AddRecipe = ({ navigation }) => {
               recipeItems={recipeItems}
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
+              setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
+              handleUpdateRecipeItem={handleUpdateRecipeItem}
               handleRemoveRecipeItem={handleRemoveRecipeItem}
+              keyExtractor={(item) => item.localId}
             />
           )}
-          keyExtractor={(item, index) => index.toString()}
         />
         {/* 食材追加モーダル */}
-
         <Modal
           visible={modalAddRecipeItemVisible}
           animationType="none"
@@ -243,6 +259,23 @@ export const AddRecipe = ({ navigation }) => {
                 setRecipeItems={setRecipeItems}
                 setAddRecipeItemFlag={setAddRecipeItemFlag}
                 setModalAddRecipeItemVisible={setModalAddRecipeItemVisible}
+              />
+            </View>
+          </View>
+        </Modal>
+
+        {/* 食材編集モーダル */}
+        <Modal
+          visible={modalEditRecipeItemVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContents}>
+              <EditRecipeItem
+                recipeItems={recipeItems}
+                setRecipeItems={setRecipeItems}
+                setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
               />
             </View>
           </View>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Text,
   View,
@@ -13,9 +13,11 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
-import { createShoppingListAPI } from "../../boltAPI";
+import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
-export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
+export const AddItem = ({ setModalAddItemVisible }) => {
+  const { setItems, setAddFlag } = useContext(ShareShopDataContext);
   const {
     register,
     setValue,
@@ -39,31 +41,39 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     // (result);
     let newData = {};
     if (result === undefined) {
-      (newData = {
-        localId: uuid.v4(),
+      newData = {
+        // id: uuid.v4(),
         corner: "",
         itemName: data.itemName,
         quantity: Number(data.quantity),
         unit: "個",
-        directions: 99,
+        directions: Number(99),
         check: false,
-      }),
-        setItems((items) => [...items, newData]);
+        bought: false,
+      };
+      // setItems((items) => [...items, newData]);
     } else {
-      (newData = {
-        localId: uuid.v4(),
+      newData = {
+        // id: uuid.v4(),
         corner: result.corner,
-        item: data.itemName,
+        itemName: data.itemName,
         quantity: Number(data.quantity),
-        unit: result.unit,
-        directions: 99,
+        unit: "個",
+        directions: Number(99),
         check: false,
-      }),
-        setItems((items) => [...items, newData]);
+        bought: false,
+      };
+      // setItems((items) => [...items, newData]);
     }
-    // ("/////", newData);
-    //追加するitemをDBの保存////////////////////////////////////////////////////////API
-    // await createShoppingListAPI(newData);
+    console.log(newData);
+    //追加するitemをDBに保存////////////////////////////////////////////API
+    await createShoppingListAPI(newData);
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    getAllShoppingList();
     setAddFlag(true);
     reset();
   };

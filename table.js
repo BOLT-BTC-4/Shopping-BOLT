@@ -724,7 +724,7 @@ const masterCornerTable = [
 
 const defaultItemsTable = [
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "野菜",
     itemName: "玉ねぎ",
     quantity: 2,
@@ -733,7 +733,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "お肉",
     itemName: "合いびき肉",
     quantity: 600,
@@ -742,7 +742,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "卵",
     itemName: "卵",
     quantity: 300,
@@ -751,7 +751,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "お肉",
     itemName: "豚バラ肉",
     quantity: 800,
@@ -760,7 +760,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "野菜",
     itemName: "しいたけ",
     quantity: 4,
@@ -769,7 +769,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "野菜",
     itemName: "もやし",
     quantity: 2,
@@ -778,7 +778,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "野菜",
     itemName: "ゴボウ",
     quantity: 1,
@@ -787,7 +787,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "野菜",
     itemName: "にんじん",
     quantity: 2,
@@ -796,7 +796,7 @@ const defaultItemsTable = [
     check: false,
   },
   {
-    localId: uuid.v4(),
+    id: uuid.v4(),
     corner: "調味料",
     itemName: "唐辛子",
     quantity: 1,
