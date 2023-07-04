@@ -137,7 +137,6 @@ export const createRecipeAPI = async (data) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
       console.log("item:", recipeItemName, unit, quantity, corner);
-      console.log("item:", recipeItemName, unit, quantity, corner);
       await DataStore.save(
         new RecipeItem({
           recipeItemName,
@@ -241,6 +240,22 @@ export const deleteRecipeAPI = async (id) => {
   }
 };
 
+// Item アイテムの登録
+export const createItemAPI = async (data) => {
+  const { itemName, corner, unit } = data;
+  try {
+    await DataStore.save(
+      new Item({
+        itemName,
+        corner,
+        unit,
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Item　アイテム一覧の取得
 export const fetchItemAPI = async () => {
   try {
@@ -252,27 +267,27 @@ export const fetchItemAPI = async () => {
 };
 
 // Itemリストが空だったら、ItemPresetからコピー
-export const copyItemPresetAPI = async () => {
-  // Step 1: Itemテーブルが空かどうかを確認する
-  const itemData = await DataStore.query(Item);
-  if (itemData.length === 0) {
-    // Step 2: ItemPresetテーブルからデータをコピーする
-    const itemPresetData = await DataStore.query(ItemPreset);
-    console.log("⭐️", itemPresetData);
-    await Promise.all(
-      itemPresetData.map(async (itemPreset) => {
-        // Itemテーブルにデータを追加する
-        await DataStore.save(
-          new Item({
-            itemName: itemPreset.itemName,
-            unit: itemPreset.unit,
-            corner: itemPreset.corner,
-          })
-        );
-      })
-    );
-  }
-};
+// export const copyItemPresetAPI = async () => {
+//   // Step 1: Itemテーブルが空かどうかを確認する
+//   const itemData = await DataStore.query(Item);
+//   if (itemData.length === 0) {
+//     // Step 2: ItemPresetテーブルからデータをコピーする
+//     const itemPresetData = await DataStore.query(ItemPreset);
+//     console.log("⭐️", itemPresetData);
+//     await Promise.all(
+//       itemPresetData.map(async (itemPreset) => {
+//         // Itemテーブルにデータを追加する
+//         await DataStore.save(
+//           new Item({
+//             itemName: itemPreset.itemName,
+//             unit: itemPreset.unit,
+//             corner: itemPreset.corner,
+//           })
+//         );
+//       })
+//     );
+//   }
+// };
 
 // ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。
