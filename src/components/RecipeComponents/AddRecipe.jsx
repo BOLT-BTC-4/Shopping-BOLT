@@ -102,7 +102,7 @@ export const AddRecipe = ({ navigation }) => {
     };
 
     await setRecipeData(getAllRecipe);
-    // navigation.navigate("レシピリスト");
+    navigation.navigate("レシピリスト");
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
@@ -199,6 +199,8 @@ export const AddRecipe = ({ navigation }) => {
               style={styles.input}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
+              multiline={true}
+              numberOfLines={5}
               value={value}
             />
           )}
