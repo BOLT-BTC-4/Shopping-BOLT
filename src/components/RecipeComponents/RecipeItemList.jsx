@@ -61,7 +61,7 @@ export const RecipeItemList = ({
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveRecipeItem(recipeItemName)}
+          onPress={() => handleRemoveRecipeItem(item.recipeItemName)}
         />
       </View>
     </View>

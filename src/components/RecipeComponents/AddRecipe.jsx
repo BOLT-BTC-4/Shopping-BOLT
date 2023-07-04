@@ -35,11 +35,11 @@ export const AddRecipe = ({ navigation }) => {
   });
 
   const categories = [
-    { id: 1, categry1: "主食" },
-    { id: 2, categry1: "主菜" },
-    { id: 3, categry1: "副菜" },
-    { id: 4, categry1: "汁物" },
-    { id: 5, categry1: "その他" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
 
   const defaultRecipes = table.defaultRecipes;
@@ -99,23 +99,31 @@ export const AddRecipe = ({ navigation }) => {
     navigation.navigate("レシピリスト");
   };
 
-  // //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  // const handleCategorySelect = (categoryId) => {
-  //   setSelectedCategory(categoryId);
-  //   setDisplayedRecipes(defaultRecipes[categoryId]);
-  // };
+  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory(categoryId);
+    // setDisplayedRecipes(defaultRecipes[categoryId]);
+  };
 
-  const handleRemoveRecipeItem = async (recipeItemName) => {
+  const handleRemoveRecipeItem = (recipeItemName) => {
     // 選択したレシピの削除
-    await deleteRecipeItemAPI(id);
-    const initRecipeData = await fetchRecipeAPI();
-    setRecipeData(initRecipeData);
+    setRecipeItems((prevData) =>
+      prevData.filter((item) => item.recipeItemName !== recipeItemName)
+    );
+  };
+  const handleEditRecipeItem = (recipeItemName) => {
+    // 選択したレシピの削除
+    setRecipeItems((prevData) =>
+      prevData.filter((item) => item.recipeItemName !== recipeItemName)
+    );
   };
 
   return (
     <View style={styles.container}>
       <FlatGrid
         data={categories}
+        keyExtractor={(item) => item.id.toString()}
+        itemDimension={60} // 要素の幅
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
@@ -123,16 +131,14 @@ export const AddRecipe = ({ navigation }) => {
                 selectedCategory === item.id ? styles.activeTab : styles.tab
               }
               onPress={() => {
-                // handleCategorySelect(item.id);
-                setSelectedCategoryName(item.categry1);
+                handleCategorySelect(item.id);
+                setSelectedCategoryName(item.category);
               }}
             >
-              <Text>{item.categry1}</Text>
+              <Text>{item.category}</Text>
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
       />
       <View>
         <Text>おすすめ度: {sliderRating}</Text>
@@ -225,9 +231,9 @@ export const AddRecipe = ({ navigation }) => {
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
               handleRemoveRecipeItem={handleRemoveRecipeItem}
+              keyExtractor={(item) => item.recipeItemName}
             />
           )}
-          keyExtractor={(item, index) => index.toString()}
         />
         {/* 食材追加モーダル */}
 
