@@ -35,7 +35,7 @@ export const ShareShopDataProvider = ({ children }) => {
 
   useEffect(() => {
     getAllShop();
-    copyItemPresetAPI();// Itemリストが空だったら、ItemPresetからコピー
+    copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
   }, []);
   return (
     <ShareShopDataContext.Provider
@@ -59,7 +59,7 @@ export const ShareShopDataProvider = ({ children }) => {
         defaultServing,
         setDefaultServing,
         recipeData,
-        setRecipeData
+        setRecipeData,
       }}
     >
       {children}

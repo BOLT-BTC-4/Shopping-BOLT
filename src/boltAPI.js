@@ -8,7 +8,7 @@ import {
   ItemPreset,
   RecipeItem,
   Recipe,
-  RecipeMenu
+  RecipeMenu,
 } from "./models";
 
 // Shop お店登録
@@ -31,7 +31,7 @@ export const fetchShopAPI = async () => {
   try {
     console.log("API:お店の一覧取得");
     const shopList = await DataStore.query(Shop);
-    return shopList
+    return shopList;
     // return JSON.stringify(shopList, null, 2);
   } catch (err) {
     throw err;
@@ -42,18 +42,16 @@ export const fetchShopAPI = async () => {
 export const deleteShopAPI = async (id) => {
   try {
     const deleteShop = await DataStore.query(Shop, id);
-    DataStore.delete(Shop, deleteShop)
-
+    DataStore.delete(Shop, deleteShop);
   } catch (err) {
     throw err;
   }
-}
-
+};
 
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
-
-  const { itemName, unit, quantity, corner } = data;
+  const { itemName, unit, quantity, corner, directions, check, bought } = data;
+  console.log("data", data);
   try {
     await DataStore.save(
       new ShoppingList({
@@ -61,10 +59,36 @@ export const createShoppingListAPI = async (data) => {
         unit,
         quantity,
         corner,
+        directions,
+        check,
+        bought,
       })
     );
   } catch (error) {
     throw error;
+  }
+};
+
+// ShoppingList 買い物リストの取得（boughtがfalseのみ＝買ったよを押してない。）
+export const fetchShoppingListAPI = async () => {
+  try {
+    const shoppingList = await DataStore.query(ShoppingList, (r) =>
+      r.bought.eq(false)
+    );
+    return shoppingList;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ShoppingList 買い物リストの更新
+export const updateShoppingListAPI = async (id) => {
+  try {
+    const targetShoppingList = await DataStore.query(ShoppingList, id);
+    console.log("買い物リスト更新APIの中🤩", targetShoppingList);
+    return targetShoppingList;
+  } catch (err) {
+    throw err;
   }
 };
 
@@ -82,7 +106,7 @@ export const createRecipeAPI = async (data) => {
   //   like: 3,
   // };
   // ダミーここまで
-  console.log("===== BoltAPI =====")
+  console.log("===== BoltAPI =====");
   console.log("createRecipeAPI:", data);
   const { recipeName, memo, url, serving, category, like } = data;
 
@@ -169,7 +193,7 @@ export const fetchRecipeAPI = async () => {
   } catch (err) {
     throw err;
   }
-}
+};
 
 // recipe IDを指定してレシピの取得
 export const fetchIdRecipeAPI = async (id) => {
@@ -180,36 +204,36 @@ export const fetchIdRecipeAPI = async (id) => {
   } catch (err) {
     throw err;
   }
-}
+};
 
 // recipeItem recipeIdを指定してレシピ材料の取得
 export const fetchIdRecipeItemAPI = async (id) => {
   try {
-    const recipeItem = await DataStore.query(RecipeItem, r => r.recipeID.eq(id));
-    console.log(recipeItem)
+    const recipeItem = await DataStore.query(RecipeItem, (r) =>
+      r.recipeID.eq(id)
+    );
+    console.log(recipeItem);
     return JSON.stringify(recipeItem, null, 2);
   } catch (err) {
     throw err;
   }
-}
+};
 
 // レシピの削除
 export const deleteRecipeAPI = async (id) => {
   try {
     const deleterecipe = await DataStore.query(Recipe, id);
-    DataStore.delete(Recipe, deleterecipe)
-
+    DataStore.delete(Recipe, deleterecipe);
   } catch (err) {
     throw err;
   }
-}
-
+};
 
 // Item　アイテム一覧の取得
 export const fetchItemAPI = async () => {
   try {
     const itemList = await DataStore.query(Item);
-    return itemList
+    return itemList;
   } catch (err) {
     throw err;
   }
@@ -222,7 +246,7 @@ export const copyItemPresetAPI = async () => {
   if (itemData.length === 0) {
     // Step 2: ItemPresetテーブルからデータをコピーする
     const itemPresetData = await DataStore.query(ItemPreset);
-    console.log("⭐️", itemPresetData)
+    console.log("⭐️", itemPresetData);
     await Promise.all(
       itemPresetData.map(async (itemPreset) => {
         // Itemテーブルにデータを追加する
@@ -230,22 +254,20 @@ export const copyItemPresetAPI = async () => {
           new Item({
             itemName: itemPreset.itemName,
             unit: itemPreset.unit,
-            corner: itemPreset.corner
+            corner: itemPreset.corner,
           })
         );
       })
     );
   }
-}
-
+};
 
 // ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。
 export const dataClearAPI = async () => {
   try {
     await DataStore.clear();
-
   } catch (err) {
     throw err;
   }
-}
+};

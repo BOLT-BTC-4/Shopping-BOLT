@@ -60,8 +60,17 @@ export const MainScreen = () => {
   };
 
   const handleAllRemoveItem = () => {
-    const newItems = items.filter((item) => item.check === false);
-    setItems(newItems);
+    const newBoughtedItems = [...items];
+    newBoughtedItems.map((item) => {
+      if (item.check) {
+        return (item.bought = true);
+      }
+    });
+    //DB上のshoppinglistを更新
+    //DBから
+    console.log("newBoughtedItems", newBoughtedItems);
+    // const newItems = items.filter((item) => item.check === false);
+    // setItems(newItems);
   };
 
   console.log("//////", selectedValue);

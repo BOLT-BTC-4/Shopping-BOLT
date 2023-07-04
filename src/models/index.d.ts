@@ -53,6 +53,7 @@ type EagerShoppingList = {
   readonly recipeID?: string | null;
   readonly recipeName?: string | null;
   readonly owner?: string | null;
+  readonly bought?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -72,6 +73,7 @@ type LazyShoppingList = {
   readonly recipeID?: string | null;
   readonly recipeName?: string | null;
   readonly owner?: string | null;
+  readonly bought?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
