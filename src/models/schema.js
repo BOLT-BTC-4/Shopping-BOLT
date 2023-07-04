@@ -431,6 +431,7 @@ export const schema = {
                         "rules": [
                             {
                                 "allow": "public",
+                                "provider": "apiKey",
                                 "operations": [
                                     "create",
                                     "update",
