@@ -18,7 +18,11 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { fetchShoppingListAPI, deleteShoppingListAPI } from "../boltAPI";
+import {
+  fetchShoppingListAPI,
+  deleteShoppingListAPI,
+  updateShoppingListAPI,
+} from "../boltAPI";
 
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
@@ -63,16 +67,24 @@ export const MainScreen = () => {
   };
 
   const handleAllRemoveItem = async () => {
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得///////////////////////////////////////API
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      console.log("getShoppingData@@@@@@@@@@@@@@@@@@@@", getShoppingData);
+      setItems(getShoppingData);
+    };
     const newBoughtedItems = [...items];
-    newBoughtedItems.map(async (item) => {
-      await updateShoppingListAPI(item);
-      if (item.check) {
-        item.bought = true;
-      }
-    });
     // //DB上のshoppinglistを更新
-    // //DBからboughtがfalseのもののみ取得してレンダリング
-    console.log("newBoughtedItems", newBoughtedItems);
+    const updateShoppingList = async () => {
+      newBoughtedItems.forEach(async (item) => {
+        if (item.check) {
+          item.bought = true;
+          await updateShoppingListAPI(item);
+          getAllShoppingList();
+        }
+      });
+    };
+    updateShoppingList();
     // // const newItems = items.filter((item) => item.check === false);
     // setItems(newBoughtedItems);
   };

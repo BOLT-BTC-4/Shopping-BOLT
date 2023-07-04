@@ -70,9 +70,7 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     await createShoppingListAPI(newData);
     //買い物リスト一覧をDBから取得///////////////////////////////////////API
     const getAllShoppingList = async () => {
-      console.log("getAll!!!!!!!!!!!");
       const getShoppingData = await fetchShoppingListAPI();
-      console.log("getShoppingData・・・・・・・・・・・", getShoppingData);
       setItems(getShoppingData);
     };
     getAllShoppingList();

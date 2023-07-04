@@ -83,18 +83,25 @@ export const fetchShoppingListAPI = async () => {
 
 // ShoppingList 買い物リストの更新
 export const updateShoppingListAPI = async (item) => {
-  console.log("買い物リスト更新APIの中🤩", item);
-  // try {
-  //   const targetItem = await DataStore.query(ShoppingList, id);
-  //   // console.log("買い物リスト更新APIの中🤩", targetItem);
-  //   await DataStore.save(
-  //     ShoppingList.copyOf(targetItem, (updated) => {
-  //       updated = item;
-  //     })
-  //   );
-  // } catch (err) {
-  //   throw err;
-  // }
+  // console.log("買い物リスト更新APIの中🤩", item);
+  try {
+    const targetItem = await DataStore.query(ShoppingList, item.id);
+    console.log("買い物リスト更新APIの中🤩", targetItem);
+    await DataStore.save(
+      ShoppingList.copyOf(targetItem, (updated) => {
+        updated.bought = item.bought;
+        updated.check = item.check;
+        updated.corner = item.corner;
+        updated.directions = item.directions;
+        updated.itemName = item.itemName;
+        updated.quantity = item.quantity;
+        updated.unit = item.unit;
+        updated.recipeName = item.recipeName;
+      })
+    );
+  } catch (err) {
+    throw err;
+  }
 };
 
 // ShoppingList 買い物リストの削除
@@ -106,7 +113,6 @@ export const deleteShoppingListAPI = async (id) => {
     throw err;
   }
 };
-
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
