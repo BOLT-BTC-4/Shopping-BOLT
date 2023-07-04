@@ -29,8 +29,39 @@ export const EditMenu = ({ navigation }) => {
   useEffect(() => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
+      //登録されている全てのrecipeを取得
       const newRecipes = await fetchRecipeAPI();
       console.log("$$$$$$$$$$$$$$$$$$$$", newRecipes);
+      //全てのrecipeのrecipeItemを取得
+      newRecipes.forEach((newRecipe) => {
+        setRecipes((recipes) => [
+          ...recipes,
+          {
+            id: newRecipe.id,
+            category: newRecipe.category,
+            recipeName: newRecipe.recipeName,
+            url: newRecipe.url,
+            serving: newRecipe.serving,
+            like: newRecipe.like,
+            items: [
+              {
+                itemId: uuid.v4(),
+                checked: true,
+                itemName: "わかめ",
+                quantity: 2,
+                unit: "個",
+              },
+              {
+                itemId: uuid.v4(),
+                checked: true,
+                itemName: "ご飯",
+                quantity: 300,
+                unit: "g",
+              },
+            ],
+          },
+        ]);
+      });
       setRecipes(newRecipes);
       setRenderFlag(true);
     };
@@ -83,7 +114,7 @@ export const EditMenu = ({ navigation }) => {
     setSelectedRecipe((recipes) => [
       ...recipes,
       {
-        recipeId: deepCopyRecipe.recipeId,
+        id: deepCopyRecipe.id,
         category: deepCopyRecipe.category,
         recipeName: deepCopyRecipe.recipeName,
         url: deepCopyRecipe.url,
@@ -94,16 +125,14 @@ export const EditMenu = ({ navigation }) => {
     ]);
     // 要素をレシピ表示配列から削除する
     setDisplayedRecipes((prevRecipes) =>
-      prevRecipes.filter(
-        (prevRecipe) => prevRecipe.recipeId !== deepCopyRecipe.recipeId
-      )
+      prevRecipes.filter((prevRecipe) => prevRecipe.id !== deepCopyRecipe.id)
     );
   };
 
   const handleChangeServing = (parmRecipeId, num) => {
     const newSelectedRecipe = [...selectedRecipe];
     const copySelectedRecipe = newSelectedRecipe.find(
-      (recipe) => recipe.recipeId === parmRecipeId
+      (recipe) => recipe.id === parmRecipeId
     );
     copySelectedRecipe.serving = copySelectedRecipe.serving + num;
     setSelectedRecipe(newSelectedRecipe);
@@ -153,7 +182,7 @@ export const EditMenu = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.recipeId}
+        keyExtractor={(item) => item.id}
       />
     );
   };
@@ -198,14 +227,14 @@ export const EditMenu = ({ navigation }) => {
                   name="minuscircleo"
                   size={20}
                   color="black"
-                  onPress={() => handleChangeServing(item.recipeId, -1)}
+                  onPress={() => handleChangeServing(item.id, -1)}
                 />
                 <Text>{`${item.serving}人前`}</Text>
                 <AntDesign
                   name="pluscircleo"
                   size={20}
                   color="black"
-                  onPress={() => handleChangeServing(item.recipeId, 1)}
+                  onPress={() => handleChangeServing(item.id, 1)}
                 />
               </View>
             </View>
