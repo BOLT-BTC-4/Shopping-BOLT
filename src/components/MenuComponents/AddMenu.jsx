@@ -57,15 +57,15 @@ export const AddMenu = ({ navigation }) => {
           "recipe:", recipe;
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
-            return item.itemName === recipeItem.itemName;
+            return item.itemName === recipeItem.recipeItemName;
           };
           let result = table.masterItem.find(cornarName);
           // (result);
           if (result === undefined) {
             newItems.push({
-              id: recipeItem.itemId,
+              id: recipeItem.id,
               corner: "",
-              itemName: recipeItem.itemName,
+              itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
@@ -75,9 +75,9 @@ export const AddMenu = ({ navigation }) => {
             });
           } else {
             newItems.push({
-              id: recipeItem.itemId,
+              id: recipeItem.id,
               corner: result.corner,
-              itemName: recipeItem.itemName,
+              itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
@@ -109,7 +109,7 @@ export const AddMenu = ({ navigation }) => {
               ) : (
                 <Feather name="circle" size={24} color="black" />
               )}
-              <Text style={styles.title}>{item.itemName}</Text>
+              <Text style={styles.title}>{item.recipeItemName}</Text>
               <Text style={styles.title}>{item.quantity}</Text>
               <Text style={styles.title}>{item.unit}</Text>
             </TouchableOpacity>
@@ -118,7 +118,7 @@ export const AddMenu = ({ navigation }) => {
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
-        keyExtractor={(item, index) => item.itemId}
+        keyExtractor={(item, index) => item.id}
       />
       <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
         <Text style={styles.buttonInner}>買物リストへ追加</Text>

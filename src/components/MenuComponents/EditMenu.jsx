@@ -6,7 +6,11 @@ import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 // import { SearchBar } from "react-native-elements";
 import { likeImage } from "../Common/likeImage";
-import { fetchRecipeAPI } from "../../boltAPI";
+import {
+  fetchIdRecipeAPI,
+  fetchIdRecipeItemAPI,
+  fetchRecipeAPI,
+} from "../../boltAPI";
 
 export const EditMenu = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
@@ -27,42 +31,32 @@ export const EditMenu = ({ navigation }) => {
   ];
 
   useEffect(() => {
+    const renderRecipes = [];
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       //登録されている全てのrecipeを取得
       const newRecipes = await fetchRecipeAPI();
-      console.log("$$$$$$$$$$$$$$$$$$$$", newRecipes);
       //全てのrecipeのrecipeItemを取得
-      newRecipes.forEach((newRecipe) => {
-        setRecipes((recipes) => [
-          ...recipes,
-          {
-            id: newRecipe.id,
-            category: newRecipe.category,
-            recipeName: newRecipe.recipeName,
-            url: newRecipe.url,
-            serving: newRecipe.serving,
-            like: newRecipe.like,
-            items: [
-              {
-                itemId: uuid.v4(),
-                checked: true,
-                itemName: "わかめ",
-                quantity: 2,
-                unit: "個",
-              },
-              {
-                itemId: uuid.v4(),
-                checked: true,
-                itemName: "ご飯",
-                quantity: 300,
-                unit: "g",
-              },
-            ],
-          },
-        ]);
+      newRecipes.forEach(async (newRecipe, indexOut) => {
+        const getedRecipeItems = await fetchIdRecipeItemAPI(newRecipe.id);
+        //quantityを全て１人前になるようにservingで割る
+        getedRecipeItems.forEach((item) => {
+          item.quantity = item.quantity / newRecipe.serving;
+          item.checked = true;
+        });
+        //データを加工したら更新
+        renderRecipes.push({
+          id: newRecipe.id,
+          category: newRecipe.category,
+          recipeName: newRecipe.recipeName,
+          url: newRecipe.url,
+          serving: newRecipe.serving,
+          like: newRecipe.like,
+          items: getedRecipeItems,
+        });
       });
-      setRecipes(newRecipes);
+      console.log("$$$$$$$$$$$$$$$$$$$", renderRecipes);
+      setRecipes(renderRecipes);
       setRenderFlag(true);
     };
     getAllRecipe();
@@ -98,7 +92,7 @@ export const EditMenu = ({ navigation }) => {
       ...menu,
       [selectedDay]: newSelectedRecipe,
     };
-    "newmenu", newMenu;
+    console.log("newmenu &&&&&&&&&&&&&&&", newMenu);
     setMenu(newMenu);
     navigation.navigate("献立リスト");
   };

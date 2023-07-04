@@ -224,8 +224,8 @@ export const fetchIdRecipeItemAPI = async (id) => {
     const recipeItem = await DataStore.query(RecipeItem, (r) =>
       r.recipeID.eq(id)
     );
-    console.log(recipeItem);
-    return JSON.stringify(recipeItem, null, 2);
+    console.log("APIの中⭐⭐⭐", recipeItem);
+    return recipeItem;
   } catch (err) {
     throw err;
   }
