@@ -18,6 +18,7 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import { fetchShoppingListAPI, deleteShoppingListAPI } from "../boltAPI";
 
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
@@ -35,14 +36,14 @@ export const MainScreen = () => {
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
-  //初回のみデフォルトのitemsデータを取得
   useEffect(() => {
-    getItems();
-    // handleButtonClick();
+    // // 買い物リスト一覧の取得
+    const getAllShoppingList = async () => {
+      const shoppingListData = await fetchShoppingListAPI();
+      setItems(shoppingListData);
+    };
+    getAllShoppingList();
   }, []);
-  const getItems = () => {
-    setItems(table.defaultItems);
-  };
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
@@ -54,14 +55,25 @@ export const MainScreen = () => {
     setItems(newItems);
   };
 
-  const handleRemoveItem = (localId) => {
-    const newItems = items.filter((item) => item.localId !== localId);
-    setItems(newItems);
+  // 選択した買い物リストアイテムの削除 → 買い物リスト一覧の取得
+  const handleRemoveItem = async (id) => {
+    await deleteShoppingListAPI(id);
+    const shoppingListData = await fetchShoppingListAPI();
+    setItems(shoppingListData);
   };
 
   const handleAllRemoveItem = () => {
-    const newItems = items.filter((item) => item.check === false);
-    setItems(newItems);
+    const newBoughtedItems = [...items];
+    newBoughtedItems.map((item) => {
+      if (item.check) {
+        return (item.bought = true);
+      }
+    });
+    //DB上のshoppinglistを更新
+    //DBから
+    console.log("newBoughtedItems", newBoughtedItems);
+    // const newItems = items.filter((item) => item.check === false);
+    // setItems(newItems);
   };
 
   console.log("//////", selectedValue);
