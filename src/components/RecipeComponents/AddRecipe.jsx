@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -52,6 +52,8 @@ export const AddRecipe = ({ navigation }) => {
     defaultServing,
     setDefaultServing,
     setRecipeData,
+    updateRecipeItem,
+    setUpdateRecipeItem,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
@@ -99,8 +101,8 @@ export const AddRecipe = ({ navigation }) => {
       setRecipeData(initRecipeData);
     };
 
-    setRecipeData(getAllRecipe);
-    navigation.navigate("レシピリスト");
+    await setRecipeData(getAllRecipe);
+    // navigation.navigate("レシピリスト");
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
@@ -116,13 +118,14 @@ export const AddRecipe = ({ navigation }) => {
       prevData.filter((item) => item.localId !== localId)
     );
   };
-  const handleUpdateRecipeItem = (localId) => {
-    console.log("localId:", localId);
+  const handleUpdateRecipeItem = async (localId) => {
     const updateData = recipeItems.filter((item) => item.localId === localId);
     console.log("AddRecipe_recipeItems:", updateData);
-
+    await setUpdateRecipeItem(updateData);
     setModalEditRecipeItemVisible(true);
   };
+
+  useEffect(() => {}, [recipeItems]);
 
   return (
     <View style={styles.container}>
