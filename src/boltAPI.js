@@ -97,6 +97,17 @@ export const updateShoppingListAPI = async (item) => {
   // }
 };
 
+// ShoppingList 買い物リストの削除
+export const deleteShoppingListAPI = async (id) => {
+  try {
+    const deleteShoppingList = await DataStore.query(ShoppingList, id);
+    DataStore.delete(ShoppingList, deleteShoppingList);
+  } catch (err) {
+    throw err;
+  }
+};
+
+
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
