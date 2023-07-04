@@ -1,6 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import { table } from "../../table";
-import { createShopAPI, fetchShopAPI, copyItemPresetAPI, fetchShoppingListAPI } from "../boltAPI";
+import {
+  createShopAPI,
+  fetchShopAPI,
+  copyItemPresetAPI,
+  fetchShoppingListAPI,
+} from "../boltAPI";
 
 export const ShareShopDataContext = createContext();
 
@@ -38,6 +43,7 @@ export const ShareShopDataProvider = ({ children }) => {
   const [defaultServing, setDefaultServing] = useState(4);
   // レシピ一覧データ
   const [recipeData, setRecipeData] = useState([]);
+  const [updateRecipeItem, setUpdateRecipeItem] = useState([]);
 
   useEffect(() => {
     getAllShop();
@@ -67,6 +73,8 @@ export const ShareShopDataProvider = ({ children }) => {
         setDefaultServing,
         recipeData,
         setRecipeData,
+        updateRecipeItem,
+        setUpdateRecipeItem,
       }}
     >
       {children}
