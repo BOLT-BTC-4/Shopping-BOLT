@@ -39,26 +39,22 @@ export const AddRecipeItem = ({
   const onSubmit = (data) => {
     // console.log("ITEMNAME:", data.itemName);
     let newRecipeItemData = {
-      itemName: data.itemName,
+      recipeItemName: data.itemName,
       quantity: Number(data.quantity),
       unit: data.unit,
+      corner: "",
     };
-    // console.log("newRecipeItemData", newRecipeItemData);
+    console.log("newRecipeItemData", newRecipeItemData);
     setRecipeItems((items) => [...items, newRecipeItemData]);
+    reset();
   };
 
   console.log("recipeItems", recipeItems);
 
-  const onChange = (arg) => {
-    return {
-      value: arg.nativeEvent.text,
-    };
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.label}>新規食材</Text>
-      {errors.ItemName && (
+      {errors.itemName && (
         <Text style={styles.alertFont}>食材名を入力してください</Text>
       )}
       <Controller

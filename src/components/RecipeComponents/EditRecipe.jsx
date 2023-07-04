@@ -42,11 +42,6 @@ export const EditRecipe = ({ navigation }) => {
     { id: 5, categry1: "その他" },
   ];
 
-  const testDataRecipeItems = [
-    { id: 1, itemName: "にんじん", quantity: "1", unit: "個" },
-    { id: 2, itemName: "じゃがいも", quantity: "1", unit: "個" },
-  ];
-
   const defaultRecipes = table.defaultRecipes;
   const {
     selectedDay,
@@ -68,7 +63,7 @@ export const EditRecipe = ({ navigation }) => {
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
     useState(false);
-  const [recipeItems, setRecipeItems] = useState(testDataRecipeItems);
+  const [recipeItems, setRecipeItems] = useState([]);
   const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
 
   // レーティングのuseStateと設定
@@ -87,6 +82,7 @@ export const EditRecipe = ({ navigation }) => {
       serving: Number(data.serving),
       category: selectedCategoryName,
       like: Number(sliderRating),
+      recipeItemList: recipeItems,
     };
     console.log("postData:", postData);
 
@@ -101,82 +97,21 @@ export const EditRecipe = ({ navigation }) => {
 
     setRecipeData(getAllRecipe);
     navigation.navigate("レシピリスト");
-
-    // const shop = {
-    //   shopName: data.shopName,
-    //   corner: corner,
-    // };
-    // await createShopAPI(shop);
-
-    // const newSelectedRecipe = [...selectedRecipe];
-    // // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
-    // newSelectedRecipe.forEach((recipe, indexOut) => {
-    //   recipe.items.forEach((item, index) => {
-    //     console.log("////////////////////////////////////", recipe.serving);
-    //     newSelectedRecipe[indexOut].items[index].quantity =
-    //       item.quantity * recipe.serving;
-    //   });
-    // });
-    // console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
-    // const newMenu = {
-    //   ...menu,
-    //   [selectedDay]: newSelectedRecipe,
-    // };
-    // "newmenu", newMenu;
-    // setMenu(newMenu);
-    // navigation.navigate("献立リスト");
   };
 
-  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(defaultRecipes[categoryId]);
-  };
-  //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
-  const handleRecipeSelect = (recipe) => {
-    const deepCopyRecipe = JSON.parse(JSON.stringify(recipe));
-    setSelectedRecipe((recipes) => [
-      ...recipes,
-      {
-        recipeId: deepCopyRecipe.recipeId,
-        categry1: deepCopyRecipe.categry1,
-        recipe: deepCopyRecipe.recipe,
-        url: deepCopyRecipe.url,
-        serving: defaultServing,
-        like: deepCopyRecipe.like,
-        items: deepCopyRecipe.items,
-      },
-    ]);
-    // 要素をレシピ表示配列から削除する
-    setDisplayedRecipes((prevRecipes) =>
-      prevRecipes.filter(
-        (prevRecipe) => prevRecipe.recipeId !== deepCopyRecipe.recipeId
-      )
-    );
+  // //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
+  // const handleCategorySelect = (categoryId) => {
+  //   setSelectedCategory(categoryId);
+  //   setDisplayedRecipes(defaultRecipes[categoryId]);
+  // };
+
+  const handleRemoveRecipeItem = async (id) => {
+    // 選択したレシピの削除
+    await deleteRecipeAPI(id);
+    const initRecipeData = await fetchRecipeAPI();
+    setRecipeData(initRecipeData);
   };
 
-  const handleChangeServing = (parmRecipeId, num) => {
-    const newSelectedRecipe = [...selectedRecipe];
-    const copySelectedRecipe = newSelectedRecipe.find(
-      (recipe) => recipe.recipeId === parmRecipeId
-    );
-    copySelectedRecipe.serving = copySelectedRecipe.serving + num;
-    setSelectedRecipe(newSelectedRecipe);
-  };
-
-  //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
-  //カテゴリタブ表示
-  const renderCategoryTab = ({ item }) => (
-    <TouchableOpacity
-      style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}
-    >
-      <Text>{item.categry1}</Text>
-    </TouchableOpacity>
-  );
-
-  //最初にレンダーされる
   return (
     <View style={styles.container}>
       <FlatGrid
@@ -188,7 +123,7 @@ export const EditRecipe = ({ navigation }) => {
                 selectedCategory === item.id ? styles.activeTab : styles.tab
               }
               onPress={() => {
-                handleCategorySelect(item.id);
+                // handleCategorySelect(item.id);
                 setSelectedCategoryName(item.categry1);
               }}
             >
@@ -200,12 +135,6 @@ export const EditRecipe = ({ navigation }) => {
         itemDimension={60} // 要素の幅
       />
       <View>
-        {/* <Text>評価: {starRating}</Text>
-        <Rating
-          showRating
-          onFinishRating={handleStarRating}
-          style={{ paddingVertical: 10 }}
-        /> */}
         <Text>おすすめ度: {sliderRating}</Text>
         <AirbnbRating
           count={3}
@@ -295,6 +224,7 @@ export const EditRecipe = ({ navigation }) => {
               recipeItems={recipeItems}
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
+              handleRemoveRecipeItem={handleRemoveRecipeItem}
             />
           )}
           keyExtractor={(item, index) => index.toString()}
