@@ -34,7 +34,7 @@ type Item @model @auth(rules: [{allow: owner}]) {
   owner: String
 }
 
-type ItemPreset @model @auth(rules: [{allow: public}]) {
+type ItemPreset @model @auth(rules: [{ allow: public, provider: apiKey }]) {
   id: ID!
   itemName: String!
   unit: String
