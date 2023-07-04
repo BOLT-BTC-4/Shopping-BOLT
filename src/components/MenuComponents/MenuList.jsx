@@ -50,7 +50,7 @@ export const MenuList = ({ navigation }) => {
                 width={100}
                 // onPress={() => handleCheck(item.id)}
               >
-                {item.recipe}
+                {item.recipeName}
               </Text>
               <AntDesign
                 name="link"

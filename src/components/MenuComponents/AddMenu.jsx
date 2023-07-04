@@ -30,7 +30,7 @@ export const AddMenu = ({ navigation }) => {
       if (elm >= moment().format("YYYY-MM-DD")) {
         for (let recipes of menu[elm]) {
           const result = {};
-          result.title = recipes.recipe;
+          result.title = recipes.recipeName;
           result.data = recipes.items;
           result.recipeId = recipes.recipeId;
           updatedNewMenu.push(result);

@@ -36,7 +36,7 @@ export const ItemList = ({
         onPress={() => handleCheck(item.id)}
       >
         <View style={styles.stack}>
-          <Text style={styles.textSmall}>{item.recipe}</Text>
+          <Text style={styles.textSmall}>{item.recipeName}</Text>
           <Text style={styles.text}>{item.itemName}</Text>
         </View>
         <Text style={styles.text}>{item.quantity}</Text>

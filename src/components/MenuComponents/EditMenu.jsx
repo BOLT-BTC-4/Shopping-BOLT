@@ -10,6 +10,7 @@ import { fetchRecipeAPI } from "../../boltAPI";
 
 export const EditMenu = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
+  const [renderFlag, setRenderFlag] = useState(false);
   //カテゴリーに該当するレシピ配列を返す
   const filterRecipes = (category) => {
     const newSelectedRecipes = recipes.filter(
@@ -31,6 +32,7 @@ export const EditMenu = ({ navigation }) => {
       const newRecipes = await fetchRecipeAPI();
       console.log("$$$$$$$$$$$$$$$$$$$$", newRecipes);
       setRecipes(newRecipes);
+      setRenderFlag(true);
     };
     getAllRecipe();
   }, []);
@@ -44,9 +46,7 @@ export const EditMenu = ({ navigation }) => {
     setDefaultServing,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState("主食");
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    filterRecipes(selectedCategory)
-  );
+  const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [serving, setServing] = useState(defaultServing);
   // const [searchKeyword, setSearchKeyword] = useState("");
@@ -85,7 +85,7 @@ export const EditMenu = ({ navigation }) => {
       {
         recipeId: deepCopyRecipe.recipeId,
         category: deepCopyRecipe.category,
-        recipe: deepCopyRecipe.recipe,
+        recipeName: deepCopyRecipe.recipeName,
         url: deepCopyRecipe.url,
         serving: defaultServing,
         like: deepCopyRecipe.like,
@@ -117,12 +117,16 @@ export const EditMenu = ({ navigation }) => {
   //   const filtered = displayedRecipes.filter((oneRecipe) => {
   //     console.log("oneRecipe//////////////", searchKeyword);
   //     // console.log();
-  //     return oneRecipe.recipe.includes(text);
+  //     return oneRecipe.recipeName.includes(text);
   //   });
   //   console.log("filtered/////////", filtered);
   //   // setDisplayedRecipes(filtered);
   // };
 
+  if (renderFlag) {
+    setDisplayedRecipes(filterRecipes(selectedCategory));
+    setRenderFlag(false);
+  }
   //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
   //カテゴリタブ表示
@@ -145,7 +149,7 @@ export const EditMenu = ({ navigation }) => {
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.recipeContainer}>
               <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
-              <Text style={styles.recipeText}>{item.recipe}</Text>
+              <Text style={styles.recipeText}>{item.recipeName}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -187,7 +191,7 @@ export const EditMenu = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={styles.box}>
               <View style={styles.recipeBox}>
-                <Text>{item.recipe}</Text>
+                <Text>{item.recipeName}</Text>
               </View>
               <View style={styles.innerBox}>
                 <AntDesign
