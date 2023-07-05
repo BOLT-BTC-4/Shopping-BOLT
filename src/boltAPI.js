@@ -231,7 +231,7 @@ export const fetchIdRecipeItemAPI = async (id) => {
   }
 };
 
-// レシピの削除
+// Recipe レシピの削除
 export const deleteRecipeAPI = async (id) => {
   try {
     const deleterecipe = await DataStore.query(Recipe, id);
