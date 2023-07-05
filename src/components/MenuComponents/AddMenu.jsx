@@ -31,7 +31,7 @@ export const AddMenu = ({ navigation }) => {
         for (let recipes of menu[elm]) {
           const result = {};
           result.title = recipes.recipeName;
-          result.data = recipes.items;
+          result.data = recipes.item;
           result.id = recipes.id;
           updatedNewMenu.push(result);
         }
@@ -71,7 +71,7 @@ export const AddMenu = ({ navigation }) => {
               directions: 99,
               check: false,
               id: recipe.id,
-              recipe: recipe.title,
+              recipeName: recipe.title,
             });
           } else {
             newItems.push({
@@ -83,7 +83,7 @@ export const AddMenu = ({ navigation }) => {
               directions: 99,
               check: false,
               id: recipe.id,
-              recipe: recipe.title,
+              recipeName: recipe.title,
             });
           }
         }
