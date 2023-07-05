@@ -14,6 +14,7 @@ import { itemPresetData } from "./itemPreset";
 
 // Shop お店登録
 export const createShopAPI = async (data) => {
+  console.log("///🔴 API利用 : createShopAPI ///");
   const { shopName, corner } = data;
   try {
     await DataStore.save(
@@ -29,6 +30,7 @@ export const createShopAPI = async (data) => {
 
 // Shop　お店一覧の取得
 export const fetchShopAPI = async () => {
+  console.log("///🔴 API利用 : fetchShopAPI ///");
   try {
     console.log("API:お店の一覧取得");
     const shopList = await DataStore.query(Shop);
@@ -41,6 +43,7 @@ export const fetchShopAPI = async () => {
 
 // Shop お店の削除
 export const deleteShopAPI = async (id) => {
+  console.log("///🔴 API利用 : fetchShopAPI ///");
   try {
     const deleteShop = await DataStore.query(Shop, id);
     DataStore.delete(Shop, deleteShop);
@@ -51,6 +54,7 @@ export const deleteShopAPI = async (id) => {
 
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
+  console.log("///🔴 API利用 : createShoppingListAPI ///");
   const { itemName, unit, quantity, corner, directions, check, bought } = data;
   console.log("data", data);
   try {
@@ -72,6 +76,7 @@ export const createShoppingListAPI = async (data) => {
 
 // ShoppingList 買い物リストの取得（boughtがfalseのみ＝買ったよを押してない。）
 export const fetchShoppingListAPI = async () => {
+  console.log("///🔴 API利用 : fetchShoppingListAPI ///");
   try {
     const shoppingList = await DataStore.query(ShoppingList, (r) =>
       r.bought.eq(false)
@@ -84,10 +89,9 @@ export const fetchShoppingListAPI = async () => {
 
 // ShoppingList 買い物リストの更新
 export const updateShoppingListAPI = async (item) => {
-  // console.log("買い物リスト更新APIの中🤩", item);
+  console.log("///🔴 API利用 : updateShoppingListAPI ///");
   try {
     const targetItem = await DataStore.query(ShoppingList, item.id);
-    console.log("買い物リスト更新APIの中🤩", targetItem);
     await DataStore.save(
       ShoppingList.copyOf(targetItem, (updated) => {
         updated.bought = item.bought;
@@ -107,6 +111,7 @@ export const updateShoppingListAPI = async (item) => {
 
 // ShoppingList 買い物リストの削除
 export const deleteShoppingListAPI = async (id) => {
+  console.log("///🔴 API利用 : deleteShoppingListAPI ///");
   try {
     const deleteShoppingList = await DataStore.query(ShoppingList, id);
     DataStore.delete(ShoppingList, deleteShoppingList);
@@ -118,6 +123,7 @@ export const deleteShoppingListAPI = async (id) => {
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの登録
 //献立リスト保存検証用
 export const createRecipeAPI = async (data) => {
+  console.log("///🔴 API利用 : createRecipeAPI ///");
   const { recipeName, memo, url, serving, category, like, recipeItemList } =
     data;
 
@@ -155,6 +161,7 @@ export const createRecipeAPI = async (data) => {
 
 //Menu 献立登録
 export const createMenuAPI = async (data) => {
+  console.log("///🔴 API利用 : createMenuAPI///");
   console.log("$$$$$$$$$$$$APIのなか⭐⭐", data);
   // // API動作確認用ダミーデータ
   // data = {
@@ -178,22 +185,9 @@ export const createMenuAPI = async (data) => {
   }
 };
 
-// Menu 献立の削除
-export const deleteMenuAPI = async (date, id) => {
-  try {
-    const deleteMenuDay = await DataStore.query(Menu, (c) =>
-      c.date.eq(date).c.recipeID.eq(id)
-    );
-    console.log("***************⭐⭐", deleteMenuDay);
-    // DataStore.delete(deleteMenuDay, (r) => r.recipeID.eq(id));
-  } catch (err) {
-    console.log("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
-    throw err;
-  }
-};
-
 // recipe レシピ一覧の取得
 export const fetchRecipeAPI = async () => {
+  console.log("///🔴 API利用 : fetchRecipeAPI  ///");
   try {
     const recipeList = await DataStore.query(Recipe);
     return recipeList;
@@ -204,6 +198,7 @@ export const fetchRecipeAPI = async () => {
 
 // recipe IDを指定してレシピの取得
 export const fetchIdRecipeAPI = async (id) => {
+  console.log("///🔴 API利用 : fetchIdRecipeAPI ///");
   try {
     const recipe = await DataStore.query(Recipe, id);
     // const recipeItem = recipeList[0].RecipeItems.values.then(item => item = JSON.stringify(item, null, 2))
@@ -215,6 +210,7 @@ export const fetchIdRecipeAPI = async (id) => {
 
 // recipeItem recipeIdを指定してレシピ材料の取得
 export const fetchIdRecipeItemAPI = async (id) => {
+  console.log("///🔴 API利用 : fetchIdRecipeItemAPI ///");
   try {
     const recipeItem = await DataStore.query(RecipeItem, (r) =>
       r.recipeID.eq(id)
@@ -225,8 +221,9 @@ export const fetchIdRecipeItemAPI = async (id) => {
   }
 };
 
-// レシピの削除
+// Recipe レシピの削除
 export const deleteRecipeAPI = async (id) => {
+  console.log("///🔴 API利用 : deleteRecipeAPI///");
   try {
     const deleterecipe = await DataStore.query(Recipe, id);
     DataStore.delete(Recipe, deleterecipe);
@@ -237,6 +234,7 @@ export const deleteRecipeAPI = async (id) => {
 
 // Item アイテムの登録
 export const createItemAPI = async (data) => {
+  console.log("///🔴 API利用 : createItemAPI ///");
   const { itemName, corner, unit } = data;
   try {
     await DataStore.save(
@@ -253,6 +251,7 @@ export const createItemAPI = async (data) => {
 
 // Item　アイテム一覧の取得
 export const fetchItemAPI = async () => {
+  console.log("///🔴 API利用 : fetchItemAPI ///");
   try {
     const itemList = await DataStore.query(Item);
     return itemList;
@@ -263,6 +262,7 @@ export const fetchItemAPI = async () => {
 
 // Itemリストが空だったら、itemPresetからコピー
 export const copyItemPresetAPI = async () => {
+  console.log("///🔴 API利用 : copyItemPresetAPI ///");
   // Itemテーブルが空かどうかを確認する
   const itemData = await DataStore.query(Item);
   if (itemData.length === 0) {
@@ -283,6 +283,7 @@ export const copyItemPresetAPI = async () => {
 // ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。
 export const dataClearAPI = async () => {
+  console.log("///🔴 API利用 : dataClearAPI ///");
   try {
     await DataStore.clear();
   } catch (err) {

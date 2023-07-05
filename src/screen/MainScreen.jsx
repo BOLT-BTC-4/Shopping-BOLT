@@ -67,10 +67,9 @@ export const MainScreen = () => {
   };
 
   const handleAllRemoveItem = async () => {
-    //買い物リスト一覧をDBからboughtがfalseのもののみ取得///////////////////////////////////////API
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
-      console.log("getShoppingData@@@@@@@@@@@@@@@@@@@@", getShoppingData);
       setItems(getShoppingData);
     };
     const newBoughtedItems = [...items];
@@ -89,7 +88,7 @@ export const MainScreen = () => {
     // setItems(newBoughtedItems);
   };
 
-  console.log("//////", selectedValue);
+  console.log("//////買い物リスト選択店：", selectedValue);
   //順番付与
   const directionAdd = () => {
     // console.log(shopData);
@@ -125,7 +124,6 @@ export const MainScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text>お店選択</Text> */}
       <View style={styles.shopselect}>
         <View style={{ width: "100%" }}>
           <SelectList
