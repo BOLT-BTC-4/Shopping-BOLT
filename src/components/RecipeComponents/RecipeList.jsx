@@ -59,7 +59,7 @@ export const RecipeList = ({
             size={24}
             color="black"
             onPress={() => {
-              navigation.navigate("レシピ登録", { item });
+              navigation.navigate("レシピ編集", { item });
             }}
           />
           <Feather
