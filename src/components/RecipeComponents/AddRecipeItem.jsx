@@ -39,7 +39,7 @@ export const AddRecipeItem = ({
   const onSubmit = (data) => {
     // console.log("ITEMNAME:", data.itemName);
     let newRecipeItemData = {
-      localId: uuid.v4(),
+      id: uuid.v4(),
       recipeItemName: data.itemName,
       quantity: Number(data.quantity),
       unit: data.unit,

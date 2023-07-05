@@ -99,7 +99,7 @@ export const updateShoppingListAPI = async (item) => {
         updated.corner = item.corner;
         updated.directions = item.directions;
         updated.itemName = item.itemName;
-        updated.quantity = item.quantity;
+        updated.quantity = Number(item.quantity);
         updated.unit = item.unit;
         updated.recipeName = item.recipeName;
       })

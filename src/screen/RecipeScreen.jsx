@@ -12,13 +12,23 @@ import {
 import { RecipeList } from "../components/RecipeComponents/RecipeList.jsx";
 import { ShareShopDataContext } from "./ShareShopDataContext";
 import { MaterialIcons } from "@expo/vector-icons";
-import { fetchRecipeAPI, deleteRecipeAPI, fetchIdRecipeAPI } from "../boltAPI";
+import {
+  fetchRecipeAPI,
+  deleteRecipeAPI,
+  fetchRecipeAndRecipeItemAPI,
+} from "../boltAPI";
 import { FlatGrid } from "react-native-super-grid";
 
 export const RecipeScreen = ({ navigation }, item) => {
   console.log("===== comp_RecipeScreen =====");
-  console.log("item:", item);
-  const { recipeData, setRecipeData } = useContext(ShareShopDataContext);
+  const {
+    recipeData,
+    setRecipeData,
+    updateRecipe,
+    setUpdateRecipe,
+    updateRecipeItem,
+    setUpdateRecipeItem,
+  } = useContext(ShareShopDataContext);
 
   // 選択したレシピの削除 → レシピ一覧の取得
   const handleRemoveItem = async (id) => {
@@ -30,9 +40,13 @@ export const RecipeScreen = ({ navigation }, item) => {
     );
   };
 
+  //
   const handleEditRecipe = async (id) => {
-    const getRecipeAndRecipeItem = await fetchIdRecipeAPI(id);
+    const getRecipeAndRecipeItem = await fetchRecipeAndRecipeItemAPI(id);
+    await setUpdateRecipe(getRecipeAndRecipeItem);
+    await setUpdateRecipeItem(getRecipeAndRecipeItem.items);
     console.log("RecipeScreen_getRecipeAndRecipeItem:", getRecipeAndRecipeItem);
+    navigation.navigate("レシピ編集", { item });
   };
 
   // カテゴリ毎にレシピ一覧を表示させる
@@ -42,11 +56,11 @@ export const RecipeScreen = ({ navigation }, item) => {
 
   // カテゴリ
   const categories = [
-    { id: 1, categry: "主食" },
-    { id: 2, categry: "主菜" },
-    { id: 3, categry: "副菜" },
-    { id: 4, categry: "汁物" },
-    { id: 5, categry: "その他" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
 
   //カテゴリタブ表示
@@ -54,9 +68,9 @@ export const RecipeScreen = ({ navigation }, item) => {
     <>
       <TouchableOpacity
         style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-        onPress={() => handleCategorySelect(item.id, item.categry)}
+        onPress={() => handleCategorySelect(item.id, item.category)}
       >
-        <Text>{item.categry}</Text>
+        <Text>{item.category}</Text>
       </TouchableOpacity>
     </>
   );

@@ -42,6 +42,7 @@ export const ShareShopDataProvider = ({ children }) => {
   // レシピ一覧データ
   const [recipeData, setRecipeData] = useState([]);
   const [updateRecipeItem, setUpdateRecipeItem] = useState([]);
+  const [updateRecipe, setUpdateRecipe] = useState({});
 
   // useEffect(() => {
   //   getAllShop();
@@ -73,6 +74,8 @@ export const ShareShopDataProvider = ({ children }) => {
         setRecipeData,
         updateRecipeItem,
         setUpdateRecipeItem,
+        updateRecipe,
+        setUpdateRecipe,
       }}
     >
       {children}

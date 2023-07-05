@@ -17,12 +17,6 @@
       },
       "auth": {
         "shoppingbolt21c1c517d": {}
-      },
-      "function": {
-        "shoppingbolt2a7263da2": {
-          "deploymentBucketName": "amplify-shoppingbolt2-dev-105151-deployment",
-          "s3Key": "amplify-builds/shoppingbolt2a7263da2-316c343763365132704c-build.zip"
-        }
       }
     }
   }
