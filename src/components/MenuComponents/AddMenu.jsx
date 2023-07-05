@@ -30,7 +30,7 @@ export const AddMenu = ({ navigation }) => {
       if (elm >= moment().format("YYYY-MM-DD")) {
         for (let recipes of menu[elm]) {
           const result = {};
-          result.title = recipes.recipe;
+          result.title = recipes.recipeName;
           result.data = recipes.items;
           result.recipeId = recipes.recipeId;
           updatedNewMenu.push(result);
@@ -56,7 +56,6 @@ export const AddMenu = ({ navigation }) => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
         if (recipeItem.checked) {
-          "recipe:", recipe;
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.recipeItemName;
@@ -73,7 +72,7 @@ export const AddMenu = ({ navigation }) => {
               directions: 99,
               check: false,
               recipeId: recipe.recipeId,
-              recipe: recipe.title,
+              recipeName: recipe.title,
             });
           } else {
             newItems.push({
@@ -85,7 +84,7 @@ export const AddMenu = ({ navigation }) => {
               directions: 99,
               check: false,
               recipeId: recipe.recipeId,
-              recipe: recipe.title,
+              recipeName: recipe.title,
             });
           }
         }
