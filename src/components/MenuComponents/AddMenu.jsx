@@ -30,9 +30,9 @@ export const AddMenu = ({ navigation }) => {
       if (elm >= moment().format("YYYY-MM-DD")) {
         for (let recipes of menu[elm]) {
           const result = {};
-          result.title = recipes.recipeName;
-          result.data = recipes.item;
-          result.id = recipes.id;
+          result.title = recipes.recipe;
+          result.data = recipes.items;
+          result.recipeId = recipes.recipeId;
           updatedNewMenu.push(result);
         }
       }
@@ -44,7 +44,9 @@ export const AddMenu = ({ navigation }) => {
   }, []);
   const handleCheck = (sectionId, itemIndex) => {
     const updatedData = [...newMenu];
-    const updatedItem = updatedData.find((recipe) => recipe.id === sectionId);
+    const updatedItem = updatedData.find(
+      (recipe) => recipe.recipeId === sectionId
+    );
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
@@ -63,27 +65,27 @@ export const AddMenu = ({ navigation }) => {
           // (result);
           if (result === undefined) {
             newItems.push({
-              id: recipeItem.id,
+              id: recipeItem.itemId,
               corner: "",
               itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              id: recipe.id,
-              recipeName: recipe.title,
+              recipeId: recipe.recipeId,
+              recipe: recipe.title,
             });
           } else {
             newItems.push({
-              id: recipeItem.id,
+              id: recipeItem.itemId,
               corner: result.corner,
               itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              id: recipe.id,
-              recipeName: recipe.title,
+              recipeId: recipe.recipeId,
+              recipe: recipe.title,
             });
           }
         }
@@ -102,7 +104,7 @@ export const AddMenu = ({ navigation }) => {
           <View style={styles.item}>
             <TouchableOpacity
               style={styles.moziBox}
-              onPress={() => handleCheck(section.id, index)}
+              onPress={() => handleCheck(section.recipeId, index)}
             >
               {item.checked ? (
                 <AntDesign name="checkcircleo" size={24} color="black" />
@@ -118,7 +120,7 @@ export const AddMenu = ({ navigation }) => {
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item, index) => item.itemId}
       />
       <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
         <Text style={styles.buttonInner}>買物リストへ追加</Text>
