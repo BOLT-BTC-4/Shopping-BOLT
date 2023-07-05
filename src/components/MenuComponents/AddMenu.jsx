@@ -62,26 +62,26 @@ export const AddMenu = ({ navigation }) => {
           // (result);
           if (result === undefined) {
             newItems.push({
-              id: recipeItem.itemId,
+              id: recipeItem.id,
               corner: "",
               itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              id: recipe.id,
+              recipeId: recipe.id,
               recipeName: recipe.title,
             });
           } else {
             newItems.push({
-              id: recipeItem.itemId,
+              id: recipeItem.id,
               corner: result.corner,
               itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              id: recipe.id,
+              recipeId: recipe.id,
               recipeName: recipe.title,
             });
           }
@@ -117,7 +117,7 @@ export const AddMenu = ({ navigation }) => {
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
-        keyExtractor={(item, index) => item.itemId}
+        keyExtractor={(item, index) => item.id}
       />
       <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
         <Text style={styles.buttonInner}>買物リストへ追加</Text>
