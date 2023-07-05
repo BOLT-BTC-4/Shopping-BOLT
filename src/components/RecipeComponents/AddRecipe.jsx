@@ -55,8 +55,8 @@ export const AddRecipe = ({ navigation }) => {
     updateRecipeItem,
     setUpdateRecipeItem,
   } = useContext(ShareShopDataContext);
-  const [selectedCategory, setSelectedCategory] = useState(1);
-  const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
+  const [selectedCategory, setSelectedCategory] = useState("主食");
+  // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [displayedRecipes, setDisplayedRecipes] = useState(
     defaultRecipes[selectedCategory]
@@ -86,7 +86,7 @@ export const AddRecipe = ({ navigation }) => {
       memo: data.memo,
       url: data.url,
       serving: Number(data.serving),
-      category: selectedCategoryName,
+      category: selectedCategory,
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
@@ -111,15 +111,13 @@ export const AddRecipe = ({ navigation }) => {
     // setDisplayedRecipes(defaultRecipes[categoryId]);
   };
 
-  const handleRemoveRecipeItem = (localId) => {
-    console.log("localId:", localId);
+  const handleRemoveRecipeItem = (id) => {
+    console.log("id:", id);
     // 選択したレシピの削除
-    setRecipeItems((prevData) =>
-      prevData.filter((item) => item.localId !== localId)
-    );
+    setRecipeItems((prevData) => prevData.filter((item) => item.id !== id));
   };
-  const handleUpdateRecipeItem = async (localId) => {
-    const updateData = recipeItems.filter((item) => item.localId === localId);
+  const handleUpdateRecipeItem = async (id) => {
+    const updateData = recipeItems.filter((item) => item.id === id);
     console.log("AddRecipe_recipeItems:", updateData);
     await setUpdateRecipeItem(updateData);
     setModalEditRecipeItemVisible(true);
@@ -137,11 +135,13 @@ export const AddRecipe = ({ navigation }) => {
           return (
             <TouchableOpacity
               style={
-                selectedCategory === item.id ? styles.activeTab : styles.tab
+                selectedCategory === item.category
+                  ? styles.activeTab
+                  : styles.tab
               }
               onPress={() => {
-                handleCategorySelect(item.id);
-                setSelectedCategoryName(item.category);
+                handleCategorySelect(item.category);
+                // setSelectedCategoryName(item.category);
               }}
             >
               <Text>{item.category}</Text>
@@ -244,7 +244,7 @@ export const AddRecipe = ({ navigation }) => {
               setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
               handleUpdateRecipeItem={handleUpdateRecipeItem}
               handleRemoveRecipeItem={handleRemoveRecipeItem}
-              keyExtractor={(item) => item.localId}
+              keyExtractor={(item) => item.id}
             />
           )}
         />

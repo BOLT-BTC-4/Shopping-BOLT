@@ -39,14 +39,14 @@ export const RecipeItemList = ({
           name="edit"
           size={24}
           color="black"
-          onPress={() => handleUpdateRecipeItem(item.localId)}
+          onPress={() => handleUpdateRecipeItem(item.id)}
         />
 
         <Feather
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveRecipeItem(item.localId)}
+          onPress={() => handleRemoveRecipeItem(item.id)}
         />
       </View>
 

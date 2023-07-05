@@ -20,21 +20,6 @@ import { Rating, AirbnbRating } from "react-native-ratings";
 import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const EditRecipe = ({ navigation }) => {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      recipeName: "",
-      memo: "",
-      url: null,
-    },
-  });
-
   const categories = [
     { id: 1, category: "主食" },
     { id: 2, category: "主菜" },
@@ -54,23 +39,65 @@ export const EditRecipe = ({ navigation }) => {
     setRecipeData,
     updateRecipeItem,
     setUpdateRecipeItem,
+    updateRecipe,
+    setUpdateRecipe,
   } = useContext(ShareShopDataContext);
-  const [selectedCategory, setSelectedCategory] = useState(1);
-  const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
+  const [selectedCategory, setSelectedCategory] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [displayedRecipes, setDisplayedRecipes] = useState(
     defaultRecipes[selectedCategory]
   );
 
-  // const [serving, setServing] = useState(defaultServing);
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  console.log("EditRecipe_updateRecipe", updateRecipe);
+  console.log("EditRecipe_updateRecipeItem", updateRecipeItem);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
     useState(false);
   const [modalEditRecipeItemVisible, setModalEditRecipeItemVisible] =
     useState(false);
-  const [recipeItems, setRecipeItems] = useState([]);
+  const [recipeItems, setRecipeItems] = useState(updateRecipeItem);
   const [addRecipeItemFlag, setAddRecipeItemFlag] = useState(false);
+
+  const initializeForm = () => {
+    let updateRecipeItemCheck = false;
+    if (updateRecipeItem.length !== 0) {
+      updateRecipeItemCheck = true;
+    }
+    if (updateRecipeItemCheck) {
+      // updateRecipe.itemsまたはupdateRecipeItemが１つ以上登録されている時
+      setValue("recipeName", updateRecipe.recipeName);
+      setValue("url", updateRecipe.url);
+      setValue("memo", updateRecipe.memo);
+      setValue("serving", String(updateRecipe.serving));
+      setSliderRating(updateRecipe.like);
+      setSelectedCategory(updateRecipe.category);
+      setValue("quantity", String(updateRecipeItem[0].quantity)); // TextInputが文字列しか参照できないため文字列型にしている
+      setValue("unit", updateRecipeItem[0].unit);
+      setValue("recipeItemName", updateRecipeItem[0].recipeItemName);
+      setValue("quantity", String(updateRecipeItem[0].quantity)); // TextInputが文字列しか参照できないため文字列型にしている
+      setValue("unit", updateRecipeItem[0].unit);
+    } else {
+      // updateRecipe.itemsまたはupdateRecipeItemが空の時
+      setValue("recipeName", updateRecipe.recipeName);
+      setValue("url", updateRecipe.url);
+      setValue("memo", updateRecipe.memo);
+      setValue("serving", String(updateRecipe.serving));
+      setSliderRating(updateRecipe.like);
+      setSelectedCategory(updateRecipe.category);
+    }
+  };
+
+  // const [serving, setServing] = useState(defaultServing);
 
   // レーティングのuseStateと設定
   const [sliderRating, setSliderRating] = useState(0);
@@ -107,26 +134,26 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
     // setDisplayedRecipes(defaultRecipes[categoryId]);
   };
 
-  const handleRemoveRecipeItem = (localId) => {
-    console.log("localId:", localId);
+  const handleRemoveRecipeItem = (id) => {
+    console.log("id:", id);
     // 選択したレシピの削除
-    setRecipeItems((prevData) =>
-      prevData.filter((item) => item.localId !== localId)
-    );
+    setRecipeItems((prevData) => prevData.filter((item) => item.id !== id));
   };
-  const handleUpdateRecipeItem = async (localId) => {
-    const updateData = recipeItems.filter((item) => item.localId === localId);
+  const handleUpdateRecipeItem = async (id) => {
+    const updateData = recipeItems.filter((item) => item.id === id);
     console.log("AddRecipe_recipeItems:", updateData);
     await setUpdateRecipeItem(updateData);
     setModalEditRecipeItemVisible(true);
   };
 
-  useEffect(() => {}, [recipeItems]);
+  useEffect(() => {
+    initializeForm();
+  }, [recipeItems]);
 
   return (
     <View style={styles.container}>
@@ -138,11 +165,12 @@ export const EditRecipe = ({ navigation }) => {
           return (
             <TouchableOpacity
               style={
-                selectedCategory === item.id ? styles.activeTab : styles.tab
+                selectedCategory === item.category
+                  ? styles.activeTab
+                  : styles.tab
               }
               onPress={() => {
-                handleCategorySelect(item.id);
-                setSelectedCategoryName(item.category);
+                handleCategorySelect(item.category);
               }}
             >
               <Text>{item.category}</Text>
@@ -228,7 +256,7 @@ export const EditRecipe = ({ navigation }) => {
         <Button
           title="食材追加"
           onPress={() => {
-            console.log(setModalAddRecipeItemVisible(true));
+            setModalAddRecipeItemVisible(true);
           }}
           color="mediumseagreen"
         />
@@ -237,15 +265,13 @@ export const EditRecipe = ({ navigation }) => {
           renderItem={({ item }) => (
             <RecipeItemList
               item={item}
-              // handleCheck={handleCheck}
-              // handleRemoveItem={handleRemoveItem}
               recipeItems={recipeItems}
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
               setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
               handleUpdateRecipeItem={handleUpdateRecipeItem}
               handleRemoveRecipeItem={handleRemoveRecipeItem}
-              keyExtractor={(item) => item.localId}
+              keyExtractor={(item) => item.id}
             />
           )}
         />

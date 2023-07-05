@@ -62,7 +62,6 @@ export const RecipeList = ({
             color="black"
             onPress={() => {
               handleEditRecipe(item.id);
-              navigation.navigate("レシピ編集", { item });
             }}
           />
           <Feather
