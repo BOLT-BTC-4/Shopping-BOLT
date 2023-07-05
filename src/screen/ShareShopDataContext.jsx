@@ -29,8 +29,6 @@ export const ShareShopDataProvider = ({ children }) => {
     setItems(shoppingListData);
   };
 
-  // Itemテーブルが空であれば、ItemPresetの値をコピーする（初回のみの作業）
-
   const [shopData, setShopData] = useState([]);
   const [shopDataDrop, setShopDataDrop] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");

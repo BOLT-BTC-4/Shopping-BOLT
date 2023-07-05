@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
 import { Entypo, AntDesign } from "@expo/vector-icons";
@@ -6,16 +6,62 @@ import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 // import { SearchBar } from "react-native-elements";
 import { likeImage } from "../Common/likeImage";
+import {
+  fetchIdRecipeAPI,
+  fetchIdRecipeItemAPI,
+  fetchRecipeAPI,
+} from "../../boltAPI";
 
 export const EditMenu = ({ navigation }) => {
+  const [recipes, setRecipes] = useState([]);
+  const [renderFlag, setRenderFlag] = useState(false);
+  //カテゴリーに該当するレシピ配列を返す
+  const filterRecipes = (category) => {
+    const newSelectedRecipes = recipes.filter(
+      (recipe) => recipe.category === category
+    );
+    return newSelectedRecipes;
+  };
   const categories = [
-    { id: 1, categry1: "主食" },
-    { id: 2, categry1: "主菜" },
-    { id: 3, categry1: "副菜" },
-    { id: 4, categry1: "汁物" },
-    { id: 5, categry1: "その他" },
+    { id: 1, category: "主食" },
+    { id: 2, category: "主菜" },
+    { id: 3, category: "副菜" },
+    { id: 4, category: "汁物" },
+    { id: 5, category: "その他" },
   ];
-  const defaultRecipes = table.defaultRecipes;
+
+  useEffect(() => {
+    const renderRecipes = [];
+    // レシピの一覧を取得
+    const getAllRecipe = async () => {
+      //登録されている全てのrecipeを取得
+      const newRecipes = await fetchRecipeAPI();
+      //全てのrecipeのrecipeItemを取得
+      newRecipes.forEach(async (newRecipe, indexOut) => {
+        const getedRecipeItems = await fetchIdRecipeItemAPI(newRecipe.id);
+        //quantityを全て１人前になるようにservingで割る
+        getedRecipeItems.forEach((item) => {
+          item.quantity = item.quantity / newRecipe.serving;
+          item.checked = true;
+        });
+        //データを加工したら更新
+        renderRecipes.push({
+          id: newRecipe.id,
+          category: newRecipe.category,
+          recipeName: newRecipe.recipeName,
+          url: newRecipe.url,
+          serving: newRecipe.serving,
+          like: newRecipe.like,
+          items: getedRecipeItems,
+        });
+      });
+      console.log("$$$$$$$$$$$$$$$$$$$", renderRecipes);
+      setRecipes(renderRecipes);
+      setRenderFlag(true);
+    };
+    getAllRecipe();
+  }, []);
+
   const {
     selectedDay,
     setSelectedDay,
@@ -24,12 +70,9 @@ export const EditMenu = ({ navigation }) => {
     defaultServing,
     setDefaultServing,
   } = useContext(ShareShopDataContext);
-  const [selectedCategory, setSelectedCategory] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("主食");
+  const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-  console.log("selectedRecipe1 : ", selectedRecipe);
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
   const [serving, setServing] = useState(defaultServing);
   // const [searchKeyword, setSearchKeyword] = useState("");
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
@@ -37,30 +80,32 @@ export const EditMenu = ({ navigation }) => {
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = () => {
     const newSelectedRecipe = [...selectedRecipe];
-    console.log("selectedRecipe2 : ", selectedRecipe);
     // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     newSelectedRecipe.forEach((recipe, indexOut) => {
       recipe.items.forEach((item, index) => {
-        console.log("////////////////////////////////////", recipe.serving);
         newSelectedRecipe[indexOut].items[index].quantity =
           item.quantity * recipe.serving;
       });
     });
-    console.log("changeQuantityItems!!!!!!!!!!!:", newSelectedRecipe[0].items);
 
     const newMenu = {
       ...menu,
       [selectedDay]: newSelectedRecipe,
     };
-    "newmenu", newMenu;
+    //新しく追加したレシピをDBに保存
+    //まず日付を登録
+    //その日付のmenuIdで献立用recipeIdを保存
+    //献立用recipeIdのitemsを献立用itemsDBに保存
+
+    console.log("newmenu &&&&&&&&&&&&&&&", newMenu);
     setMenu(newMenu);
     navigation.navigate("献立リスト");
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(defaultRecipes[categoryId]);
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setDisplayedRecipes(filterRecipes(category));
   };
   //レシピを選択したらそのレシピ情報を引数に取ってsetSelectedRecipeに追加
   const handleRecipeSelect = (recipe) => {
@@ -68,9 +113,9 @@ export const EditMenu = ({ navigation }) => {
     setSelectedRecipe((recipes) => [
       ...recipes,
       {
-        recipeId: deepCopyRecipe.recipeId,
-        categry1: deepCopyRecipe.categry1,
-        recipe: deepCopyRecipe.recipe,
+        id: deepCopyRecipe.id,
+        category: deepCopyRecipe.category,
+        recipeName: deepCopyRecipe.recipeName,
         url: deepCopyRecipe.url,
         serving: defaultServing,
         like: deepCopyRecipe.like,
@@ -79,16 +124,14 @@ export const EditMenu = ({ navigation }) => {
     ]);
     // 要素をレシピ表示配列から削除する
     setDisplayedRecipes((prevRecipes) =>
-      prevRecipes.filter(
-        (prevRecipe) => prevRecipe.recipeId !== deepCopyRecipe.recipeId
-      )
+      prevRecipes.filter((prevRecipe) => prevRecipe.id !== deepCopyRecipe.id)
     );
   };
 
   const handleChangeServing = (parmRecipeId, num) => {
     const newSelectedRecipe = [...selectedRecipe];
     const copySelectedRecipe = newSelectedRecipe.find(
-      (recipe) => recipe.recipeId === parmRecipeId
+      (recipe) => recipe.id === parmRecipeId
     );
     copySelectedRecipe.serving = copySelectedRecipe.serving + num;
     setSelectedRecipe(newSelectedRecipe);
@@ -102,25 +145,30 @@ export const EditMenu = ({ navigation }) => {
   //   const filtered = displayedRecipes.filter((oneRecipe) => {
   //     console.log("oneRecipe//////////////", searchKeyword);
   //     // console.log();
-  //     return oneRecipe.recipe.includes(text);
+  //     return oneRecipe.recipeName.includes(text);
   //   });
   //   console.log("filtered/////////", filtered);
   //   // setDisplayedRecipes(filtered);
   // };
 
+  if (renderFlag) {
+    setDisplayedRecipes(filterRecipes(selectedCategory));
+    setRenderFlag(false);
+  }
   //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
-      style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id)}>
-      <Text>{item.categry1}</Text>
+      style={selectedCategory === item.category ? styles.activeTab : styles.tab}
+      onPress={() => handleCategorySelect(item.category)}
+    >
+      <Text>{item.category}</Text>
     </TouchableOpacity>
   );
   //登録されているrecipe表示
   const renderRecipes = () => {
-    // const elements = defaultRecipes[selectedCategory];
+    // const elements = recipes[selectedCategory];
     return (
       <FlatGrid
         itemDimension={110} // 要素の幅
@@ -129,11 +177,11 @@ export const EditMenu = ({ navigation }) => {
           <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
             <View style={styles.recipeContainer}>
               <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
-              <Text style={styles.recipeText}>{item.recipe}</Text>
+              <Text style={styles.recipeText}>{item.recipeName}</Text>
             </View>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.recipeId}
+        keyExtractor={(item) => item.id}
       />
     );
   };
@@ -155,9 +203,8 @@ export const EditMenu = ({ navigation }) => {
             onPress={() => setDefaultServing((prev) => prev - 1)}
           />
           <Text
-            style={
-              styles.selectedRecipeTabTextSmall
-            }>{`デフォルト${defaultServing}人前`}</Text>
+            style={styles.selectedRecipeTabTextSmall}
+          >{`デフォルト${defaultServing}人前`}</Text>
           <AntDesign
             name="pluscircleo"
             size={17}
@@ -172,21 +219,21 @@ export const EditMenu = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={styles.box}>
               <View style={styles.recipeBox}>
-                <Text>{item.recipe}</Text>
+                <Text>{item.recipeName}</Text>
               </View>
               <View style={styles.innerBox}>
                 <AntDesign
                   name="minuscircleo"
                   size={20}
                   color="black"
-                  onPress={() => handleChangeServing(item.recipeId, -1)}
+                  onPress={() => handleChangeServing(item.id, -1)}
                 />
                 <Text>{`${item.serving}人前`}</Text>
                 <AntDesign
                   name="pluscircleo"
                   size={20}
                   color="black"
-                  onPress={() => handleChangeServing(item.recipeId, 1)}
+                  onPress={() => handleChangeServing(item.id, 1)}
                 />
               </View>
             </View>
@@ -217,7 +264,8 @@ export const EditMenu = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={handleSelectedRecipesSubmit}>
+        onPress={handleSelectedRecipesSubmit}
+      >
         <Text style={styles.buttonInner}>こんだてを登録</Text>
       </TouchableOpacity>
     </View>

@@ -10,6 +10,7 @@ import {
   Recipe,
   RecipeMenu,
 } from "./models";
+import { itemPresetData } from "./itemPreset";
 
 // Shop お店登録
 export const createShopAPI = async (data) => {
@@ -137,7 +138,6 @@ export const createRecipeAPI = async (data) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
       console.log("item:", recipeItemName, unit, quantity, corner);
-      console.log("item:", recipeItemName, unit, quantity, corner);
       await DataStore.save(
         new RecipeItem({
           recipeItemName,
@@ -212,7 +212,7 @@ export const fetchIdRecipeAPI = async (id) => {
   try {
     const recipe = await DataStore.query(Recipe, id);
     // const recipeItem = recipeList[0].RecipeItems.values.then(item => item = JSON.stringify(item, null, 2))
-    return JSON.stringify(recipe, null, 2);
+    return recipe;
   } catch (err) {
     throw err;
   }
@@ -224,8 +224,8 @@ export const fetchIdRecipeItemAPI = async (id) => {
     const recipeItem = await DataStore.query(RecipeItem, (r) =>
       r.recipeID.eq(id)
     );
-    console.log(recipeItem);
-    return JSON.stringify(recipeItem, null, 2);
+    console.log("APIの中⭐⭐⭐", recipeItem);
+    return recipeItem;
   } catch (err) {
     throw err;
   }
@@ -241,6 +241,22 @@ export const deleteRecipeAPI = async (id) => {
   }
 };
 
+// Item アイテムの登録
+export const createItemAPI = async (data) => {
+  const { itemName, corner, unit } = data;
+  try {
+    await DataStore.save(
+      new Item({
+        itemName,
+        corner,
+        unit,
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Item　アイテム一覧の取得
 export const fetchItemAPI = async () => {
   try {
@@ -251,26 +267,23 @@ export const fetchItemAPI = async () => {
   }
 };
 
-// Itemリストが空だったら、ItemPresetからコピー
+
+// Itemリストが空だったら、itemPresetからコピー　
 export const copyItemPresetAPI = async () => {
-  // Step 1: Itemテーブルが空かどうかを確認する
+  // Itemテーブルが空かどうかを確認する
   const itemData = await DataStore.query(Item);
   if (itemData.length === 0) {
-    // Step 2: ItemPresetテーブルからデータをコピーする
-    const itemPresetData = await DataStore.query(ItemPreset);
-    console.log("⭐️", itemPresetData);
-    await Promise.all(
-      itemPresetData.map(async (itemPreset) => {
-        // Itemテーブルにデータを追加する
-        await DataStore.save(
-          new Item({
-            itemName: itemPreset.itemName,
-            unit: itemPreset.unit,
-            corner: itemPreset.corner,
-          })
-        );
-      })
-    );
+    // itemtemPresetテーブルからデータをコピーする
+    itemPresetData.forEach(async (itemPreset) => {
+      // Itemテーブルにデータを追加する
+      await DataStore.save(
+        new Item({
+          itemName: itemPreset.itemName,
+          unit: itemPreset.unit,
+          corner: itemPreset.corner,
+        })
+      );
+    })
   }
 };
 

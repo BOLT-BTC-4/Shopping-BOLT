@@ -42,7 +42,7 @@ export const MenuList = ({ navigation }) => {
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
             <View style={styles.cornerBox}>
-              <Text>{item.categry1}</Text>
+              <Text>{item.category}</Text>
             </View>
             <View style={styles.moziBox}>
               <Text
@@ -50,7 +50,7 @@ export const MenuList = ({ navigation }) => {
                 width={100}
                 // onPress={() => handleCheck(item.id)}
               >
-                {item.recipe}
+                {item.recipeName}
               </Text>
               <AntDesign
                 name="link"

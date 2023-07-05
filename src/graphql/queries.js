@@ -5,14 +5,14 @@ export const getShop = /* GraphQL */ `
   query GetShop($id: ID!) {
     getShop(id: $id) {
       id
-      shop
+      shopName
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -26,14 +26,14 @@ export const listShops = /* GraphQL */ `
     listShops(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        shop
+        shopName
         corner
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -57,14 +57,14 @@ export const syncShops = /* GraphQL */ `
     ) {
       items {
         id
-        shop
+        shopName
         corner
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -77,16 +77,21 @@ export const getShoppingList = /* GraphQL */ `
   query GetShoppingList($id: ID!) {
     getShoppingList(id: $id) {
       id
-      item
+      itemName
       unit
       quantity
       corner
+      check
+      directions
+      recipeID
+      recipeName
+      owner
+      bought
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -100,16 +105,21 @@ export const listShoppingLists = /* GraphQL */ `
     listShoppingLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        item
+        itemName
         unit
         quantity
         corner
+        check
+        directions
+        recipeID
+        recipeName
+        owner
+        bought
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -133,16 +143,21 @@ export const syncShoppingLists = /* GraphQL */ `
     ) {
       items {
         id
-        item
+        itemName
         unit
         quantity
         corner
+        check
+        directions
+        recipeID
+        recipeName
+        owner
+        bought
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -173,12 +188,12 @@ export const getMenu = /* GraphQL */ `
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -198,12 +213,12 @@ export const listMenus = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -233,12 +248,12 @@ export const syncMenus = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -251,15 +266,15 @@ export const getItem = /* GraphQL */ `
   query GetItem($id: ID!) {
     getItem(id: $id) {
       id
-      item
+      itemName
       unit
       corner
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -273,15 +288,15 @@ export const listItems = /* GraphQL */ `
     listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        item
+        itemName
         unit
         corner
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -305,15 +320,15 @@ export const syncItems = /* GraphQL */ `
     ) {
       items {
         id
-        item
+        itemName
         unit
         corner
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -326,7 +341,7 @@ export const getItemPreset = /* GraphQL */ `
   query GetItemPreset($id: ID!) {
     getItemPreset(id: $id) {
       id
-      item
+      itemName
       unit
       corner
       createdAt
@@ -347,7 +362,7 @@ export const listItemPresets = /* GraphQL */ `
     listItemPresets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        item
+        itemName
         unit
         corner
         createdAt
@@ -378,7 +393,7 @@ export const syncItemPresets = /* GraphQL */ `
     ) {
       items {
         id
-        item
+        itemName
         unit
         corner
         createdAt
@@ -398,17 +413,17 @@ export const getRecipeItem = /* GraphQL */ `
   query GetRecipeItem($id: ID!) {
     getRecipeItem(id: $id) {
       id
-      recipeItem
+      recipeItemName
       quantity
       corner
       recipeID
       unit
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -422,17 +437,17 @@ export const listRecipeItems = /* GraphQL */ `
     listRecipeItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        recipeItem
+        recipeItemName
         quantity
         corner
         recipeID
         unit
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -456,17 +471,17 @@ export const syncRecipeItems = /* GraphQL */ `
     ) {
       items {
         id
-        recipeItem
+        recipeItemName
         quantity
         corner
         recipeID
         unit
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -492,17 +507,17 @@ export const recipeItemsByRecipeID = /* GraphQL */ `
     ) {
       items {
         id
-        recipeItem
+        recipeItemName
         quantity
         corner
         recipeID
         unit
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -515,12 +530,11 @@ export const getRecipe = /* GraphQL */ `
   query GetRecipe($id: ID!) {
     getRecipe(id: $id) {
       id
-      recipe
+      recipeName
       memo
       url
       serving
-      category1
-      category2
+      category
       like
       Menus {
         items {
@@ -542,29 +556,29 @@ export const getRecipe = /* GraphQL */ `
       RecipeItems {
         items {
           id
-          recipeItem
+          recipeItemName
           quantity
           corner
           recipeID
           unit
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         nextToken
         startedAt
         __typename
       }
+      owner
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
       __typename
     }
   }
@@ -578,12 +592,11 @@ export const listRecipes = /* GraphQL */ `
     listRecipes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -595,12 +608,12 @@ export const listRecipes = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -624,12 +637,11 @@ export const syncRecipes = /* GraphQL */ `
     ) {
       items {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -641,12 +653,12 @@ export const syncRecipes = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       nextToken
@@ -669,22 +681,21 @@ export const getRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       recipe {
         id
-        recipe
+        recipeName
         memo
         url
         serving
-        category1
-        category2
+        category
         like
         Menus {
           nextToken
@@ -696,12 +707,12 @@ export const getRecipeMenu = /* GraphQL */ `
           startedAt
           __typename
         }
+        owner
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
         __typename
       }
       createdAt
@@ -728,29 +739,28 @@ export const listRecipeMenus = /* GraphQL */ `
         menu {
           id
           date
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         recipe {
           id
-          recipe
+          recipeName
           memo
           url
           serving
-          category1
-          category2
+          category
           like
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         createdAt
@@ -787,29 +797,28 @@ export const syncRecipeMenus = /* GraphQL */ `
         menu {
           id
           date
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         recipe {
           id
-          recipe
+          recipeName
           memo
           url
           serving
-          category1
-          category2
+          category
           like
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         createdAt
@@ -848,29 +857,28 @@ export const recipeMenusByMenuId = /* GraphQL */ `
         menu {
           id
           date
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         recipe {
           id
-          recipe
+          recipeName
           memo
           url
           serving
-          category1
-          category2
+          category
           like
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         createdAt
@@ -909,29 +917,28 @@ export const recipeMenusByRecipeId = /* GraphQL */ `
         menu {
           id
           date
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         recipe {
           id
-          recipe
+          recipeName
           memo
           url
           serving
-          category1
-          category2
+          category
           like
+          owner
           createdAt
           updatedAt
           _version
           _deleted
           _lastChangedAt
-          owner
           __typename
         }
         createdAt
