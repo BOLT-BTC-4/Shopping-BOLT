@@ -12,11 +12,12 @@ import {
 import { RecipeList } from "../components/RecipeComponents/RecipeList.jsx";
 import { ShareShopDataContext } from "./ShareShopDataContext";
 import { MaterialIcons } from "@expo/vector-icons";
-import { fetchRecipeAPI, deleteRecipeAPI } from "../boltAPI";
+import { fetchRecipeAPI, deleteRecipeAPI, fetchIdRecipeAPI } from "../boltAPI";
 import { FlatGrid } from "react-native-super-grid";
 
-export const RecipeScreen = ({ navigation }) => {
+export const RecipeScreen = ({ navigation }, item) => {
   console.log("===== comp_RecipeScreen =====");
+  console.log("item:", item);
   const { recipeData, setRecipeData } = useContext(ShareShopDataContext);
 
   // 選択したレシピの削除 → レシピ一覧の取得
@@ -27,6 +28,11 @@ export const RecipeScreen = ({ navigation }) => {
     setDisplayedRecipes(
       initRecipeData.filter((item) => item.category === "主食")
     );
+  };
+
+  const handleEditRecipe = async (id) => {
+    const getRecipeAndRecipeItem = await fetchIdRecipeAPI(id);
+    console.log("RecipeScreen_getRecipeAndRecipeItem:", getRecipeAndRecipeItem);
   };
 
   // カテゴリ毎にレシピ一覧を表示させる
@@ -92,6 +98,7 @@ export const RecipeScreen = ({ navigation }) => {
             recipeName={item.recipeName}
             navigation={navigation}
             // handleCheck={handleCheck}
+            handleEditRecipe={handleEditRecipe}
             handleRemoveItem={handleRemoveItem}
             item={item}
           />

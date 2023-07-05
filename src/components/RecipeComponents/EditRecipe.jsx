@@ -80,28 +80,29 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   //選択されたレシピを献立に登録
-  const onSubmit = async (data) => {
-    postData = {
-      recipeName: data.recipeName,
-      memo: data.memo,
-      url: data.url,
-      serving: Number(data.serving),
-      category: selectedCategoryName,
-      like: Number(sliderRating),
-      recipeItemList: recipeItems,
-    };
-    console.log("postData:", postData);
+  const onSubmit = async (data, id) => {
+    console.log("EditRecipe_data:", data, id);
+    // postData = {
+    //   recipeName: data.recipeName,
+    //   memo: data.memo,
+    //   url: data.url,
+    //   serving: Number(data.serving),
+    //   category: selectedCategoryName,
+    //   like: Number(sliderRating),
+    //   recipeItemList: recipeItems,
+    // };
+    // console.log("postData:", postData);
 
-    await createRecipeAPI(postData);
+    // await createRecipeAPI(postData);
 
     // レシピの一覧を取得
-    const getAllRecipe = async () => {
-      const initRecipeData = await fetchRecipeAPI();
-      console.log("initRecipeData:", initRecipeData);
-      setRecipeData(initRecipeData);
-    };
+    // const getAllRecipe = async () => {
+    //   const initRecipeData = await fetchRecipeAPI();
+    //   console.log("initRecipeData:", initRecipeData);
+    //   setRecipeData(initRecipeData);
+    // };
 
-    await setRecipeData(getAllRecipe);
+    // await setRecipeData(getAllRecipe);
     navigation.navigate("レシピリスト");
   };
 
@@ -284,8 +285,13 @@ export const EditRecipe = ({ navigation }) => {
         </Modal>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonInner}>レシピを登録</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          handleSubmit(onSubmit);
+        }}
+      >
+        <Text style={styles.buttonInner}>レシピを更新</Text>
       </TouchableOpacity>
     </View>
   );

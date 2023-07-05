@@ -17,9 +17,11 @@ export const RecipeList = ({
   item,
   recipeName,
   handleRemoveItem,
+  handleEditRecipe,
   navigation,
 }) => {
   console.log("===== comp_RecipeList =====");
+  console.log("item:", item);
 
   // レシピURLを開く
   // const openURL = (url) => {
@@ -59,6 +61,7 @@ export const RecipeList = ({
             size={24}
             color="black"
             onPress={() => {
+              handleEditRecipe(item.id);
               navigation.navigate("レシピ編集", { item });
             }}
           />

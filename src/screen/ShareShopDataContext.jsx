@@ -44,9 +44,9 @@ export const ShareShopDataProvider = ({ children }) => {
   const [updateRecipeItem, setUpdateRecipeItem] = useState([]);
 
   useEffect(() => {
-    getAllShop();
-    copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
-    getAllShoppingList();
+    // getAllShop();
+    // copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
+    // getAllShoppingList();
   }, []);
   return (
     <ShareShopDataContext.Provider
