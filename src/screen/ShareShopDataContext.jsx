@@ -34,7 +34,7 @@ export const ShareShopDataProvider = ({ children }) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [newShopButton, setNewShopButton] = useState(true);
   const [selectedDay, setSelectedDay] = useState("");
-  const [menu, setMenu] = useState(table.defaultMenu);
+  const [menu, setMenu] = useState({});
   const [addFlag, setAddFlag] = useState(false);
   const [items, setItems] = useState([]);
   //デフォルトで何人前かの状態変数

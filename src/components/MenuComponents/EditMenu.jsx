@@ -43,11 +43,11 @@ export const EditMenu = ({ navigation }) => {
       //全てのrecipeのrecipeItemを取得
       newRecipes.forEach(async (newRecipe, indexOut) => {
         const getedRecipeItems = await fetchIdRecipeItemAPI(newRecipe.id);
-        //quantityを全て１人前になるようにservingで割る
-        getedRecipeItems.forEach((item) => {
-          item.quantity = item.quantity / newRecipe.serving;
-          item.checked = true;
-        });
+        // //quantityを全て１人前になるようにservingで割る
+        // getedRecipeItems.forEach((item) => {
+        //   item.quantity = item.quantity / newRecipe.serving;
+        //   item.checked = true;
+        // });
         //データを加工したら更新
         renderRecipes.push({
           id: newRecipe.id,
@@ -116,12 +116,11 @@ export const EditMenu = ({ navigation }) => {
         items: addArray,
       };
       newRecipeArray.push(recipeObj);
-      const newMenu = {
-        ...menu,
-        [selectedDay]: newRecipeArray,
-      };
-      await setMenu(newMenu);
-      console.log("getNewMenuの中!!!!!!!!!!!!!!!", menu);
+      setMenu(
+        (prevMenu) =>
+          (prevMenu = { ...prevMenu, [selectedDay]: newRecipeArray })
+      );
+      console.log("getNewMenuの中!!!!!!!!!!!!!!!", newRecipeArray);
     });
   };
 
@@ -151,18 +150,12 @@ export const EditMenu = ({ navigation }) => {
     };
 
     await saveMenu();
-    await getNewMenu();
-    setSaveFlag((pre) => !pre);
+    getNewMenu();
+    // await getNewMenu();
 
     navigation.navigate("献立リスト");
   };
   console.log("newMenu!!!!!!!!!!!!!!!", menu);
-
-  //再レンダリング用⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
-  useEffect(() => {
-    getNewMenu();
-    console.log("menuステートが変更されました:", menu);
-  }, [saveFlag]);
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
   const handleCategorySelect = (category) => {
