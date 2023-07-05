@@ -150,8 +150,8 @@ export const EditMenu = ({ navigation }) => {
     };
 
     await saveMenu();
-    getNewMenu();
-    // await getNewMenu();
+    await getNewMenu();
+    await getNewMenu();
 
     navigation.navigate("献立リスト");
   };
