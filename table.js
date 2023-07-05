@@ -851,9 +851,9 @@ const defaultSelectdMenu = {
       category: "主食",
       recipe: "俺のチャーハン",
       url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
-      defaultServing: 4,
       serving: 4,
       like: 0,
+      //1人前にしたitems
       items: [
         {
           id: uuid.v4(),

@@ -92,6 +92,11 @@ export const EditMenu = ({ navigation }) => {
       ...menu,
       [selectedDay]: newSelectedRecipe,
     };
+    //新しく追加したレシピをDBに保存
+    //まず日付を登録
+    //その日付のmenuIdで献立用recipeIdを保存
+    //献立用recipeIdのitemsを献立用itemsDBに保存
+
     console.log("newmenu &&&&&&&&&&&&&&&", newMenu);
     setMenu(newMenu);
     navigation.navigate("献立リスト");
