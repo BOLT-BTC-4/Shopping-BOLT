@@ -158,6 +158,7 @@ export const EditMenu = ({ navigation }) => {
   };
   console.log("newMenu!!!!!!!!!!!!!!!", menu);
 
+  //再レンダリング用⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
   useEffect(() => {
     getNewMenu();
     console.log("menuステートが変更されました:", menu);
