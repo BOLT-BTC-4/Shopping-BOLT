@@ -32,7 +32,7 @@ export const AddMenu = ({ navigation }) => {
           const result = {};
           result.title = recipes.recipeName;
           result.data = recipes.items;
-          result.recipeId = recipes.recipeId;
+          result.id = recipes.id;
           updatedNewMenu.push(result);
         }
       }
@@ -44,9 +44,7 @@ export const AddMenu = ({ navigation }) => {
   }, []);
   const handleCheck = (sectionId, itemIndex) => {
     const updatedData = [...newMenu];
-    const updatedItem = updatedData.find(
-      (recipe) => recipe.recipeId === sectionId
-    );
+    const updatedItem = updatedData.find((recipe) => recipe.id === sectionId);
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
@@ -71,7 +69,7 @@ export const AddMenu = ({ navigation }) => {
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              recipeId: recipe.recipeId,
+              id: recipe.id,
               recipeName: recipe.title,
             });
           } else {
@@ -83,7 +81,7 @@ export const AddMenu = ({ navigation }) => {
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              recipeId: recipe.recipeId,
+              id: recipe.id,
               recipeName: recipe.title,
             });
           }
@@ -103,7 +101,7 @@ export const AddMenu = ({ navigation }) => {
           <View style={styles.item}>
             <TouchableOpacity
               style={styles.moziBox}
-              onPress={() => handleCheck(section.recipeId, index)}
+              onPress={() => handleCheck(section.id, index)}
             >
               {item.checked ? (
                 <AntDesign name="checkcircleo" size={24} color="black" />
