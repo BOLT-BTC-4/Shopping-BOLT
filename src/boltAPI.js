@@ -155,45 +155,40 @@ export const createRecipeAPI = async (data) => {
 
 //Menu 献立登録
 export const createMenuAPI = async (data) => {
-  // API動作確認用ダミーデータ
-  data = {
-    date: "2023-07-12",
-  };
-  // ダミーここまで
+  console.log("$$$$$$$$$$$$APIのなか⭐⭐", data);
+  // // API動作確認用ダミーデータ
+  // data = {
+  //   date: "2023-07-12",
+  //   recipeID: "ddddddd",
+  //   menuServing: 3,
+  // };
+  // // ダミーここまで
 
-  const { date } = data;
-
+  const { date, recipeID, menuServing } = data;
   try {
-    // const { date } = data;
     const menu = await DataStore.save(
       new Menu({
         date,
-      })
-    );
-
-    // // ""menu" は Model と判明
-    // console.log("menu: ", menu);
-    // console.log("menu.id: ", menu.id);
-
-    // API動作確認用ダミーデータ
-    //     recipeID: "589047b2-7fcd-454f-9d7e-0fc1f5557fa1",
-    //     // recipeName: "俺のカレー",
-
-    const recipePosted = await DataStore.query(
-      Recipe,
-      "589047b2-7fcd-454f-9d7e-0fc1f5557fa1" //リレーション対象のレシピID
-    );
-    // console.log("recipePosted: ", recipePosted);
-
-    // 次に Recipe と Menu のリンクモデルを作成
-    await DataStore.save(
-      new RecipeMenu({
-        menu: menu,
-        recipe: recipePosted,
+        recipeID,
+        menuServing,
       })
     );
   } catch (error) {
     throw error;
+  }
+};
+
+// Menu 献立の削除
+export const deleteMenuAPI = async (date, id) => {
+  try {
+    const deleteMenuDay = await DataStore.query(Menu, (c) =>
+      c.date.eq(date).c.recipeID.eq(id)
+    );
+    console.log("***************⭐⭐", deleteMenuDay);
+    // DataStore.delete(deleteMenuDay, (r) => r.recipeID.eq(id));
+  } catch (err) {
+    console.log("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
+    throw err;
   }
 };
 
@@ -224,7 +219,6 @@ export const fetchIdRecipeItemAPI = async (id) => {
     const recipeItem = await DataStore.query(RecipeItem, (r) =>
       r.recipeID.eq(id)
     );
-    console.log("APIの中⭐⭐⭐", recipeItem);
     return recipeItem;
   } catch (err) {
     throw err;
@@ -267,8 +261,7 @@ export const fetchItemAPI = async () => {
   }
 };
 
-
-// Itemリストが空だったら、itemPresetからコピー　
+// Itemリストが空だったら、itemPresetからコピー
 export const copyItemPresetAPI = async () => {
   // Itemテーブルが空かどうかを確認する
   const itemData = await DataStore.query(Item);
@@ -283,7 +276,7 @@ export const copyItemPresetAPI = async () => {
           corner: itemPreset.corner,
         })
       );
-    })
+    });
   }
 };
 

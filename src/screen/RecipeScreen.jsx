@@ -64,17 +64,17 @@ export const RecipeScreen = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    // レシピの一覧を取得
-    const getAllRecipe = async () => {
-      const initRecipeData = await fetchRecipeAPI();
-      setRecipeData(initRecipeData);
-      setDisplayedRecipes(
-        initRecipeData.filter((item) => item.category === "主食")
-      );
-    };
-    getAllRecipe();
-  }, []);
+  // useEffect(() => {
+  //   // レシピの一覧を取得
+  //   const getAllRecipe = async () => {
+  //     const initRecipeData = await fetchRecipeAPI();
+  //     setRecipeData(initRecipeData);
+  //     setDisplayedRecipes(
+  //       initRecipeData.filter((item) => item.category === "主食")
+  //     );
+  //   };
+  //   getAllRecipe();
+  // }, []);
 
   return (
     <View style={styles.container}>

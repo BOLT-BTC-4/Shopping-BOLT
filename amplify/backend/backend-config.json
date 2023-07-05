@@ -61,5 +61,23 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
+  },
+  "parameters": {
+    "AMPLIFY_function_shoppingbolt2a7263da2_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shoppingbolt2a7263da2"
+        }
+      ]
+    },
+    "AMPLIFY_function_shoppingbolt2a7263da2_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "shoppingbolt2a7263da2"
+        }
+      ]
+    }
   }
 }

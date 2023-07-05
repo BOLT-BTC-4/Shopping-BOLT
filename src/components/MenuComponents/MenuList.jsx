@@ -13,7 +13,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Agenda } from "react-native-calendars";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
+import { deleteMenuAPI } from "../../boltAPI";
 
 export const MenuList = ({ navigation }) => {
   const { selectedDay, setSelectedDay, menu, setMenu } =
@@ -29,6 +30,13 @@ export const MenuList = ({ navigation }) => {
         }
       })
       .catch((error) => console.log("urlエラー", error));
+  };
+
+  // 選択した献立の削除 → 献立リスト一覧の取得
+  const handleRemoveMenu = async (date, id) => {
+    await deleteMenuAPI(date, id);
+    // const shoppingListData = await fetchShoppingListAPI();
+    // setItems(shoppingListData);
   };
   return (
     <View style={{ height: 600 }}>
@@ -59,6 +67,12 @@ export const MenuList = ({ navigation }) => {
                 onPress={() => {
                   openURL(item.url);
                 }}
+              />
+              <Feather
+                name="trash-2"
+                size={24}
+                color="black"
+                onPress={() => handleRemoveMenu(item.date, item.id)}
               />
             </View>
           </View>
