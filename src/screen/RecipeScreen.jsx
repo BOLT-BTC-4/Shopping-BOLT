@@ -73,7 +73,7 @@ export const RecipeScreen = ({ navigation }) => {
         initRecipeData.filter((item) => item.category === "主食")
       );
     };
-    getAllRecipe();
+    // getAllRecipe();
   }, []);
 
   return (

@@ -46,7 +46,7 @@ export const MainScreen = () => {
       const shoppingListData = await fetchShoppingListAPI();
       setItems(shoppingListData);
     };
-    getAllShoppingList();
+    // getAllShoppingList();
   }, []);
 
   // モーダルのuseState
