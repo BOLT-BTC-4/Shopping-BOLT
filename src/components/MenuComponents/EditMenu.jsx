@@ -7,8 +7,10 @@ import { table } from "../../../table";
 // import { SearchBar } from "react-native-elements";
 import { likeImage } from "../Common/likeImage";
 import {
+  createMenuAPI,
   fetchIdRecipeAPI,
   fetchIdRecipeItemAPI,
+  fetchMenuAPI,
   fetchRecipeAPI,
 } from "../../boltAPI";
 
@@ -78,26 +80,47 @@ export const EditMenu = ({ navigation }) => {
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
 
   //選択されたレシピを献立に登録
-  const handleSelectedRecipesSubmit = () => {
+  const handleSelectedRecipesSubmit = async () => {
     const newSelectedRecipe = [...selectedRecipe];
     // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     newSelectedRecipe.forEach((recipe, indexOut) => {
+      newSelectedRecipe[indexOut].date = selectedDay;
       recipe.items.forEach((item, index) => {
         newSelectedRecipe[indexOut].items[index].quantity =
           item.quantity * recipe.serving;
       });
     });
 
+    // 献立登録用のデータを加工→献立保存
+    console.log("newSelectedRecipe:", newSelectedRecipe);
+    newSelectedRecipe.forEach(async (recipe, index) => {
+      const saveData = {
+        date: selectedDay,
+        recipeID: recipe.id,
+        menuServing: recipe.serving,
+      };
+      await createMenuAPI(saveData);
+    });
+
+    保存したmenuを取り出し;
+    const fetchMenu = await fetchMenuAPI();
+    console.log("fetchMenu &&&&&&&&&&&&&&&", fetchMenu);
+    //全ての配列を回してobj形式に変換
+    const updatedMenu = {};
+    const updatedOneMenu = [];
+    fetchMenu.forEach((elm) => {
+      updatedMenu[elm.date] = [
+        ...updatedOneMenu,
+        {
+          serving: elm.serving,
+        },
+      ];
+    });
+
     const newMenu = {
       ...menu,
       [selectedDay]: newSelectedRecipe,
     };
-    //新しく追加したレシピをDBに保存
-    //まず日付を登録
-    //その日付のmenuIdで献立用recipeIdを保存
-    //献立用recipeIdのitemsを献立用itemsDBに保存
-
-    console.log("newmenu &&&&&&&&&&&&&&&", newMenu);
     setMenu(newMenu);
     navigation.navigate("献立リスト");
   };

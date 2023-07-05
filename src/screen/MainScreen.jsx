@@ -40,14 +40,14 @@ export const MainScreen = () => {
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
-  useEffect(() => {
-    // // 買い物リスト一覧の取得
-    const getAllShoppingList = async () => {
-      const shoppingListData = await fetchShoppingListAPI();
-      setItems(shoppingListData);
-    };
-    // getAllShoppingList();
-  }, []);
+  // useEffect(() => {
+  //   // // 買い物リスト一覧の取得
+  //   const getAllShoppingList = async () => {
+  //     const shoppingListData = await fetchShoppingListAPI();
+  //     setItems(shoppingListData);
+  //   };
+  //   getAllShoppingList();
+  // }, []);
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);

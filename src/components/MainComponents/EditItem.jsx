@@ -30,14 +30,23 @@ export const EditItem = ({
   });
   const [selectedCorner, setSelectedCorner] = React.useState("");
 
-  const onSubmit = (data) => {
-    const newItems = [...items];
-    const itemCopy = newItems.find((newItem) => newItem.id === item.id);
-    itemCopy.corner = selectedCorner;
-    itemCopy.itemName = data.itemName;
-    itemCopy.quantity = data.quantity;
-    itemCopy.unit = data.unit;
-    setItems(newItems);
+  const onSubmit = async (data) => {
+    console.log("⭐️", data)
+    // const newItems = [...items];
+    // const itemCopy = newItems.find((newItem) => newItem.id === item.id);
+    // itemCopy.corner = selectedCorner;
+    // itemCopy.itemName = data.itemName;
+    // itemCopy.quantity = data.quantity;
+    // itemCopy.unit = data.unit;
+    // setItems(newItems);
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
+    await pdateShoppingListAPI(newData);
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    getAllShoppingList();
     setAddFlag(true);
     setModalEditItemVisible(false);
   };
