@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
 
 
@@ -91,8 +91,9 @@ type EagerMenu = {
   };
   readonly id: string;
   readonly date?: string | null;
-  readonly recipes?: (RecipeMenu | null)[] | null;
   readonly owner?: string | null;
+  readonly recipeID?: string | null;
+  readonly menuServing?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -104,8 +105,9 @@ type LazyMenu = {
   };
   readonly id: string;
   readonly date?: string | null;
-  readonly recipes: AsyncCollection<RecipeMenu>;
   readonly owner?: string | null;
+  readonly recipeID?: string | null;
+  readonly menuServing?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -148,38 +150,6 @@ export declare type Item = LazyLoading extends LazyLoadingDisabled ? EagerItem :
 
 export declare const Item: (new (init: ModelInit<Item>) => Item) & {
   copyOf(source: Item, mutator: (draft: MutableModel<Item>) => MutableModel<Item> | void): Item;
-}
-
-type EagerItemPreset = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ItemPreset, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly itemName: string;
-  readonly unit?: string | null;
-  readonly corner?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyItemPreset = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<ItemPreset, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly itemName: string;
-  readonly unit?: string | null;
-  readonly corner?: string | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type ItemPreset = LazyLoading extends LazyLoadingDisabled ? EagerItemPreset : LazyItemPreset
-
-export declare const ItemPreset: (new (init: ModelInit<ItemPreset>) => ItemPreset) & {
-  copyOf(source: ItemPreset, mutator: (draft: MutableModel<ItemPreset>) => MutableModel<ItemPreset> | void): ItemPreset;
 }
 
 type EagerRecipeItem = {
@@ -232,7 +202,6 @@ type EagerRecipe = {
   readonly serving?: number | null;
   readonly category?: string | null;
   readonly like?: number | null;
-  readonly Menus?: (RecipeMenu | null)[] | null;
   readonly RecipeItems?: (RecipeItem | null)[] | null;
   readonly owner?: string | null;
   readonly createdAt?: string | null;
@@ -251,7 +220,6 @@ type LazyRecipe = {
   readonly serving?: number | null;
   readonly category?: string | null;
   readonly like?: number | null;
-  readonly Menus: AsyncCollection<RecipeMenu>;
   readonly RecipeItems: AsyncCollection<RecipeItem>;
   readonly owner?: string | null;
   readonly createdAt?: string | null;
@@ -262,38 +230,4 @@ export declare type Recipe = LazyLoading extends LazyLoadingDisabled ? EagerReci
 
 export declare const Recipe: (new (init: ModelInit<Recipe>) => Recipe) & {
   copyOf(source: Recipe, mutator: (draft: MutableModel<Recipe>) => MutableModel<Recipe> | void): Recipe;
-}
-
-type EagerRecipeMenu = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<RecipeMenu, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly menuId?: string | null;
-  readonly recipeId?: string | null;
-  readonly menu: Menu;
-  readonly recipe: Recipe;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyRecipeMenu = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<RecipeMenu, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly menuId?: string | null;
-  readonly recipeId?: string | null;
-  readonly menu: AsyncItem<Menu>;
-  readonly recipe: AsyncItem<Recipe>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type RecipeMenu = LazyLoading extends LazyLoadingDisabled ? EagerRecipeMenu : LazyRecipeMenu
-
-export declare const RecipeMenu: (new (init: ModelInit<RecipeMenu>) => RecipeMenu) & {
-  copyOf(source: RecipeMenu, mutator: (draft: MutableModel<RecipeMenu>) => MutableModel<RecipeMenu> | void): RecipeMenu;
 }
