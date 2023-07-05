@@ -187,10 +187,12 @@ export const createMenuAPI = async (data) => {
 
 // Recipe IDからレシピとレシピ材料の取得
 export const fetchRecipeAndRecipeItemAPI = async (id) => {
-  console.log("///🔴 API利用 : 　fetchRecipeAndRecipeItemAPI ///")
+  console.log("///🔴 API利用 : 　fetchRecipeAndRecipeItemAPI ///");
   try {
     const recipe = await DataStore.query(Recipe, id);
-    const recipeItem = await DataStore.query(RecipeItem, (r) => r.recipeID.eq(recipe.id));
+    const recipeItem = await DataStore.query(RecipeItem, (r) =>
+      r.recipeID.eq(recipe.id)
+    );
     return {
       id: recipe.id,
       recipeName: recipe.recipeName,
@@ -199,12 +201,12 @@ export const fetchRecipeAndRecipeItemAPI = async (id) => {
       url: recipe.url,
       serving: recipe.serving,
       like: recipe.like,
-      items: recipeItem
-    }
+      items: recipeItem,
+    };
   } catch (err) {
     throw err;
   }
-}
+};
 
 // recipe レシピ一覧の取得
 export const fetchRecipeAPI = async () => {
@@ -307,6 +309,28 @@ export const dataClearAPI = async () => {
   console.log("///🔴 API利用 : dataClearAPI ///");
   try {
     await DataStore.clear();
+  } catch (err) {
+    throw err;
+  }
+};
+
+// menu一覧の取得
+export const fetchMenuAPI = async () => {
+  console.log("///🔴 API利用 : fetchMenuAPI  ///");
+  try {
+    const recipeList = await DataStore.query(Menu);
+    return recipeList;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// menu dateを指定してレシピの取得
+export const fetchDateMenuAPI = async (date) => {
+  console.log("///🔴 API利用 : fetchIdMenuAPI ///");
+  try {
+    const getMenu = await DataStore.query(Menu, (r) => r.date.eq(date));
+    return getMenu;
   } catch (err) {
     throw err;
   }

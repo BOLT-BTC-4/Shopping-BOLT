@@ -8,6 +8,7 @@ import { table } from "../../../table";
 import { likeImage } from "../Common/likeImage";
 import {
   createMenuAPI,
+  fetchDateMenuAPI,
   fetchIdRecipeAPI,
   fetchIdRecipeItemAPI,
   fetchMenuAPI,
@@ -91,31 +92,31 @@ export const EditMenu = ({ navigation }) => {
       });
     });
 
-    // 献立登録用のデータを加工→献立保存
-    console.log("newSelectedRecipe:", newSelectedRecipe);
-    newSelectedRecipe.forEach(async (recipe, index) => {
-      const saveData = {
-        date: selectedDay,
-        recipeID: recipe.id,
-        menuServing: recipe.serving,
-      };
-      await createMenuAPI(saveData);
-    });
+    // // 献立登録用のデータを加工→献立保存
+    // console.log("newSelectedRecipe:", newSelectedRecipe);
+    // newSelectedRecipe.forEach(async (recipe, index) => {
+    //   const saveData = {
+    //     date: selectedDay,
+    //     recipeID: recipe.id,
+    //     menuServing: recipe.serving,
+    //   };
+    //   await createMenuAPI(saveData);
+    // });
 
-    保存したmenuを取り出し;
-    const fetchMenu = await fetchMenuAPI();
-    console.log("fetchMenu &&&&&&&&&&&&&&&", fetchMenu);
-    //全ての配列を回してobj形式に変換
-    const updatedMenu = {};
-    const updatedOneMenu = [];
-    fetchMenu.forEach((elm) => {
-      updatedMenu[elm.date] = [
-        ...updatedOneMenu,
-        {
-          serving: elm.serving,
-        },
-      ];
-    });
+    // 保存したmenuを取り出し;
+    // const fetchMenu = await fetchDateMenuAPI(selectedDay);
+    // console.log("fetchMenu &&&&&&&&&&&&&&&", fetchMenu);
+    // //全ての配列を回してobj形式に変換
+    // const updatedMenu = {};
+    // const updatedOneMenu = [];
+    // fetchMenu.forEach((elm) => {
+    //   updatedMenu[elm.date] = [
+    //     ...updatedOneMenu,
+    //     {
+    //       serving: elm.serving,
+    //     },
+    //   ];
+    // });
 
     const newMenu = {
       ...menu,
