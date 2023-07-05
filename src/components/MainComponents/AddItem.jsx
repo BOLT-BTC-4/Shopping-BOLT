@@ -10,10 +10,8 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
-import DropDownPicker from "react-native-dropdown-picker";
-import { table } from "../../../table";
-import uuid from "react-native-uuid";
-import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import DropDownPicker from "react-native-dropdown-picker"
+import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
 export const AddItem = ({ setModalAddItemVisible }) => {
@@ -33,16 +31,16 @@ export const AddItem = ({ setModalAddItemVisible }) => {
   });
 
   const onSubmit = async (data) => {
-    //下のfindでマスターitemsからitemを取り出し一致するobjを返す
+    //下のfindでItemテーブルからitemを取り出し一致するobjを返す
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };
-    let result = table.masterItem.find(cornarName);
-    // (result);
+    const itemList = await fetchItemAPI();
+    let result = itemList.find(cornarName)
+
     let newData = {};
     if (result === undefined) {
       newData = {
-        // id: uuid.v4(),
         corner: "",
         itemName: data.itemName,
         quantity: Number(data.quantity),
@@ -51,10 +49,8 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         check: false,
         bought: false,
       };
-      // setItems((items) => [...items, newData]);
     } else {
       newData = {
-        // id: uuid.v4(),
         corner: result.corner,
         itemName: data.itemName,
         quantity: Number(data.quantity),
@@ -63,9 +59,7 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         check: false,
         bought: false,
       };
-      // setItems((items) => [...items, newData]);
     }
-    console.log(newData);
     //追加するitemをDBに保存////////////////////////////////////////////API
     await createShoppingListAPI(newData);
     //買い物リスト一覧をDBから取得///////////////////////////////////////API
@@ -84,14 +78,6 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     };
   };
 
-  // ("errors", errors);
-
-  //   const [open, setOpen] = useState(false);
-  //   const [quantity, setQuantity] = useState(null);
-  //   const [items, setItems] = useState([
-  //     { label: "Apple", value: "apple" },
-  //     { label: "Banana", value: "banana" },
-  //   ]);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>新規商品</Text>

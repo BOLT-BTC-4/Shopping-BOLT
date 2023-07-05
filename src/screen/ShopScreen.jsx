@@ -48,8 +48,8 @@ export const ShopScreen = ({ navigation }) => {
       const getArrayDropDownList = initShopData.map((item) => {
         return { key: item.id, value: item.shopName, corner: item.corner };
       });
-      setShopData(initShopData);
-      setShopDataDrop(getArrayDropDownList);
+      // setShopData(initShopData);
+      // setShopDataDrop(getArrayDropDownList);
     };
     getAllShop();
   }, []);

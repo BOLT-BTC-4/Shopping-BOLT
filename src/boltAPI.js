@@ -197,6 +197,26 @@ export const createMenuAPI = async (data) => {
   }
 };
 
+// Recipe IDからレシピとレシピ材料の取得
+export const fetchRecipeItemAPI = async (id) => {
+  try {
+    const recipe = await DataStore.query(Recipe, id);
+    const recipeItem = await DataStore.query(RecipeItem, (r) => r.recipeID.eq(recipe.id));
+    return {
+      id: recipe.id,
+      recipeName: recipe.recipeName,
+      memo: recipe.memo,
+      category: recipe.category,
+      url: recipe.url,
+      serving: recipe.serving,
+      like: recipe.like,
+      items: recipeItem
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
 // recipe レシピ一覧の取得
 export const fetchRecipeAPI = async () => {
   try {
@@ -231,7 +251,7 @@ export const fetchIdRecipeItemAPI = async (id) => {
   }
 };
 
-// レシピの削除
+// Recipe レシピの削除
 export const deleteRecipeAPI = async (id) => {
   try {
     const deleterecipe = await DataStore.query(Recipe, id);
