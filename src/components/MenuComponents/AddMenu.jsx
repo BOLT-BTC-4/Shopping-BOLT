@@ -62,12 +62,13 @@ export const AddMenu = ({ navigation }) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.recipeItemName;
           };
-          // let result = table.masterItem.find(cornarName);
-          const itemList = await fetchItemAPI();
-          itemList.push(...itemPresetData);
+          //////////////////////////////////////////////////////////////API🔴
+          let itemList = await fetchItemAPI();
+          itemList = itemList.sort(function (a, b) {
+            return (a.createdA > b.createdA) ? -1 : 1;  //オブジェクトの降順ソート
+          });
+          itemList.push(...itemPresetData)
           let result = itemList.find(cornarName);
-          console.log("⭐️⭐️itemList:", itemList);
-          console.log("⭐️⭐️result:", result);
 
           if (result === undefined) {
             newItems.push({
@@ -99,13 +100,13 @@ export const AddMenu = ({ navigation }) => {
         }
       }
     }
-    //追加するitemをDBに保存////////////////////////////////////////////API
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
     const allSaveItem = async () => {
       newItems.forEach(async (newData) => {
         await createShoppingListAPI(newData);
       });
     };
-    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       console.log("🌝🌝🌝🌝🌝🌝🌝newItems", newItems);
       const getShoppingData = await fetchShoppingListAPI();
