@@ -36,7 +36,7 @@ export const MenuScreen = ({ navigation }) => {
         const addObjItem = {
           id: item.id,
           checked: true,
-          itemName: item.recipeItemName,
+          recipeItemName: item.recipeItemName,
           quantity: (item.quantity / getedRecipe.serving) * recipe.menuServing,
           unit: item.unit,
         };
@@ -46,6 +46,7 @@ export const MenuScreen = ({ navigation }) => {
       // recipeObj用のobj
       const recipeObj = {
         id: getedRecipe.id,
+        menuId: recipe.id,
         category: getedRecipe.category,
         recipeName: getedRecipe.recipeName,
         url: getedRecipe.url,
@@ -60,6 +61,7 @@ export const MenuScreen = ({ navigation }) => {
     });
   };
 
+  //全てのMenuを取得
   useEffect(() => {
     const allGetMenu = async () => {
       // まず全てのmenuを取得

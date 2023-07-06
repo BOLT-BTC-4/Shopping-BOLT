@@ -33,10 +33,9 @@ export const MenuList = ({ navigation }) => {
   };
 
   // 選択した献立の削除 → 献立リスト一覧の取得
-  const handleRemoveMenu = async (id) => {
-    id = "8a9206ab-4c34-4907-ac40-50f40a2e170b";
-    console.log("🤩id: ", id);
-    await deleteMenuAPI(id);
+  const handleRemoveMenu = async (menuId) => {
+    console.log("⭐⭐item⭐⭐", menuId);
+    await deleteMenuAPI(menuId);
     // const shoppingListData = await fetchShoppingListAPI();
     // setItems(shoppingListData);
   };
@@ -74,7 +73,7 @@ export const MenuList = ({ navigation }) => {
                 name="trash-2"
                 size={24}
                 color="black"
-                onPress={() => handleRemoveMenu(item.date, item.id)}
+                onPress={() => handleRemoveMenu(item.menuId)}
               />
             </View>
           </View>
