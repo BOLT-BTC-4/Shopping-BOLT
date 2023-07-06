@@ -13,6 +13,7 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker"
 import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { itemPresetData } from "../../itemPreset";
 
 export const AddItem = ({ setModalAddItemVisible }) => {
   const { setItems, setAddFlag } = useContext(ShareShopDataContext);
@@ -36,7 +37,10 @@ export const AddItem = ({ setModalAddItemVisible }) => {
       return item.itemName === data.itemName;
     };
     const itemList = await fetchItemAPI();
+    itemList.push(...itemPresetData)
     let result = itemList.find(cornarName)
+    console.log("⭐️itemList:", itemList)
+    console.log("⭐️result:", result)
 
     let newData = {};
     if (result === undefined) {
