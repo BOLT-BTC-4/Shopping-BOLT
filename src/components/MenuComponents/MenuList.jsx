@@ -33,8 +33,10 @@ export const MenuList = ({ navigation }) => {
   };
 
   // 選択した献立の削除 → 献立リスト一覧の取得
-  const handleRemoveMenu = async (date, id) => {
-    await deleteMenuAPI(date, id);
+  const handleRemoveMenu = async (id) => {
+    id = "8a9206ab-4c34-4907-ac40-50f40a2e170b";
+    console.log("🤩id: ", id);
+    await deleteMenuAPI(id);
     // const shoppingListData = await fetchShoppingListAPI();
     // setItems(shoppingListData);
   };
@@ -82,8 +84,7 @@ export const MenuList = ({ navigation }) => {
         style={styles.button}
         onPress={() => {
           navigation.navigate("献立から買い物リストへ追加");
-        }}
-      >
+        }}>
         <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
       </TouchableOpacity>
     </View>

@@ -185,6 +185,80 @@ export const createMenuAPI = async (data) => {
   }
 };
 
+// // Menu 献立の削除（案1）※awsドキュメントベース　https://docs.amplify.aws/lib/datastore/data-access/q/platform/react-native/#create-and-update:~:text=copy-,Delete,-To%20delete%20an
+export const deleteMenuAPI = async (id) => {
+  // const { item.id, item.date } = data;
+  console.log("🤩id2: 🤩", id, typeof id);
+
+  try {
+    const deleteMenuId = await DataStore.query(Menu, id);
+    console.log("🤩deleteMenuId: 🤩", deleteMenuId);
+    await DataStore.delete(deleteMenuId);
+  } catch (err) {
+    console.log("err: 🤩", deleteMenuId);
+    throw err;
+  }
+};
+
+// export const deleteMenuAPI = async (date1, id) => {
+//   // const { item.id, item.date } = data;
+//   console.log("🤩date&id2: 🤩", date1, id, typeof id);
+
+//   try {
+//     // const deleteMenuId = await DataStore.query(Menu, (c) =>
+//     //   c.recipeID.eq(id).date.eq(date1)
+//     // );
+//     const deleteMenuId = await DataStore.query(Menu, (c) =>
+//       c.and((c) => [c.recipeID.eq(id), c.date.eq(date1)])
+//     );
+
+//     console.log("🤩deleteMenuId: 🤩", deleteMenuId);
+//     await DataStore.delete(deleteMenuId[0]); //第1引数にMenuがいるかも
+//   } catch (err) {
+//     console.log("err: 🤩", deleteMenuId);
+//     throw err;
+//   }
+// };
+
+// export const deleteMenuAPI = async (date, id) => {
+//   // const { item.id, item.date } = data;
+//   console.log("🤩date&id: 🤩", date, id);
+//   try {
+//     // 削除するMenuをid塊で取得
+//     const deleteMenuId = await DataStore.query(Menu, (c) => c.recipeID.eq(id));
+//     console.log("🤩deleteMenuId: 🤩", date, id);
+//     // 削除するMenuを更にdateで特定し取得
+//     const deleteMenuIdData = await DataStore.query(deleteMenuId, (d) =>
+//       d.date.eq(date)
+//     );
+//     // 削除処理の実行
+//     await DataStore.delete(Menu, deleteMenuIdData); //第1引数にMenuがいるかも
+//   } catch (err) {
+//     throw err;
+//   }
+// };
+
+// // Menu 献立の削除（案2）※awsドキュメントｘ綾乃さん書式
+// export const deleteMenuAPI = async (date, id) => {
+//   // const { recipeID, date } = data;
+//   console.log("🤩date&id: 🤩", date, id);
+//   try {
+//     // 削除するMenuをid塊で取得
+//     const deleteMenu = await DataStore.query(Menu, (c) =>
+//       c.and((c) => [c.recipeID.eq(id), c.date.eq(date)])
+//     );
+//     // //書き方違い　※https://blog.dreamhanks.com/第12回
+//     // const deleteMenu = await DataStore.query(Menu, c =>
+//     //   c.recipeID("eq", recipeID).date("eq", date)
+//     // );
+
+//     // 削除処理の実行
+//     DataStore.delete(Menu, deleteMenu); //第１引数のMenuはいらないかも
+//   } catch (err) {
+//     throw err;
+//   }
+// };
+
 // Recipe IDからレシピとレシピ材料の取得
 export const fetchRecipeAndRecipeItemAPI = async (id) => {
   console.log("///🔴 API利用 : 　fetchRecipeAndRecipeItemAPI ///");
