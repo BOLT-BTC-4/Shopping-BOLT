@@ -6,6 +6,7 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
+import { updateShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
 
 export const EditItem = ({
   items,
@@ -25,22 +26,20 @@ export const EditItem = ({
     defaultValues: {
       itemName: item.itemName,
       quantity: item.quantity.toString(),
-      unit: item.unit,
+      unit: item.unit
     },
   });
   const [selectedCorner, setSelectedCorner] = React.useState("");
 
   const onSubmit = async (data) => {
-    console.log("⭐️", data)
-    // const newItems = [...items];
-    // const itemCopy = newItems.find((newItem) => newItem.id === item.id);
-    // itemCopy.corner = selectedCorner;
-    // itemCopy.itemName = data.itemName;
-    // itemCopy.quantity = data.quantity;
-    // itemCopy.unit = data.unit;
-    // setItems(newItems);
+    const newItems = [...items];
+    const itemCopy = newItems.find((newItem) => newItem.id === item.id);
+    itemCopy.corner = selectedCorner;
+    itemCopy.itemName = data.itemName;
+    itemCopy.quantity = data.quantity;
+    itemCopy.unit = data.unit;
     //追加するitemをDBに保存////////////////////////////////////////////API🔴
-    await pdateShoppingListAPI(newData);
+    await updateShoppingListAPI(itemCopy);
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
