@@ -46,11 +46,10 @@ export const ShareShopDataProvider = ({ children }) => {
   //全てのmenuを取得する関数を実行させるための変数
   const [allGetMenuFlag, setAllGetMenuFlag] = useState(false);
 
-  // useEffect(() => {
-  //   getAllShop();
-  //   copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
-  //   getAllShoppingList();
-  // }, []);
+  useEffect(() => {
+    // getAllShop();
+    // getAllShoppingList();
+  }, []);
   return (
     <ShareShopDataContext.Provider
       value={{

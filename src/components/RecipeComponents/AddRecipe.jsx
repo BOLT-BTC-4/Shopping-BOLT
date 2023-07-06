@@ -124,7 +124,7 @@ export const AddRecipe = ({ navigation }) => {
     setModalEditRecipeItemVisible(true);
   };
 
-  useEffect(() => { console.log("⭐️", defaultServing) }, []);
+  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>

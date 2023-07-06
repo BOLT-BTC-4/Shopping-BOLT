@@ -150,9 +150,9 @@ export const createRecipeAPI = async (data) => {
         recipeName,
         memo,
         url,
-        serving,
+        serving: Number(serving),
         category,
-        like,
+        like: Number(like),
       })
     );
 
@@ -164,7 +164,7 @@ export const createRecipeAPI = async (data) => {
         new RecipeItem({
           recipeItemName,
           unit,
-          quantity,
+          quantity: Number(quantity),
           corner,
           recipeID: recipeMany.id,
         })
@@ -177,31 +177,30 @@ export const createRecipeAPI = async (data) => {
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの更新
 export const updateRecipeAPI = async (item) => {
+  console.log("///🔴 API利用 : boltAPI_updateRecipeAPI-item", item)
   console.log("///🤩 API利用 : updateRecipeAPI ///");
+  const { recipeID, recipeName, memo, url, serving, category, like, recipeItemList } = item;
+  console.log("///🤩 API利用 : recipeID ///", recipeID);
   try {
-    // recipeItem削除
-    const deleteRecipeItem = await DataStore.query(RecipeItem, (c) =>
-      c.recipeID.eq(item.id)
-    );
-    console.log("🤩deleteRecipeItem: 🤩", deleteRecipeItem);
-    await DataStore.delete(deleteRecipeItem);
+    // // recipeItem削除
+    await DataStore.delete(RecipeItem, (c) => c.recipeID.eq(recipeID));
+
 
     // recipe更新
-    const targetItem = await DataStore.query(Recipe, item.id);
-    const updateRecipe = await DataStore.save(
+    const targetItem = await DataStore.query(Recipe, recipeID);
+    console.log("targetItem:", targetItem)
+    await DataStore.save(
       Recipe.copyOf(targetItem, (updated) => {
-        updated.recipeName = item.recipeName;
-        updated.memo = item.memo;
-        updated.url = item.url;
-        updated.saving = Number(item.saving);
-        updated.category = item.category;
-        updated.like = Number(item.like);
-        updated.unit = item.unit;
-        updated.recipeName = item.recipeName;
+        updated.recipeName = recipeName;
+        updated.memo = memo;
+        updated.url = url;
+        updated.serving = Number(serving);
+        updated.category = category;
+        updated.like = Number(like);
       })
     );
 
-    // recipeItem再作成 ⭐️recipeItemList の配列で良い？
+    // recipeItem再作成
     recipeItemList.forEach(async (item) => {
       // console.log("item:", item)
       const { recipeItemName, unit, quantity, corner } = item;
@@ -210,9 +209,9 @@ export const updateRecipeAPI = async (item) => {
         new RecipeItem({
           recipeItemName,
           unit,
-          quantity,
+          quantity: Number(quantity),
           corner,
-          recipeID: updateRecipe.id,
+          recipeID: recipeID,
         })
       );
     });
@@ -239,7 +238,7 @@ export const createMenuAPI = async (data) => {
       new Menu({
         date,
         recipeID,
-        menuServing,
+        menuServing: Number(menuServing),
       })
     );
   } catch (error) {
@@ -412,10 +411,10 @@ export const createItemAPI = async (data) => {
 export const fetchItemAPI = async () => {
   console.log("///🔴 API利用 : fetchItemAPI ///");
   try {
-    const itemList = await DataStore.query(Item)
-    // , Predicates.ALL, {
-    //   sort: (s) => s.s.createdAt(SortDirection.ASCENDING)
-    // });
+    const itemList = await DataStore.query(Item, c => c, {
+      sort: (s) => s.createdAt("DESCENDING")
+
+    });
     return itemList;
   } catch (err) {
     throw err;

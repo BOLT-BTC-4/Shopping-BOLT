@@ -36,11 +36,10 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };
-    const itemList = await fetchItemAPI();
+    //////////////////////////////////////////////////////////////API🔴
+    let itemList = await fetchItemAPI();
     itemList.push(...itemPresetData)
     let result = itemList.find(cornarName)
-    console.log("⭐️itemList:", itemList)
-    console.log("⭐️result:", result)
 
     let newData = {};
     if (result === undefined) {
@@ -64,9 +63,9 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         bought: false,
       };
     }
-    //追加するitemをDBに保存////////////////////////////////////////////API
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
     await createShoppingListAPI(newData);
-    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
