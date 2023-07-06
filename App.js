@@ -18,7 +18,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 import { ShareShopDataProvider } from "./src/screen/ShareShopDataContext";
 import { MenuScreen } from "./src/screen/MenuScreen";
@@ -47,7 +47,7 @@ const MenuStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="献立リスト" component={MenuScreen} />
-      <Stack.Screen name="献立登録/編集" component={EditMenu} />
+      <Stack.Screen name="献立登録" component={EditMenu} />
       <Stack.Screen name="献立から買い物リストへ追加" component={AddMenu} />
     </Stack.Navigator>
   );
@@ -75,22 +75,10 @@ const MainStack = () => {
 const ShopStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="お店リスト"
-        component={ShopScreen}
-      />
-      <Stack.Screen
-        name="リスト表示"
-        component={ShopList}
-      />
-      <Stack.Screen
-        name="新規登録"
-        component={AddShop}
-      />
-      <Stack.Screen
-        name="お店編集"
-        component={EditShop}
-      />
+      <Stack.Screen name="お店リスト" component={ShopScreen} />
+      <Stack.Screen name="リスト表示" component={ShopList} />
+      <Stack.Screen name="新規登録" component={AddShop} />
+      <Stack.Screen name="お店編集" component={EditShop} />
     </Stack.Navigator>
   );
 };
@@ -101,29 +89,7 @@ const SettingStack = () => {
       <Stack.Screen name="設定" component={SettingScreen} />
     </Stack.Navigator>
   );
-}
-
-// signUp時にItemPresetからItemにコピーする関数を実行
-async function originalSignUp() {
-  try {
-    const { user } = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email,          // optional
-        // phone_number,   // optional - E.164 number convention
-        // other custom attributes 
-      },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed
-        enabled: true,
-      }
-    });
-    copyItemPresetAPI();
-    console.log("サインインユーザー名:", user);
-  } catch (error) {
-    console.log('error signing up:', error);
-  }
-}
+};
 
 const App = () => {
   return (
@@ -198,13 +164,8 @@ const App = () => {
     </>
   );
 };
-export default withAuthenticator(App, {
-  onAuthUIStateChange: (authState, authData) => {
-    if (authState === 'signUp' && authData) {
-      originalSignUp(); // sign-up時の関数を呼び出す
-    }
-  },
-});
+
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
   container: { width: 400, flex: 1, padding: 20, alignSelf: "center" },

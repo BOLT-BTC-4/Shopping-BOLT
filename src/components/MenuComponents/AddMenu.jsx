@@ -13,7 +13,12 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
 import { table } from "../../../table";
-import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import {
+  createShoppingListAPI,
+  fetchItemAPI,
+  fetchShoppingListAPI,
+} from "../../boltAPI";
+import { itemPresetData } from "../../itemPreset";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
@@ -52,17 +57,19 @@ export const AddMenu = ({ navigation }) => {
   const handleAddItems = async () => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
-        console.log(
-          "recipeItem.checked$$$$$$$$$$$$$$$$$$$$$$$$",
-          recipeItem.checked
-        );
         if (recipeItem.checked) {
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.recipeItemName;
           };
-          let result = table.masterItem.find(cornarName);
-          // (result);
+          //////////////////////////////////////////////////////////////API🔴
+          let itemList = await fetchItemAPI();
+          itemList = itemList.sort(function (a, b) {
+            return (a.createdA > b.createdA) ? -1 : 1;  //オブジェクトの降順ソート
+          });
+          itemList.push(...itemPresetData)
+          let result = itemList.find(cornarName);
+
           if (result === undefined) {
             newItems.push({
               id: recipeItem.id,
@@ -93,19 +100,21 @@ export const AddMenu = ({ navigation }) => {
         }
       }
     }
-    //追加するitemをDBに保存////////////////////////////////////////////API
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
     const allSaveItem = async () => {
       newItems.forEach(async (newData) => {
         await createShoppingListAPI(newData);
       });
     };
-    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
+      console.log("🌝🌝🌝🌝🌝🌝🌝newItems", newItems);
       const getShoppingData = await fetchShoppingListAPI();
       console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
       setItems(getShoppingData);
     };
     await allSaveItem();
+
     setTimeout(function () {
       getAllShoppingList();
     }, 50);

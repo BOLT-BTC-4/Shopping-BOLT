@@ -17,8 +17,14 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { deleteMenuAPI } from "../../boltAPI";
 
 export const MenuList = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, menu, setMenu } =
-    useContext(ShareShopDataContext);
+  const {
+    selectedDay,
+    setSelectedDay,
+    menu,
+    setMenu,
+    allGetMenuFlag,
+    setAllGetMenuFlag,
+  } = useContext(ShareShopDataContext);
 
   const openURL = (url) => {
     Linking.canOpenURL(url)
@@ -34,10 +40,10 @@ export const MenuList = ({ navigation }) => {
 
   // 選択した献立の削除 → 献立リスト一覧の取得
   const handleRemoveMenu = async (menuId) => {
-    console.log("⭐⭐item⭐⭐", menuId);
     await deleteMenuAPI(menuId);
-    // const shoppingListData = await fetchShoppingListAPI();
-    // setItems(shoppingListData);
+    setTimeout(function () {
+      setAllGetMenuFlag((prev) => !prev);
+    }, 50);
   };
   return (
     <View style={{ height: 600 }}>
@@ -45,7 +51,7 @@ export const MenuList = ({ navigation }) => {
         //日付を押したらeditmenuに遷移
         onDayPress={(day) => {
           setSelectedDay(day.dateString);
-          navigation.navigate("献立登録/編集");
+          navigation.navigate("献立登録");
         }}
         items={menu}
         renderItem={(item, firstItemInDay) => (
@@ -54,13 +60,8 @@ export const MenuList = ({ navigation }) => {
               <Text>{item.category}</Text>
             </View>
             <View style={styles.moziBox}>
-              <Text
-                style={styles.text}
-                width={100}
-                // onPress={() => handleCheck(item.id)}
-              >
-                {item.recipeName}
-              </Text>
+              <Text style={styles.text}>{item.recipeName}</Text>
+              <Text style={styles.text}>{`${item.serving}人前`}</Text>
               <AntDesign
                 name="link"
                 size={24}
@@ -83,7 +84,8 @@ export const MenuList = ({ navigation }) => {
         style={styles.button}
         onPress={() => {
           navigation.navigate("献立から買い物リストへ追加");
-        }}>
+        }}
+      >
         <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
       </TouchableOpacity>
     </View>

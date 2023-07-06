@@ -10,7 +10,6 @@ import {
   Recipe,
   RecipeMenu,
 } from "./models";
-import { itemPresetData } from "./itemPreset";
 
 // Shop お店登録
 export const createShopAPI = async (data) => {
@@ -55,7 +54,17 @@ export const deleteShopAPI = async (id) => {
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
   console.log("///🔴 API利用 : createShoppingListAPI ///");
-  const { itemName, unit, quantity, corner, directions, check, bought } = data;
+  const {
+    itemName,
+    unit,
+    quantity,
+    corner,
+    directions,
+    check,
+    bought,
+    recipeName,
+    recipeID,
+  } = data;
   console.log("data", data);
   try {
     await DataStore.save(
@@ -67,6 +76,8 @@ export const createShoppingListAPI = async (data) => {
         directions,
         check,
         bought,
+        recipeName,
+        recipeID,
       })
     );
   } catch (error) {
@@ -400,32 +411,35 @@ export const createItemAPI = async (data) => {
 export const fetchItemAPI = async () => {
   console.log("///🔴 API利用 : fetchItemAPI ///");
   try {
-    const itemList = await DataStore.query(Item);
+    const itemList = await DataStore.query(Item, c => c, {
+      sort: (s) => s.createdAt("DESCENDING")
+
+    });
     return itemList;
   } catch (err) {
     throw err;
   }
 };
 
-// Itemリストが空だったら、itemPresetからコピー
-export const copyItemPresetAPI = async () => {
-  console.log("///🔴 API利用 : copyItemPresetAPI ///");
-  // Itemテーブルが空かどうかを確認する
-  const itemData = await DataStore.query(Item);
-  if (itemData.length === 0) {
-    // itemtemPresetテーブルからデータをコピーする
-    itemPresetData.forEach(async (itemPreset) => {
-      // Itemテーブルにデータを追加する
-      await DataStore.save(
-        new Item({
-          itemName: itemPreset.itemName,
-          unit: itemPreset.unit,
-          corner: itemPreset.corner,
-        })
-      );
-    });
-  }
-};
+// Itemリストが空だったら、itemPresetからコピー　使わない
+// export const copyItemPresetAPI = async () => {
+//   console.log("///🔴 API利用 : copyItemPresetAPI ///");
+//   // Itemテーブルが空かどうかを確認する
+//   const itemData = await DataStore.query(Item);
+//   if (itemData.length === 0) {
+//     // itemtemPresetテーブルからデータをコピーする
+//     itemPresetData.forEach(async (itemPreset) => {
+//       // Itemテーブルにデータを追加する
+//       await DataStore.save(
+//         new Item({
+//           itemName: itemPreset.itemName,
+//           unit: itemPreset.unit,
+//           corner: itemPreset.corner,
+//         })
+//       );
+//     });
+//   }
+// };
 
 // ログアウト時にローカルデータをクリアする
 // ＊同じ端末で別ユーザーログイン時、ローカルデータを消さないと前のログインユーザーのデータが見えてしまう。

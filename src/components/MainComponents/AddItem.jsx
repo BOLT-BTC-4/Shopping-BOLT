@@ -13,6 +13,7 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker"
 import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { itemPresetData } from "../../itemPreset";
 
 export const AddItem = ({ setModalAddItemVisible }) => {
   const { setItems, setAddFlag } = useContext(ShareShopDataContext);
@@ -35,7 +36,9 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };
-    const itemList = await fetchItemAPI();
+    //////////////////////////////////////////////////////////////API🔴
+    let itemList = await fetchItemAPI();
+    itemList.push(...itemPresetData)
     let result = itemList.find(cornarName)
 
     let newData = {};
@@ -60,9 +63,9 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         bought: false,
       };
     }
-    //追加するitemをDBに保存////////////////////////////////////////////API
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
     await createShoppingListAPI(newData);
-    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
