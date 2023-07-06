@@ -86,6 +86,7 @@ export const EditMenu = ({ navigation }) => {
 
   //選択した日付のレシピを取得してmenuを更新
   const getNewMenu = async () => {
+    //(レンダリング用)
     const newRecipeArray = [];
     // 保存したmenuを取り出し;
     const fetchMenu = await fetchDateMenuAPI(selectedDay);
@@ -106,9 +107,10 @@ export const EditMenu = ({ navigation }) => {
         // レシピのitemsを更新するようの配列
         addArray.push(addObjItem);
       });
-      // recipeObj用のobj
+      // recipeObj用のobj(レンダリング用)
       const recipeObj = {
         id: getedRecipe.id,
+        menuId: recipe.id,
         category: getedRecipe.category,
         recipeName: getedRecipe.recipeName,
         url: getedRecipe.url,
@@ -117,7 +119,7 @@ export const EditMenu = ({ navigation }) => {
         items: addArray,
       };
       newRecipeArray.push(recipeObj);
-      // console.log("getNewMenuの中!!!!!!!!!!!!!!!", newRecipeArray);
+      console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
     });
     setMenu(
       (prevMenu) => (prevMenu = { ...prevMenu, [selectedDay]: newRecipeArray })

@@ -46,6 +46,7 @@ export const MenuScreen = ({ navigation }) => {
       // recipeObj用のobj
       const recipeObj = {
         id: getedRecipe.id,
+        menuId: recipe.id,
         category: getedRecipe.category,
         recipeName: getedRecipe.recipeName,
         url: getedRecipe.url,
