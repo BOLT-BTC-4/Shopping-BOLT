@@ -85,48 +85,6 @@ export const EditMenu = ({ navigation }) => {
   // const [searchKeyword, setSearchKeyword] = useState("");
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
 
-  //選択した日付のレシピを取得してmenuを更新
-  const getNewMenu = async (day) => {
-    //(レンダリング用)
-    const newRecipeArray = [];
-    // 保存したmenuを取り出し;
-    const fetchMenu = await fetchDateMenuAPI(day);
-    //取得したmenuを回す
-    fetchMenu.forEach(async (recipe) => {
-      const getedRecipe = await fetchRecipeAndRecipeItemAPI(recipe.recipeID);
-      const addArray = [];
-      //取得したレシピのitemsをループ
-      getedRecipe.items.forEach((item, index) => {
-        //追加するitemObjを加工
-        const addObjItem = {
-          id: item.id,
-          checked: true,
-          recipeItemName: item.recipeItemName,
-          quantity: (item.quantity / getedRecipe.serving) * recipe.menuServing,
-          unit: item.unit,
-        };
-        // レシピのitemsを更新するようの配列
-        addArray.push(addObjItem);
-      });
-      // recipeObj用のobj(レンダリング用)
-      const recipeObj = {
-        id: getedRecipe.id,
-        menuId: recipe.id,
-        category: getedRecipe.category,
-        recipeName: getedRecipe.recipeName,
-        url: getedRecipe.url,
-        serving: recipe.menuServing,
-        like: getedRecipe.like,
-        items: addArray,
-      };
-      newRecipeArray.push(recipeObj);
-      // console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
-      setMenu(
-        (prevMenu) => (prevMenu = { ...prevMenu, [day]: newRecipeArray })
-      );
-    });
-  };
-
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = async () => {
     const newSelectedRecipe = [...selectedRecipe];
