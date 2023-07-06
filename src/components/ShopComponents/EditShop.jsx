@@ -15,6 +15,7 @@ import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
 import { table } from "../../../table";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { updateShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const EditShop = (props) => {
   const { navigation } = props;
@@ -60,12 +61,13 @@ export const EditShop = (props) => {
   // useStateで対応
   const onSubmit = async (data) => {
     const updateShop = {
+      id: item.id,
       shopName: data.shopName,
       corner: corner,
     };
 
-    await updateShoppingListAPI(updateShop);
-    fetchShopAPI();
+    await updateShopAPI(updateShop);
+    // fetchShopAPI();
     // const newShopData = [...shopData];
     // newShopData.forEach((obj) => {
     //   if (obj.id === item.id) {
@@ -73,10 +75,10 @@ export const EditShop = (props) => {
     //     obj.corner = corner;
     //   }
     // });
-    setShopData(newShopData); // 変更された値をセット
-    setCorner([]);
-    setShopName("");
-    navigation.navigate("お店リスト");
+    // setShopData(newShopData); // 変更された値をセット
+    // setCorner([]);
+    // setShopName("");
+    // navigation.navigate("お店リスト");
   };
 
   useEffect(() => {}, [corner, shopName]);
