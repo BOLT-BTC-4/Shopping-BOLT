@@ -104,6 +104,7 @@ export const MenuList = ({ navigation }) => {
   // 選択した献立の削除 → 献立リスト一覧の取得
   const handleRemoveMenu = async (menuId) => {
     await deleteMenuAPI(menuId);
+    //promiseAllチェレンジ
     allGetMenu();
     // setAllGetMenuFlag((prev) => !prev);
     await navigation.navigate("献立リスト");
