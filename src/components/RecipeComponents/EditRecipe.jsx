@@ -107,18 +107,19 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   //選択されたレシピを献立に登録
-  const onSubmit = async (data, id) => {
-    console.log("EditRecipe_data:", data, id);
-    // postData = {
-    //   recipeName: data.recipeName,
-    //   memo: data.memo,
-    //   url: data.url,
-    //   serving: Number(data.serving),
-    //   category: selectedCategoryName,
-    //   like: Number(sliderRating),
-    //   recipeItemList: recipeItems,
-    // };
-    // console.log("postData:", postData);
+  const onSubmit = async (data) => {
+    console.log("EditRecipe_data:", data);
+    updateData = {
+      recipeID: updateRecipeItem[0].recipeID,
+      recipeName: data.recipeName,
+      memo: data.memo,
+      url: data.url,
+      serving: Number(data.serving),
+      category: selectedCategory,
+      like: Number(sliderRating),
+      recipeItemList: recipeItems,
+    };
+    console.log("EditRecipe_updateData:", updateData);
 
     // await createRecipeAPI(postData);
 
@@ -311,12 +312,7 @@ export const EditRecipe = ({ navigation }) => {
         </Modal>
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          handleSubmit(onSubmit);
-        }}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
         <Text style={styles.buttonInner}>レシピを更新</Text>
       </TouchableOpacity>
     </View>
