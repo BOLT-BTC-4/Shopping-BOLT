@@ -123,7 +123,7 @@ export const AddRecipe = ({ navigation }) => {
     setModalEditRecipeItemVisible(true);
   };
 
-  useEffect(() => {}, [recipeItems]);
+  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>

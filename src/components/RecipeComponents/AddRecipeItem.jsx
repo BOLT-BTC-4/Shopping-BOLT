@@ -47,7 +47,7 @@ export const AddRecipeItem = ({
     };
     console.log("newRecipeItemData", newRecipeItemData);
     setRecipeItems((items) => [...items, newRecipeItemData]);
-    reset();
+    // reset();
   };
 
   return (

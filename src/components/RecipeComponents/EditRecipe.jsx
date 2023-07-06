@@ -17,7 +17,7 @@ import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 import { useForm, Controller } from "react-hook-form";
 import { Rating, AirbnbRating } from "react-native-ratings";
-import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
+import { updateRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const EditRecipe = ({ navigation }) => {
   const categories = [
@@ -109,8 +109,9 @@ export const EditRecipe = ({ navigation }) => {
   //選択されたレシピを献立に登録
   const onSubmit = async (data) => {
     console.log("EditRecipe_data:", data);
+    console.log("EditRecipe_updateRecipe[0].recipeID:", updateRecipe.id);
     updateData = {
-      recipeID: updateRecipeItem[0].recipeID,
+      recipeID: updateRecipe.id,
       recipeName: data.recipeName,
       memo: data.memo,
       url: data.url,
@@ -121,16 +122,16 @@ export const EditRecipe = ({ navigation }) => {
     };
     console.log("EditRecipe_updateData:", updateData);
 
-    // await createRecipeAPI(postData);
+    await updateRecipeAPI(updateData);
 
     // レシピの一覧を取得
-    // const getAllRecipe = async () => {
-    //   const initRecipeData = await fetchRecipeAPI();
-    //   console.log("initRecipeData:", initRecipeData);
-    //   setRecipeData(initRecipeData);
-    // };
+    const getAllRecipe = async () => {
+      const initRecipeData = await fetchRecipeAPI();
+      console.log("initRecipeData:", initRecipeData);
+      setRecipeData(initRecipeData);
+    };
 
-    // await setRecipeData(getAllRecipe);
+    await setRecipeData(getAllRecipe);
     navigation.navigate("レシピリスト");
   };
 
@@ -154,7 +155,7 @@ export const EditRecipe = ({ navigation }) => {
 
   useEffect(() => {
     initializeForm();
-  }, [recipeItems]);
+  }, []);
 
   return (
     <View style={styles.container}>

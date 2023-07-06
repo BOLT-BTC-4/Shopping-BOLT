@@ -43,12 +43,12 @@ export const ShareShopDataProvider = ({ children }) => {
   const [recipeData, setRecipeData] = useState([]);
   const [updateRecipeItem, setUpdateRecipeItem] = useState([]);
   const [updateRecipe, setUpdateRecipe] = useState({});
+  const [getAllrecipeContext, setGetAllrecipeContext] = useState({});
 
-  // useEffect(() => {
-  //   getAllShop();
-  //   copyItemPresetAPI(); // Itemリストが空だったら、ItemPresetからコピー
-  //   getAllShoppingList();
-  // }, []);
+  useEffect(() => {
+    // getAllShop();
+    // getAllShoppingList();
+  }, []);
   return (
     <ShareShopDataContext.Provider
       value={{
