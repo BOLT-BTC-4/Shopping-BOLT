@@ -268,6 +268,7 @@ export const createMenuAPI = async (data) => {
         menuServing: Number(menuServing),
       })
     );
+    return menu;
   } catch (error) {
     throw error;
   }

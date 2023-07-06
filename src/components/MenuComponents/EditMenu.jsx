@@ -75,6 +75,7 @@ export const EditMenu = ({ navigation }) => {
     setMenu,
     defaultServing,
     setDefaultServing,
+    setAllGetMenuFlag,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState("主食");
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
@@ -141,21 +142,25 @@ export const EditMenu = ({ navigation }) => {
     // 献立登録用のデータを加工→献立保存
     const saveMenu = async () => {
       // console.log("newSelectedRecipe:", newSelectedRecipe);
-      newSelectedRecipe.forEach(async (recipe, index) => {
-        const saveData = {
-          date: selectedDay,
-          recipeID: recipe.id,
-          menuServing: recipe.serving,
-        };
-        await createMenuAPI(saveData);
-      });
+      const result = await Promise.all(
+        newSelectedRecipe.map((recipe) => {
+          const saveData = {
+            date: selectedDay,
+            recipeID: recipe.id,
+            menuServing: recipe.serving,
+          };
+          return createMenuAPI(saveData);
+        })
+      );
+      console.log("-------------result 155-----------", result);
     };
 
     await saveMenu();
+    setAllGetMenuFlag((prev) => !prev);
     //新しいmenuを取得
-    setTimeout(function () {
-      getNewMenu(selectedDay);
-    }, 50);
+    // setTimeout(function () {
+    //   getNewMenu(selectedDay);
+    // }, 50);
 
     await navigation.navigate("献立リスト");
   };
