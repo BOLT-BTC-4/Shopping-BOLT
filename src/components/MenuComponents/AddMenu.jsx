@@ -18,6 +18,7 @@ import {
   fetchItemAPI,
   fetchShoppingListAPI,
 } from "../../boltAPI";
+import { itemPresetData } from "../../itemPreset";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
