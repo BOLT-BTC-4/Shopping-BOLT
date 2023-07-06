@@ -108,9 +108,9 @@ export const EditRecipe = ({ navigation }) => {
 
   //選択されたレシピを献立に登録
   const onSubmit = async (data) => {
-    console.log("EditRecipe_data:", data);
-    console.log("EditRecipe_updateRecipe[0].recipeID:", updateRecipe.id);
-    updateData = {
+    // console.log("EditRecipe_data:", data);
+    // console.log("EditRecipe_updateRecipe[0].recipeID:", updateRecipe.id);
+    const updateData = {
       recipeID: updateRecipe.id,
       recipeName: data.recipeName,
       memo: data.memo,

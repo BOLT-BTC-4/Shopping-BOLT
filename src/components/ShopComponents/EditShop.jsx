@@ -20,6 +20,7 @@ export const EditShop = (props) => {
   const { navigation } = props;
   const { route } = props;
   const { item } = route.params;
+  console.log("EditShop_item:", item);
 
   const [corner, setCorner] = useState(item.corner);
   const [selectedCorner, setSelectedCorner] = useState("");
@@ -36,7 +37,7 @@ export const EditShop = (props) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      shopName: shopName,
+      shopName: item.shopName,
     },
   });
 
@@ -57,14 +58,21 @@ export const EditShop = (props) => {
   // 未実装
   // ローカルストレージに、shopNameとcornerをオブジェクトとして保存
   // useStateで対応
-  const onSubmit = (data) => {
-    const newShopData = [...shopData];
-    newShopData.forEach((obj) => {
-      if (obj.id === item.id) {
-        obj.shop = data.shopName;
-        obj.corner = corner;
-      }
-    });
+  const onSubmit = async (data) => {
+    const updateShop = {
+      shopName: data.shopName,
+      corner: corner,
+    };
+
+    await updateShoppingListAPI(updateShop);
+    fetchShopAPI();
+    // const newShopData = [...shopData];
+    // newShopData.forEach((obj) => {
+    //   if (obj.id === item.id) {
+    //     obj.shop = data.shopName;
+    //     obj.corner = corner;
+    //   }
+    // });
     setShopData(newShopData); // 変更された値をセット
     setCorner([]);
     setShopName("");
