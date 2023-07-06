@@ -65,9 +65,9 @@ export const AddMenu = ({ navigation }) => {
           //////////////////////////////////////////////////////////////API🔴
           let itemList = await fetchItemAPI();
           itemList = itemList.sort(function (a, b) {
-            return (a.createdA > b.createdA) ? -1 : 1;  //オブジェクトの降順ソート
+            return a.createdA > b.createdA ? -1 : 1; //オブジェクトの降順ソート
           });
-          itemList.push(...itemPresetData)
+          itemList.push(...itemPresetData);
           let result = itemList.find(cornarName);
 
           if (result === undefined) {
@@ -119,7 +119,7 @@ export const AddMenu = ({ navigation }) => {
       getAllShoppingList();
     }, 50);
     // setItems(newItems);
-    navigation.navigate("献立リスト");
+    navigation.navigate("買い物リスト");
     // setAddFlag(true);
   };
 
