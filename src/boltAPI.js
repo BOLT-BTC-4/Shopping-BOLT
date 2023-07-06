@@ -40,6 +40,22 @@ export const fetchShopAPI = async () => {
   }
 };
 
+// Shop　お店の修正
+export const updateShopAPI = async (item) => {
+  console.log("///🔴 API利用 : updateShopAPI ///");
+  try {
+    const targetItem = await DataStore.query(Shop, item.id);
+    await DataStore.save(
+      ShoppingList.copyOf(targetItem, (updated) => {
+        updated.shopName = item.shopName;
+        updated.corner = item.corner;
+      })
+    );
+  } catch (err) {
+    throw err;
+  }
+};
+
 // Shop お店の削除
 export const deleteShopAPI = async (id) => {
   console.log("///🔴 API利用 : fetchShopAPI ///");
@@ -177,18 +193,26 @@ export const createRecipeAPI = async (data) => {
 
 // Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの更新
 export const updateRecipeAPI = async (item) => {
-  console.log("///🔴 API利用 : boltAPI_updateRecipeAPI-item", item)
+  console.log("///🔴 API利用 : boltAPI_updateRecipeAPI-item", item);
   console.log("///🤩 API利用 : updateRecipeAPI ///");
-  const { recipeID, recipeName, memo, url, serving, category, like, recipeItemList } = item;
+  const {
+    recipeID,
+    recipeName,
+    memo,
+    url,
+    serving,
+    category,
+    like,
+    recipeItemList,
+  } = item;
   console.log("///🤩 API利用 : recipeID ///", recipeID);
   try {
     // // recipeItem削除
     await DataStore.delete(RecipeItem, (c) => c.recipeID.eq(recipeID));
 
-
     // recipe更新
     const targetItem = await DataStore.query(Recipe, recipeID);
-    console.log("targetItem:", targetItem)
+    console.log("targetItem:", targetItem);
     await DataStore.save(
       Recipe.copyOf(targetItem, (updated) => {
         updated.recipeName = recipeName;
@@ -411,9 +435,8 @@ export const createItemAPI = async (data) => {
 export const fetchItemAPI = async () => {
   console.log("///🔴 API利用 : fetchItemAPI ///");
   try {
-    const itemList = await DataStore.query(Item, c => c, {
-      sort: (s) => s.createdAt("DESCENDING")
-
+    const itemList = await DataStore.query(Item, (c) => c, {
+      sort: (s) => s.createdAt("DESCENDING"),
     });
     return itemList;
   } catch (err) {
