@@ -13,7 +13,11 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
 import { table } from "../../../table";
-import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import {
+  createShoppingListAPI,
+  fetchItemAPI,
+  fetchShoppingListAPI,
+} from "../../boltAPI";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
@@ -59,11 +63,10 @@ export const AddMenu = ({ navigation }) => {
           };
           // let result = table.masterItem.find(cornarName);
           const itemList = await fetchItemAPI();
-          itemList.push(...itemPresetData)
-          let result = itemList.find(cornarName)
-          console.log("⭐️⭐️itemList:", itemList)
-          console.log("⭐️⭐️result:", result)
-
+          itemList.push(...itemPresetData);
+          let result = itemList.find(cornarName);
+          console.log("⭐️⭐️itemList:", itemList);
+          console.log("⭐️⭐️result:", result);
 
           if (result === undefined) {
             newItems.push({
@@ -109,6 +112,7 @@ export const AddMenu = ({ navigation }) => {
       setItems(getShoppingData);
     };
     await allSaveItem();
+
     setTimeout(function () {
       getAllShoppingList();
     }, 50);
