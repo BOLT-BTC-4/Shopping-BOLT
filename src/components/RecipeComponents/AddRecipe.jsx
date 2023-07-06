@@ -21,6 +21,17 @@ import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const AddRecipe = ({ navigation }) => {
   const {
+    selectedDay,
+    setSelectedDay,
+    menu,
+    setMenu,
+    defaultServing,
+    setDefaultServing,
+    setRecipeData,
+    updateRecipeItem,
+    setUpdateRecipeItem,
+  } = useContext(ShareShopDataContext);
+  const {
     register,
     setValue,
     handleSubmit,
@@ -31,6 +42,7 @@ export const AddRecipe = ({ navigation }) => {
     defaultValues: {
       recipeName: "",
       memo: "",
+      serving: defaultServing.toString(),
       url: null,
     },
   });
@@ -44,17 +56,6 @@ export const AddRecipe = ({ navigation }) => {
   ];
 
   const defaultRecipes = table.defaultRecipes;
-  const {
-    selectedDay,
-    setSelectedDay,
-    menu,
-    setMenu,
-    defaultServing,
-    setDefaultServing,
-    setRecipeData,
-    updateRecipeItem,
-    setUpdateRecipeItem,
-  } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState("主食");
   // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
@@ -123,7 +124,7 @@ export const AddRecipe = ({ navigation }) => {
     setModalEditRecipeItemVisible(true);
   };
 
-  useEffect(() => {}, [recipeItems]);
+  useEffect(() => { console.log("⭐️", defaultServing) }, []);
 
   return (
     <View style={styles.container}>
