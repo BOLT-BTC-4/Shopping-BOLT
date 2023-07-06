@@ -86,7 +86,7 @@ const ShopStack = () => {
 const SettingStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="設定" component={SettingScreen} />
+      <Stack.Screen name="設定変更" component={SettingScreen} />
     </Stack.Navigator>
   );
 };
