@@ -46,7 +46,7 @@ export const EditRecipeItem = ({
     console.log("EditRecipe_onSubmit", data);
     const newRecipeItems = [...recipeItems];
     newRecipeItems.forEach((item) => {
-      if (updateRecipeItem[0].localId === item.localId) {
+      if (updateRecipeItem[0].id === item.id) {
         item.recipeItemName = data.recipeItemName;
         item.quantity = data.quantity;
         item.unit = data.unit;
