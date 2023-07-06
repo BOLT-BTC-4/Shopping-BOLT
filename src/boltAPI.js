@@ -14,6 +14,7 @@ import {
 // Shop お店登録
 export const createShopAPI = async (data) => {
   console.log("///🔴 API利用 : createShopAPI ///");
+  console.log("data:", data)
   const { shopName, corner } = data;
   try {
     await DataStore.save(
@@ -43,10 +44,12 @@ export const fetchShopAPI = async () => {
 // Shop　お店の修正
 export const updateShopAPI = async (item) => {
   console.log("///🔴 API利用 : updateShopAPI ///");
+  console.log("item:", item)
+
   try {
     const targetItem = await DataStore.query(Shop, item.id);
     await DataStore.save(
-      ShoppingList.copyOf(targetItem, (updated) => {
+      Shop.copyOf(targetItem, (updated) => {
         updated.shopName = item.shopName;
         updated.corner = item.corner;
       })

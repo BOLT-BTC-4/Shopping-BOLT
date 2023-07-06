@@ -13,8 +13,10 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
+import { EditCorner } from "./EditCorner";
 import { table } from "../../../table";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { updateShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const EditShop = (props) => {
   const { navigation } = props;
@@ -27,6 +29,7 @@ export const EditShop = (props) => {
   const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState(item.value);
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
+  const [modalEditCornerVisible, setModalEditCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
@@ -60,23 +63,29 @@ export const EditShop = (props) => {
   // useStateで対応
   const onSubmit = async (data) => {
     const updateShop = {
+      id: item.id,
       shopName: data.shopName,
       corner: corner,
     };
+    await updateShopAPI(updateShop);
 
-    await updateShoppingListAPI(updateShop);
-    fetchShopAPI();
-    // const newShopData = [...shopData];
-    // newShopData.forEach((obj) => {
-    //   if (obj.id === item.id) {
-    //     obj.shop = data.shopName;
-    //     obj.corner = corner;
-    //   }
-    // });
-    setShopData(newShopData); // 変更された値をセット
+    // ここからShareShopDataContext.jsxのgetAllShopと同じ内容（1つにまとめたい）
+    const initShopData = await fetchShopAPI();
+    //ドロップダウンで利用できるようにオブジェクトキー変更
+    const getArrayDropDownList = initShopData.map((item) => {
+      return { key: item.id, value: item.shopName, corner: item.corner };
+    });
+    setShopData(initShopData);
+    setShopDataDrop(getArrayDropDownList);
+    // ここまで同じ内容
+
     setCorner([]);
     setShopName("");
     navigation.navigate("お店リスト");
+  };
+
+  const handleCornerUpdate = () => {
+    setModalEditCornerVisible(true);
   };
 
   useEffect(() => {}, [corner, shopName]);
@@ -134,6 +143,26 @@ export const EditShop = (props) => {
             </View>
           </View>
         </Modal>
+        <Modal
+          visible={modalEditCornerVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <EditCorner
+                filteredCorner={filteredCorner()}
+                corner={corner}
+                setCorner={setCorner}
+                selectedCorner={selectedCorner}
+                setSelectedCorner={setSelectedCorner}
+                setModalEditCornerVisible={setModalEditCornerVisible}
+                targetString={targetString}
+                setTargetString={setTargetString}
+              />
+            </View>
+          </View>
+        </Modal>
         <FlatList
           data={corner}
           renderItem={({ item }) => (
@@ -141,12 +170,14 @@ export const EditShop = (props) => {
               corner={corner}
               setCorner={setCorner}
               cornerName={item}
-              setModalAddCornerVisible={setModalAddCornerVisible}
+              setModalEditCornerVisible={setModalEditCornerVisible}
+              handleCornerUpdate={handleCornerUpdate}
               setTargetString={setTargetString}
             />
           )}
           keyExtractor={(item, index) => index.toString()}
         />
+
         <View style={styles.underBar}>
           <Button
             color="mediumseagreen"

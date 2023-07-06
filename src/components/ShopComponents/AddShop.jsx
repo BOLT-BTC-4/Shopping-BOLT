@@ -13,8 +13,8 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
+import { EditCorner } from "./EditCorner";
 import { table } from "../../../table";
-import uuid from "react-native-uuid";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { createShopAPI, fetchShopAPI } from "../../boltAPI";
 
@@ -24,6 +24,7 @@ export const AddShop = ({ navigation }) => {
   const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState("");
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
+  const [modalEditCornerVisible, setModalEditCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
@@ -77,6 +78,10 @@ export const AddShop = ({ navigation }) => {
     navigation.navigate("お店リスト");
   };
 
+  const handleCornerUpdate = () => {
+    setModalEditCornerVisible(true);
+  };
+
   useEffect(() => {}, [corner, shopName]);
 
   return (
@@ -104,7 +109,7 @@ export const AddShop = ({ navigation }) => {
         />
         <View style={styles.labelBox}>
           <Text style={styles.label}>売場の並び順</Text>
-          <FlatList
+          {/* <FlatList
             data={filteredCorner}
             keyExtractor={(item, index) => index.toString()}
             // horizontal={true}
@@ -120,7 +125,7 @@ export const AddShop = ({ navigation }) => {
                 </View>
               );
             }}
-          />
+          /> */}
 
           <TouchableOpacity
             style={styles.buttonLabel}
@@ -150,6 +155,26 @@ export const AddShop = ({ navigation }) => {
             </View>
           </View>
         </Modal>
+        <Modal
+          visible={modalEditCornerVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <EditCorner
+                filteredCorner={filteredCorner()}
+                corner={corner}
+                setCorner={setCorner}
+                selectedCorner={selectedCorner}
+                setSelectedCorner={setSelectedCorner}
+                setModalEditCornerVisible={setModalEditCornerVisible}
+                targetString={targetString}
+                setTargetString={setTargetString}
+              />
+            </View>
+          </View>
+        </Modal>
         <FlatList
           data={corner}
           renderItem={({ item }) => (
@@ -158,6 +183,7 @@ export const AddShop = ({ navigation }) => {
               setCorner={setCorner}
               cornerName={item}
               setModalAddCornerVisible={setModalAddCornerVisible}
+              handleCornerUpdate={handleCornerUpdate}
               setTargetString={setTargetString}
             />
           )}
