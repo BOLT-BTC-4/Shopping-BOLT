@@ -103,29 +103,8 @@ const SettingStack = () => {
   );
 }
 
-// signUp時にItemPresetからItemにコピーする関数を実行
-async function originalSignUp() {
-  try {
-    const { user } = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email,          // optional
-        // phone_number,   // optional - E.164 number convention
-        // other custom attributes 
-      },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed
-        enabled: true,
-      }
-    });
-    copyItemPresetAPI();
-    console.log("サインインユーザー名:", user);
-  } catch (error) {
-    console.log('error signing up:', error);
-  }
-}
-
 const App = () => {
+
   return (
     <>
       <ShareShopDataProvider>
@@ -198,13 +177,8 @@ const App = () => {
     </>
   );
 };
-export default withAuthenticator(App, {
-  onAuthUIStateChange: (authState, authData) => {
-    if (authState === 'signUp' && authData) {
-      originalSignUp(); // sign-up時の関数を呼び出す
-    }
-  },
-});
+
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
   container: { width: 400, flex: 1, padding: 20, alignSelf: "center" },

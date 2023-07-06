@@ -57,7 +57,14 @@ export const AddMenu = ({ navigation }) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
             return item.itemName === recipeItem.recipeItemName;
           };
-          let result = table.masterItem.find(cornarName);
+          // let result = table.masterItem.find(cornarName);
+          const itemList = await fetchItemAPI();
+          itemList.push(...itemPresetData)
+          let result = itemList.find(cornarName)
+          console.log("⭐️⭐️itemList:", itemList)
+          console.log("⭐️⭐️result:", result)
+
+
           if (result === undefined) {
             newItems.push({
               id: recipeItem.id,
