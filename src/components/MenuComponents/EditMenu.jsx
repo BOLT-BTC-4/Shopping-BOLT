@@ -156,7 +156,7 @@ export const EditMenu = ({ navigation }) => {
       getNewMenu();
     }, 50);
 
-    navigation.navigate("献立リスト");
+    await navigation.navigate("献立リスト");
   };
   // console.log("newMenu!!!!!!!!!!!!!!!", menu);
 

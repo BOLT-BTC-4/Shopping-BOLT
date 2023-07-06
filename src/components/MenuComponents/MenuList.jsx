@@ -17,8 +17,14 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { deleteMenuAPI } from "../../boltAPI";
 
 export const MenuList = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, menu, setMenu } =
-    useContext(ShareShopDataContext);
+  const {
+    selectedDay,
+    setSelectedDay,
+    menu,
+    setMenu,
+    allGetMenuFlag,
+    setAllGetMenuFlag,
+  } = useContext(ShareShopDataContext);
 
   const openURL = (url) => {
     Linking.canOpenURL(url)
@@ -34,10 +40,10 @@ export const MenuList = ({ navigation }) => {
 
   // 選択した献立の削除 → 献立リスト一覧の取得
   const handleRemoveMenu = async (menuId) => {
-    console.log("⭐⭐item⭐⭐", menuId);
     await deleteMenuAPI(menuId);
-    // const shoppingListData = await fetchShoppingListAPI();
-    // setItems(shoppingListData);
+    setTimeout(function () {
+      setAllGetMenuFlag((prev) => !prev);
+    }, 50);
   };
   return (
     <View style={{ height: 600 }}>
@@ -83,7 +89,8 @@ export const MenuList = ({ navigation }) => {
         style={styles.button}
         onPress={() => {
           navigation.navigate("献立から買い物リストへ追加");
-        }}>
+        }}
+      >
         <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
       </TouchableOpacity>
     </View>

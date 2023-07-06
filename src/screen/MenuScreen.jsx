@@ -18,7 +18,8 @@ import {
 import { ShareShopDataContext } from "./ShareShopDataContext";
 
 export const MenuScreen = ({ navigation }) => {
-  const { menu, setMenu } = useContext(ShareShopDataContext);
+  const { menu, setMenu, allGetMenuFlag, setAllGetMenuFlag } =
+    useContext(ShareShopDataContext);
 
   //選択した日付のレシピを取得してmenuを更新
   const getNewMenu = async (day) => {
@@ -76,9 +77,10 @@ export const MenuScreen = ({ navigation }) => {
         getNewMenu(day);
       });
     };
+    console.log("⭐⭐⭐⭐⭐⭐⭐⭐", allGetMenuFlag);
     allGetMenu();
-  }, []);
-  console.log("⭐⭐⭐!!!!!!!!!!!!!!!", menu);
+  }, [allGetMenuFlag]);
+  // console.log("⭐⭐⭐!!!!!!!!!!!!!!!", menu);
 
   return (
     <View>
