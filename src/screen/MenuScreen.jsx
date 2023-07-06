@@ -64,6 +64,7 @@ export const MenuScreen = ({ navigation }) => {
     });
   };
 
+  //Promise.allチャレンジ
   //全てのMenuを取得
   useEffect(() => {
     const allGetMenu = async () => {
