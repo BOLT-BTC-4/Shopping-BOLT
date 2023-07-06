@@ -43,22 +43,12 @@ export const MenuList = ({ navigation }) => {
     console.log("fetchMenu ------------43------------", fetchMenu);
     // const menuLoop = async () => {
     //取得したmenuを回す
-    // for (const recipe of fetchMenu) {
-    // fetchMenu.forEach(async (recipe) => {
     const getRecipeArray = [];
     for (const arrayOut of fetchMenu) {
       for (const arrayIn of arrayOut) {
         getRecipeArray.push(arrayIn);
       }
     }
-    // const pushRecipeId = [];
-    // const dayToRecipeId = {};
-    // for (const arrayOut of fetchMenu) {
-    //   for (const arrayIn of arrayOut) {
-    //     dayToRecipeId[arrayIn.date] = pushRecipeId.push(arrayIn.recipeID);
-    //   }
-    // }
-    // console.log("dayToRecipeId ---------61------------", dayToRecipeId);
     console.log("getRecipeArray ---------62------------", getRecipeArray);
     // const getRecipeID = fetchMenu.map((recipe) => recipe);
 
@@ -111,36 +101,6 @@ export const MenuList = ({ navigation }) => {
       }
     }
     console.log("newMenuObj ---------113------------", newMenuObj);
-    // for (const recipe of getedRecipes) {
-    //   for (const item of recipe) {
-    //     //追加するitemObjを加工
-    //     const addObjItem = {
-    //       id: item.id,
-    //       checked: true,
-    //       recipeItemName: item.recipeItemName,
-    //       quantity: (item.quantity / getedRecipes.serving) * recipe.menuServing,
-    //       unit: item.unit,
-    //     };
-    //     // レシピのitemsを更新するようの配列
-    //     addArray.push(addObjItem);
-    //   }
-    //   // recipeObj用のobj(レンダリング用)
-    //   const recipeObj = {
-    //     id: getedRecipes.id, //recipeIDのこと
-    //     menuId: recipe.id,
-    //     category: getedRecipes.category,
-    //     recipeName: getedRecipes.recipeName,
-    //     url: getedRecipes.url,
-    //     serving: recipe.menuServing,
-    //     like: getedRecipes.like,
-    //     items: addArray,
-    //   };
-    //   newRecipeArray.push(recipeObj);
-    //   console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
-    //   newMenuObj[day] = newRecipeArray;
-    //   console.log("newMenuObj🌝🌝🌝🌝🌝", newMenuObj);
-    // }
-    // const renderObj = newMenuObj;
     setMenu(newMenuObj);
   };
 
