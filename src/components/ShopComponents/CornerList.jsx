@@ -1,15 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { EditCorner } from "./EditCorner";
 
 export const CornerList = ({
   corner,
   setCorner,
   cornerName,
-  setModalAddCornerVisible,
+  setModalEditCornerVisible,
   setTargetString,
+  handleCornerUpdate,
 }) => {
-  const handleDelete = (str) => {
+  const handleCornerDelete = (str) => {
     console.log(str);
     // 選択された行のデータを配列から削除;
     const newCorner = corner.filter((item) => item !== str);
@@ -26,15 +28,15 @@ export const CornerList = ({
             size={24}
             color="black"
             onPress={() => {
+              handleCornerUpdate();
               setTargetString(cornerName);
-              setModalAddCornerVisible(true);
             }}
           />
           <Feather
             name="trash-2"
             size={24}
             color="black"
-            onPress={() => handleDelete(cornerName)}
+            onPress={() => handleCornerDelete(cornerName)}
           />
         </View>
       </View>
