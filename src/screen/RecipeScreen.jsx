@@ -45,7 +45,7 @@ export const RecipeScreen = ({ navigation }, item) => {
     const getRecipeAndRecipeItem = await fetchRecipeAndRecipeItemAPI(id);
     await setUpdateRecipe(getRecipeAndRecipeItem);
     await setUpdateRecipeItem(getRecipeAndRecipeItem.items);
-    console.log("RecipeScreen_getRecipeAndRecipeItem:", getRecipeAndRecipeItem);
+    // console.log("RecipeScreen_getRecipeAndRecipeItem:", getRecipeAndRecipeItem);
     navigation.navigate("レシピ編集", { item });
   };
 
@@ -77,7 +77,7 @@ export const RecipeScreen = ({ navigation }, item) => {
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
   const handleCategorySelect = (categoryId, categoryName) => {
-    console.log("categoryId:", categoryId);
+    // console.log("categoryId:", categoryId);
     setSelectedCategory(categoryId);
     setDisplayedRecipes(
       recipeData.filter((item) => item.category === categoryName)

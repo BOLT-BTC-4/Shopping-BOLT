@@ -176,6 +176,52 @@ export const createRecipeAPI = async (data) => {
   }
 };
 
+// Recipe(親) - RecipeItem(子) レシピ／レシピアイテムの更新
+export const updateRecipeAPI = async (item) => {
+  console.log("///🤩 API利用 : updateRecipeAPI ///");
+  try {
+    // recipeItem削除
+    const deleteRecipeItem = await DataStore.query(RecipeItem, (c) =>
+      c.recipeID.eq(item.id)
+    );
+    console.log("🤩deleteRecipeItem: 🤩", deleteRecipeItem);
+    await DataStore.delete(deleteRecipeItem);
+
+    // recipe更新
+    const targetItem = await DataStore.query(Recipe, item.id);
+    const updateRecipe = await DataStore.save(
+      Recipe.copyOf(targetItem, (updated) => {
+        updated.recipeName = item.recipeName;
+        updated.memo = item.memo;
+        updated.url = item.url;
+        updated.saving = Number(item.saving);
+        updated.category = item.category;
+        updated.like = Number(item.like);
+        updated.unit = item.unit;
+        updated.recipeName = item.recipeName;
+      })
+    );
+
+    // recipeItem再作成 ⭐️recipeItemList の配列で良い？
+    recipeItemList.forEach(async (item) => {
+      // console.log("item:", item)
+      const { recipeItemName, unit, quantity, corner } = item;
+      console.log("RecipeItem:", recipeItemName, unit, quantity, corner);
+      await DataStore.save(
+        new RecipeItem({
+          recipeItemName,
+          unit,
+          quantity,
+          corner,
+          recipeID: updateRecipe.id,
+        })
+      );
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+
 //Menu 献立登録
 export const createMenuAPI = async (data) => {
   console.log("///🔴 API利用 : createMenuAPI///");
@@ -203,12 +249,12 @@ export const createMenuAPI = async (data) => {
 };
 
 // // Menu 献立の削除（案1）※awsドキュメントベース　https://docs.amplify.aws/lib/datastore/data-access/q/platform/react-native/#create-and-update:~:text=copy-,Delete,-To%20delete%20an
-export const deleteMenuAPI = async (id) => {
+export const deleteMenuAPI = async (menuId) => {
   // const { item.id, item.date } = data;
-  console.log("🤩id2: 🤩", id, typeof id);
+  console.log("🤩menuId2: 🤩", menuId, typeof menuId);
 
   try {
-    const deleteMenuId = await DataStore.query(Menu, id);
+    const deleteMenuId = await DataStore.query(Menu, menuId);
     console.log("🤩deleteMenuId: 🤩", deleteMenuId);
     await DataStore.delete(deleteMenuId);
   } catch (err) {
