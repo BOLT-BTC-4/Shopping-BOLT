@@ -56,6 +56,8 @@ export const MenuScreen = ({ navigation }) => {
         items: addArray,
       };
       newRecipeArray.push(recipeObj);
+      // const newMenu = { ...menu, [day]: newRecipeArray };
+      // setMenu(newMenu);
       setMenu(
         (prevMenu) => (prevMenu = { ...prevMenu, [day]: newRecipeArray })
       );

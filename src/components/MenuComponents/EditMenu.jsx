@@ -85,11 +85,11 @@ export const EditMenu = ({ navigation }) => {
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
 
   //選択した日付のレシピを取得してmenuを更新
-  const getNewMenu = async () => {
+  const getNewMenu = async (day) => {
     //(レンダリング用)
     const newRecipeArray = [];
     // 保存したmenuを取り出し;
-    const fetchMenu = await fetchDateMenuAPI(selectedDay);
+    const fetchMenu = await fetchDateMenuAPI(day);
     //取得したmenuを回す
     fetchMenu.forEach(async (recipe) => {
       const getedRecipe = await fetchRecipeAndRecipeItemAPI(recipe.recipeID);
@@ -119,11 +119,11 @@ export const EditMenu = ({ navigation }) => {
         items: addArray,
       };
       newRecipeArray.push(recipeObj);
-      console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
+      // console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
+      setMenu(
+        (prevMenu) => (prevMenu = { ...prevMenu, [day]: newRecipeArray })
+      );
     });
-    setMenu(
-      (prevMenu) => (prevMenu = { ...prevMenu, [selectedDay]: newRecipeArray })
-    );
   };
 
   //選択されたレシピを献立に登録
@@ -154,7 +154,7 @@ export const EditMenu = ({ navigation }) => {
     await saveMenu();
     //新しいmenuを取得
     setTimeout(function () {
-      getNewMenu();
+      getNewMenu(selectedDay);
     }, 50);
 
     await navigation.navigate("献立リスト");

@@ -14,7 +14,12 @@ import {
 } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import { deleteMenuAPI } from "../../boltAPI";
+import {
+  deleteMenuAPI,
+  fetchDateMenuAPI,
+  fetchMenuAPI,
+  fetchRecipeAndRecipeItemAPI,
+} from "../../boltAPI";
 
 export const MenuList = ({ navigation }) => {
   const {
@@ -25,6 +30,64 @@ export const MenuList = ({ navigation }) => {
     allGetMenuFlag,
     setAllGetMenuFlag,
   } = useContext(ShareShopDataContext);
+
+  //選択した日付のレシピを取得してmenuを更新
+  const getNewMenu = async (day) => {
+    //(レンダリング用)
+    const newRecipeArray = [];
+    // 保存したmenuを取り出し;
+    const fetchMenu = await fetchDateMenuAPI(day);
+    //取得したmenuを回す
+    fetchMenu.forEach(async (recipe) => {
+      const getedRecipe = await fetchRecipeAndRecipeItemAPI(recipe.recipeID);
+      const addArray = [];
+      //取得したレシピのitemsをループ
+      getedRecipe.items.forEach((item, index) => {
+        //追加するitemObjを加工
+        const addObjItem = {
+          id: item.id,
+          checked: true,
+          recipeItemName: item.recipeItemName,
+          quantity: (item.quantity / getedRecipe.serving) * recipe.menuServing,
+          unit: item.unit,
+        };
+        // レシピのitemsを更新するようの配列
+        addArray.push(addObjItem);
+      });
+      // recipeObj用のobj(レンダリング用)
+      const recipeObj = {
+        id: getedRecipe.id,
+        menuId: recipe.id,
+        category: getedRecipe.category,
+        recipeName: getedRecipe.recipeName,
+        url: getedRecipe.url,
+        serving: recipe.menuServing,
+        like: getedRecipe.like,
+        items: addArray,
+      };
+      newRecipeArray.push(recipeObj);
+      console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
+      setMenu(
+        (prevMenu) => (prevMenu = { ...prevMenu, [day]: newRecipeArray })
+      );
+    });
+  };
+
+  const allGetMenu = async () => {
+    // まず全てのmenuを取得
+    const allGetMenu = await fetchMenuAPI();
+    // 日付のみの配列に変形
+    const filteredDate = Array.from(
+      new Set(allGetMenu.map((menu) => menu.date))
+    );
+    console.log("filterDate:::::::::::", filteredDate);
+    // 日付のみの配列を回して
+    filteredDate.forEach(async (day) => {
+      setTimeout(function () {
+        getNewMenu(day);
+      }, 50);
+    });
+  };
 
   const openURL = (url) => {
     Linking.canOpenURL(url)
@@ -41,10 +104,11 @@ export const MenuList = ({ navigation }) => {
   // 選択した献立の削除 → 献立リスト一覧の取得
   const handleRemoveMenu = async (menuId) => {
     await deleteMenuAPI(menuId);
-    setTimeout(function () {
-      setAllGetMenuFlag((prev) => !prev);
-    }, 50);
+    allGetMenu();
+    // setAllGetMenuFlag((prev) => !prev);
+    await navigation.navigate("献立リスト");
   };
+
   return (
     <View style={{ height: 600 }}>
       <Agenda
