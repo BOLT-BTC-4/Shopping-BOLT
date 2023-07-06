@@ -412,7 +412,10 @@ export const createItemAPI = async (data) => {
 export const fetchItemAPI = async () => {
   console.log("///🔴 API利用 : fetchItemAPI ///");
   try {
-    const itemList = await DataStore.query(Item);
+    const itemList = await DataStore.query(Item)
+    // , Predicates.ALL, {
+    //   sort: (s) => s.s.createdAt(SortDirection.ASCENDING)
+    // });
     return itemList;
   } catch (err) {
     throw err;

@@ -6,7 +6,7 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
-import { updateShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import { updateShoppingListAPI, fetchShoppingListAPI, createItemAPI } from "../../boltAPI";
 
 export const EditItem = ({
   items,
@@ -40,6 +40,7 @@ export const EditItem = ({
     itemCopy.unit = data.unit;
     //追加するitemをDBに保存////////////////////////////////////////////API🔴
     await updateShoppingListAPI(itemCopy);
+    await createItemAPI(itemCopy); //coner売り場のマスターへも登録
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();

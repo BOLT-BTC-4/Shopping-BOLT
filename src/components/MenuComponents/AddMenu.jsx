@@ -13,7 +13,7 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
 import { table } from "../../../table";
-import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
+import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
