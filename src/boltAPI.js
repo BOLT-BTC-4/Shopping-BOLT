@@ -55,7 +55,17 @@ export const deleteShopAPI = async (id) => {
 // ShoppingList 買い物登録
 export const createShoppingListAPI = async (data) => {
   console.log("///🔴 API利用 : createShoppingListAPI ///");
-  const { itemName, unit, quantity, corner, directions, check, bought } = data;
+  const {
+    itemName,
+    unit,
+    quantity,
+    corner,
+    directions,
+    check,
+    bought,
+    recipeName,
+    recipeID,
+  } = data;
   console.log("data", data);
   try {
     await DataStore.save(
@@ -67,6 +77,8 @@ export const createShoppingListAPI = async (data) => {
         directions,
         check,
         bought,
+        recipeName,
+        recipeID,
       })
     );
   } catch (error) {
