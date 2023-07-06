@@ -51,7 +51,7 @@ export const MenuList = ({ navigation }) => {
         //日付を押したらeditmenuに遷移
         onDayPress={(day) => {
           setSelectedDay(day.dateString);
-          navigation.navigate("献立登録/編集");
+          navigation.navigate("献立登録");
         }}
         items={menu}
         renderItem={(item, firstItemInDay) => (
@@ -60,13 +60,8 @@ export const MenuList = ({ navigation }) => {
               <Text>{item.category}</Text>
             </View>
             <View style={styles.moziBox}>
-              <Text
-                style={styles.text}
-                width={100}
-                // onPress={() => handleCheck(item.id)}
-              >
-                {item.recipeName}
-              </Text>
+              <Text style={styles.text}>{item.recipeName}</Text>
+              <Text style={styles.text}>{`${item.serving}人前`}</Text>
               <AntDesign
                 name="link"
                 size={24}

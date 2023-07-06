@@ -51,7 +51,7 @@ export const MenuScreen = ({ navigation }) => {
         category: getedRecipe.category,
         recipeName: getedRecipe.recipeName,
         url: getedRecipe.url,
-        serving: getedRecipe.serving,
+        serving: recipe.menuServing,
         like: getedRecipe.like,
         items: addArray,
       };

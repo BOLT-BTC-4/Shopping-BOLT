@@ -114,7 +114,7 @@ export const EditMenu = ({ navigation }) => {
         category: getedRecipe.category,
         recipeName: getedRecipe.recipeName,
         url: getedRecipe.url,
-        serving: getedRecipe.serving,
+        serving: recipe.menuServing,
         like: getedRecipe.like,
         items: addArray,
       };
@@ -152,6 +152,7 @@ export const EditMenu = ({ navigation }) => {
     };
 
     await saveMenu();
+    //新しいmenuを取得
     setTimeout(function () {
       getNewMenu();
     }, 50);
