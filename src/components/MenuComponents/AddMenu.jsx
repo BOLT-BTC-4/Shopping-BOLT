@@ -13,6 +13,7 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
 import { table } from "../../../table";
+import { createShoppingListAPI, fetchShoppingListAPI } from "../../boltAPI";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
@@ -48,11 +49,13 @@ export const AddMenu = ({ navigation }) => {
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
-  "newMenu:", newMenu;
-
-  const handleAddItems = () => {
+  const handleAddItems = async () => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
+        console.log(
+          "recipeItem.checked$$$$$$$$$$$$$$$$$$$$$$$$",
+          recipeItem.checked
+        );
         if (recipeItem.checked) {
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
@@ -71,6 +74,7 @@ export const AddMenu = ({ navigation }) => {
               check: false,
               recipeId: recipe.id,
               recipeName: recipe.title,
+              bought: false,
             });
           } else {
             newItems.push({
@@ -83,12 +87,29 @@ export const AddMenu = ({ navigation }) => {
               check: false,
               recipeId: recipe.id,
               recipeName: recipe.title,
+              bought: false,
             });
           }
         }
       }
     }
-    setItems(newItems);
+    //追加するitemをDBに保存////////////////////////////////////////////API
+    const allSaveItem = async () => {
+      newItems.forEach(async (newData) => {
+        await createShoppingListAPI(newData);
+      });
+    };
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
+      setItems(getShoppingData);
+    };
+    await allSaveItem();
+    setTimeout(function () {
+      getAllShoppingList();
+    }, 50);
+    // setItems(newItems);
     navigation.navigate("献立リスト");
     // setAddFlag(true);
   };

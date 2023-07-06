@@ -36,7 +36,7 @@ export const MenuScreen = ({ navigation }) => {
         const addObjItem = {
           id: item.id,
           checked: true,
-          itemName: item.recipeItemName,
+          recipeItemName: item.recipeItemName,
           quantity: (item.quantity / getedRecipe.serving) * recipe.menuServing,
           unit: item.unit,
         };
@@ -60,6 +60,7 @@ export const MenuScreen = ({ navigation }) => {
     });
   };
 
+  //全てのMenuを取得
   useEffect(() => {
     const allGetMenu = async () => {
       // まず全てのmenuを取得

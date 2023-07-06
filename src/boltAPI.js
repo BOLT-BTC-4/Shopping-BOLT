@@ -81,6 +81,11 @@ export const fetchShoppingListAPI = async () => {
     const shoppingList = await DataStore.query(ShoppingList, (r) =>
       r.bought.eq(false)
     );
+    console.log(
+      "$$$$$$$$$$fetchShoppingListAPIのなか!!! shoppingList:",
+      shoppingList
+    );
+
     return shoppingList;
   } catch (err) {
     throw err;
