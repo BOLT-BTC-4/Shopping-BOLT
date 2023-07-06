@@ -14,7 +14,7 @@ import {
 // Shop お店登録
 export const createShopAPI = async (data) => {
   console.log("///🔴 API利用 : createShopAPI ///");
-  console.log("data:", data)
+  console.log("data:", data);
   const { shopName, corner } = data;
   try {
     await DataStore.save(
@@ -44,7 +44,7 @@ export const fetchShopAPI = async () => {
 // Shop　お店の修正
 export const updateShopAPI = async (item) => {
   console.log("///🔴 API利用 : updateShopAPI ///");
-  console.log("item:", item)
+  console.log("item:", item);
 
   try {
     const targetItem = await DataStore.query(Shop, item.id);
@@ -349,7 +349,7 @@ export const deleteMenuAPI = async (menuId) => {
 
 // Recipe IDからレシピとレシピ材料の取得
 export const fetchRecipeAndRecipeItemAPI = async (id) => {
-  console.log("///🔴 API利用 : 　fetchRecipeAndRecipeItemAPI ///");
+  console.log("///🔴 API利用 :fetchRecipeAndRecipeItemAPI ///", id);
   try {
     const recipe = await DataStore.query(Recipe, id);
     const recipeItem = await DataStore.query(RecipeItem, (r) =>
@@ -491,7 +491,7 @@ export const fetchMenuAPI = async () => {
 
 // menu dateを指定してレシピの取得
 export const fetchDateMenuAPI = async (date) => {
-  console.log("///🔴 API利用 : fetchIdMenuAPI ///");
+  console.log("///🔴 API利用 : fetchDateMenuAPI ///");
   try {
     const getMenu = await DataStore.query(Menu, (r) => r.date.eq(date));
     return getMenu;
