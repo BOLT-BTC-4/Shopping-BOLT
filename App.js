@@ -49,6 +49,7 @@ const MenuStack = () => {
       <Stack.Screen name="献立リスト" component={MenuScreen} />
       <Stack.Screen name="献立登録" component={EditMenu} />
       <Stack.Screen name="献立から買い物リストへ追加" component={AddMenu} />
+      <Stack.Screen name="買い物リスト" component={MainScreen} />
     </Stack.Navigator>
   );
 };
