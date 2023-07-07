@@ -88,7 +88,7 @@ export const EditShop = (props) => {
     setModalEditCornerVisible(true);
   };
 
-  useEffect(() => { }, [corner, shopName]);
+  useEffect(() => {}, [corner, shopName]);
 
   return (
     <View>
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingBottom: 5,
     flexDirection: "row",
-    justifyContent: "space-betwee",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   label: {
