@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
-  buyButton: {
-    width: 150
-  },
+  // buyButton: {
+  //   width: 150
+  // },
 });
