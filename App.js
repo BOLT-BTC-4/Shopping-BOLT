@@ -70,7 +70,14 @@ const RecipeStack = () => {
 const MainStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="買い物リスト" component={MainScreen} />
+      <Stack.Screen name="買い物リスト" component={MainScreen}
+        options={{
+          headerStyle: { backgroundColor: "#b6c471" },
+          headerTintColor: "#B45817",
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
     </Stack.Navigator>
   );
 };
@@ -101,9 +108,13 @@ const App = () => {
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName="買物"
-            activeColor="#f0edf6"
-            inactiveColor="#3e2465"
-            barStyle={{ backgroundColor: "#694fad" }}
+            screenOptions={() => ({
+              tabBarActiveTintColor: "#B45817",//アイコン用のアクティブカラー #007932
+              tabBarInactiveTintColor: "#f5f3f0",//アイコン用の非アクティブカラー
+              activeTintColor: "#B45817", // アイコンラベル用のアクティブカラー
+              inactiveTintColor: "#f5f3f0",// アイコンラベル用の非アクティブカラー
+              tabBarStyle: { backgroundColor: "#b6c471" }
+            })}
           >
             <Tab.Screen
               name="献立"

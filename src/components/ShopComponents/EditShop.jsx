@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingBottom: 5,
     flexDirection: "row",
-    justifyContent: "between",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   label: {
