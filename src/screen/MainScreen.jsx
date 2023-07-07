@@ -24,7 +24,7 @@ import {
   updateShoppingListAPI,
 } from "../boltAPI";
 
-export const MainScreen = () => {
+export const MainScreen = ({ navigation }) => {
   console.log("===== comp_MainScreen =====");
   //アイテムリスト
   const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
@@ -48,6 +48,7 @@ export const MainScreen = () => {
       console.log("------shoppingListData----47----::", shoppingListData);
       setItems(shoppingListData);
     };
+    navigation.navigate("買い物リスト");
     getAllShoppingList();
   }, [allGetItemFlag]);
 
