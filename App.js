@@ -72,8 +72,8 @@ const MainStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="買い物リスト" component={MainScreen}
         options={{
-          headerStyle: { backgroundColor: "#b6c471" },
-          headerTintColor: "#B45817",
+          headerStyle: { backgroundColor: "#FFF0D4" },
+          headerTintColor: "#B6C471",
           headerTitleStyle: {
             fontWeight: 'bold',
           },

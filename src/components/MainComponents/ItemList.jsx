@@ -47,7 +47,7 @@ export const ItemList = ({
 
         <Feather
           name="edit"
-          size={24}
+          size={20}
           color="black"
           onPress={() => setModalEditItemVisible(true)}
         />
@@ -72,7 +72,7 @@ export const ItemList = ({
 
         <Feather
           name="trash-2"
-          size={24}
+          size={20}
           color="black"
           onPress={() => handleRemoveItem(item.id)}
         />
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
   box: {
     height: 50,
     width: "100%",
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderBottomColor: "#b6c471",
-    // borderStyle: 'dotted',
+    // borderStyle: "dotted",      //点線にできない
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 
   check: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
     textDecorationLine: "line-through",
   },
 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   cornerBox: {
-    width: 80,
+    width: 70,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -128,11 +128,7 @@ const styles = StyleSheet.create({
   },
   textSmall: {
     fontSize: 10,
-    color: "mediumseagreen",
-  },
-  subText: {
-    fontSize: 12,
-    color: "red",
+    color: "#B45817",
   },
   modalContainer: {
     flex: 1,

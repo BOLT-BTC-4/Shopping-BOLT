@@ -49,6 +49,7 @@ export const MainScreen = ({ navigation }) => {
       setItems(shoppingListData);
     };
     navigation.navigate("買い物リスト");
+    ///////////////////////////////////////////////////////////////API🔴
     getAllShoppingList();
   }, [allGetItemFlag]);
 
@@ -64,6 +65,7 @@ export const MainScreen = ({ navigation }) => {
 
   // 選択した買い物リストアイテムの削除 → 買い物リスト一覧の取得
   const handleRemoveItem = async (id) => {
+    ///////////////////////////////////////////////////////////////API🔴
     await deleteShoppingListAPI(id);
     const shoppingListData = await fetchShoppingListAPI();
     setItems(shoppingListData);
@@ -72,6 +74,7 @@ export const MainScreen = ({ navigation }) => {
   const handleAllRemoveItem = async () => {
     //買い物リスト一覧をDBからboughtがfalseのもののみ取得
     const getAllShoppingList = async () => {
+      ///////////////////////////////////////////////////////////////API🔴
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
     };
@@ -81,6 +84,7 @@ export const MainScreen = ({ navigation }) => {
       newBoughtedItems.forEach(async (item) => {
         if (item.check) {
           item.bought = true;
+          ///////////////////////////////////////////////////////////////API🔴
           await updateShoppingListAPI(item);
           getAllShoppingList();
         }
@@ -159,7 +163,7 @@ export const MainScreen = ({ navigation }) => {
       />
       <View style={styles.underBar}>
         <TouchableOpacity style={styles.buyButton} onPress={handleAllRemoveItem}>
-          <Text>購入したよ</Text>
+          <Text style={{ color: "white" }}>購入したよ</Text>
         </TouchableOpacity>
         <MaterialIcons
           onPress={() => setModalAddItemVisible(true)}
@@ -214,13 +218,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
-  // shoppingCart: {
-  //   textAlign: "right",
-  //   marginRight: 30,
-  //   marginBottom: 30,
-  //   marginTop: 10,
-  // },
-  underBar: { // 購入したよ　食材追加ボタン
+  underBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
@@ -230,7 +228,16 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
-  // buyButton: {
-  //   width: 150
-  // },
+  buyButton: { //購入したよ　ボタン
+    // marginTop: 5,
+    // marginVertical: "20%",
+    justifyContent: "center",
+    alignItems: "center",
+    fontcolor: "#F5F3F0",
+    height: 40,
+    backgroundColor: "#B6C471",
+    borderRadius: 20,
+    width: 120,
+    // marginLeft: "10%",
+  }
 });
