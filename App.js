@@ -59,10 +59,10 @@ const RecipeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="レシピリスト" component={RecipeScreen} />
-      <Stack.Screen name="AI'sレシピ" component={AddAiRecipe} />
       <Stack.Screen name="レシピ登録" component={AddRecipe} />
       <Stack.Screen name="レシピアイテム登録" component={AddRecipeItem} />
       <Stack.Screen name="レシピ編集" component={EditRecipe} />
+      <Stack.Screen name="AI'sレシピ" component={AddAiRecipe} />
     </Stack.Navigator>
   );
 };
