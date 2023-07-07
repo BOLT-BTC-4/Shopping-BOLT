@@ -27,6 +27,7 @@
     "aws-amplify": "^5.3.1",
     "axios": "^1.4.0",
     "expo": "~48.0.18",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "moment": "^2.29.4",
     "openai": "^3.3.0",

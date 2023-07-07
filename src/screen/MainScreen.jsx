@@ -27,7 +27,8 @@ import {
 export const MainScreen = () => {
   console.log("===== comp_MainScreen =====");
   //アイテムリスト
-  const { items, setItems } = useContext(ShareShopDataContext);
+  const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
+    useContext(ShareShopDataContext);
 
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
@@ -44,10 +45,11 @@ export const MainScreen = () => {
     // // 買い物リスト一覧の取得
     const getAllShoppingList = async () => {
       const shoppingListData = await fetchShoppingListAPI();
+      console.log("------shoppingListData----47----::", shoppingListData);
       setItems(shoppingListData);
     };
     getAllShoppingList();
-  }, []);
+  }, [allGetItemFlag]);
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
@@ -171,7 +173,8 @@ export const MainScreen = () => {
       <Modal
         visible={modalAddItemVisible}
         animationType="none"
-        transparent={true}>
+        transparent={true}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
             <AddItem

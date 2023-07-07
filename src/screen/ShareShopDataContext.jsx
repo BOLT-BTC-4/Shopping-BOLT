@@ -45,6 +45,10 @@ export const ShareShopDataProvider = ({ children }) => {
   const [updateRecipe, setUpdateRecipe] = useState({});
   //全てのmenuを取得する関数を実行させるための変数
   const [allGetMenuFlag, setAllGetMenuFlag] = useState(false);
+  //全てのitemを取得する関数を実行させるための変数
+  const [allGetItemFlag, setAllGetItemFlag] = useState(false);
+
+  const [displayedRecipes, setDisplayedRecipes] = useState([]);
 
   useEffect(() => {
     // getAllShop();
@@ -79,6 +83,10 @@ export const ShareShopDataProvider = ({ children }) => {
         setUpdateRecipe,
         allGetMenuFlag,
         setAllGetMenuFlag,
+        allGetItemFlag,
+        setAllGetItemFlag,
+        displayedRecipes,
+        setDisplayedRecipes,
       }}
     >
       {children}

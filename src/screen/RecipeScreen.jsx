@@ -28,6 +28,8 @@ export const RecipeScreen = ({ navigation }, item) => {
     setUpdateRecipe,
     updateRecipeItem,
     setUpdateRecipeItem,
+    displayedRecipes,
+    setDisplayedRecipes,
   } = useContext(ShareShopDataContext);
 
   // 選択したレシピの削除 → レシピ一覧の取得
@@ -52,7 +54,6 @@ export const RecipeScreen = ({ navigation }, item) => {
   // カテゴリ毎にレシピ一覧を表示させる
 
   const [selectedCategory, setSelectedCategory] = useState(1);
-  const [displayedRecipes, setDisplayedRecipes] = useState([]);
 
   // カテゴリ
   const categories = [

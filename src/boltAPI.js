@@ -115,7 +115,6 @@ export const fetchShoppingListAPI = async () => {
       "$$$$$$$$$$fetchShoppingListAPIのなか!!! shoppingList:",
       shoppingList
     );
-
     return shoppingList;
   } catch (err) {
     throw err;
