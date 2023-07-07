@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -13,8 +13,10 @@ import SelectDropdown from "react-native-select-dropdown";
 import { selectData } from "./gptSelectValue";
 import { useForm, Controller } from "react-hook-form";
 import { createRecipeAPI, fetchRecipeAPI } from "../../../boltAPI";
+import { ShareShopDataContext } from "../../../screen/ShareShopDataContext";
+import { RecipeList } from "../RecipeList";
 
-export const AddAiRecipe = () => {
+export const AddAiRecipe = ({ navigation }) => {
   const {
     selectTargetData,
     selectFeelingData,
@@ -30,6 +32,8 @@ export const AddAiRecipe = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const { setRecipeData } = useContext(ShareShopDataContext);
 
   const [answer, setAnswer] = useState(false);
   const [jsAnswer, setJSAnswer] = useState("");
@@ -117,16 +121,18 @@ export const AddAiRecipe = () => {
         console.log("jsData:", jsData);
         setJSAnswer(jsData);
       } else {
-        alert(`頭がパンクしました\n少し休憩が必要です。`);
+        alert(
+          `頭がパンクしました○|￣|＿\n少し休憩が必要です\nしばらく経ってからもう一度実行してください`
+        );
       }
     } catch (error) {
       // エラーが発生した場合の処理
-      alert("エラーが発生しました: " + error.message);
+      alert("エラーが発生しました\nもう一度実行してください: " + error.message);
     }
   };
 
+  // レシピ登録
   const handleRecipeSubmit = async () => {
-    console.log("ボタンを押されてanswer:", answer);
     let categoryText = selectedCategory;
     if (categoryText === "スイーツ") {
       categoryText = "その他";
@@ -142,6 +148,17 @@ export const AddAiRecipe = () => {
     };
     console.log("postData:", postData);
     await createRecipeAPI(postData);
+
+    // レシピの一覧を取得
+    const getAllRecipe = async () => {
+      const initRecipeData = await fetchRecipeAPI();
+      console.log("initRecipeData:", initRecipeData);
+      setRecipeData(initRecipeData);
+    };
+
+    await setRecipeData(getAllRecipe);
+    // navigation.navigate("レシピ登録");
+    navigation.navigate("レシピリスト");
   };
 
   useEffect(() => {}, []);

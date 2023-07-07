@@ -91,7 +91,7 @@ export const MainScreen = ({ navigation }) => {
     // setItems(newBoughtedItems);
   };
 
-  console.log("//////買い物リスト選択店：", selectedValue);
+  // console.log("//////買い物リスト選択店：", selectedValue);
   //順番付与
   const directionAdd = () => {
     // console.log(shopData);
@@ -158,16 +158,14 @@ export const MainScreen = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.underBar}>
-        <Button
-          title="購入したよ"
-          onPress={handleAllRemoveItem}
-          color="mediumseagreen"
-        />
+        <TouchableOpacity style={styles.buyButton} onPress={handleAllRemoveItem}>
+          <Text>購入したよ</Text>
+        </TouchableOpacity>
         <MaterialIcons
           onPress={() => setModalAddItemVisible(true)}
           name="add-shopping-cart"
           size={35}
-          color="black"
+          color="#B45817"
         />
       </View>
       {/* 商品追加モーダル */}
@@ -192,7 +190,7 @@ export const MainScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff0d4", //買い物リストの背景色
     padding: 10,
     // justifyContent: "center",
     // alignContent: "center",
@@ -222,14 +220,17 @@ const styles = StyleSheet.create({
   //   marginBottom: 30,
   //   marginTop: 10,
   // },
-  underBar: {
+  underBar: { // 購入したよ　食材追加ボタン
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 10,
     marginRight: 30,
-    marginLeft: 20,
+    marginLeft: 10,
     marginTop: 10,
+  },
+  buyButton: {
+    width: 150
   },
 });

@@ -13,6 +13,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { AddRecipeItem } from "./AddRecipeItem";
 import { EditRecipeItem } from "./EditRecipeItem";
 import { RecipeItemList } from "./RecipeItemList";
+import { AddAiRecipe } from "./AIRecipe/AddAiRecipe";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { table } from "../../../table";
 import { useForm, Controller } from "react-hook-form";
@@ -130,6 +131,12 @@ export const AddRecipe = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("AI'sレシピ")}
+      >
+        <Text style={styles.buttonInner}>AIにレシピを考えてもらう🎶</Text>
+      </TouchableOpacity>
       <FlatGrid
         data={categories}
         keyExtractor={(item) => item.id.toString()}
