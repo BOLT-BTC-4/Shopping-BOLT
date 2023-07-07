@@ -122,3 +122,5 @@ const styles = StyleSheet.create({
   //   marginTop: 10,
   // },
 });
+
+//package.json更新
