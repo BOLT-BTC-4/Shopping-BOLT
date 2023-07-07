@@ -35,7 +35,6 @@ export const fetchShopAPI = async () => {
     console.log("API:お店の一覧取得");
     const shopList = await DataStore.query(Shop);
     return shopList;
-    // return JSON.stringify(shopList, null, 2);
   } catch (err) {
     throw err;
   }

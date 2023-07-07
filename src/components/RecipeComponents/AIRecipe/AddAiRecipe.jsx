@@ -118,11 +118,12 @@ export const AddAiRecipe = ({ navigation }) => {
 
         const jsData = JSON.parse(responseText);
         console.log("jsData.recipeName:", jsData.recipeName);
+        console.log("jsData.recipeItems:", jsData.recipeItems);
         console.log("jsData:", jsData);
         setJSAnswer(jsData);
       } else {
         alert(
-          `頭がパンクしました○|￣|＿\n少し休憩が必要です\nしばらく経ってからもう一度実行してください`
+          `頭がパンクしました○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください`
         );
       }
     } catch (error) {
@@ -275,13 +276,16 @@ export const AddAiRecipe = ({ navigation }) => {
               材料：{jsAnswer.serving}人前
             </Text>
             <View>
-              {jsAnswer.itemList &&
-                jsAnswer.itemList.map((item, index) => (
+              {jsAnswer.recipeItems && jsAnswer.recipeItems.length > 0 ? (
+                jsAnswer.recipeItems.map((item, index) => (
                   <Text key={index}>
-                    {item.itemName}：{item.quantity}
+                    {item.recipeItemName}：{item.quantity}
                     {item.unit}
                   </Text>
-                ))}
+                ))
+              ) : (
+                <Text>No items found.</Text>
+              )}
             </View>
             <Text style={{ fontSize: 18, fontWeight: "bold" }}>作り方：</Text>
             <Text>
