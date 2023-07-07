@@ -28,7 +28,7 @@ export const AddMenu = ({ navigation }) => {
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
 
-  const newItems = [...items];
+  const newItems = [];
 
   const createAddMenu = () => {
     const updatedNewMenu = [...newMenu];

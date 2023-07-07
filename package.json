@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "amplify-modelgen": "node amplify/scripts/amplify-modelgen.js",
-    "amplify-push": "node amplify/scripts/amplify-push.js"
+    "amplify-push": "node amplify/scripts/amplify-push.js",
+    "eas-build-pre-install": "echo $AWS_EXPORTS | base64 -d > ./src/aws-exports.js"
   },
   "dependencies": {
     "@aws-amplify/ui-react-native": "^1.2.20",

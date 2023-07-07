@@ -75,6 +75,7 @@ export const EditMenu = ({ navigation }) => {
     setMenu,
     defaultServing,
     setDefaultServing,
+    setAllGetMenuFlag,
   } = useContext(ShareShopDataContext);
   const [selectedCategory, setSelectedCategory] = useState("主食");
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
@@ -83,48 +84,6 @@ export const EditMenu = ({ navigation }) => {
   const [saveFlag, setSaveFlag] = useState(false);
   // const [searchKeyword, setSearchKeyword] = useState("");
   // const [filteredRecipes, setFilteredRecipes] = useState(displayedRecipes); // 元のデータを保持する状態変数
-
-  //選択した日付のレシピを取得してmenuを更新
-  const getNewMenu = async (day) => {
-    //(レンダリング用)
-    const newRecipeArray = [];
-    // 保存したmenuを取り出し;
-    const fetchMenu = await fetchDateMenuAPI(day);
-    //取得したmenuを回す
-    fetchMenu.forEach(async (recipe) => {
-      const getedRecipe = await fetchRecipeAndRecipeItemAPI(recipe.recipeID);
-      const addArray = [];
-      //取得したレシピのitemsをループ
-      getedRecipe.items.forEach((item, index) => {
-        //追加するitemObjを加工
-        const addObjItem = {
-          id: item.id,
-          checked: true,
-          recipeItemName: item.recipeItemName,
-          quantity: (item.quantity / getedRecipe.serving) * recipe.menuServing,
-          unit: item.unit,
-        };
-        // レシピのitemsを更新するようの配列
-        addArray.push(addObjItem);
-      });
-      // recipeObj用のobj(レンダリング用)
-      const recipeObj = {
-        id: getedRecipe.id,
-        menuId: recipe.id,
-        category: getedRecipe.category,
-        recipeName: getedRecipe.recipeName,
-        url: getedRecipe.url,
-        serving: recipe.menuServing,
-        like: getedRecipe.like,
-        items: addArray,
-      };
-      newRecipeArray.push(recipeObj);
-      // console.log("getNewMenuの中⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", newRecipeArray);
-      setMenu(
-        (prevMenu) => (prevMenu = { ...prevMenu, [day]: newRecipeArray })
-      );
-    });
-  };
 
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = async () => {
@@ -141,21 +100,25 @@ export const EditMenu = ({ navigation }) => {
     // 献立登録用のデータを加工→献立保存
     const saveMenu = async () => {
       // console.log("newSelectedRecipe:", newSelectedRecipe);
-      newSelectedRecipe.forEach(async (recipe, index) => {
-        const saveData = {
-          date: selectedDay,
-          recipeID: recipe.id,
-          menuServing: recipe.serving,
-        };
-        await createMenuAPI(saveData);
-      });
+      const result = await Promise.all(
+        newSelectedRecipe.map((recipe) => {
+          const saveData = {
+            date: selectedDay,
+            recipeID: recipe.id,
+            menuServing: recipe.serving,
+          };
+          return createMenuAPI(saveData);
+        })
+      );
+      console.log("-------------result 155-----------", result);
     };
 
     await saveMenu();
+    setAllGetMenuFlag((prev) => !prev);
     //新しいmenuを取得
-    setTimeout(function () {
-      getNewMenu(selectedDay);
-    }, 50);
+    // setTimeout(function () {
+    //   getNewMenu(selectedDay);
+    // }, 50);
 
     await navigation.navigate("献立リスト");
   };
