@@ -3,14 +3,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
 
-export const ShopList = ({ item, value, handleRemoveItem, navigation }) => {
-  //   const Stack = createNativeStackNavigator();
-
+export const ShopList = ({ item, shopName, handleRemoveItem, navigation }) => {
+  console.log("===== comp_ShopList =====");
   useEffect(() => {}, []);
   return (
     <View style={styles.box}>
       <View style={styles.moziBox}>
-        <Text style={styles.text}>{value}</Text>
+        <Text style={styles.text}>{shopName}</Text>
       </View>
       <View style={styles.iconBox}>
         <Feather
@@ -25,7 +24,7 @@ export const ShopList = ({ item, value, handleRemoveItem, navigation }) => {
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(item.key)}
+          onPress={() => handleRemoveItem(item.id)}
         />
       </View>
     </View>
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",

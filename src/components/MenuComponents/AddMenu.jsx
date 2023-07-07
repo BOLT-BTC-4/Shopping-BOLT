@@ -13,26 +13,32 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import moment from "moment";
 import { table } from "../../../table";
+import {
+  createShoppingListAPI,
+  fetchItemAPI,
+  fetchShoppingListAPI,
+} from "../../boltAPI";
+import { itemPresetData } from "../../itemPreset";
 
 export const AddMenu = ({ navigation }) => {
   const [newMenu, setNewMenu] = useState([]);
-  const { selectedMenu, setSelectedMenu } = useContext(ShareShopDataContext);
+  const { menu, setMenu } = useContext(ShareShopDataContext);
   //アイテムリスト
   const { items, setItems } = useContext(ShareShopDataContext);
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
 
-  const newItems = [...items];
+  const newItems = [];
 
   const createAddMenu = () => {
     const updatedNewMenu = [...newMenu];
-    for (const elm in selectedMenu) {
+    for (const elm in menu) {
       if (elm >= moment().format("YYYY-MM-DD")) {
-        for (let recipes of selectedMenu[elm]) {
+        for (let recipes of menu[elm]) {
           const result = {};
-          result.title = recipes.recipe;
+          result.title = recipes.recipeName;
           result.data = recipes.items;
-          result.recipeId = recipes.recipeId;
+          result.id = recipes.id;
           updatedNewMenu.push(result);
         }
       }
@@ -44,73 +50,95 @@ export const AddMenu = ({ navigation }) => {
   }, []);
   const handleCheck = (sectionId, itemIndex) => {
     const updatedData = [...newMenu];
-    const updatedItem = updatedData.find(
-      (recipe) => recipe.recipeId === sectionId
-    );
+    const updatedItem = updatedData.find((recipe) => recipe.id === sectionId);
     updatedItem.data[itemIndex].checked = !updatedItem.data[itemIndex].checked;
     setNewMenu(updatedData);
   };
-  // console.log("newMenu:", newMenu);
-
-  const handleAddItems = () => {
+  const handleAddItems = async () => {
     for (const recipe of newMenu) {
       for (const recipeItem of recipe.data) {
         if (recipeItem.checked) {
-          console.log("item:", recipeItem);
           let cornarName = (item) => {
             //下のfindでマスターitemsからitemを取り出し一致するobjを返す
-            return item.itemName === recipeItem.itemName;
+            return item.itemName === recipeItem.recipeItemName;
           };
-          let result = table.masterItem.find(cornarName);
-          // console.log(result);
+          //////////////////////////////////////////////////////////////API🔴
+          let itemList = await fetchItemAPI();
+          itemList = itemList.sort(function (a, b) {
+            return a.createdA > b.createdA ? -1 : 1; //オブジェクトの降順ソート
+          });
+          itemList.push(...itemPresetData);
+          let result = itemList.find(cornarName);
+
           if (result === undefined) {
             newItems.push({
-              localId: recipeItem.itemId,
-              sales: "",
-              itemName: recipeItem.itemName,
+              id: recipeItem.id,
+              corner: "",
+              itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              recipeId: recipe.recipeId,
+              recipeId: recipe.id,
+              recipeName: recipe.title,
+              bought: false,
             });
           } else {
             newItems.push({
-              localId: recipeItem.itemId,
-              sales: result.sales,
-              itemName: recipeItem.itemName,
+              id: recipeItem.id,
+              corner: result.corner,
+              itemName: recipeItem.recipeItemName,
               quantity: recipeItem.quantity,
               unit: recipeItem.unit,
               directions: 99,
               check: false,
-              recipeId: recipe.recipeId,
+              recipeId: recipe.id,
+              recipeName: recipe.title,
+              bought: false,
             });
           }
         }
       }
     }
-    setItems(newItems);
-    setAddFlag(true);
-    navigation.navigate("献立リスト");
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
+    const allSaveItem = async () => {
+      newItems.forEach(async (newData) => {
+        await createShoppingListAPI(newData);
+      });
+    };
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
+    const getAllShoppingList = async () => {
+      console.log("🌝🌝🌝🌝🌝🌝🌝newItems", newItems);
+      const getShoppingData = await fetchShoppingListAPI();
+      console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
+      setItems(getShoppingData);
+    };
+    await allSaveItem();
+
+    setTimeout(function () {
+      getAllShoppingList();
+    }, 50);
+    // setItems(newItems);
+    navigation.navigate("買い物リスト");
+    // setAddFlag(true);
   };
 
   return (
     <View style={styles.container}>
-      {/* <Text>{moment().format("YYYY-MM-DD")}</Text> */}
       <SectionList
         sections={newMenu}
         renderItem={({ item, index, section }) => (
           <View style={styles.item}>
             <TouchableOpacity
               style={styles.moziBox}
-              onPress={() => handleCheck(section.recipeId, index)}
+              onPress={() => handleCheck(section.id, index)}
             >
               {item.checked ? (
                 <AntDesign name="checkcircleo" size={24} color="black" />
               ) : (
                 <Feather name="circle" size={24} color="black" />
               )}
-              <Text style={styles.title}>{item.itemName}</Text>
+              <Text style={styles.title}>{item.recipeItemName}</Text>
               <Text style={styles.title}>{item.quantity}</Text>
               <Text style={styles.title}>{item.unit}</Text>
             </TouchableOpacity>
@@ -119,7 +147,7 @@ export const AddMenu = ({ navigation }) => {
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.header}>{title}</Text>
         )}
-        keyExtractor={(item, index) => item.itemId}
+        keyExtractor={(item, index) => item.id}
       />
       <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
         <Text style={styles.buttonInner}>買物リストへ追加</Text>

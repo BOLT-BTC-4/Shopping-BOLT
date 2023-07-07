@@ -25,17 +25,20 @@ export const ItemList = ({
   return (
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
       <TouchableOpacity
-        style={styles.salesBox}
-        onPress={() => handleCheck(item.localId)}
+        style={styles.cornerBox}
+        onPress={() => handleCheck(item.id)}
       >
-        <Text style={styles.text}>{item.sales}</Text>
+        <Text style={styles.text}>{item.corner}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.moziBox}
-        onPress={() => handleCheck(item.localId)}
+        onPress={() => handleCheck(item.id)}
       >
-        <Text style={styles.text}>{item.itemName}</Text>
+        <View style={styles.stack}>
+          <Text style={styles.textSmall}>{item.recipeName}</Text>
+          <Text style={styles.text}>{item.itemName}</Text>
+        </View>
         <Text style={styles.text}>{item.quantity}</Text>
       </TouchableOpacity>
 
@@ -71,7 +74,7 @@ export const ItemList = ({
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(item.localId)}
+          onPress={() => handleRemoveItem(item.id)}
         />
       </View>
     </View>
@@ -83,7 +86,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderBottomColor: "#b6c471",
+    // borderStyle: 'dotted',
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",
@@ -122,7 +126,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
   },
-
+  textSmall: {
+    fontSize: 10,
+    color: "mediumseagreen",
+  },
   subText: {
     fontSize: 12,
     color: "red",
@@ -140,4 +147,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  stack: {},
 });

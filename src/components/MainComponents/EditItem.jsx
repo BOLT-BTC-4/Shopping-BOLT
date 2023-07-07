@@ -6,6 +6,7 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
+import { updateShoppingListAPI, fetchShoppingListAPI, createItemAPI } from "../../boltAPI";
 
 export const EditItem = ({
   items,
@@ -25,21 +26,27 @@ export const EditItem = ({
     defaultValues: {
       itemName: item.itemName,
       quantity: item.quantity.toString(),
-      unit: item.unit,
+      unit: item.unit
     },
   });
   const [selectedCorner, setSelectedCorner] = React.useState("");
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newItems = [...items];
-    const itemCopy = newItems.find(
-      (newItem) => newItem.localId === item.localId
-    );
-    itemCopy.sales = selectedCorner;
+    const itemCopy = newItems.find((newItem) => newItem.id === item.id);
+    itemCopy.corner = selectedCorner;
     itemCopy.itemName = data.itemName;
     itemCopy.quantity = data.quantity;
     itemCopy.unit = data.unit;
-    setItems(newItems);
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
+    await updateShoppingListAPI(itemCopy);
+    await createItemAPI(itemCopy); //coner売り場のマスターへも登録
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    getAllShoppingList();
     setAddFlag(true);
     setModalEditItemVisible(false);
   };
@@ -68,7 +75,7 @@ export const EditItem = ({
           searchPlaceholder="売り場を入力"
           placeholder="売り場を選択"
           maxHeight={200}
-          defaultOption={{ key: item.sales, value: item.sales }}
+          defaultOption={{ key: item.corner, value: item.corner }}
         />
       </View>
       <Text style={styles.label}>商品名</Text>

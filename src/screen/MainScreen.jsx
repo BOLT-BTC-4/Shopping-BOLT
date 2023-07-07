@@ -18,53 +18,84 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import {
+  fetchShoppingListAPI,
+  deleteShoppingListAPI,
+  updateShoppingListAPI,
+} from "../boltAPI";
 
-export const MainScreen = () => {
+export const MainScreen = ({ navigation }) => {
+  console.log("===== comp_MainScreen =====");
   //アイテムリスト
-  const { items, setItems } = useContext(ShareShopDataContext);
+  const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
+    useContext(ShareShopDataContext);
+
   //商品追加用flag
   const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
-  //初回のみデフォルトのitemsデータを取得
-  useEffect(() => {
-    getItems();
-    setShopData(table.defaultShops);
-    // handleButtonClick();
-  }, [shopData]);
-  const getItems = () => {
-    setItems(table.defaultItems);
-  };
-
-  // モーダルのuseState
-  const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
-  const [modalEditShopVisible, setModalEditShopVisible] = useState(false);
-  const [modalAddShopVisible, setModalAddShopVisible] = useState(false);
 
   // Shop関連のuseState
   // 買物/お店タブで利用するため2つともContext化
   const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
+
   // shopタブでも利用するため下記のshopDataに名称変更
   const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
-  const handleCheck = (localId) => {
+  useEffect(() => {
+    // // 買い物リスト一覧の取得
+    const getAllShoppingList = async () => {
+      const shoppingListData = await fetchShoppingListAPI();
+      console.log("------shoppingListData----47----::", shoppingListData);
+      setItems(shoppingListData);
+    };
+    navigation.navigate("買い物リスト");
+    getAllShoppingList();
+  }, [allGetItemFlag]);
+
+  // モーダルのuseState
+  const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
+
+  const handleCheck = (id) => {
     const newItems = [...items];
-    const item = newItems.find((item) => item.localId === localId);
+    const item = newItems.find((item) => item.id === id);
     item.check = !item.check;
     setItems(newItems);
   };
 
-  const handleRemoveItem = (localId) => {
-    const newItems = items.filter((item) => item.localId !== localId);
-    setItems(newItems);
+  // 選択した買い物リストアイテムの削除 → 買い物リスト一覧の取得
+  const handleRemoveItem = async (id) => {
+    await deleteShoppingListAPI(id);
+    const shoppingListData = await fetchShoppingListAPI();
+    setItems(shoppingListData);
   };
 
-  const handleAllRemoveItem = () => {
-    const newItems = items.filter((item) => item.check === false);
-    setItems(newItems);
+  const handleAllRemoveItem = async () => {
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    const newBoughtedItems = [...items];
+    // //DB上のshoppinglistを更新
+    const updateShoppingList = async () => {
+      newBoughtedItems.forEach(async (item) => {
+        if (item.check) {
+          item.bought = true;
+          await updateShoppingListAPI(item);
+          getAllShoppingList();
+        }
+      });
+    };
+    updateShoppingList();
+    // // const newItems = items.filter((item) => item.check === false);
+    // setItems(newBoughtedItems);
   };
 
+  // console.log("//////買い物リスト選択店：", selectedValue);
   //順番付与
   const directionAdd = () => {
-    const selectedShopObj = shopData.find(
+    // console.log(shopData);
+    const selectedShopObj = shopDataDrop.find(
       (shop) => shop.value === selectedValue
     );
     //店舗が選択されていなければ処理を抜ける
@@ -73,8 +104,8 @@ export const MainScreen = () => {
       return;
     }
     const newItems = items.map((item) => {
-      selectedShopObj.corners.forEach((cornar, index) => {
-        if (item.sales === cornar) {
+      selectedShopObj.corner.forEach((corner, index) => {
+        if (item.corner === corner) {
           item.directions = index;
         }
       });
@@ -96,18 +127,19 @@ export const MainScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text>お店選択</Text> */}
       <View style={styles.shopselect}>
         <View style={{ width: "100%" }}>
-          {/* ⭐️ここかえてます⭐️ */}
           <SelectList
             setSelected={(val) => setSelectedValue(val)}
-            data={shopData}
+            data={shopDataDrop}
             save="value"
             searchPlaceholder="お店を入力"
             placeholder="お店を選択"
             maxHeight={200}
-            onSelect={() => directionAdd()}
+            // defaultOption={shopData[0]}
+            onSelect={() => {
+              directionAdd();
+            }}
           />
         </View>
       </View>
@@ -126,16 +158,14 @@ export const MainScreen = () => {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.underBar}>
-        <Button
-          title="購入したよ"
-          onPress={handleAllRemoveItem}
-          color="mediumseagreen"
-        />
+        <TouchableOpacity style={styles.buyButton} onPress={handleAllRemoveItem}>
+          <Text>購入したよ</Text>
+        </TouchableOpacity>
         <MaterialIcons
           onPress={() => setModalAddItemVisible(true)}
           name="add-shopping-cart"
           size={35}
-          color="black"
+          color="#B45817"
         />
       </View>
       {/* 商品追加モーダル */}
@@ -160,7 +190,7 @@ export const MainScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff0d4", //買い物リストの背景色
     padding: 10,
     // justifyContent: "center",
     // alignContent: "center",
@@ -190,14 +220,17 @@ const styles = StyleSheet.create({
   //   marginBottom: 30,
   //   marginTop: 10,
   // },
-  underBar: {
+  underBar: { // 購入したよ　食材追加ボタン
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 10,
     marginRight: 30,
-    marginLeft: 20,
+    marginLeft: 10,
     marginTop: 10,
   },
+  // buyButton: {
+  //   width: 150
+  // },
 });

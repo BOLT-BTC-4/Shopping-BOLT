@@ -1,12 +1,22 @@
-import * as React from "react";
-import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  FlatList,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
-import DropDownPicker from "react-native-dropdown-picker";
-import { table } from "../../../table";
-import uuid from "react-native-uuid";
+import DropDownPicker from "react-native-dropdown-picker"
+import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { itemPresetData } from "../../itemPreset";
 
-export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
+export const AddItem = ({ setModalAddItemVisible }) => {
+  const { setItems, setAddFlag } = useContext(ShareShopDataContext);
   const {
     register,
     setValue,
@@ -21,40 +31,46 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    //下のfindでマスターitemsからitemを取り出し一致するobjを返す
+  const onSubmit = async (data) => {
+    //下のfindでItemテーブルからitemを取り出し一致するobjを返す
     let cornarName = (item) => {
       return item.itemName === data.itemName;
     };
-    let result = table.masterItem.find(cornarName);
-    // console.log(result);
+    //////////////////////////////////////////////////////////////API🔴
+    let itemList = await fetchItemAPI();
+    itemList.push(...itemPresetData)
+    let result = itemList.find(cornarName)
+
+    let newData = {};
     if (result === undefined) {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: "",
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: "個",
-          directions: 99,
-          check: false,
-        },
-      ]);
+      newData = {
+        corner: "",
+        itemName: data.itemName,
+        quantity: Number(data.quantity),
+        unit: "個",
+        directions: Number(99),
+        check: false,
+        bought: false,
+      };
     } else {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: result.sales,
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: result.unit,
-          directions: 99,
-          check: false,
-        },
-      ]);
+      newData = {
+        corner: result.corner,
+        itemName: data.itemName,
+        quantity: Number(data.quantity),
+        unit: "個",
+        directions: Number(99),
+        check: false,
+        bought: false,
+      };
     }
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
+    await createShoppingListAPI(newData);
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    getAllShoppingList();
     setAddFlag(true);
     reset();
   };
@@ -65,14 +81,6 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     };
   };
 
-  // console.log("errors", errors);
-
-  //   const [open, setOpen] = useState(false);
-  //   const [quantity, setQuantity] = useState(null);
-  //   const [items, setItems] = useState([
-  //     { label: "Apple", value: "apple" },
-  //     { label: "Banana", value: "banana" },
-  //   ]);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>新規商品</Text>

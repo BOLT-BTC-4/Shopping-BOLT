@@ -13,20 +13,25 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { CornerList } from "./CornerList";
 import { AddCorner } from "./AddCorner";
+import { EditCorner } from "./EditCorner";
 import { table } from "../../../table";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { updateShopAPI, fetchShopAPI } from "../../boltAPI";
 
 export const EditShop = (props) => {
   const { navigation } = props;
   const { route } = props;
   const { item } = route.params;
+  console.log("EditShop_item:", item);
 
-  const [corner, setCorner] = useState(item.corners);
+  const [corner, setCorner] = useState(item.corner);
   const [selectedCorner, setSelectedCorner] = useState("");
   const [targetString, setTargetString] = useState("");
   const [shopName, setShopName] = useState(item.value);
   const [modalAddCornerVisible, setModalAddCornerVisible] = useState(false);
+  const [modalEditCornerVisible, setModalEditCornerVisible] = useState(false);
   const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   const {
     handleSubmit,
@@ -35,7 +40,7 @@ export const EditShop = (props) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      shopName: shopName,
+      shopName: item.shopName,
     },
   });
 
@@ -54,20 +59,33 @@ export const EditShop = (props) => {
   };
 
   // 未実装
-  // ローカルストレージに、shopNameとcornersをオブジェクトとして保存
+  // ローカルストレージに、shopNameとcornerをオブジェクトとして保存
   // useStateで対応
-  const onSubmit = (data) => {
-    const newShopData = [...shopData];
-    newShopData.forEach((obj) => {
-      if (obj.key === item.key) {
-        obj.value = data.shopName;
-        obj.corners = corner;
-      }
+  const onSubmit = async (data) => {
+    const updateShop = {
+      id: item.id,
+      shopName: data.shopName,
+      corner: corner,
+    };
+    await updateShopAPI(updateShop);
+
+    // ここからShareShopDataContext.jsxのgetAllShopと同じ内容（1つにまとめたい）
+    const initShopData = await fetchShopAPI();
+    //ドロップダウンで利用できるようにオブジェクトキー変更
+    const getArrayDropDownList = initShopData.map((item) => {
+      return { key: item.id, value: item.shopName, corner: item.corner };
     });
-    setShopData(newShopData); // 変更された値をセット
+    setShopData(initShopData);
+    setShopDataDrop(getArrayDropDownList);
+    // ここまで同じ内容
+
     setCorner([]);
     setShopName("");
     navigation.navigate("お店リスト");
+  };
+
+  const handleCornerUpdate = () => {
+    setModalEditCornerVisible(true);
   };
 
   useEffect(() => {}, [corner, shopName]);
@@ -125,6 +143,26 @@ export const EditShop = (props) => {
             </View>
           </View>
         </Modal>
+        <Modal
+          visible={modalEditCornerVisible}
+          animationType="none"
+          transparent={true}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <EditCorner
+                filteredCorner={filteredCorner()}
+                corner={corner}
+                setCorner={setCorner}
+                selectedCorner={selectedCorner}
+                setSelectedCorner={setSelectedCorner}
+                setModalEditCornerVisible={setModalEditCornerVisible}
+                targetString={targetString}
+                setTargetString={setTargetString}
+              />
+            </View>
+          </View>
+        </Modal>
         <FlatList
           data={corner}
           renderItem={({ item }) => (
@@ -132,12 +170,14 @@ export const EditShop = (props) => {
               corner={corner}
               setCorner={setCorner}
               cornerName={item}
-              setModalAddCornerVisible={setModalAddCornerVisible}
+              setModalEditCornerVisible={setModalEditCornerVisible}
+              handleCornerUpdate={handleCornerUpdate}
               setTargetString={setTargetString}
             />
           )}
           keyExtractor={(item, index) => index.toString()}
         />
+
         <View style={styles.underBar}>
           <Button
             color="mediumseagreen"
@@ -182,7 +222,7 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     paddingBottom: 5,
     flexDirection: "row",
-    justifyContent: "between",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   label: {

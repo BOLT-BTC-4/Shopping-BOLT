@@ -13,38 +13,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Agenda } from "react-native-calendars";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
+import {
+  deleteMenuAPI,
+  fetchDateMenuAPI,
+  fetchMenuAPI,
+  fetchRecipeAndRecipeItemAPI,
+} from "../../boltAPI";
 
 export const MenuList = ({ navigation }) => {
-  const { selectedDay, setSelectedDay, selectedMenu, setSelectedMenu } =
-    useContext(ShareShopDataContext);
-
-  const selectReceipes = {
-    "2023-06-28": [
-      {
-        categry1: "主食",
-        recipe: "俺のチャーハン",
-        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
-      },
-      {
-        categry1: "主菜",
-        recipe: "俺のからあげ",
-        url: "https://dig-zamas.com/",
-      },
-    ],
-    "2023-06-29": [
-      {
-        categry1: "主菜",
-        recipe: "俺の卵焼き",
-        url: "https://www.kurashiru.com/recipes/fdf4cc7f-7275-45e7-b49b-df889fc19df6",
-      },
-      {
-        categry1: "汁物",
-        recipe: "具だくさん味噌汁",
-        url: "https://cpoint-lab.co.jp/article/202011/17618/",
-      },
-    ],
-  };
+  const {
+    selectedDay,
+    setSelectedDay,
+    menu,
+    setMenu,
+    allGetMenuFlag,
+    setAllGetMenuFlag,
+  } = useContext(ShareShopDataContext);
 
   const openURL = (url) => {
     Linking.canOpenURL(url)
@@ -57,28 +42,32 @@ export const MenuList = ({ navigation }) => {
       })
       .catch((error) => console.log("urlエラー", error));
   };
+
+  // 選択した献立の削除 → 献立リスト一覧の取得
+  const handleRemoveMenu = async (menuId) => {
+    await deleteMenuAPI(menuId);
+    setAllGetMenuFlag((prev) => !prev);
+  };
+
+  console.log("menu⭐⭐", menu);
+
   return (
     <View style={{ height: 600 }}>
       <Agenda
         //日付を押したらeditmenuに遷移
         onDayPress={(day) => {
           setSelectedDay(day.dateString);
-          navigation.navigate("献立登録/編集");
+          navigation.navigate("献立登録");
         }}
-        items={selectedMenu}
+        items={menu}
         renderItem={(item, firstItemInDay) => (
           <View style={styles.box}>
-            <View style={styles.salesBox}>
-              <Text>{item.categry1}</Text>
+            <View style={styles.cornerBox}>
+              <Text>{item.category}</Text>
             </View>
             <View style={styles.moziBox}>
-              <Text
-                style={styles.text}
-                width={100}
-                // onPress={() => handleCheck(item.localId)}
-              >
-                {item.recipe}
-              </Text>
+              <Text style={styles.text}>{item.recipeName}</Text>
+              <Text style={styles.text}>{`${item.serving}人前`}</Text>
               <AntDesign
                 name="link"
                 size={24}
@@ -86,6 +75,12 @@ export const MenuList = ({ navigation }) => {
                 onPress={() => {
                   openURL(item.url);
                 }}
+              />
+              <Feather
+                name="trash-2"
+                size={24}
+                color="black"
+                onPress={() => handleRemoveMenu(item.menuId)}
               />
             </View>
           </View>
@@ -97,7 +92,7 @@ export const MenuList = ({ navigation }) => {
           navigation.navigate("献立から買い物リストへ追加");
         }}
       >
-        <Text style={styles.buttonInner}>献立を登録</Text>
+        <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
       </TouchableOpacity>
     </View>
   );
@@ -120,7 +115,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
     marginTop: 33,
   },
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",
@@ -135,15 +130,15 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 5,
-    marginVertical: 5,
+    marginVertical: "20%",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
     height: 40,
     backgroundColor: "mediumseagreen",
     borderRadius: 20,
-    width: "50%",
-    marginLeft: "25%",
+    width: "80%",
+    marginLeft: "10%",
   },
   buttonInner: {
     fontSize: 20,

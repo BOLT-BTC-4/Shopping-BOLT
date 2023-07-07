@@ -14,6 +14,9 @@
     "categories": {
       "api": {
         "shoppingbolt2": {}
+      },
+      "auth": {
+        "shoppingbolt21c1c517d": {}
       }
     }
   }
