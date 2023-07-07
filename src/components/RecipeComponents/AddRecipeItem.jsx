@@ -1,12 +1,26 @@
 import * as React from "react";
-import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  FlatList,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
-import { table } from "../../table";
+import { table } from "../../../table";
 import uuid from "react-native-uuid";
+import { createShoppingListAPI } from "../../boltAPI";
 
-export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
+export const AddRecipeItem = ({
+  recipeItems,
+  setRecipeItems,
+  setAddRecipeItemFlag,
+  setModalAddRecipeItemVisible,
+}) => {
   const {
     register,
     setValue,
@@ -18,65 +32,29 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
     defaultValues: {
       itemName: "",
       quantity: "1",
+      unit: "個",
     },
   });
 
   const onSubmit = (data) => {
-    let cornarName = (item) => {
-      return item.itemName === data.itemName;
+    // console.log("ITEMNAME:", data.itemName);
+    let newRecipeItemData = {
+      id: uuid.v4(),
+      recipeItemName: data.itemName,
+      quantity: Number(data.quantity),
+      unit: data.unit,
+      corner: "",
     };
-    let result = table.masterItem.find(cornarName);
-    // console.log(result);
-    if (result === undefined) {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: "",
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: "個",
-          directions: 99,
-          check: false,
-        },
-      ]);
-    } else {
-      setItems((items) => [
-        ...items,
-        {
-          localId: uuid.v4(),
-          sales: result.sales,
-          itemName: data.itemName,
-          quantity: data.quantity,
-          unit: result.unit,
-          directions: 99,
-          check: false,
-        },
-      ]);
-    }
-    setAddFlag(true);
-    reset();
+    console.log("newRecipeItemData", newRecipeItemData);
+    setRecipeItems((items) => [...items, newRecipeItemData]);
+    // reset();
   };
 
-  const onChange = (arg) => {
-    return {
-      value: arg.nativeEvent.text,
-    };
-  };
-
-  // console.log("errors", errors);
-
-  //   const [open, setOpen] = useState(false);
-  //   const [quantity, setQuantity] = useState(null);
-  //   const [items, setItems] = useState([
-  //     { label: "Apple", value: "apple" },
-  //     { label: "Banana", value: "banana" },
-  //   ]);
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>新規商品</Text>
+      <Text style={styles.label}>新規食材</Text>
       {errors.itemName && (
-        <Text style={styles.alertFont}>商品名を入力してください</Text>
+        <Text style={styles.alertFont}>食材名を入力してください</Text>
       )}
       <Controller
         control={control}
@@ -105,6 +83,20 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
         name="quantity"
         rules={{ required: false }}
       />
+      <Text style={styles.label}>単位</Text>
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)}
+            value={value}
+          />
+        )}
+        name="unit"
+        rules={{ required: false }}
+      />
 
       <View style={styles.button}>
         <Button
@@ -117,7 +109,7 @@ export const AddItem = ({ setItems, setAddFlag, setModalAddItemVisible }) => {
       <Button
         color="#fff"
         title="✖️"
-        onPress={() => setModalAddItemVisible(false)}
+        onPress={() => setModalAddRecipeItemVisible(false)}
       />
     </View>
   );
@@ -139,7 +131,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     width: 200,
-    height: 300,
+    height: 400,
     justifyContent: "center",
     // paddingTop: Constants.statusBarHeight,
     padding: 8,
@@ -157,12 +149,3 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
-//  <DropDownPicker
-//    open={open}
-//    value={quantity}
-//    items={items}
-//    setOpen={setOpen}
-//    setValue={setQuantity}
-//    setItems={setItems}
-//    placeholder="Select an item"
-//  />;

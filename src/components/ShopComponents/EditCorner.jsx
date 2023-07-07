@@ -1,6 +1,6 @@
 import React from "react";
 import { SelectList } from "react-native-dropdown-select-list";
-import { Picker } from "@react-native-picker/picker";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyleSheet,
   Text,
@@ -9,23 +9,24 @@ import {
   FlatList,
   Button,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 
-export const AddCorner = (props) => {
+export const EditCorner = (props) => {
   const {
     filteredCorner,
     corner,
     setCorner,
     selectedCorner,
     setSelectedCorner,
-    setModalAddCornerVisible,
+    setModalEditCornerVisible,
     targetString,
     setTargetString,
   } = props;
 
   const onSubmit = (data) => {
     if (targetString === "") {
-      const newCorner = [...corner]; // 現在のcornersのコピーを作成
+      const newCorner = [...corner]; // 現在のcornerのコピーを作成
       newCorner.push(data); // 新しい値を追加
       setCorner(newCorner); // 変更された値をセット
     } else {
@@ -37,31 +38,47 @@ export const AddCorner = (props) => {
         setCorner(newCorner);
       }
     }
-    setModalAddCornerVisible(false);
     setTargetString("");
+    setModalEditCornerVisible(false);
   };
+
+  function Divider() {
+    return <View style={{ height: 15, borderBottomWidth: 1 }} />;
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContents}>
-          <Text>売場選択</Text>
-          <View style={{ width: "100%" }}>
-            <SelectList
-              setSelected={(val) => setSelectedCorner(val)}
-              data={filteredCorner}
-              save="value"
-              searchPlaceholder="売場を入力して検索"
-              placeholder="売場を選択"
-              maxHeight={200}
-              onSelect={() => onSubmit(selectedCorner)}
-            />
-          </View>
-          <Button
-            title="キャンセル"
-            onPress={() => {
-              setModalAddCornerVisible(false);
-              setSelectedCorner("");
+      <View style={styles.aaa}>
+        <Text>売場を選択</Text>
+        <Button
+          title="閉じる"
+          onPress={() => {
+            setModalEditCornerVisible(false);
+            setSelectedCorner("");
+          }}
+        />
+        <View>
+          <FlatList
+            data={filteredCorner}
+            keyExtractor={(item, index) => index.toString()}
+            // horizontal={true}
+            ItemSeparatorComponent={<Divider />}
+            renderItem={({ item }) => {
+              return (
+                <View>
+                  <TouchableOpacity
+                    // style={styles.buttonLabel}
+                    onPress={() => onSubmit(item)}
+                  >
+                    <Text> {item}</Text>
+                    <MaterialIcons
+                      name="add-circle-outline"
+                      size={24}
+                      color="black"
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
             }}
           />
         </View>
@@ -73,20 +90,22 @@ export const AddCorner = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#fff",
-    // padding: 10,
-    // width: 375,
-    // height: 600,
-    // justifyContent: "center",
-    // alignContent: "center",
+    padding: 10,
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  aaa: {
+    minWidth: "60%",
+    height: "60%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    // width: 375,
-    // height: 400,
   },
   modalContents: {
     backgroundColor: "#fff",
@@ -95,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  shopselect: {
+  shopSelect: {
     flexDirection: "row",
     justifyContent: "center",
     padding: 10,
@@ -118,19 +137,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-{
-  /* <Controller
-  control={control}
-  rules={{ required: true }}
-  render={({ field: { onChange, onBlur, value } }) => (
-    <TextInput
-      style={styles.input}
-      onBlur={onBlur}
-      onChangeText={(value) => onChange(value)} //handleInputChange
-      value={value}
-    />
-  )}
-  name="shopName"
-/>; */
-}

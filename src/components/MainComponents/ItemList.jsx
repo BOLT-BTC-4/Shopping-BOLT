@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { EditItem } from "./EditItem";
 
 export const ItemList = ({
@@ -17,20 +24,23 @@ export const ItemList = ({
 
   return (
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
-      <View style={styles.salesBox}>
-        <Text style={styles.text}>{item.sales}</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.cornerBox}
+        onPress={() => handleCheck(item.id)}
+      >
+        <Text style={styles.text}>{item.corner}</Text>
+      </TouchableOpacity>
 
-      <View style={styles.moziBox}>
-        <Text
-          style={styles.text}
-          width={100}
-          onPress={() => handleCheck(item.localId)}
-        >
-          {item.itemName}
-        </Text>
+      <TouchableOpacity
+        style={styles.moziBox}
+        onPress={() => handleCheck(item.id)}
+      >
+        <View style={styles.stack}>
+          <Text style={styles.textSmall}>{item.recipeName}</Text>
+          <Text style={styles.text}>{item.itemName}</Text>
+        </View>
         <Text style={styles.text}>{item.quantity}</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.iconBox}>
         <Text style={styles.text}>{item.unit}</Text>
@@ -64,7 +74,7 @@ export const ItemList = ({
           name="trash-2"
           size={24}
           color="black"
-          onPress={() => handleRemoveItem(item.localId)}
+          onPress={() => handleRemoveItem(item.id)}
         />
       </View>
     </View>
@@ -76,7 +86,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderBottomColor: "#b6c471",
+    // borderStyle: 'dotted',
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
@@ -100,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  salesBox: {
+  cornerBox: {
     width: 80,
     flexDirection: "row",
     alignItems: "center",
@@ -115,7 +126,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
   },
-
+  textSmall: {
+    fontSize: 10,
+    color: "mediumseagreen",
+  },
   subText: {
     fontSize: 12,
     color: "red",
@@ -133,4 +147,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  stack: {},
 });

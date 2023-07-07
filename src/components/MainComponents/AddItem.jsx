@@ -1,19 +1,22 @@
-import * as React from "react";
-import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  FlatList,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { SelectList } from "react-native-dropdown-select-list";
 import Constants from "expo-constants";
-import DropDownPicker from "react-native-dropdown-picker";
-import { table } from "../../table";
-import uuid from "react-native-uuid";
+import DropDownPicker from "react-native-dropdown-picker"
+import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+import { itemPresetData } from "../../itemPreset";
 
-export const EditItem = ({
-  items,
-  setItems,
-  setAddFlag,
-  item,
-  setModalEditItemVisible,
-}) => {
+export const AddItem = ({ setModalAddItemVisible }) => {
+  const { setItems, setAddFlag } = useContext(ShareShopDataContext);
   const {
     register,
     setValue,
@@ -23,25 +26,53 @@ export const EditItem = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      itemName: item.itemName,
-      quantity: item.quantity.toString(),
-      unit: item.unit,
+      itemName: "",
+      quantity: "1",
     },
   });
-  const [selectedCorner, setSelectedCorner] = React.useState("");
 
-  const onSubmit = (data) => {
-    const newItems = [...items];
-    const itemCopy = newItems.find(
-      (newItem) => newItem.localId === item.localId
-    );
-    itemCopy.sales = selectedCorner;
-    itemCopy.itemName = data.itemName;
-    itemCopy.quantity = data.quantity;
-    itemCopy.unit = data.unit;
-    setItems(newItems);
+  const onSubmit = async (data) => {
+    //下のfindでItemテーブルからitemを取り出し一致するobjを返す
+    let cornarName = (item) => {
+      return item.itemName === data.itemName;
+    };
+    //////////////////////////////////////////////////////////////API🔴
+    let itemList = await fetchItemAPI();
+    itemList.push(...itemPresetData)
+    let result = itemList.find(cornarName)
+
+    let newData = {};
+    if (result === undefined) {
+      newData = {
+        corner: "",
+        itemName: data.itemName,
+        quantity: Number(data.quantity),
+        unit: "個",
+        directions: Number(99),
+        check: false,
+        bought: false,
+      };
+    } else {
+      newData = {
+        corner: result.corner,
+        itemName: data.itemName,
+        quantity: Number(data.quantity),
+        unit: "個",
+        directions: Number(99),
+        check: false,
+        bought: false,
+      };
+    }
+    //追加するitemをDBに保存////////////////////////////////////////////API🔴
+    await createShoppingListAPI(newData);
+    //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
+    const getAllShoppingList = async () => {
+      const getShoppingData = await fetchShoppingListAPI();
+      setItems(getShoppingData);
+    };
+    getAllShoppingList();
     setAddFlag(true);
-    setModalEditItemVisible(false);
+    reset();
   };
 
   const onChange = (arg) => {
@@ -49,29 +80,10 @@ export const EditItem = ({
       value: arg.nativeEvent.text,
     };
   };
-  // console.log("errors", errors);
 
-  //   const [open, setOpen] = useState(false);
-  //   const [quantity, setQuantity] = useState(null);
-  //   const [items, setItems] = useState([
-  //     { label: "Apple", value: "apple" },
-  //     { label: "Banana", value: "banana" },
-  //   ]);
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>売り場</Text>
-      <View>
-        <SelectList
-          setSelected={(val) => setSelectedCorner(val)}
-          data={table.masterCorner}
-          save="value"
-          searchPlaceholder="売り場を入力"
-          placeholder="売り場を選択"
-          maxHeight={200}
-          defaultOption={{ key: item.sales, value: item.sales }}
-        />
-      </View>
-      <Text style={styles.label}>商品名</Text>
+      <Text style={styles.label}>新規商品</Text>
       {errors.itemName && (
         <Text style={styles.alertFont}>商品名を入力してください</Text>
       )}
@@ -102,33 +114,19 @@ export const EditItem = ({
         name="quantity"
         rules={{ required: false }}
       />
-      <Text style={styles.label}>単位</Text>
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
-        )}
-        name="unit"
-        rules={{ required: false }}
-      />
 
       <View style={styles.button}>
         <Button
           style={styles.buttonInner}
           color
-          title="変更"
+          title="追加"
           onPress={handleSubmit(onSubmit)}
         />
       </View>
       <Button
         color="#fff"
         title="✖️"
-        onPress={() => setModalEditItemVisible(false)}
+        onPress={() => setModalAddItemVisible(false)}
       />
     </View>
   );
@@ -149,8 +147,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    minWidth: "70%",
-    minHeight: "50%",
+    width: 200,
+    height: 300,
     justifyContent: "center",
     // paddingTop: Constants.statusBarHeight,
     padding: 8,
