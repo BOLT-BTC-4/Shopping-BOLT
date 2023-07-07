@@ -129,8 +129,7 @@ export const AddShop = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.buttonLabel}
-            onPress={() => setModalAddCornerVisible(true)}
-          >
+            onPress={() => setModalAddCornerVisible(true)}>
             <MaterialIcons name="add-circle-outline" size={24} color="black" />
             <Text style={styles.buttonText}>売場を追加</Text>
           </TouchableOpacity>
@@ -138,8 +137,7 @@ export const AddShop = ({ navigation }) => {
         <Modal
           visible={modalAddCornerVisible}
           animationType="none"
-          transparent={true}
-        >
+          transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <AddCorner
@@ -158,8 +156,7 @@ export const AddShop = ({ navigation }) => {
         <Modal
           visible={modalEditCornerVisible}
           animationType="none"
-          transparent={true}
-        >
+          transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <EditCorner
@@ -220,7 +217,7 @@ export const AddShop = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFF0D4",
     padding: 10,
 
     minWidth: "100%",

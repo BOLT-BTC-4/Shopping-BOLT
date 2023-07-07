@@ -72,9 +72,8 @@ export const ShopScreen = ({ navigation }) => {
         style={styles.addbtn}
         onPress={() => {
           navigation.navigate("新規登録");
-        }}
-      >
-        <MaterialIcons name="add-circle-outline" size={24} color="black" />
+        }}>
+        <MaterialIcons name="add-circle-outline" size={35} color="#B45817" />
       </TouchableOpacity>
     </View>
   );
@@ -83,14 +82,15 @@ export const ShopScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF0D4",
     padding: 10,
   },
   list: {},
 
   addbtn: {
-    alignItems: "center",
-    padding: 10,
+    alignItems: "flex-end",
+    padding: 25,
+    marginHorizontal: "3%",
   },
   // modalContainer: {
   //   flex: 1,
@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
   //   flexDirection: "row",
   //   justifyContent: "space-between",
   //   padding: 10,
-  //   alignItems: "center",
-  //   marginBottom: 30,
+  //   alignSelf: "flex-end",
+  //   marginBottom: 50,
   //   marginRight: 30,
-  //   marginLeft: 20,
+  //   marginLeft: 10,
   //   marginTop: 10,
   // },
 });
