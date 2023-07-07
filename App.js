@@ -7,6 +7,8 @@ import {
   Pressable,
   SafeAreaView,
   FlatList,
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "./src/aws-exports";
@@ -44,6 +46,17 @@ import { copyItemPresetAPI } from "./src/boltAPI";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const LogoTitle = () => (
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <Text style={{ marginRight: 8, color: "#B6C471" }}>買い物リスト</Text>
+    <Image
+      style={{ wight: 30, height: 30 }}
+      source={require('./assets/logo.png')}
+      resizeMode="contain"
+    />
+  </View>
+);
+
 // 各タブ内のコンポーネントをまとめる
 const MenuStack = () => {
   return (
@@ -71,15 +84,17 @@ const RecipeStack = () => {
 
 const MainStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="買い物リスト" component={MainScreen}
-        options={{
-          headerStyle: { backgroundColor: "#FFF0D4" },
-          headerTintColor: "#B6C471",
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }} />
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: () => <LogoTitle />,
+        headerStyle: { backgroundColor: "#FFF0D4" },
+        // headerTintColor: "#B6C471",
+        // headerTitleStyle: {
+        //   fontWeight: 'bold',
+        // },
+      }}
+    >
+      <Stack.Screen name="買い物リスト" component={MainScreen} />
     </Stack.Navigator>
   );
 };
