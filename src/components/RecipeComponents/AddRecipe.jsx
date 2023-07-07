@@ -30,6 +30,8 @@ export const AddRecipe = ({ navigation }) => {
     setRecipeData,
     updateRecipeItem,
     setUpdateRecipeItem,
+    displayedRecipes,
+    setDisplayedRecipes,
   } = useContext(ShareShopDataContext);
   const {
     register,
@@ -55,13 +57,10 @@ export const AddRecipe = ({ navigation }) => {
     { id: 5, category: "その他" },
   ];
 
-  const defaultRecipes = table.defaultRecipes;
+  // const defaultRecipes = table.defaultRecipes;
   const [selectedCategory, setSelectedCategory] = useState("主食");
   // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
 
   // const [serving, setServing] = useState(defaultServing);
 
@@ -98,11 +97,14 @@ export const AddRecipe = ({ navigation }) => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
-      console.log("initRecipeData:", initRecipeData);
+      console.log("--------initRecipeData----101---------:", initRecipeData);
       setRecipeData(initRecipeData);
+      setDisplayedRecipes(
+        initRecipeData.filter((item) => item.category === "主食")
+      );
     };
 
-    await setRecipeData(getAllRecipe);
+    getAllRecipe();
     navigation.navigate("レシピリスト");
   };
 

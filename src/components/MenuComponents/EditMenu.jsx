@@ -40,14 +40,10 @@ export const EditMenu = ({ navigation }) => {
     const getAllRecipe = async () => {
       //登録されている全てのrecipeを取得
       const newRecipes = await fetchRecipeAPI();
+      // const getedRecipeItems=await Promise.all(newRecipes.map((newRecipe)=>fetchIdRecipeItemAPI(newRecipe.id)))
       //全てのrecipeのrecipeItemを取得
-      newRecipes.forEach(async (newRecipe, indexOut) => {
+      newRecipes.forEach(async (newRecipe) => {
         const getedRecipeItems = await fetchIdRecipeItemAPI(newRecipe.id);
-        // //quantityを全て１人前になるようにservingで割る
-        // getedRecipeItems.forEach((item) => {
-        //   item.quantity = item.quantity / newRecipe.serving;
-        //   item.checked = true;
-        // });
         //データを加工したら更新
         renderRecipes.push({
           id: newRecipe.id,
@@ -114,12 +110,8 @@ export const EditMenu = ({ navigation }) => {
     };
 
     await saveMenu();
-    setAllGetMenuFlag((prev) => !prev);
     //新しいmenuを取得
-    // setTimeout(function () {
-    //   getNewMenu(selectedDay);
-    // }, 50);
-
+    setAllGetMenuFlag((prev) => !prev);
     await navigation.navigate("献立リスト");
   };
   // console.log("newMenu!!!!!!!!!!!!!!!", menu);
