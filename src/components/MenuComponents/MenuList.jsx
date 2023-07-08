@@ -62,7 +62,7 @@ export const MenuList = ({ navigation }) => {
         renderItem={(item, firstItemInDay) => (
           <View style={styles.container}>
             <View style={styles.box}>
-              <View style={styles.cornerBox}>
+              <View style={styles.categoryBox}>
                 <Text>{item.category}</Text>
               </View>
               <View style={styles.moziBox}>
@@ -70,7 +70,8 @@ export const MenuList = ({ navigation }) => {
                   <Text style={styles.textSmall}>{`${item.serving}人前`}</Text>
                   <Text style={styles.text}>{item.recipeName}</Text>
                 </View>
-
+              </View>
+              <View style={styles.url}>
                 <AntDesign
                   name="link"
                   size={24}
@@ -79,6 +80,8 @@ export const MenuList = ({ navigation }) => {
                     openURL(item.url);
                   }}
                 />
+              </View>
+              <View style={styles.trash}>
                 <Feather
                   name="trash-2"
                   size={24}
@@ -105,7 +108,7 @@ export const MenuList = ({ navigation }) => {
               bottom: 0,
               alignItems: "center",
               backgroundColor: "#fff0d4",
-              borderWidth: 1,
+              borderWidth: 2,
               borderBottomColor: "#B6C471",
               borderLeftColor: "rgba(0,0,0,0)",
               borderRightColor: "rgba(0,0,0,0)",
@@ -166,16 +169,16 @@ export const MenuList = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // backgroundColor: "#fff0d4", //買い物リストの背景色
-    // padding: 10,
+    flex: 1,
+    backgroundColor: "#fff0d4", //買い物リストの背景色
+    padding: 5,
     // justifyContent: "center",
     // alignContent: "center",
   },
   box: {
     height: 50,
     width: "100%",
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
@@ -188,8 +191,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
     marginTop: 33,
   },
-  cornerBox: {
-    width: 80,
+  categoryBox: {
+    width: 60,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -200,6 +203,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  url: {
+    // flex: 1,
+    width: 40,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "red",
+  },
+  trash: {
+    width: 40,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    // backgroundColor: "green",
   },
   underBar: {
     flexDirection: "row",

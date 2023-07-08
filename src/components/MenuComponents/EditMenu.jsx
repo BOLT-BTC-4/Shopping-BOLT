@@ -61,7 +61,7 @@ export const EditMenu = ({ navigation }) => {
         setRenderFlag(true);
       }, 50);
     };
-    getAllRecipe();
+    // getAllRecipe();
   }, []);
 
   const {
@@ -209,22 +209,26 @@ export const EditMenu = ({ navigation }) => {
       <View style={styles.selectedRecipeContainer}>
         {/* ヘッダー */}
         <View style={styles.selectedRecipeTab}>
-          <Text style={styles.selectedRecipeTabText}>追加されたレシピ</Text>
-          <AntDesign
-            name="minuscircleo"
-            size={17}
-            color="black"
-            onPress={() => setDefaultServing((prev) => prev - 1)}
-          />
-          <Text
-            style={styles.selectedRecipeTabTextSmall}
-          >{`デフォルト${defaultServing}人前`}</Text>
-          <AntDesign
-            name="pluscircleo"
-            size={17}
-            color="black"
-            onPress={() => setDefaultServing((prev) => prev + 1)}
-          />
+          <View style={styles.selectedRecipeTabTextBox}>
+            <Text style={styles.selectedRecipeTabText}>追加したレシピ</Text>
+          </View>
+          <View style={styles.selectedRecipeTabServingBox}>
+            <AntDesign
+              name="minuscircleo"
+              size={20}
+              color="black"
+              onPress={() => setDefaultServing((prev) => prev - 1)}
+            />
+            <Text
+              style={styles.selectedRecipeTabTextSmall}
+            >{`デフォルト${defaultServing}人前`}</Text>
+            <AntDesign
+              name="pluscircleo"
+              size={20}
+              color="black"
+              onPress={() => setDefaultServing((prev) => prev + 1)}
+            />
+          </View>
         </View>
 
         {/* コンテンツ */}
@@ -238,14 +242,14 @@ export const EditMenu = ({ navigation }) => {
               <View style={styles.innerBox}>
                 <AntDesign
                   name="minuscircleo"
-                  size={20}
+                  size={17}
                   color="black"
                   onPress={() => handleChangeServing(item.id, -1)}
                 />
                 <Text>{`${item.serving}人前`}</Text>
                 <AntDesign
                   name="pluscircleo"
-                  size={20}
+                  size={17}
                   color="black"
                   onPress={() => handleChangeServing(item.id, 1)}
                 />
@@ -275,13 +279,14 @@ export const EditMenu = ({ navigation }) => {
       /> */}
       {renderRecipes()}
       {renderSelectedRecipe()}
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSelectedRecipesSubmit}
-      >
-        <Text style={styles.buttonInner}>こんだてを登録</Text>
-      </TouchableOpacity>
+      <View style={styles.underBar}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSelectedRecipesSubmit}
+        >
+          <Text style={styles.buttonInner}>登録</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -289,8 +294,8 @@ export const EditMenu = ({ navigation }) => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: "#fff0d4", //買い物リストの背景色
-    padding: 10,
+    backgroundColor: "#fff0d4", //背景色
+    padding: 5,
   },
   tab: {
     padding: 10,
@@ -300,7 +305,7 @@ const styles = {
   },
   activeTab: {
     padding: 10,
-    backgroundColor: "lightblue",
+    backgroundColor: "#B6C471",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -309,32 +314,47 @@ const styles = {
     // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightgreen",
+    backgroundColor: "#B6C471",
     padding: 6,
     borderRadius: 20,
   },
   recipeText: {
     fontSize: 12,
+    // color: "white",
   },
   selectedRecipeContainer: {
     justifyContent: "center",
     alignItems: "center",
     // backgroundColor: "lightgreen",
-    padding: 20,
+    // padding: 20,
     marginVertical: 10,
-    height: 300,
+    height: 200,
     width: "100%",
   },
   selectedRecipeTab: {
     height: 30,
     width: "100%",
-    backgroundColor: "mediumseagreen",
+    // backgroundColor: "#B6C471",
     flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: 10,
     paddingRight: 10,
     alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
     // borderRadius: 20,
+  },
+  selectedRecipeTabTextBox: {
+    paddingLeft: 25,
+  },
+  selectedRecipeTabServingBox: {
+    width: 170,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   selectedRecipeTabText: {
     fontSize: 17,
@@ -353,7 +373,7 @@ const styles = {
     width: "100%",
     height: 30,
     borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
@@ -378,16 +398,32 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
   },
-  button: {
-    marginTop: 1,
-    marginVertical: 15,
+  underBar: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+  },
+  button: {
+    // marginTop: 1,
+    // marginVertical: 15,
+    // justifyContent: "center",
+    // alignItems: "center",
+    // color: "white",
+    // height: 40,
+    // backgroundColor: "mediumseagreen",
+    // borderRadius: 20,
+    // width: "50%",
+    // marginLeft: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    fontcolor: "#F5F3F0",
     height: 40,
-    backgroundColor: "mediumseagreen",
+    backgroundColor: "#B6C471",
     borderRadius: 20,
-    width: "50%",
-    marginLeft: "25%",
+    width: 120,
+  },
+  buttonInner: {
+    // fontSize: 20,
+    color: "white",
   },
 };
