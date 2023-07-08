@@ -131,7 +131,7 @@ export const MenuScreen = ({ navigation }) => {
       }
     };
     ///////////////////////////////////////////////////////////////////////////API利用
-    // allGetMenu();
+    allGetMenu();
   }, [allGetMenuFlag]);
   // console.log("⭐⭐⭐!!!!!!!!!!!!!!!", menu);
 
