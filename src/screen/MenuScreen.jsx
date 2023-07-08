@@ -130,14 +130,24 @@ export const MenuScreen = ({ navigation }) => {
         setMenu({});
       }
     };
-    console.log("⭐⭐⭐⭐⭐⭐⭐⭐", allGetMenuFlag);
-    allGetMenu();
+    ///////////////////////////////////////////////////////////////////////////API利用
+    // allGetMenu();
   }, [allGetMenuFlag]);
   // console.log("⭐⭐⭐!!!!!!!!!!!!!!!", menu);
 
   return (
-    <View>
+    <View style={styles.container}>
       <MenuList navigation={navigation} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff0d4", //買い物リストの背景色
+    // padding: 10,
+    // // justifyContent: "center",
+    // alignContent: "center",
+  },
+});

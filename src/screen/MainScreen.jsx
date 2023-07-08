@@ -49,8 +49,8 @@ export const MainScreen = ({ navigation }) => {
       setItems(shoppingListData);
     };
     navigation.navigate("買い物リスト");
-    ///////////////////////////////////////////////////////////////API🔴
-    getAllShoppingList();
+    //////////////////////////////////////////////////////////////////////////API🔴
+    // getAllShoppingList();
   }, [allGetItemFlag]);
 
   // モーダルのuseState
@@ -162,7 +162,10 @@ export const MainScreen = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
       />
       <View style={styles.underBar}>
-        <TouchableOpacity style={styles.buyButton} onPress={handleAllRemoveItem}>
+        <TouchableOpacity
+          style={styles.buyButton}
+          onPress={handleAllRemoveItem}
+        >
           <Text style={{ color: "white" }}>購入したよ</Text>
         </TouchableOpacity>
         <MaterialIcons
@@ -228,7 +231,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
-  buyButton: { //購入したよ　ボタン
+  buyButton: {
+    //購入したよ　ボタン
     // marginTop: 5,
     // marginVertical: "20%",
     justifyContent: "center",
@@ -239,5 +243,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 120,
     // marginLeft: "10%",
-  }
+  },
 });

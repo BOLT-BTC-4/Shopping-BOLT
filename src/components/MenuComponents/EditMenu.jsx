@@ -289,6 +289,8 @@ export const EditMenu = ({ navigation }) => {
 const styles = {
   container: {
     flex: 1,
+    backgroundColor: "#fff0d4", //買い物リストの背景色
+    padding: 10,
   },
   tab: {
     padding: 10,

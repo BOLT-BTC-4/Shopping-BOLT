@@ -12,8 +12,8 @@ import {
   Linking,
   TouchableOpacity,
 } from "react-native";
-import { Agenda } from "react-native-calendars";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { Agenda, Calendars } from "react-native-calendars";
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
 import {
   deleteMenuAPI,
   fetchDateMenuAPI,
@@ -57,53 +57,126 @@ export const MenuList = ({ navigation }) => {
         //日付を押したらeditmenuに遷移
         onDayPress={(day) => {
           setSelectedDay(day.dateString);
-          navigation.navigate("献立登録");
         }}
         items={menu}
         renderItem={(item, firstItemInDay) => (
-          <View style={styles.box}>
-            <View style={styles.cornerBox}>
-              <Text>{item.category}</Text>
-            </View>
-            <View style={styles.moziBox}>
-              <Text style={styles.text}>{item.recipeName}</Text>
-              <Text style={styles.text}>{`${item.serving}人前`}</Text>
-              <AntDesign
-                name="link"
-                size={24}
-                color="black"
-                onPress={() => {
-                  openURL(item.url);
-                }}
-              />
-              <Feather
-                name="trash-2"
-                size={24}
-                color="black"
-                onPress={() => handleRemoveMenu(item.menuId)}
-              />
+          <View style={styles.container}>
+            <View style={styles.box}>
+              <View style={styles.cornerBox}>
+                <Text>{item.category}</Text>
+              </View>
+              <View style={styles.moziBox}>
+                <View style={styles.stack}>
+                  <Text style={styles.textSmall}>{`${item.serving}人前`}</Text>
+                  <Text style={styles.text}>{item.recipeName}</Text>
+                </View>
+
+                <AntDesign
+                  name="link"
+                  size={24}
+                  color="black"
+                  onPress={() => {
+                    openURL(item.url);
+                  }}
+                />
+                <Feather
+                  name="trash-2"
+                  size={24}
+                  color="black"
+                  onPress={() => handleRemoveMenu(item.menuId)}
+                />
+              </View>
             </View>
           </View>
         )}
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          navigation.navigate("献立から買い物リストへ追加");
+        // Agenda theme
+        theme={{
+          "stylesheet.agenda.main": {
+            reservations: {
+              backgroundColor: "#fff0d4",
+              marginTop: 80,
+            },
+            knobContainer: {
+              flex: 1,
+              position: "absolute",
+              left: 0,
+              right: 0,
+              height: 24,
+              bottom: 0,
+              alignItems: "center",
+              backgroundColor: "#fff0d4",
+              borderWidth: 1,
+              borderBottomColor: "#B6C471",
+              borderLeftColor: "rgba(0,0,0,0)",
+              borderRightColor: "rgba(0,0,0,0)",
+              borderTopColor: "rgba(0,0,0,0)",
+            },
+          },
+          // agendaDayTextColor: "yellow",
+          agendaDayNumColor: "#B45817",
+          agendaTodayColor: "#B6C471",
+          agendaKnobColor: "#B6C471",
+          calendarBackground: "#fff0d4",
+          backgroundColor: "#ff0d4",
+          selectedDayBackgroundColor: "#B6C471",
+          // textSectionTitleColor: "#b6c1cd",
+          // textSectionTitleDisabledColor: "#d9e1e8",
+          // selectedDayTextColor: "#ffffff",
+          // todayTextColor: "#00adf5",
+          // dayTextColor: "#2d4150",
+          // textDisabledColor: "#d9e1e8",
+          // dotColor: "#00adf5",
+          // selectedDotColor: "#ffffff",
+          // arrowColor: "orange",
+          // disabledArrowColor: "#d9e1e8",
+          // monthTextColor: "blue",
+          // indicatorColor: "blue",
+          // textDayFontFamily: "monospace",
+          // textMonthFontFamily: "monospace",
+          // textDayHeaderFontFamily: "monospace",
+          // textDayFontWeight: "300",
+          // textMonthFontWeight: "bold",
+          // textDayHeaderFontWeight: "300",
+          // textDayFontSize: 16,
+          // textMonthFontSize: 16,
+          // textDayHeaderFontSize: 16,
         }}
-      >
-        <Text style={styles.buttonInner}>献立から買い物リストへ追加</Text>
-      </TouchableOpacity>
+      />
+      <View style={styles.underBar}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("献立から買い物リストへ追加");
+          }}
+        >
+          <Text style={styles.buttonInner}>献立から追加</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addbtn}
+          onPress={() => {
+            navigation.navigate("献立登録");
+          }}
+        >
+          <MaterialIcons name="add-circle-outline" size={35} color="#B45817" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    // backgroundColor: "#fff0d4", //買い物リストの背景色
+    // padding: 10,
+    // justifyContent: "center",
+    // alignContent: "center",
+  },
   box: {
     height: 50,
     width: "100%",
     borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
@@ -128,19 +201,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  underBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    alignItems: "center",
+    marginBottom: 12,
+    marginRight: 30,
+    marginLeft: 20,
+    marginTop: 10,
+  },
   button: {
-    marginTop: 5,
-    marginVertical: "20%",
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+    fontcolor: "#F5F3F0",
     height: 40,
-    backgroundColor: "mediumseagreen",
+    backgroundColor: "#B6C471",
     borderRadius: 20,
-    width: "80%",
-    marginLeft: "10%",
+    width: 120,
   },
   buttonInner: {
-    fontSize: 20,
+    // fontSize: 20,
+    color: "white",
+  },
+  addbtn: {
+    marginHorizontal: "3%",
+  },
+  textSmall: {
+    fontSize: 10,
+    color: "#B45817",
   },
 });
