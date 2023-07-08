@@ -364,7 +364,7 @@ export const AddAiRecipe = ({ navigation }) => {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.text}>AIに考えてもらう</Text>
+            <Text style={styles.buttonText}>AIに考えてもらう</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -409,7 +409,7 @@ export const AddAiRecipe = ({ navigation }) => {
                 style={styles.button}
                 onPress={() => handleRecipeSubmit()}
               >
-                <Text style={styles.text}>レシピを登録</Text>
+                <Text style={styles.buttonText}>レシピを登録</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.blank}>
@@ -483,6 +483,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
   titleArea: {
     padding: 8,
