@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,11 +7,15 @@ import {
   Button,
   Alert,
   Linking,
+  TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { likeImage } from "../Common/likeImage";
 import { openURL } from "../Common/OpenURL";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
+
+import { fetchRecipeAndRecipeItemAPI } from "../../boltAPI";
 
 export const RecipeList = ({
   item,
@@ -21,6 +25,17 @@ export const RecipeList = ({
   navigation,
 }) => {
   console.log("===== comp_RecipeList =====");
+
+  const { setUpdateRecipe, setUpdateRecipeItem } =
+    useContext(ShareShopDataContext);
+
+  const handleReferenceRecipe = async (id) => {
+    const getRecipeAndRecipeItem = await fetchRecipeAndRecipeItemAPI(id);
+    await setUpdateRecipe(getRecipeAndRecipeItem);
+    await setUpdateRecipeItem(getRecipeAndRecipeItem.items);
+
+    navigation.navigate("レシピ詳細");
+  };
   // console.log("item:", item);
 
   // レシピURLを開く
@@ -42,9 +57,15 @@ export const RecipeList = ({
       <View style={styles.box}>
         <View style={styles.moziBox}>
           <View style={styles.stack}>
-            <Text style={styles.textSmall}>{item.category}</Text>
-            <Text style={styles.textSmall}>{likeImage(item.like)}</Text>
-            <Text style={styles.text}>{recipeName}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                handleReferenceRecipe(item.id);
+              }}
+            >
+              <Text style={styles.textSmall}>{item.category}</Text>
+              <Text style={styles.textSmall}>{likeImage(item.like)}</Text>
+              <Text style={styles.text}>{recipeName}</Text>
+            </TouchableOpacity>
           </View>
           <AntDesign
             name="link"

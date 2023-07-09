@@ -18,20 +18,26 @@ import {
 
 export const EditMenu = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
-  const [renderFlag, setRenderFlag] = useState(false);
   //カテゴリーに該当するレシピ配列を返す
   const filterRecipes = (category) => {
-    const newSelectedRecipes = recipes.filter(
-      (recipe) => recipe.category === category
-    );
-    return newSelectedRecipes;
+    if (category === "全て") {
+      const newRecipes = [...recipes];
+      return newRecipes;
+    } else {
+      const newSelectedRecipes = recipes.filter(
+        (recipe) => recipe.category === category
+      );
+      return newSelectedRecipes;
+    }
   };
   const categories = [
-    { id: 1, category: "主食" },
-    { id: 2, category: "主菜" },
-    { id: 3, category: "副菜" },
-    { id: 4, category: "汁物" },
-    { id: 5, category: "その他" },
+    { id: 1, category: "全て" },
+    { id: 2, category: "主食" },
+    { id: 3, category: "主菜" },
+    { id: 4, category: "副菜" },
+    { id: 5, category: "汁物" },
+    { id: 6, category: "スイーツ" },
+    { id: 7, category: "その他" },
   ];
 
   useEffect(() => {
@@ -40,26 +46,30 @@ export const EditMenu = ({ navigation }) => {
     const getAllRecipe = async () => {
       //登録されている全てのrecipeを取得
       const newRecipes = await fetchRecipeAPI();
-      // const getedRecipeItems=await Promise.all(newRecipes.map((newRecipe)=>fetchIdRecipeItemAPI(newRecipe.id)))
       //全てのrecipeのrecipeItemを取得
-      newRecipes.forEach(async (newRecipe) => {
-        const getedRecipeItems = await fetchIdRecipeItemAPI(newRecipe.id);
+      const getedRecipeItems = await Promise.all(
+        newRecipes.map((newRecipe) => fetchIdRecipeItemAPI(newRecipe.id))
+      );
+      console.log(
+        "------------getedRecipeItems------55--------",
+        getedRecipeItems
+      );
+      newRecipes.forEach((newRecipe, index) => {
         //データを加工したら更新
         renderRecipes.push({
           id: newRecipe.id,
           category: newRecipe.category,
           recipeName: newRecipe.recipeName,
           url: newRecipe.url,
+          memo: newRecipe.memo,
           serving: newRecipe.serving,
           like: newRecipe.like,
-          items: getedRecipeItems,
+          items: getedRecipeItems[index],
         });
       });
-      // console.log("$$$$$$$$$$$$$$$$$$$", renderRecipes);
-      setTimeout(function () {
-        setRecipes(renderRecipes);
-        setRenderFlag(true);
-      }, 50);
+      console.log("---------renderRecipes-----65--------", renderRecipes[1]);
+      setRecipes(renderRecipes);
+      setDisplayedRecipes(renderRecipes);
     };
     getAllRecipe(); ///////////////////////////////////////////////////////////////////useEffect🔴
   }, []);
@@ -73,7 +83,7 @@ export const EditMenu = ({ navigation }) => {
     setDefaultServing,
     setAllGetMenuFlag,
   } = useContext(ShareShopDataContext);
-  const [selectedCategory, setSelectedCategory] = useState("主食");
+  const [selectedCategory, setSelectedCategory] = useState("全て");
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [serving, setServing] = useState(defaultServing);
@@ -84,13 +94,8 @@ export const EditMenu = ({ navigation }) => {
   //選択されたレシピを献立に登録
   const handleSelectedRecipesSubmit = async () => {
     const newSelectedRecipe = [...selectedRecipe];
-    // Servingの数をselectedRecipeのitemsのquantityに掛ける　（recipeのquantityは１人前の分量が登録されている想定）
     newSelectedRecipe.forEach((recipe, indexOut) => {
       newSelectedRecipe[indexOut].date = selectedDay;
-      // recipe.items.forEach((item, index) => {
-      //   newSelectedRecipe[indexOut].items[index].quantity =
-      //     item.quantity * recipe.serving;
-      // });
     });
 
     // 献立登録用のデータを加工→献立保存
@@ -168,10 +173,6 @@ export const EditMenu = ({ navigation }) => {
   //   // setDisplayedRecipes(filtered);
   // };
 
-  if (renderFlag) {
-    setDisplayedRecipes(filterRecipes(selectedCategory));
-    setRenderFlag(false);
-  }
   //レンダリング↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
   //カテゴリタブ表示
@@ -444,16 +445,6 @@ const styles = {
     // height: 20,
   },
   button: {
-    // marginTop: 1,
-    // marginVertical: 105,
-    // justifyContent: "center",
-    // alignItems: "center",
-    // color: "white",
-    // height: 40,
-    // backgroundColor: "mediumseagreen",
-    // borderRadius: 20,
-    // width: "50%",
-    // marginLeft: "50%",
     justifyContent: "center",
     alignItems: "center",
     fontcolor: "#F5F3F0",

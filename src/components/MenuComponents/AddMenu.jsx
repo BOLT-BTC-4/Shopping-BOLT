@@ -125,33 +125,44 @@ export const AddMenu = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SectionList
-        sections={newMenu}
-        renderItem={({ item, index, section }) => (
-          <View style={styles.item}>
-            <TouchableOpacity
-              style={styles.moziBox}
-              onPress={() => handleCheck(section.id, index)}
-            >
-              {item.checked ? (
-                <AntDesign name="checkcircleo" size={24} color="black" />
-              ) : (
-                <Feather name="circle" size={24} color="black" />
-              )}
-              <Text style={styles.title}>{item.recipeItemName}</Text>
-              <Text style={styles.title}>{item.quantity}</Text>
-              <Text style={styles.title}>{item.unit}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.header}>{title}</Text>
-        )}
-        keyExtractor={(item, index) => item.id}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => handleAddItems()}>
-        <Text style={styles.buttonInner}>買物リストへ追加</Text>
-      </TouchableOpacity>
+      <View style={styles.recipeArea}>
+        <SectionList
+          sections={newMenu}
+          renderItem={({ item, index, section }) => (
+            <View style={styles.item}>
+              <TouchableOpacity
+                style={styles.moziBox}
+                onPress={() => handleCheck(section.id, index)}
+              >
+                {item.checked ? (
+                  <AntDesign name="checkcircleo" size={24} color="black" />
+                ) : (
+                  <Feather name="circle" size={24} color="black" />
+                )}
+              </TouchableOpacity>
+              <View style={styles.itemName}>
+                <Text style={styles.title}>{item.recipeItemName}</Text>
+              </View>
+              <View style={styles.quantityUnit}>
+                <Text style={styles.title}>{item.quantity}</Text>
+                <Text style={styles.title}>{item.unit}</Text>
+              </View>
+            </View>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.header}>{title}</Text>
+          )}
+          keyExtractor={(item, index) => item.id}
+        />
+      </View>
+      <View style={styles.underBar}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleAddItems()}
+        >
+          <Text style={styles.buttonInner}>買物リストへ追加</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -159,51 +170,96 @@ export const AddMenu = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: StatusBar.currentHeight,
-    marginHorizontal: 16,
+    // paddingTop: StatusBar.currentHeight,
+    // marginHorizontal: 16,
+    backgroundColor: "#fff0d4", //背景色
+    padding: 5,
   },
   item: {
     height: 50,
     width: "100%",
-    borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     paddingLeft: 10,
     paddingRight: 10,
   },
   header: {
-    fontSize: 24,
-    backgroundColor: "mediumseagreen",
+    // justifyContent: "space-between",
+    fontSize: 22,
+    backgroundColor: "#B6C471",
     padding: 5,
+    paddingLeft: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
+    // color: "white",
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
+    // color: "white",
+    // marginLeft: 10,
   },
   moziBox: {
-    flex: 1,
+    flex: 0.2,
+    // backgroundColor: "steelblue",
+    padding: 10,
+    // justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  itemName: {
+    flex: 0.85,
+    // backgroundColor: "steelblue",
+    padding: 10,
+    // justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  quantityUnit: {
+    flex: 0.2,
     // backgroundColor: "steelblue",
     padding: 10,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
   },
-  button: {
-    marginTop: 10,
-    marginVertical: 10,
+  recipeArea: {
+    flex: 1,
+    // justifyContent: "center",
+
+    // alignItems: "center",
+    // backgroundColor: "red",
+    // height: 250,
+  },
+  underBar: {
+    flex: 0.09,
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+    marginTop: 6,
+    // backgroundColor: "red",
+    // height: 20,
+  },
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+    fontcolor: "#F5F3F0",
     height: 40,
-    backgroundColor: "mediumseagreen",
+    backgroundColor: "#B6C471",
     borderRadius: 20,
-    width: "50%",
-    marginLeft: "25%",
+    width: 150,
   },
   buttonInner: {
-    fontSize: 20,
+    // fontSize: 20,
+    color: "white",
   },
 });

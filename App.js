@@ -36,6 +36,7 @@ import { AddRecipe } from "./src/components/RecipeComponents/AddRecipe";
 import { AddRecipeItem } from "./src/components/RecipeComponents/AddRecipeItem";
 import { AddAiRecipe } from "./src/components/RecipeComponents/AIRecipe/AddAiRecipe";
 import { EditRecipe } from "./src/components/RecipeComponents/EditRecipe";
+import { ReferenceRecipe } from "./src/components/RecipeComponents/ReferenceRecipe";
 
 import { withAuthenticator } from "@aws-amplify/ui-react-native";
 import { copyItemPresetAPI } from "./src/boltAPI";
@@ -63,6 +64,7 @@ const RecipeStack = () => {
       <Stack.Screen name="レシピアイテム登録" component={AddRecipeItem} />
       <Stack.Screen name="レシピ編集" component={EditRecipe} />
       <Stack.Screen name="AI'sレシピ" component={AddAiRecipe} />
+      <Stack.Screen name="レシピ詳細" component={ReferenceRecipe} />
     </Stack.Navigator>
   );
 };
