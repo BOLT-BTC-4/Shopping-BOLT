@@ -23,6 +23,7 @@ export const AddAiRecipe = ({ navigation }) => {
     selectGenreData,
     selectCategoryData,
     selectServingData,
+    loadingMessages,
   } = selectData;
 
   const {
@@ -46,6 +47,15 @@ export const AddAiRecipe = ({ navigation }) => {
   const [questionText, setQuestionText] = useState("");
   // ローディング表示用のステート
   const [loading, setLoading] = useState(false);
+  const [loadingDisplayMsg, setLoadingDisplayMsg] = useState();
+
+  // const loadingMessages = [
+  //   "メッセージ1",
+  //   "メッセージ2",
+  //   "メッセージ3",
+  //   "メッセージ4",
+  //   // 追加のメッセージ
+  // ];
 
   // プルダウンメニューやインプットボックスの値を変更した時の動作
   const handleMessageChange = (value) => {
@@ -118,7 +128,6 @@ export const AddAiRecipe = ({ navigation }) => {
 
       // エラーが発生しなかった場合の処理
       if (isJSON(responseText)) {
-        console.log("レシピを思いつきました！");
         // 回答の格納
         setAnswer(responseText);
 
@@ -128,6 +137,11 @@ export const AddAiRecipe = ({ navigation }) => {
         console.log("jsData:", jsData);
         setJSAnswer(jsData);
       } else {
+        // const jsData = responseText;
+        // console.log("jsData.recipeName:", jsData.recipeName);
+        // console.log("jsData.recipeItems:", jsData.recipeItems);
+        // console.log("jsData:", jsData);
+        // setJSAnswer(jsData);
         alert(
           `頭がパンクしました　○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください`
         );
@@ -135,9 +149,10 @@ export const AddAiRecipe = ({ navigation }) => {
     } catch (error) {
       // エラーが発生した場合の処理
       alert(
-        "エラーが発生しました\nもう一度実行してください\n " + error.message
+        `頭がパンクしました　○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください\n ${error.message}`
       );
     } finally {
+      console.log("レシピを思いつきました！");
       setLoading(false); // ローディング終了
     }
   };
@@ -172,7 +187,21 @@ export const AddAiRecipe = ({ navigation }) => {
     navigation.navigate("レシピリスト");
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * loadingMessages.length);
+      setLoadingDisplayMsg(loadingMessages[randomIndex]);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (loading === true) {
+      setLoadingDisplayMsg("");
+    }
+  }, [loading]);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleArea}>
@@ -372,7 +401,12 @@ export const AddAiRecipe = ({ navigation }) => {
       </View>
       {loading && (
         <View>
-          <Text>{questionText}を考えています...</Text>
+          <Text style={styles.defaultText}>
+            {questionText}を考えています...
+          </Text>
+          <View style={styles.loadingMsgBox}>
+            <Text style={styles.defaultText}>{loadingDisplayMsg}</Text>
+          </View>
         </View>
       )}
       {answer && (
@@ -406,6 +440,8 @@ export const AddAiRecipe = ({ navigation }) => {
                     .map((line, index) => <Text key={index}>{line}</Text>)}
               </View>
             </View>
+          </ScrollView>
+          <View style={styles.underBar}>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
@@ -414,10 +450,7 @@ export const AddAiRecipe = ({ navigation }) => {
                 <Text style={styles.buttonText}>レシピを登録</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.blank}>
-              <Text></Text>
-            </View>
-          </ScrollView>
+          </View>
         </View>
       )}
     </View>
@@ -430,8 +463,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff0d4", //買い物リストの背景色
     padding: 10,
   },
+
   inputContainer: {
     // flex: 1,
+  },
+  loadingMsgBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 100,
+  },
+  defaultText: {
+    fontSize: 16,
   },
   text: {
     marginLeft: 8,
@@ -520,7 +562,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 24,
   },
-  blank: {
-    height: 320,
+  underBar: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
   },
 });

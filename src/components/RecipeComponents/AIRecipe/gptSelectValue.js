@@ -47,10 +47,25 @@ const selectServingData = [
     10,
 ];
 
+const loadingMessages = [
+    "レシピ考えるのって、めんどくさいよねー",
+    "実は私、レシピ考えるの苦手(^^;",
+    "あなたは自分でレシピ考えないの？",
+    "レシピは美味しいかどうかわからないよ",
+    "私が提案したレシピは、私は食べたことないよ",
+    "考えるのが遅い！？",
+    "全然いいアイディアが浮かばないよー",
+    "あれをこうして、あれも入れたらどうなるかなー",
+    "面白そうなこと思いついた",
+    "待ってる間暇でしょ（^^;",
+    "あなたは何が好き？",
+];
+
 export const selectData = {
     selectTargetData: selectTargetData,
     selectFeelingData: selectFeelingData,
     selectGenreData: selectGenreData,
     selectCategoryData: selectCategoryData,
     selectServingData: selectServingData,
+    loadingMessages: loadingMessages,
 };
