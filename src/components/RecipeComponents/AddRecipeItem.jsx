@@ -7,6 +7,7 @@ import {
   Button,
   Alert,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
@@ -99,7 +100,7 @@ export const AddRecipeItem = ({
       />
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonText}>更新</Text>
+        <Text style={styles.buttonText}>追加</Text>
       </TouchableOpacity>
       <Button
         color="#fff"
@@ -112,14 +113,12 @@ export const AddRecipeItem = ({
 
 const styles = StyleSheet.create({
   label: {
-    // color: "white",
     margin: 20,
     marginLeft: 0,
   },
   button: {
     margin: 8,
     backgroundColor: "#b6c471",
-    height: 32,
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 400,
     justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
     padding: 8,
     backgroundColor: "white",
   },

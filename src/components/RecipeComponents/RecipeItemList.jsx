@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    marginTop: 12,
-    paddingBottom: 8,
+    marginTop: 8,
+    paddingBottom: 4,
     justifyContent: "center",
     borderWidth: 1.5,
     borderBottomColor: "#b6c471",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   recipeQuantityBox: {
     flex: 1,
-    justifyContent: "right",
+    // justifyContent: "right",
   },
   recipeUnitBox: {
     paddingLeft: 8,

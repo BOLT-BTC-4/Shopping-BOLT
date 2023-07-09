@@ -183,7 +183,7 @@ export const EditRecipe = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.categoryContainer}>
         <FlatGrid
           data={categories}
           renderItem={renderCategoryTab}
@@ -287,22 +287,24 @@ export const EditRecipe = ({ navigation }) => {
           />
         )}
       />
-      <TouchableOpacity style={styles.recipeItemAddButton}>
-        <MaterialIcons
-          onPress={() => {
-            setModalAddRecipeItemVisible(true);
-          }}
-          name="add-circle-outline"
-          size={35}
-          color="#B45817"
-        />
-      </TouchableOpacity>
+
       <View style={styles.underBar}>
+        <View></View>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={styles.buttonText}>レシピを更新</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.recipeItemAddButton}>
+          <MaterialIcons
+            onPress={() => {
+              setModalAddRecipeItemVisible(true);
+            }}
+            name="add-circle-outline"
+            size={35}
+            color="#B45817"
+          />
         </TouchableOpacity>
       </View>
 
@@ -368,7 +370,6 @@ const styles = StyleSheet.create({
   button: {
     margin: 8,
     backgroundColor: "#b6c471",
-    height: 32,
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
@@ -410,16 +411,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 6,
+    // padding: 6,
   },
 
   recipeNameContainer: {
     flexDirection: "row",
     alignItems: "center",
-  },
-
-  recipeItemContainer: {
-    height: 300,
   },
 
   recipeContainerColumn: {
@@ -448,8 +445,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: 1,
-    // height: 40,
-    padding: 8,
+    padding: 4,
     borderRadius: 4,
   },
 
@@ -462,7 +458,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     width: 40,
-    padding: 8,
+    padding: 4,
     borderRadius: 4,
   },
 
@@ -470,21 +466,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: 1,
-    height: 65,
-    padding: 8,
+    height: 50,
+    padding: 4,
     borderRadius: 4,
   },
   recipeItemAddButton: {
     alignItems: "flex-end",
-    marginRight: 25,
-    marginHorizontal: "3%",
   },
 
   underBar: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    padding: 8,
+    padding: 4,
   },
 
   modalContainer: {
