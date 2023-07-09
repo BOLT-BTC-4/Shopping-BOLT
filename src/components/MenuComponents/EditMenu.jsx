@@ -61,7 +61,7 @@ export const EditMenu = ({ navigation }) => {
         setRenderFlag(true);
       }, 50);
     };
-    // getAllRecipe();
+    getAllRecipe(); ///////////////////////////////////////////////////////////////////useEffect🔴
   }, []);
 
   const {
@@ -140,6 +140,9 @@ export const EditMenu = ({ navigation }) => {
     setDisplayedRecipes((prevRecipes) =>
       prevRecipes.filter((prevRecipe) => prevRecipe.id !== deepCopyRecipe.id)
     );
+    setRecipes((prevRecipes) =>
+      prevRecipes.filter((prevRecipe) => prevRecipe.id !== deepCopyRecipe.id)
+    );
   };
 
   const handleChangeServing = (parmRecipeId, num) => {
@@ -184,19 +187,21 @@ export const EditMenu = ({ navigation }) => {
   const renderRecipes = () => {
     // const elements = recipes[selectedCategory];
     return (
-      <FlatGrid
-        itemDimension={110} // 要素の幅
-        data={displayedRecipes} // 表示される配列を使用する
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
-            <View style={styles.recipeContainer}>
-              <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
-              <Text style={styles.recipeText}>{item.recipeName}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      <View style={styles.recipeArea}>
+        <FlatGrid
+          itemDimension={110} // 要素の幅
+          data={displayedRecipes} // 表示される配列を使用する
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleRecipeSelect(item)}>
+              <View style={styles.recipeContainer}>
+                <Text style={styles.recipeText}>{likeImage(item.like)}</Text>
+                <Text style={styles.recipeText}>{item.recipeName}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     );
   };
 
@@ -262,15 +267,17 @@ export const EditMenu = ({ navigation }) => {
     );
   };
 
-  //最初にレンダーされる
+  //最初にレンダーされる　カテゴリバー
   return (
     <View style={styles.container}>
-      <FlatGrid
-        data={categories}
-        renderItem={renderCategoryTab}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
-      />
+      <View style={styles.categoryBar}>
+        <FlatGrid
+          data={categories}
+          renderItem={renderCategoryTab}
+          keyExtractor={(item) => item.id.toString()}
+          itemDimension={70} // 要素の幅
+        />
+      </View>
       {/* <SearchBar
         placeholder="キーワード検索"
         onChangeText={handleSearch}
@@ -297,18 +304,46 @@ const styles = {
     backgroundColor: "#fff0d4", //背景色
     padding: 5,
   },
+  categoryBar: {
+    flex: 0.56,
+    // height: 95,
+    // backgroundColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
+  },
   tab: {
-    padding: 10,
+    padding: 5,
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
   },
   activeTab: {
-    padding: 10,
+    padding: 5,
     backgroundColor: "#B6C471",
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
+  },
+  recipeArea: {
+    flex: 1.5,
+    // backgroundColor: "red",
+    // height: 250,
   },
   recipeContainer: {
     // flexDirection: "row",
@@ -323,13 +358,14 @@ const styles = {
     // color: "white",
   },
   selectedRecipeContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     // backgroundColor: "lightgreen",
     // padding: 20,
-    marginVertical: 10,
-    height: 200,
-    width: "100%",
+    marginVertical: 3,
+    // height: 200,
+    // width: "100%",
   },
   selectedRecipeTab: {
     height: 30,
@@ -397,15 +433,19 @@ const styles = {
     width: "65%",
     flexDirection: "row",
     alignItems: "center",
+    // backgroundColor: "red",
   },
   underBar: {
-    flex: 1,
+    flex: 0.3,
     justifyContent: "center",
     alignItems: "center",
+    // marginVertical: 20,
+    // backgroundColor: "red",
+    // height: 20,
   },
   button: {
     // marginTop: 1,
-    // marginVertical: 15,
+    // marginVertical: 105,
     // justifyContent: "center",
     // alignItems: "center",
     // color: "white",

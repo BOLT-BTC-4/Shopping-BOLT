@@ -49,8 +49,8 @@ export const MainScreen = ({ navigation }) => {
       setItems(shoppingListData);
     };
     navigation.navigate("買い物リスト");
-    //////////////////////////////////////////////////////////////////////////API🔴
-    // getAllShoppingList();
+    //////////////////////////////////////////////////////////////////////////UseEffect!API🔴
+    getAllShoppingList();
   }, [allGetItemFlag]);
 
   // モーダルのuseState
