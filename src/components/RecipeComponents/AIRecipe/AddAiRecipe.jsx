@@ -129,12 +129,14 @@ export const AddAiRecipe = ({ navigation }) => {
         setJSAnswer(jsData);
       } else {
         alert(
-          `頭がパンクしました○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください`
+          `頭がパンクしました　○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください`
         );
       }
     } catch (error) {
       // エラーが発生した場合の処理
-      alert("エラーが発生しました\nもう一度実行してください: " + error.message);
+      alert(
+        "エラーが発生しました\nもう一度実行してください\n " + error.message
+      );
     } finally {
       setLoading(false); // ローディング終了
     }
@@ -173,6 +175,9 @@ export const AddAiRecipe = ({ navigation }) => {
   useEffect(() => {}, []);
   return (
     <View style={styles.container}>
+      <View style={styles.titleArea}>
+        <Text style={styles.titleText}>レシピ提案条件</Text>
+      </View>
       <View style={styles.inputContainer}>
         <View style={styles.inputArea}>
           <Controller
@@ -190,7 +195,7 @@ export const AddAiRecipe = ({ navigation }) => {
                   fontSize: 16,
                   color: "#444",
                 }}
-                placeholder="食材を入力してください"
+                placeholder="使用したい材料を入力してください"
                 value={value}
                 onBlur={onBlur}
                 onChangeText={(value) => {
@@ -201,7 +206,6 @@ export const AddAiRecipe = ({ navigation }) => {
             )}
             name="userItem"
           />
-          <Text style={styles.text}>を使って</Text>
         </View>
         <View style={styles.dropDownArea}>
           <SelectDropdown
@@ -234,7 +238,7 @@ export const AddAiRecipe = ({ navigation }) => {
             rowStyle={styles.dropdown1RowStyle}
             rowTextStyle={styles.dropdown1RowTxtStyle}
           />
-          <Text style={styles.text}>が</Text>
+          {/* <Text style={styles.text}>が</Text> */}
           <SelectDropdown
             data={selectFeelingData}
             onSelect={(selectedItem, index) => {
@@ -297,7 +301,6 @@ export const AddAiRecipe = ({ navigation }) => {
             rowStyle={styles.dropdown1RowStyle}
             rowTextStyle={styles.dropdown1RowTxtStyle}
           />
-          <Text style={styles.text}>　</Text>
           <SelectDropdown
             data={selectCategoryData}
             onSelect={(selectedItem, index) => {
@@ -335,14 +338,14 @@ export const AddAiRecipe = ({ navigation }) => {
             onSelect={(selectedItem, index) => {
               handleServingChange(selectedItem);
             }}
-            defaultButtonText={selectedServing}
+            defaultButtonText={selectedServing + "人前"}
             buttonTextAfterSelection={(selectedItem, index) => {
               // 選択した後に何の情報を渡すか
-              return selectedItem;
+              return selectedItem + "人前";
             }}
             rowTextForSelection={(item, index) => {
               // プルダウンに何の情報を表示するか
-              return item;
+              return item + "人前";
             }}
             buttonStyle={styles.dropdown1BtnStyle}
             buttonTextStyle={styles.dropdown1BtnTxtStyle}
@@ -360,11 +363,10 @@ export const AddAiRecipe = ({ navigation }) => {
             rowStyle={styles.dropdown1RowStyle}
             rowTextStyle={styles.dropdown1RowTxtStyle}
           />
-          <Text style={styles.text}>　人前のレシピ</Text>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>AIに考えてもらう</Text>
+            <Text style={styles.buttonText}>この条件でAIに考えてもらう</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -443,11 +445,11 @@ const styles = StyleSheet.create({
   },
   dropDownArea: {
     flexDirection: "row",
-    // justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   dropdown1BtnStyle: {
-    width: "46%",
+    width: "49%",
     height: 35,
     backgroundColor: "#FFF",
     borderRadius: 8,
@@ -478,7 +480,7 @@ const styles = StyleSheet.create({
   button: {
     margin: 8,
     backgroundColor: "#b6c471",
-    width: 200,
+    padding: 8,
     height: 32,
     borderRadius: 16,
     justifyContent: "center",
@@ -487,12 +489,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+    fontWeight: "bold",
   },
   titleArea: {
     padding: 8,
     backgroundColor: "#B45817",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 8,
   },
   titleText: {
     fontSize: 20,

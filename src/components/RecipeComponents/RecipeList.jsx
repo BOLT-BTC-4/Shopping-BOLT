@@ -21,7 +21,7 @@ export const RecipeList = ({
   navigation,
 }) => {
   console.log("===== comp_RecipeList =====");
-  console.log("item:", item);
+  // console.log("item:", item);
 
   // レシピURLを開く
   // const openURL = (url) => {

@@ -105,7 +105,7 @@ export const RecipeScreen = ({ navigation }, item) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View>
         <FlatGrid
           data={categories}
           renderItem={renderCategoryTab}
@@ -151,8 +151,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  header: {},
-
   list: {},
 
   underBar: {
@@ -179,9 +177,11 @@ const styles = StyleSheet.create({
 
   tabText: {
     color: "#855E3D",
+    fontWeight: "bold",
   },
 
   activeTabText: {
     color: "white",
+    fontWeight: "bold",
   },
 });

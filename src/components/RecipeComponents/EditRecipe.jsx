@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import {
+  StyleSheet,
   View,
   Text,
   TextInput,
@@ -9,7 +10,7 @@ import {
   Modal,
 } from "react-native";
 import { FlatGrid } from "react-native-super-grid";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { AddRecipeItem } from "./AddRecipeItem";
 import { EditRecipeItem } from "./EditRecipeItem";
 import { RecipeItemList } from "./RecipeItemList";
@@ -20,6 +21,7 @@ import { Rating, AirbnbRating } from "react-native-ratings";
 import { updateRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const EditRecipe = ({ navigation }) => {
+  console.log("===== comp_EditRecipe =====");
   const categories = [
     { id: 1, category: "主食" },
     { id: 2, category: "主菜" },
@@ -57,8 +59,8 @@ export const EditRecipe = ({ navigation }) => {
     formState: { errors },
   } = useForm();
 
-  console.log("EditRecipe_updateRecipe", updateRecipe);
-  console.log("EditRecipe_updateRecipeItem", updateRecipeItem);
+  // console.log("EditRecipe_updateRecipe", updateRecipe);
+  // console.log("EditRecipe_updateRecipeItem", updateRecipeItem);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
@@ -120,14 +122,14 @@ export const EditRecipe = ({ navigation }) => {
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
-    console.log("EditRecipe_updateData:", updateData);
+    // console.log("EditRecipe_updateData:", updateData);
 
     await updateRecipeAPI(updateData);
 
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
-      console.log("initRecipeData:", initRecipeData);
+      // console.log("initRecipeData:", initRecipeData);
       setRecipeData(initRecipeData);
     };
 
@@ -142,13 +144,13 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   const handleRemoveRecipeItem = (id) => {
-    console.log("id:", id);
+    // console.log("id:", id);
     // 選択したレシピの削除
     setRecipeItems((prevData) => prevData.filter((item) => item.id !== id));
   };
   const handleUpdateRecipeItem = async (id) => {
     const updateData = recipeItems.filter((item) => item.id === id);
-    console.log("AddRecipe_recipeItems:", updateData);
+    // console.log("AddRecipe_recipeItems:", updateData);
     await setUpdateRecipeItem(updateData);
     setModalEditRecipeItemVisible(true);
   };
@@ -157,62 +159,93 @@ export const EditRecipe = ({ navigation }) => {
     initializeForm();
   }, []);
 
+  //カテゴリタブ表示
+  const renderCategoryTab = ({ item }) => (
+    <>
+      <TouchableOpacity
+        style={
+          selectedCategory === item.category ? styles.activeTab : styles.tab
+        }
+        onPress={() => handleCategorySelect(item.id, item.category)}
+      >
+        <Text
+          style={
+            selectedCategory === item.category
+              ? styles.activeTabText
+              : styles.tabText
+          }
+        >
+          {item.category}
+        </Text>
+      </TouchableOpacity>
+    </>
+  );
+
   return (
     <View style={styles.container}>
-      <FlatGrid
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              style={
-                selectedCategory === item.category
-                  ? styles.activeTab
-                  : styles.tab
-              }
-              onPress={() => {
-                handleCategorySelect(item.category);
-              }}
-            >
-              <Text>{item.category}</Text>
-            </TouchableOpacity>
-          );
-        }}
-      />
       <View>
-        <Text>おすすめ度: {sliderRating}</Text>
+        <FlatGrid
+          data={categories}
+          renderItem={renderCategoryTab}
+          keyExtractor={(item) => item.id.toString()}
+          itemDimension={60} // 要素の幅
+        />
+      </View>
+      <View style={styles.recipeLikeContainer}>
+        <Text style={styles.likeText}>評価：</Text>
         <AirbnbRating
           count={3}
-          reviews={["Bad", "OK", "Good"]}
           defaultRating={sliderRating}
           showRating={false}
-          size={20}
+          size={24}
           onFinishRating={handleSliderRating}
         />
       </View>
-      <View>
+      <View style={styles.recipeContainerColumn}>
         <Text style={styles.label}>レシピ名</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
+        <View style={styles.recipeNameContainer}>
+          <View style={styles.inputNameArea}>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  placeholder="レシピ名を入力してください"
+                  onBlur={onBlur}
+                  onChangeText={(value) => onChange(value)}
+                  value={value}
+                />
+              )}
+              name="recipeName"
+              rules={{ required: true }}
             />
-          )}
-          name="recipeName"
-        />
+            {errors.recipeName && (
+              <Text style={styles.alertFont}>レシピ名を入力してください</Text>
+            )}
+          </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.inputServing}
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+              />
+            )}
+            name="serving"
+          />
+          <Text style={styles.label}>人前</Text>
+        </View>
       </View>
-      <View>
-        <Text>URL</Text>
+      <View style={styles.recipeContainerColumn}>
+        <Text style={styles.label}>URL</Text>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
+              placeholder="https://"
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
@@ -221,13 +254,13 @@ export const EditRecipe = ({ navigation }) => {
           name="url"
         />
       </View>
-      <View>
-        <Text>メモ</Text>
+      <View style={styles.recipeContainerColumn}>
+        <Text style={styles.label}>メモ</Text>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={styles.input}
+              style={styles.inputArea}
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               multiline={true}
@@ -238,205 +271,238 @@ export const EditRecipe = ({ navigation }) => {
           name="memo"
         />
       </View>
-      <View>
-        <Text>？人前</Text>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
-            />
-          )}
-          name="serving"
-        />
-      </View>
-      <View>
-        <Text>食材</Text>
-        <Button
-          title="食材追加"
+      <Text style={styles.labelItem}>材料</Text>
+      <FlatList
+        data={recipeItems}
+        renderItem={({ item }) => (
+          <RecipeItemList
+            item={item}
+            recipeItems={recipeItems}
+            setRecipeItems={setRecipeItems}
+            setAddRecipeItemFlag={setAddRecipeItemFlag}
+            setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
+            handleUpdateRecipeItem={handleUpdateRecipeItem}
+            handleRemoveRecipeItem={handleRemoveRecipeItem}
+            keyExtractor={(item) => item.id}
+          />
+        )}
+      />
+      <TouchableOpacity style={styles.recipeItemAddButton}>
+        <MaterialIcons
           onPress={() => {
             setModalAddRecipeItemVisible(true);
           }}
-          color="mediumseagreen"
+          name="add-circle-outline"
+          size={35}
+          color="#B45817"
         />
-        <FlatList
-          data={recipeItems}
-          renderItem={({ item }) => (
-            <RecipeItemList
-              item={item}
+      </TouchableOpacity>
+      <View style={styles.underBar}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={styles.buttonText}>レシピを更新</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* ここからモーダル関係 */}
+      {/* 材料追加モーダル */}
+      <Modal
+        visible={modalAddRecipeItemVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContents}>
+            <AddRecipeItem
               recipeItems={recipeItems}
               setRecipeItems={setRecipeItems}
               setAddRecipeItemFlag={setAddRecipeItemFlag}
-              setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
-              handleUpdateRecipeItem={handleUpdateRecipeItem}
-              handleRemoveRecipeItem={handleRemoveRecipeItem}
-              keyExtractor={(item) => item.id}
+              setModalAddRecipeItemVisible={setModalAddRecipeItemVisible}
             />
-          )}
-        />
-        {/* 食材追加モーダル */}
-        <Modal
-          visible={modalAddRecipeItemVisible}
-          animationType="none"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContents}>
-              <AddRecipeItem
-                recipeItems={recipeItems}
-                setRecipeItems={setRecipeItems}
-                setAddRecipeItemFlag={setAddRecipeItemFlag}
-                setModalAddRecipeItemVisible={setModalAddRecipeItemVisible}
-              />
-            </View>
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
-        {/* 食材編集モーダル */}
-        <Modal
-          visible={modalEditRecipeItemVisible}
-          animationType="none"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContents}>
-              <EditRecipeItem
-                recipeItems={recipeItems}
-                setRecipeItems={setRecipeItems}
-                setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
-              />
-            </View>
+      {/* 材料編集モーダル */}
+      <Modal
+        visible={modalEditRecipeItemVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContents}>
+            <EditRecipeItem
+              recipeItems={recipeItems}
+              setRecipeItems={setRecipeItems}
+              setModalEditRecipeItemVisible={setModalEditRecipeItemVisible}
+            />
           </View>
-        </Modal>
-      </View>
-
-      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.buttonInner}>レシピを更新</Text>
-      </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  tab: {
+    backgroundColor: "#FFF0D4",
     padding: 10,
-    borderRadius: 20,
-    alignItems: "center",
+  },
+
+  defaultText: {
+    fontSize: 16,
+  },
+
+  likeText: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+
+  buttonContainer: {
     justifyContent: "center",
-  },
-  activeTab: {
-    padding: 10,
-    backgroundColor: "lightblue",
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  recipeContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "lightgreen",
-    padding: 6,
-    borderRadius: 20,
-  },
-  recipeText: {
-    fontSize: 12,
-  },
-  selectedRecipeContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "lightgreen",
-    padding: 20,
-    marginVertical: 10,
-    height: 300,
-    width: "100%",
-  },
-  selectedRecipeTab: {
-    height: 30,
-    width: "100%",
-    backgroundColor: "mediumseagreen",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: "center",
-    // borderRadius: 20,
-  },
-  selectedRecipeTabText: {
-    fontSize: 17,
-  },
-  selectedRecipeTabTextSmall: {
-    fontSize: 14,
-    // backgroundColor: "white",
-    justifyContent: "center",
-    padding: 5,
-    // color: "white",
-    // height: 30,
-    // backgroundColor: "mediumseagreen",
-    // width: "30%",
-  },
-  box: {
-    width: "100%",
-    height: 30,
-    borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
-    borderLeftColor: "rgba(0,0,0,0)",
-    borderRightColor: "rgba(0,0,0,0)",
-    borderTopColor: "rgba(0,0,0,0)",
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingLeft: 10,
-    paddingRight: 10,
-    // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-    // backgroundColor: "rgba(0, 0, 0, 0.5)",
-    marginTop: 10,
-  },
-  innerBox: {
-    flex: 1,
-    // backgroundColor: "steelblue",
-    padding: 3,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  recipeBox: {
-    width: "65%",
-    flexDirection: "row",
     alignItems: "center",
   },
   button: {
-    marginTop: 1,
-    marginVertical: 15,
+    margin: 8,
+    backgroundColor: "#b6c471",
+    height: 32,
+    borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
+    padding: 8,
+  },
+  buttonText: {
     color: "white",
-    height: 40,
-    backgroundColor: "mediumseagreen",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  tab: {
+    padding: 10,
+    backgroundColor: "#E6E6E6",
     borderRadius: 20,
-    width: "50%",
-    marginLeft: "25%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  activeTab: {
+    padding: 10,
+    backgroundColor: "#B45817",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  tabText: {
+    color: "#855E3D",
+    fontWeight: "bold",
+  },
+
+  activeTabText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+
+  recipeLikeContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 6,
+  },
+
+  recipeNameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  recipeItemContainer: {
+    height: 300,
+  },
+
+  recipeContainerColumn: {
+    flexDirection: "column",
+    justifyContent: "center",
+    marginBottom: 4,
+    padding: 6,
+    borderRadius: 20,
+  },
+
+  recipeText: {
+    fontSize: 12,
   },
 
   label: {
-    // color: "white",
-    margin: 20,
-    marginLeft: 0,
+    fontSize: 16,
+    fontWeight: "bold",
   },
+  labelItem: {
+    paddingLeft: 6,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
   input: {
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: 1,
-    height: 40,
-    padding: 10,
+    // height: 40,
+    padding: 8,
     borderRadius: 4,
   },
+
+  inputNameArea: {
+    flex: 1,
+  },
+  inputServing: {
+    marginLeft: 8,
+    backgroundColor: "white",
+    borderColor: "gray",
+    borderWidth: 1,
+    width: 40,
+    padding: 8,
+    borderRadius: 4,
+  },
+
+  inputArea: {
+    backgroundColor: "white",
+    borderColor: "gray",
+    borderWidth: 1,
+    height: 65,
+    padding: 8,
+    borderRadius: 4,
+  },
+  recipeItemAddButton: {
+    alignItems: "flex-end",
+    marginRight: 25,
+    marginHorizontal: "3%",
+  },
+
+  underBar: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    padding: 8,
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+
+  modalContents: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   alertFont: {
     color: "red",
   },
-};
+});

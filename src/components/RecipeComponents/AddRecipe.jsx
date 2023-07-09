@@ -167,7 +167,7 @@ export const AddRecipe = ({ navigation }) => {
           count={3}
           defaultRating={sliderRating}
           showRating={false}
-          size={16}
+          size={24}
           onFinishRating={handleSliderRating}
         />
       </View>
@@ -180,13 +180,18 @@ export const AddRecipe = ({ navigation }) => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.input}
+                  placeholder="レシピ名を入力してください"
                   onBlur={onBlur}
                   onChangeText={(value) => onChange(value)}
                   value={value}
                 />
               )}
               name="recipeName"
+              rules={{ required: true }}
             />
+            {errors.recipeName && (
+              <Text style={styles.alertFont}>レシピ名を入力してください</Text>
+            )}
           </View>
           <Controller
             control={control}
@@ -210,6 +215,7 @@ export const AddRecipe = ({ navigation }) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               style={styles.input}
+              placeholder="https://"
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
@@ -235,16 +241,12 @@ export const AddRecipe = ({ navigation }) => {
           name="memo"
         />
       </View>
-
       <Text style={styles.labelItem}>材料</Text>
-
       <FlatList
         data={recipeItems}
         renderItem={({ item }) => (
           <RecipeItemList
             item={item}
-            // handleCheck={handleCheck}
-            // handleRemoveItem={handleRemoveItem}
             recipeItems={recipeItems}
             setRecipeItems={setRecipeItems}
             setAddRecipeItemFlag={setAddRecipeItemFlag}
@@ -258,7 +260,7 @@ export const AddRecipe = ({ navigation }) => {
       <TouchableOpacity style={styles.recipeItemAddButton}>
         <MaterialIcons
           onPress={() => {
-            console.log(setModalAddRecipeItemVisible(true));
+            setModalAddRecipeItemVisible(true);
           }}
           name="add-circle-outline"
           size={35}
@@ -282,7 +284,7 @@ export const AddRecipe = ({ navigation }) => {
       </View>
 
       {/* ここからモーダル関係 */}
-      {/* 食材追加モーダル */}
+      {/* 材料追加モーダル */}
       <Modal
         visible={modalAddRecipeItemVisible}
         animationType="none"
@@ -300,7 +302,7 @@ export const AddRecipe = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* 食材編集モーダル */}
+      {/* 材料編集モーダル */}
       <Modal
         visible={modalEditRecipeItemVisible}
         animationType="none"
@@ -332,7 +334,7 @@ const styles = StyleSheet.create({
   },
 
   likeText: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: "bold",
   },
 
@@ -462,47 +464,20 @@ const styles = StyleSheet.create({
     padding: 8,
   },
 
-  // underBar: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   padding: 10,
-  //   alignItems: "center",
-  //   marginBottom: 10,
-  //   marginRight: 10,
-  //   marginLeft: 10,
-  //   marginTop: 10,
-  // },
-  //ここまでok
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
 
-  // box: {
-  //   width: "100%",
-  //   height: 30,
-  //   borderWidth: 1,
-  //   borderBottomColor: "mediumseagreen",
-  //   borderLeftColor: "rgba(0,0,0,0)",
-  //   borderRightColor: "rgba(0,0,0,0)",
-  //   borderTopColor: "rgba(0,0,0,0)",
-  //   flexDirection: "row",
-  //   justifyContent: "center",
-  //   paddingLeft: 10,
-  //   paddingRight: 10,
-  //   // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-  //   // backgroundColor: "rgba(0, 0, 0, 0.5)",
-  //   marginTop: 10,
-  // },
-  // innerBox: {
-  //   flex: 1,
-  //   // backgroundColor: "steelblue",
-  //   padding: 3,
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   flexDirection: "row",
-  // },
-  // recipeBox: {
-  //   width: "65%",
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  // },
+  modalContents: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
   alertFont: {
     color: "red",

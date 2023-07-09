@@ -7,6 +7,7 @@ import {
   Button,
   Alert,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
@@ -64,9 +65,9 @@ export const EditRecipeItem = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>食材</Text>
+      <Text style={styles.label}>材料</Text>
       {errors.itemName && (
-        <Text style={styles.alertFont}>食材名を入力してください</Text>
+        <Text style={styles.alertFont}>材料名を入力してください</Text>
       )}
       <Controller
         control={control}
@@ -110,14 +111,9 @@ export const EditRecipeItem = ({
         rules={{ required: false }}
       />
 
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="更新"
-          onPress={handleSubmit(onSubmit)}
-        />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+        <Text style={styles.buttonText}>更新</Text>
+      </TouchableOpacity>
       <Button
         color="#fff"
         title="✖️"
@@ -134,11 +130,18 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   button: {
-    marginTop: 40,
+    margin: 8,
+    backgroundColor: "#b6c471",
+    height: 32,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
+  },
+  buttonText: {
     color: "white",
-    height: 40,
-    backgroundColor: "mediumseagreen",
-    borderRadius: 4,
+    fontSize: 16,
+    fontWeight: "bold",
   },
   container: {
     // flex: 1,
