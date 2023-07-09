@@ -71,7 +71,13 @@ export const RecipeScreen = ({ navigation }, item) => {
         style={selectedCategory === item.id ? styles.activeTab : styles.tab}
         onPress={() => handleCategorySelect(item.id, item.category)}
       >
-        <Text>{item.category}</Text>
+        <Text
+          style={
+            selectedCategory === item.id ? styles.activeTabText : styles.tabText
+          }
+        >
+          {item.category}
+        </Text>
       </TouchableOpacity>
     </>
   );
@@ -99,12 +105,14 @@ export const RecipeScreen = ({ navigation }, item) => {
 
   return (
     <View style={styles.container}>
-      <FlatGrid
-        data={categories}
-        renderItem={renderCategoryTab}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
-      />
+      <View style={styles.header}>
+        <FlatGrid
+          data={categories}
+          renderItem={renderCategoryTab}
+          keyExtractor={(item) => item.id.toString()}
+          itemDimension={60} // 要素の幅
+        />
+      </View>
       <FlatList
         style={styles.list}
         data={displayedRecipes}
@@ -120,14 +128,18 @@ export const RecipeScreen = ({ navigation }, item) => {
         )}
         keyExtractor={(item, index) => index.toString()}
       />
-      <TouchableOpacity
-        style={styles.addbtn}
-        onPress={() => {
-          navigation.navigate("レシピ登録");
-        }}
-      >
-        <MaterialIcons name="add-circle-outline" size={24} color="black" />
-      </TouchableOpacity>
+      <View style={styles.underBar}>
+        <TouchableOpacity>
+          <MaterialIcons
+            onPress={() => {
+              navigation.navigate("レシピ登録");
+            }}
+            name="add-circle-outline"
+            size={35}
+            color="#B45817"
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -135,26 +147,41 @@ export const RecipeScreen = ({ navigation }, item) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF0D4",
     padding: 10,
   },
+
+  header: {},
+
   list: {},
 
-  addbtn: {
-    alignItems: "center",
-    padding: 10,
+  underBar: {
+    alignItems: "flex-end",
+    padding: 25,
+    marginHorizontal: "3%",
   },
+
   tab: {
     padding: 10,
+    backgroundColor: "#E6E6E6",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
+
   activeTab: {
     padding: 10,
-    backgroundColor: "lightblue",
+    backgroundColor: "#B45817",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  tabText: {
+    color: "#855E3D",
+  },
+
+  activeTabText: {
+    color: "white",
   },
 });
