@@ -410,7 +410,7 @@ export const AddAiRecipe = ({ navigation }) => {
         </View>
       )}
       {answer && (
-        <View>
+        <View style={styles.container}>
           <View style={styles.titleArea}>
             <Text style={styles.titleText}>〜 AI's オリジナル レシピ 〜</Text>
           </View>
@@ -565,6 +565,6 @@ const styles = StyleSheet.create({
   underBar: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 8,
+    marginTop: 8,
   },
 });
