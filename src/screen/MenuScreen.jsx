@@ -151,4 +151,3 @@ const styles = StyleSheet.create({
     // alignContent: "center",
   },
 });
-//一旦対比後プッシュ
