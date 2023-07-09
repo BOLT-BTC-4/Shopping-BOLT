@@ -138,7 +138,7 @@ export const EditRecipe = ({ navigation }) => {
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (category) => {
+  const handleCategorySelect = (id, category) => {
     setSelectedCategory(category);
     // setDisplayedRecipes(defaultRecipes[categoryId]);
   };
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
   underBar: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "center",
     padding: 8,
   },
 
