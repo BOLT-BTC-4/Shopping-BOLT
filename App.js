@@ -46,9 +46,9 @@ import { copyItemPresetAPI } from "./src/boltAPI";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const LogoTitle = () => (
+const LogoTitle = ({ title }) => (
   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-    <Text style={{ color: "#B6C471", fontSize: 20, fontWeight: "bold", marginLeft: 5 }}>買い物リスト</Text>
+    <Text style={{ color: "#B6C471", fontSize: 20, fontWeight: "bold", marginLeft: 5 }}>{title}</Text>
     <Image
       style={{ height: 40, width: 40, marginRight: 40 }}
       source={require('./assets/logo.png')}
@@ -60,7 +60,12 @@ const LogoTitle = () => (
 // 各タブ内のコンポーネントをまとめる
 const MenuStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: () => <LogoTitle title="献立リスト" />,
+        headerStyle: { backgroundColor: "#FFF0D4" },
+      }}
+    >
       <Stack.Screen name="献立リスト" component={MenuScreen} />
       <Stack.Screen name="献立登録" component={EditMenu} />
       <Stack.Screen name="献立から買い物リストへ追加" component={AddMenu} />
@@ -71,7 +76,12 @@ const MenuStack = () => {
 
 const RecipeStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: () => <LogoTitle title="レシピリスト" />,
+        headerStyle: { backgroundColor: "#FFF0D4" },
+      }}
+    >
       <Stack.Screen name="レシピリスト" component={RecipeScreen} />
       <Stack.Screen name="レシピ登録" component={AddRecipe} />
       <Stack.Screen name="レシピアイテム登録" component={AddRecipeItem} />
@@ -86,7 +96,7 @@ const MainStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitle: () => <LogoTitle />,
+        headerTitle: () => <LogoTitle title="買い物リスト" />,
         headerStyle: { backgroundColor: "#FFF0D4" },
       }}
     >
@@ -97,7 +107,12 @@ const MainStack = () => {
 
 const ShopStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: () => <LogoTitle title="お店リスト" />,
+        headerStyle: { backgroundColor: "#FFF0D4" },
+      }}
+    >
       <Stack.Screen name="お店リスト" component={ShopScreen} />
       <Stack.Screen name="リスト表示" component={ShopList} />
       <Stack.Screen name="新規登録" component={AddShop} />
@@ -108,7 +123,12 @@ const ShopStack = () => {
 
 const SettingStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: () => <LogoTitle title="設定変更" />,
+        headerStyle: { backgroundColor: "#FFF0D4" },
+      }}
+    >
       <Stack.Screen name="設定変更" component={SettingScreen} />
     </Stack.Navigator>
   );
