@@ -63,8 +63,9 @@ export const MenuScreen = ({ navigation }) => {
           id: item.id,
           checked: true,
           recipeItemName: item.recipeItemName,
-          quantity:
-            (item.quantity / findedOneRecipe.serving) * oneMenu.menuServing,
+          quantity: Math.ceil(
+            (item.quantity / findedOneRecipe.serving) * oneMenu.menuServing
+          ),
           unit: item.unit,
         };
         // レシピのitemsを更新するようの配列
