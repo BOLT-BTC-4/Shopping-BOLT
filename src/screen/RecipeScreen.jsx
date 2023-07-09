@@ -30,6 +30,8 @@ export const RecipeScreen = ({ navigation }, item) => {
     setUpdateRecipeItem,
     displayedRecipes,
     setDisplayedRecipes,
+    selectedCategory,
+    setSelectedCategory,
   } = useContext(ShareShopDataContext);
 
   // 選択したレシピの削除 → レシピ一覧の取得
@@ -52,37 +54,48 @@ export const RecipeScreen = ({ navigation }, item) => {
   };
 
   // カテゴリ毎にレシピ一覧を表示させる
-
-  const [selectedCategory, setSelectedCategory] = useState(1);
-
   // カテゴリ
   const categories = [
-    { id: 1, category: "主食" },
-    { id: 2, category: "主菜" },
-    { id: 3, category: "副菜" },
-    { id: 4, category: "汁物" },
-    { id: 5, category: "その他" },
+    { id: 1, category: "全て" },
+    { id: 2, category: "主食" },
+    { id: 3, category: "主菜" },
+    { id: 4, category: "副菜" },
+    { id: 5, category: "汁物" },
+    { id: 6, category: "スイーツ" },
+    { id: 7, category: "その他" },
   ];
 
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
     <>
       <TouchableOpacity
-        style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-        onPress={() => handleCategorySelect(item.id, item.category)}
+        style={
+          selectedCategory === item.category ? styles.activeTab : styles.tab
+        }
+        onPress={() => handleCategorySelect(item.category)}
       >
         <Text>{item.category}</Text>
       </TouchableOpacity>
     </>
   );
 
+  //カテゴリーに該当するレシピ配列を返す
+  const filterRecipes = (category) => {
+    if (category === "全て") {
+      const newRecipes = [...recipeData];
+      return newRecipes;
+    } else {
+      const newSelectedRecipes = recipeData.filter(
+        (recipe) => recipe.category === category
+      );
+      return newSelectedRecipes;
+    }
+  };
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId, categoryName) => {
+  const handleCategorySelect = (categoryName) => {
     // console.log("categoryId:", categoryId);
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(
-      recipeData.filter((item) => item.category === categoryName)
-    );
+    setSelectedCategory(categoryName);
+    setDisplayedRecipes(filterRecipes(categoryName));
   };
 
   useEffect(() => {
@@ -90,21 +103,25 @@ export const RecipeScreen = ({ navigation }, item) => {
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(
-        initRecipeData.filter((item) => item.category === "主食")
-      );
+      // setDisplayedRecipes(
+      //   initRecipeData.filter((item) => item.category === "主食")
+      // );
+      setDisplayedRecipes(initRecipeData);
     };
     getAllRecipe();
   }, []);
 
   return (
     <View style={styles.container}>
-      <FlatGrid
-        data={categories}
-        renderItem={renderCategoryTab}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
-      />
+      <View style={styles.categoryBar}>
+        <FlatGrid
+          data={categories}
+          renderItem={renderCategoryTab}
+          keyExtractor={(item) => item.id.toString()}
+          itemDimension={70} // 要素の幅
+        />
+      </View>
+
       <FlatList
         style={styles.list}
         data={displayedRecipes}
@@ -138,6 +155,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 10,
   },
+  categoryBar: {
+    flex: 0.3,
+    // height: 95,
+    // backgroundColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
+  },
   list: {},
 
   addbtn: {
@@ -145,16 +175,26 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   tab: {
-    padding: 10,
+    padding: 5,
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
   },
   activeTab: {
-    padding: 10,
-    backgroundColor: "lightblue",
+    padding: 5,
+    backgroundColor: "#B6C471",
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
   },
 });

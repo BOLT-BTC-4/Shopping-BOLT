@@ -22,10 +22,6 @@ import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
 
 export const AddRecipe = ({ navigation }) => {
   const {
-    selectedDay,
-    setSelectedDay,
-    menu,
-    setMenu,
     defaultServing,
     setDefaultServing,
     setRecipeData,
@@ -33,6 +29,8 @@ export const AddRecipe = ({ navigation }) => {
     setUpdateRecipeItem,
     displayedRecipes,
     setDisplayedRecipes,
+    selectedCategory,
+    setSelectedCategory,
   } = useContext(ShareShopDataContext);
   const {
     register,
@@ -51,17 +49,17 @@ export const AddRecipe = ({ navigation }) => {
   });
 
   const categories = [
-    { id: 1, category: "主食" },
-    { id: 2, category: "主菜" },
-    { id: 3, category: "副菜" },
-    { id: 4, category: "汁物" },
-    { id: 5, category: "その他" },
+    { id: 2, category: "主食" },
+    { id: 3, category: "主菜" },
+    { id: 4, category: "副菜" },
+    { id: 5, category: "汁物" },
+    { id: 6, category: "スイーツ" },
+    { id: 7, category: "その他" },
   ];
 
   // const defaultRecipes = table.defaultRecipes;
-  const [selectedCategory, setSelectedCategory] = useState("主食");
-  // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
-  const [selectedRecipe, setSelectedRecipe] = useState([]);
+  const [submitSelectedCategory, setSubmitSelectedCategory] = useState("主食");
+  // const [selectedRecipe, setSelectedRecipe] = useState([]);
 
   // const [serving, setServing] = useState(defaultServing);
 
@@ -87,7 +85,7 @@ export const AddRecipe = ({ navigation }) => {
       memo: data.memo,
       url: data.url,
       serving: Number(data.serving),
-      category: selectedCategory,
+      category: submitSelectedCategory,
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
@@ -100,9 +98,11 @@ export const AddRecipe = ({ navigation }) => {
       const initRecipeData = await fetchRecipeAPI();
       console.log("--------initRecipeData----101---------:", initRecipeData);
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(
-        initRecipeData.filter((item) => item.category === "主食")
-      );
+      setDisplayedRecipes(initRecipeData);
+      setSelectedCategory("全て");
+      // setDisplayedRecipes(
+      //   initRecipeData.filter((item) => item.category === "主食")
+      // );
     };
 
     getAllRecipe();
@@ -110,8 +110,8 @@ export const AddRecipe = ({ navigation }) => {
   };
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
+  const handleCategorySelect = (category) => {
+    setSubmitSelectedCategory(category);
     // setDisplayedRecipes(defaultRecipes[categoryId]);
   };
 
@@ -127,7 +127,7 @@ export const AddRecipe = ({ navigation }) => {
     setModalEditRecipeItemVisible(true);
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>
@@ -137,28 +137,32 @@ export const AddRecipe = ({ navigation }) => {
       >
         <Text style={styles.buttonInner}>AIにレシピを考えてもらう🎶</Text>
       </TouchableOpacity>
-      <FlatGrid
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        itemDimension={60} // 要素の幅
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              style={
-                selectedCategory === item.category
-                  ? styles.activeTab
-                  : styles.tab
-              }
-              onPress={() => {
-                handleCategorySelect(item.category);
-                // setSelectedCategoryName(item.category);
-              }}
-            >
-              <Text>{item.category}</Text>
-            </TouchableOpacity>
-          );
-        }}
-      />
+      {/* カテゴリタブ表時 */}
+      <View style={styles.categoryBar}>
+        <FlatGrid
+          data={categories}
+          keyExtractor={(item) => item.id.toString()}
+          itemDimension={70} // 要素の幅
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                style={
+                  submitSelectedCategory === item.category
+                    ? styles.activeTab
+                    : styles.tab
+                }
+                onPress={() => {
+                  handleCategorySelect(item.category);
+                  // setSelectedCategoryName(item.category);
+                }}
+              >
+                <Text>{item.category}</Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+
       <View>
         <Text>おすすめ度: {sliderRating}</Text>
         <AirbnbRating
@@ -305,18 +309,41 @@ const styles = {
   container: {
     flex: 1,
   },
+  categoryBar: {
+    flex: 0.85,
+    // height: 95,
+    // backgroundColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
+  },
   tab: {
-    padding: 10,
+    padding: 5,
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
   },
   activeTab: {
-    padding: 10,
-    backgroundColor: "lightblue",
+    padding: 5,
+    backgroundColor: "#B6C471",
     borderRadius: 20,
     alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // justifyContent: "center",
   },
   recipeContainer: {
     flexDirection: "row",
