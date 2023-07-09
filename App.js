@@ -47,10 +47,10 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const LogoTitle = () => (
-  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-    <Text style={{ marginRight: 8, color: "#B6C471" }}>買い物リスト</Text>
+  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+    <Text style={{ color: "#B6C471", fontSize: 20, fontWeight: "bold", marginLeft: 5 }}>買い物リスト</Text>
     <Image
-      style={{ wight: 30, height: 30 }}
+      style={{ height: 40, width: 40, marginRight: 40 }}
       source={require('./assets/logo.png')}
       resizeMode="contain"
     />
@@ -88,10 +88,6 @@ const MainStack = () => {
       screenOptions={{
         headerTitle: () => <LogoTitle />,
         headerStyle: { backgroundColor: "#FFF0D4" },
-        // headerTintColor: "#B6C471",
-        // headerTitleStyle: {
-        //   fontWeight: 'bold',
-        // },
       }}
     >
       <Stack.Screen name="買い物リスト" component={MainScreen} />
