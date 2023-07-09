@@ -6,6 +6,7 @@ import {
   copyItemPresetAPI,
   fetchShoppingListAPI,
 } from "../boltAPI";
+import moment from "moment";
 
 export const ShareShopDataContext = createContext();
 
@@ -33,7 +34,7 @@ export const ShareShopDataProvider = ({ children }) => {
   const [shopDataDrop, setShopDataDrop] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [newShopButton, setNewShopButton] = useState(true);
-  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedDay, setSelectedDay] = useState(moment().format("YYYY-MM-DD"));
   const [menu, setMenu] = useState({});
   const [addFlag, setAddFlag] = useState(false);
   const [items, setItems] = useState([]);
@@ -47,8 +48,8 @@ export const ShareShopDataProvider = ({ children }) => {
   const [allGetMenuFlag, setAllGetMenuFlag] = useState(false);
   //全てのitemを取得する関数を実行させるための変数
   const [allGetItemFlag, setAllGetItemFlag] = useState(false);
-
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("全て");
 
   useEffect(() => {
     // getAllShop();
@@ -87,6 +88,8 @@ export const ShareShopDataProvider = ({ children }) => {
         setAllGetItemFlag,
         displayedRecipes,
         setDisplayedRecipes,
+        selectedCategory,
+        setSelectedCategory,
       }}
     >
       {children}
