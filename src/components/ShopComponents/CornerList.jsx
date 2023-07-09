@@ -25,7 +25,7 @@ export const CornerList = ({
         <View style={styles.iconBox}>
           <MaterialIcons
             name="add-circle-outline"
-            size={24}
+            size={20}
             color="black"
             onPress={() => {
               handleCornerUpdate();
@@ -34,7 +34,7 @@ export const CornerList = ({
           />
           <Feather
             name="trash-2"
-            size={24}
+            size={20}
             color="black"
             onPress={() => handleCornerDelete(cornerName)}
           />
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     borderWidth: 1,
-    borderBottomColor: "mediumseagreen",
+    borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
     borderRightColor: "rgba(0,0,0,0)",
     borderTopColor: "rgba(0,0,0,0)",

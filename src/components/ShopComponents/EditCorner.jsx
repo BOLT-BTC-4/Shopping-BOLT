@@ -49,7 +49,7 @@ export const EditCorner = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.aaa}>
-        <Text>売場を選択</Text>
+        <Text style={styles.textTitle}>売場を選択</Text>
         <Button
           title="閉じる"
           onPress={() => {
@@ -67,14 +67,13 @@ export const EditCorner = (props) => {
               return (
                 <View>
                   <TouchableOpacity
-                    // style={styles.buttonLabel}
-                    onPress={() => onSubmit(item)}
-                  >
+                    style={styles.buttonLabel}
+                    onPress={() => onSubmit(item)}>
                     <Text> {item}</Text>
                     <MaterialIcons
                       name="add-circle-outline"
-                      size={24}
-                      color="black"
+                      size={20}
+                      color="#b45817"
                     />
                   </TouchableOpacity>
                 </View>

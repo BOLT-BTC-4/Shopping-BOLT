@@ -42,20 +42,24 @@ export const AddCorner = (props) => {
   };
 
   function Divider() {
-    return <View style={{ height: 15, borderBottomWidth: 1 }} />;
+    return (
+      <View
+        style={{
+          height: 7,
+          borderStyle: "dashed",
+          borderBottomWidth: 1,
+          borderBottomColor: "#B6C471",
+          paddingTop: 1,
+          marginBottom: 0,
+        }}
+      />
+    );
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.aaa}>
-        <Text>売場を選択</Text>
-        <Button
-          title="閉じる"
-          onPress={() => {
-            setModalAddCornerVisible(false);
-            setSelectedCorner("");
-          }}
-        />
+        <Text style={styles.textTitle}>売場を選択</Text>
         <View>
           <FlatList
             data={filteredCorner}
@@ -66,22 +70,37 @@ export const AddCorner = (props) => {
               return (
                 <View>
                   <TouchableOpacity
-                    // style={styles.buttonLabel}
-                    onPress={() => onSubmit(item)}
-                  >
-                    <Text> {item}</Text>
+                    style={styles.buttonLabel}
+                    onPress={() => onSubmit(item)}>
                     <MaterialIcons
                       name="add-circle-outline"
-                      size={24}
-                      color="black"
+                      size={20}
+                      color="#b45817"
                     />
+                    <Text>　{item}</Text>
                   </TouchableOpacity>
                 </View>
               );
             }}
           />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setModalAddCornerVisible(false);
+              setSelectedCorner("");
+            }}>
+            <Text style={styles.closeButton}>　　　　✖︎</Text>
+          </TouchableOpacity>
+          {/* <Button
+            title="閉じる"
+            onPress={() => {
+              setModalAddCornerVisible(false);
+              setSelectedCorner("");
+            }}
+          /> */}
         </View>
       </View>
+      {/* //{" "} */}
     </View>
   );
 };
@@ -94,11 +113,13 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   aaa: {
-    minWidth: "60%",
-    height: "60%",
+    //モジュールの外寸
+    minWidth: "50%",
+    height: "90%",
     backgroundColor: "white",
-    padding: 20,
-    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
   },
   modalContainer: {
     flex: 1,
@@ -109,7 +130,6 @@ const styles = StyleSheet.create({
   modalContents: {
     backgroundColor: "#fff",
     padding: 20,
-    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -134,5 +154,23 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginLeft: 20,
     marginTop: 10,
+  },
+  buttonLabel: {
+    flexDirection: "row",
+    // justifyContent: "space-around",
+  },
+  textTitle: {
+    //タイトル「売り場を選択」
+    marginBottom: 8,
+    fontSize: 16,
+    // paddingBottom: 2,
+    // justifyContent: "space-around",
+  },
+  closeButton: {
+    //モーダル「閉じ」ボタン
+    marginTop: 8,
+    fontSize: 16,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });

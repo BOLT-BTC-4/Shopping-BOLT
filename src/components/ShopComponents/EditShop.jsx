@@ -116,18 +116,16 @@ export const EditShop = (props) => {
         <View style={styles.labelBox}>
           <Text style={styles.label}>売場の並び順</Text>
           <TouchableOpacity
-            style={styles.buttonLabel}
-            onPress={() => setModalAddCornerVisible(true)}
-          >
-            <MaterialIcons name="add-circle-outline" size={24} color="black" />
-            <Text style={styles.buttonText}>売場を追加</Text>
+            style={styles.buttonTouch}
+            onPress={() => setModalAddCornerVisible(true)}>
+            {/* <MaterialIcons name="add-circle-outline" size={24} color="black" /> */}
+            <Text style={styles.buttonInner}>売場を追加</Text>
           </TouchableOpacity>
         </View>
         <Modal
           visible={modalAddCornerVisible}
           animationType="none"
-          transparent={true}
-        >
+          transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <AddCorner
@@ -146,8 +144,7 @@ export const EditShop = (props) => {
         <Modal
           visible={modalEditCornerVisible}
           animationType="none"
-          transparent={true}
-        >
+          transparent={true}>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <EditCorner
@@ -179,20 +176,21 @@ export const EditShop = (props) => {
         />
 
         <View style={styles.underBar}>
-          <Button
-            color="mediumseagreen"
-            title="キャンセル"
+          {/* スタイル統一にあたり、buttonからTouchableOpacityに変更 */}
+          <TouchableOpacity
+            style={styles.buttonTouch}
             onPress={() => {
               navigation.navigate("お店リスト");
               setSelectedCorner("");
               setShopName("");
-            }}
-          />
-          <Button
-            color="mediumseagreen"
-            title="お店を更新"
-            onPress={handleSubmit(onSubmit)}
-          />
+            }}>
+            <Text style={styles.buttonInner}>キャンセル</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonTouch}
+            onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.buttonInner}>お店を更新</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -209,7 +207,7 @@ export const EditShop = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFF0D4",
     padding: 10,
 
     minWidth: "100%",
@@ -226,27 +224,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    marginRight: 20,
-    fontSize: 20,
+    marginRight: 10,
+    fontSize: 18,
   },
-  buttonLabel: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  // buttonLabel: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  // },
   buttonText: {
     fontSize: 18,
     color: "mediumseagreen",
   },
-  button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "mediumseagreen",
-    borderRadius: 4,
-  },
+  // button: {
+  //   marginTop: 40,
+  //   color: "white",
+  //   height: 40,
+  //   backgroundColor: "mediumseagreen",
+  //   borderRadius: 4,
+  // },
   input: {
-    backgroundColor: "white",
+    backgroundColor: "#FFF0D4",
     borderColor: "gray",
     borderWidth: 1,
     height: 40,
@@ -275,9 +273,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
-    marginBottom: 30,
-    marginRight: 20,
-    marginLeft: 20,
-    marginTop: 20,
+    marginBottom: 20,
+    marginRight: 0,
+    marginLeft: 10,
+    marginTop: 10,
+  },
+  buttonTouch: {
+    //購入したよ　キャンセル、お店を登録
+    justifyContent: "center",
+    alignItems: "center",
+    fontcolor: "#F5F3F0",
+    height: 40,
+    backgroundColor: "#B6C471",
+    borderRadius: 20,
+    width: 120,
+    // marginLeft: "10%",
+  },
+  buttonInner: {
+    // fontSize: 20,
+    color: "white",
   },
 });

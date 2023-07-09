@@ -14,7 +14,7 @@ export const ShopList = ({ item, shopName, handleRemoveItem, navigation }) => {
       <View style={styles.iconBox}>
         <Feather
           name="edit"
-          size={24}
+          size={20}
           color="black"
           onPress={() => {
             navigation.navigate("お店編集", { item });
@@ -22,7 +22,7 @@ export const ShopList = ({ item, shopName, handleRemoveItem, navigation }) => {
         />
         <Feather
           name="trash-2"
-          size={24}
+          size={20}
           color="black"
           onPress={() => handleRemoveItem(item.id)}
         />

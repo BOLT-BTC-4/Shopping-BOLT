@@ -128,10 +128,10 @@ export const AddShop = ({ navigation }) => {
           /> */}
 
           <TouchableOpacity
-            style={styles.buttonLabel}
+            style={styles.buttonTouch}
             onPress={() => setModalAddCornerVisible(true)}>
-            <MaterialIcons name="add-circle-outline" size={24} color="black" />
-            <Text style={styles.buttonText}>売場を追加</Text>
+            {/* <MaterialIcons name="add-circle-outline" size={24} color="black" /> */}
+            <Text style={styles.buttonInner}>売場を追加</Text>
           </TouchableOpacity>
         </View>
         <Modal
@@ -187,29 +187,47 @@ export const AddShop = ({ navigation }) => {
           keyExtractor={(item, index) => index.toString()}
         />
         <View style={styles.underBar}>
-          <Button
-            color="mediumseagreen"
+          {/* スタイル統一にあたり、buttonからTouchableOpacityに変更 */}
+          <TouchableOpacity
+            style={styles.buttonTouch}
+            onPress={() => {
+              navigation.navigate("お店リスト");
+              setSelectedCorner("");
+              setShopName("");
+            }}>
+            <Text style={styles.buttonInner}>キャンセル</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonTouch}
+            onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.buttonInner}>お店を登録</Text>
+          </TouchableOpacity>
+          {/* <Button
+            style={styles.button}
+            // color="mediumseagreen"
             title="キャンセル"
             onPress={() => {
               navigation.navigate("お店リスト");
               setSelectedCorner("");
               setShopName("");
             }}
-          />
-          <Button
-            color="mediumseagreen"
+          /> */}
+          {/* <Button
+            style={styles.button}
+            // color="mediumseagreen"
             title="お店を登録"
             onPress={handleSubmit(onSubmit)}
-          />
+          /> */}
+          {/* </View> */}
         </View>
-      </View>
 
-      {/* 正常に動作しなかったため、ボタンだけ変更はボツ
+        {/* 正常に動作しなかったため、ボタンだけ変更はボツ
       {newShopButton ? (
         <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
       ) : (
         <Button title="更新" onPress={handleSubmit(onSubmit)} />
       )} */}
+      </View>
     </View>
   );
 };
@@ -234,27 +252,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    marginRight: 20,
-    fontSize: 20,
+    marginRight: 10,
+    fontSize: 18,
   },
-  buttonLabel: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  // buttonLabel: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  // },
   buttonText: {
     fontSize: 18,
     color: "mediumseagreen",
   },
-  button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "mediumseagreen",
-    borderRadius: 4,
-  },
+  // button: {
+  //   marginTop: 40,
+  //   color: "white",
+  //   height: 40,
+  //   backgroundColor: "mediumseagreen",
+  //   borderRadius: 4,
+  // },
   input: {
-    backgroundColor: "white",
+    backgroundColor: "#FFF0D4",
     borderColor: "gray",
     borderWidth: 1,
     height: 40,
@@ -283,9 +301,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     alignItems: "center",
-    marginBottom: 30,
-    marginRight: 20,
-    marginLeft: 20,
-    marginTop: 20,
+    marginBottom: 20,
+    marginRight: 0,
+    marginLeft: 10,
+    marginTop: 10,
+  },
+
+  buttonTouch: {
+    //購入したよ　キャンセル、お店を登録
+    justifyContent: "center",
+    alignItems: "center",
+    fontcolor: "#F5F3F0",
+    height: 40,
+    backgroundColor: "#B6C471",
+    borderRadius: 20,
+    width: 120,
+    // marginLeft: "10%",
+  },
+  buttonInner: {
+    // fontSize: 20,
+    color: "white",
   },
 });
