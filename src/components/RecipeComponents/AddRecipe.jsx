@@ -458,12 +458,13 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // padding: 8,
     flexDirection: "row",
-    flex: 0.2,
+    height: 60,
     alignItems: "flex-end",
     justifyContent: "space-between",
     padding: 5,
     marginHorizontal: "10%",
     marginTop: 1,
+    backgroundColor: "red",
   },
 
   modalContainer: {

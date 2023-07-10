@@ -207,10 +207,9 @@ const styles = StyleSheet.create({
   underBar: {
     // height: 30,
     flexDirection: "row",
-    flex: 0.1,
+    height: 60,
     alignItems: "flex-end",
     justifyContent: "space-between",
-
     padding: 5,
     marginHorizontal: "10%",
     marginTop: 1,
