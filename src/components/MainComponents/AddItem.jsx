@@ -10,8 +10,12 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
-import DropDownPicker from "react-native-dropdown-picker"
-import { createShoppingListAPI, fetchShoppingListAPI, fetchItemAPI } from "../../boltAPI";
+import DropDownPicker from "react-native-dropdown-picker";
+import {
+  createShoppingListAPI,
+  fetchShoppingListAPI,
+  fetchItemAPI,
+} from "../../boltAPI";
 import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 import { itemPresetData } from "../../itemPreset";
 
@@ -38,8 +42,8 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     };
     //////////////////////////////////////////////////////////////API🔴
     let itemList = await fetchItemAPI();
-    itemList.push(...itemPresetData)
-    let result = itemList.find(cornarName)
+    itemList.push(...itemPresetData);
+    let result = itemList.find(cornarName);
 
     let newData = {};
     if (result === undefined) {
@@ -69,9 +73,10 @@ export const AddItem = ({ setModalAddItemVisible }) => {
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
+      const newFlag = true;
+      setAddFlag(newFlag);
     };
     getAllShoppingList();
-    setAddFlag(true);
     reset();
   };
 

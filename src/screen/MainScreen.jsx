@@ -111,7 +111,8 @@ export const MainScreen = ({ navigation }) => {
     // setItems(newBoughtedItems);
   };
 
-  // console.log("//////買い物リスト選択店：", selectedValue);
+  console.log("-----------items 114-------", items);
+
   //順番付与
   const directionAdd = () => {
     // console.log(shopData);
@@ -123,10 +124,14 @@ export const MainScreen = ({ navigation }) => {
       setAddFlag(false);
       return;
     }
+
     const newItems = items.map((item) => {
-      selectedShopObj.corner.forEach((corner, index) => {
-        if (item.corner === corner) {
+      console.log("----------------129-----------：", item);
+      selectedShopObj.corner.forEach((shopCorner, index) => {
+        if (item.corner === shopCorner) {
           item.directions = index;
+        } else {
+          item.directions = 99;
         }
       });
       return item;
