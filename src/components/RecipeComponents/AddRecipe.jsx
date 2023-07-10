@@ -267,13 +267,6 @@ export const AddRecipe = ({ navigation }) => {
       <View style={styles.underBar}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("AI'sレシピ")}
-        >
-          <Text style={styles.buttonText}>AIレシピ</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
           onPress={handleSubmit(onSubmit)}
         >
           <Text style={styles.buttonText}>レシピを登録</Text>
@@ -460,10 +453,17 @@ const styles = StyleSheet.create({
   },
 
   underBar: {
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // padding: 8,
     flexDirection: "row",
+    flex: 0.2,
+    alignItems: "flex-end",
     justifyContent: "space-between",
-    alignItems: "center",
-    padding: 8,
+    padding: 5,
+    marginHorizontal: "10%",
+    marginTop: 1,
   },
 
   modalContainer: {

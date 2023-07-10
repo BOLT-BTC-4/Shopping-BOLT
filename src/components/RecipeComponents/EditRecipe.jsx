@@ -299,7 +299,6 @@ export const EditRecipe = ({ navigation }) => {
       />
 
       <View style={styles.underBar}>
-        <View></View>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSubmit(onSubmit)}
@@ -485,10 +484,17 @@ const styles = StyleSheet.create({
   },
 
   underBar: {
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // padding: 4,
     flexDirection: "row",
+    flex: 1,
+    alignItems: "flex-end",
     justifyContent: "space-between",
-    alignItems: "center",
-    padding: 4,
+    padding: 5,
+    marginHorizontal: "10%",
+    marginTop: 1,
   },
 
   modalContainer: {
