@@ -22,6 +22,7 @@ import {
   fetchShoppingListAPI,
   deleteShoppingListAPI,
   updateShoppingListAPI,
+  fetchShopAPI,
 } from "../boltAPI";
 
 export const MainScreen = ({ navigation }) => {
@@ -52,6 +53,21 @@ export const MainScreen = ({ navigation }) => {
     //////////////////////////////////////////////////////////////////////////UseEffect!API🔴
     getAllShoppingList();
   }, [allGetItemFlag]);
+
+  useEffect(() => {
+    // お店の一覧を取得
+    const getAllShop = async () => {
+      const initShopData = await fetchShopAPI();
+      //ドロップダウンで利用できるようにオブジェクトキー変更
+      const getArrayDropDownList = initShopData.map((item) => {
+        return { key: item.id, value: item.shopName, corner: item.corner };
+      });
+      console.log("------shoppingListData----64----::", getArrayDropDownList);
+      setShopData(initShopData);
+      setShopDataDrop(getArrayDropDownList);
+    };
+    getAllShop();
+  }, []);
 
   // モーダルのuseState
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
