@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 import axios from "axios";
+import { API_CHAT_KEY } from "@env";
 
 // const configuration = new Configuration({
 //     organization: "org-sFBMY1Eruuh54fbnyyyn4Kq3",
@@ -10,7 +11,7 @@ import axios from "axios";
 
 const API_URL = "https://api.openai.com/v1/";
 const MODEL = "gpt-3.5-turbo";
-const API_KEY = "";
+const API_KEY = API_CHAT_KEY;
 
 export const Chat = async (message) => {
   try {

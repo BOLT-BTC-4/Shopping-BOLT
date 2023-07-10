@@ -181,7 +181,15 @@ export const EditMenu = ({ navigation }) => {
       style={selectedCategory === item.category ? styles.activeTab : styles.tab}
       onPress={() => handleCategorySelect(item.category)}
     >
-      <Text>{item.category}</Text>
+      <Text
+        style={
+          selectedCategory === item.category
+            ? styles.activeTabText
+            : styles.tabText
+        }
+      >
+        {item.category}
+      </Text>
     </TouchableOpacity>
   );
   //登録されているrecipe表示
@@ -245,7 +253,7 @@ export const EditMenu = ({ navigation }) => {
               <View style={styles.recipeBox}>
                 <Text>{item.recipeName}</Text>
               </View>
-              <View style={styles.innerBox}>
+              <View style={styles.iconBox}>
                 <AntDesign
                   name="minuscircleo"
                   size={17}
@@ -306,7 +314,7 @@ const styles = {
     padding: 5,
   },
   categoryBar: {
-    flex: 0.56,
+    flex: 0.5,
     // height: 95,
     // backgroundColor: "red",
     flexDirection: "row",
@@ -320,26 +328,37 @@ const styles = {
   },
   tab: {
     padding: 5,
+    // padding: 10,
+    backgroundColor: "#E6E6E6",
     borderRadius: 20,
     alignItems: "center",
-    borderWidth: 1.5,
-    borderBottomColor: "#B6C471",
-    borderLeftColor: "#B6C471",
-    borderRightColor: "#B6C471",
-    borderTopColor: "#B6C471",
-    // justifyContent: "center",
+    justifyContent: "center",
   },
   activeTab: {
     padding: 5,
-    backgroundColor: "#B6C471",
+    // backgroundColor: "#B6C471",
+    // borderRadius: 20,
+    // alignItems: "center",
+    // borderWidth: 1.5,
+    // borderBottomColor: "#B6C471",
+    // borderLeftColor: "#B6C471",
+    // borderRightColor: "#B6C471",
+    // borderTopColor: "#B6C471",
+    // justifyContent: "center",
+    // padding: 10,
+    backgroundColor: "#B45817",
     borderRadius: 20,
     alignItems: "center",
-    borderWidth: 1.5,
-    borderBottomColor: "#B6C471",
-    borderLeftColor: "#B6C471",
-    borderRightColor: "#B6C471",
-    borderTopColor: "#B6C471",
-    // justifyContent: "center",
+    justifyContent: "center",
+  },
+  tabText: {
+    color: "#855E3D",
+    fontWeight: "bold",
+  },
+
+  activeTabText: {
+    color: "white",
+    fontWeight: "bold",
   },
   recipeArea: {
     flex: 1.5,
@@ -350,7 +369,12 @@ const styles = {
     // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#B6C471",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "#B6C471",
+    borderRightColor: "#B6C471",
+    borderTopColor: "#B6C471",
+    // backgroundColor: "#B6C471",
     padding: 6,
     borderRadius: 20,
   },
@@ -407,8 +431,9 @@ const styles = {
     // width: "30%",
   },
   box: {
+    // flex: 1,
     width: "100%",
-    height: 30,
+    // height: 30,
     borderWidth: 1,
     borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
@@ -416,25 +441,28 @@ const styles = {
     borderTopColor: "rgba(0,0,0,0)",
     flexDirection: "row",
     justifyContent: "center",
-    paddingLeft: 10,
-    paddingRight: 10,
+    // paddingLeft: 10,
+    // paddingRight: 10,
     // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
     marginTop: 10,
   },
-  innerBox: {
-    flex: 1,
-    // backgroundColor: "steelblue",
-    padding: 3,
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-  },
   recipeBox: {
-    width: "65%",
+    // flex: 0.5,
+    width: "70%",
     flexDirection: "row",
     alignItems: "center",
     // backgroundColor: "red",
+    padding: 5,
+  },
+  iconBox: {
+    // width: "10%",
+    flex: 1,
+    // backgroundColor: "steelblue",
+    padding: 5,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
   },
   underBar: {
     flex: 0.3,
