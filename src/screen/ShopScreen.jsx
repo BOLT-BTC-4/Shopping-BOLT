@@ -40,19 +40,20 @@ export const ShopScreen = ({ navigation }) => {
     // setShopData(newShopData);
   };
 
-  useEffect(() => {
-    // お店の一覧を取得
-    const getAllShop = async () => {
-      const initShopData = await fetchShopAPI();
-      //ドロップダウンで利用できるようにオブジェクトキー変更
-      const getArrayDropDownList = initShopData.map((item) => {
-        return { key: item.id, value: item.shopName, corner: item.corner };
-      });
-      setShopData(initShopData);
-      setShopDataDrop(getArrayDropDownList);
-    };
-    getAllShop();
-  }, []);
+  // useEffect(() => {
+  //   // お店の一覧を取得
+  //   const getAllShop = async () => {
+  //     const initShopData = await fetchShopAPI();
+  //     //ドロップダウンで利用できるようにオブジェクトキー変更
+  //     const getArrayDropDownList = initShopData.map((item) => {
+  //       return { key: item.id, value: item.shopName, corner: item.corner };
+  //     });
+  //     setShopData(initShopData);
+  //     setShopDataDrop(getArrayDropDownList);
+  //   };
+  //   getAllShop();
+  // }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -72,7 +73,8 @@ export const ShopScreen = ({ navigation }) => {
         style={styles.addbtn}
         onPress={() => {
           navigation.navigate("新規登録");
-        }}>
+        }}
+      >
         <MaterialIcons name="add-circle-outline" size={35} color="#B45817" />
       </TouchableOpacity>
     </View>
