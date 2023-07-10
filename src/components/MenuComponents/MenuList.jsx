@@ -68,7 +68,7 @@ export const MenuList = ({ navigation }) => {
               <View style={styles.moziBox}>
                 <View style={styles.stack}>
                   <Text style={styles.textSmall}>{`${item.serving}人前`}</Text>
-                  <Text style={styles.text}>{item.recipeName}</Text>
+                  <Text style={styles.textRecipeName}>{item.recipeName}</Text>
                 </View>
               </View>
               <View style={styles.url}>
@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
   },
   box: {
     height: 50,
-    width: "100%",
+    // width: "100%",
+    flex: 1,
     borderWidth: 1.5,
     borderBottomColor: "#B6C471",
     borderLeftColor: "rgba(0,0,0,0)",
@@ -185,24 +186,34 @@ const styles = StyleSheet.create({
     borderTopColor: "rgba(0,0,0,0)",
     flexDirection: "row",
     justifyContent: "center",
-    paddingLeft: 10,
+    // paddingLeft: 10,
     paddingRight: 10,
+    // paddingBottom: 5,
     // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     // backgroundColor: "rgba(0, 0, 0, 0.5)",
-    marginTop: 33,
+    marginTop: 27,
   },
   categoryBox: {
     width: 60,
     flexDirection: "row",
     alignItems: "center",
+    // backgroundColor: "red",
   },
   moziBox: {
     flex: 1,
     // backgroundColor: "steelblue",
-    padding: 10,
-    justifyContent: "space-between",
+    // padding: 10,
+    // justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+  },
+  stack: {
+    flex: 1,
+    // backgroundColor: "green",
+    // padding: 10,
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // flexDirection: "row",
   },
   url: {
     // flex: 1,
@@ -248,5 +259,9 @@ const styles = StyleSheet.create({
   textSmall: {
     fontSize: 10,
     color: "#B45817",
+  },
+  textRecipeName: {
+    fontSize: 13,
+    // color: "#B45817",
   },
 });
