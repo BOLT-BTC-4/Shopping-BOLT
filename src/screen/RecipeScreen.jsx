@@ -146,6 +146,12 @@ export const RecipeScreen = ({ navigation }, item) => {
       </View>
 
       <View style={styles.underBar}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("AI'sレシピ")}
+        >
+          <Text style={styles.buttonText}>AIレシピ</Text>
+        </TouchableOpacity>
         <TouchableOpacity>
           <MaterialIcons
             onPress={() => {
@@ -200,9 +206,10 @@ const styles = StyleSheet.create({
   },
   underBar: {
     // height: 30,
+    flexDirection: "row",
     flex: 0.1,
     alignItems: "flex-end",
-    justifyContent: "center",
+    justifyContent: "space-between",
 
     padding: 5,
     marginHorizontal: "10%",
@@ -240,6 +247,20 @@ const styles = StyleSheet.create({
 
   activeTabText: {
     color: "white",
+    fontWeight: "bold",
+  },
+
+  button: {
+    margin: 8,
+    backgroundColor: "#b6c471",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
