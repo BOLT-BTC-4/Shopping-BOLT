@@ -112,6 +112,8 @@ export const AddMenu = ({ navigation }) => {
       const getShoppingData = await fetchShoppingListAPI();
       console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
       setItems(getShoppingData);
+      const newFlag = true;
+      setAddFlag(newFlag);
     };
     await allSaveItem();
 
