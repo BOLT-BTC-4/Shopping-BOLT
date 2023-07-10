@@ -84,7 +84,7 @@ export const RecipeScreen = ({ navigation }, item) => {
   const renderCategoryTab = ({ item }) => (
     <TouchableOpacity
       style={selectedCategory === item.category ? styles.activeTab : styles.tab}
-      onPress={() => handleCategorySelect(item.id, item.category)}
+      onPress={() => handleCategorySelect(item.category)}
     >
       <Text
         style={
