@@ -38,6 +38,7 @@ export const AddRecipe = ({ navigation }) => {
     setUpdateRecipeItem,
     displayedRecipes,
     setDisplayedRecipes,
+    setSelectedCategory,
   } = useContext(ShareShopDataContext);
 
   const {
@@ -67,11 +68,8 @@ export const AddRecipe = ({ navigation }) => {
   const selectServingData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   // const defaultRecipes = table.defaultRecipes;
-  const [selectedCategory, setSelectedCategory] = useState("主菜");
+  const [selectedCategoryAdd, setSelectedCategoryAdd] = useState("主菜");
   const [selectedServing, setSelectedServing] = useState(4);
-
-  // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
-  const [selectedRecipe, setSelectedRecipe] = useState([]);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
@@ -85,7 +83,7 @@ export const AddRecipe = ({ navigation }) => {
   const [sliderRating, setSliderRating] = useState(0);
 
   const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
+    setSelectedCategoryAdd(value);
   };
 
   const handleServingChange = (value) => {
@@ -104,7 +102,7 @@ export const AddRecipe = ({ navigation }) => {
       memo: data.memo,
       url: data.url,
       serving: Number(selectedServing),
-      category: selectedCategory,
+      category: selectedCategoryAdd,
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
@@ -116,9 +114,8 @@ export const AddRecipe = ({ navigation }) => {
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      // setDisplayedRecipes(
-      //   initRecipeData.filter((item) => item.category === "主食")
-      // );
+      setDisplayedRecipes(initRecipeData);
+      setSelectedCategory("全て");
     };
 
     await getAllRecipe();
@@ -179,7 +176,7 @@ export const AddRecipe = ({ navigation }) => {
             onSelect={(selectedItem, index) => {
               handleCategoryChange(selectedItem);
             }}
-            defaultButtonText={selectedCategory}
+            defaultButtonText={selectedCategoryAdd}
             buttonTextAfterSelection={(selectedItem, index) => {
               // 選択した後に何の情報を渡すか
               return selectedItem;
