@@ -38,14 +38,16 @@ export const EditRecipe = ({ navigation }) => {
     setUpdateRecipeItem,
     updateRecipe,
     setUpdateRecipe,
+    setDisplayedRecipes,
+    setSelectedCategory,
   } = useContext(ShareShopDataContext);
 
-  const [selectedCategory, setSelectedCategory] = useState("主食");
+  const [selectedCategoryEdit, setSelectedCategoryEdit] = useState("主食");
   const [selectedServing, setSelectedServing] = useState(4);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-  const [displayedRecipes, setDisplayedRecipes] = useState(
-    defaultRecipes[selectedCategory]
-  );
+  // const [displayedRecipes, setDisplayedRecipes] = useState(
+  //   defaultRecipes[selectedCategory]
+  // );
 
   const {
     register,
@@ -90,7 +92,7 @@ export const EditRecipe = ({ navigation }) => {
       setValue("memo", updateRecipe.memo);
       setValue("serving", String(updateRecipe.serving));
       setSliderRating(updateRecipe.like);
-      setSelectedCategory(updateRecipe.category);
+      setSelectedCategoryEdit(updateRecipe.category);
       setValue("quantity", String(updateRecipeItem[0].quantity)); // TextInputが文字列しか参照できないため文字列型にしている
       setValue("unit", updateRecipeItem[0].unit);
       setValue("recipeItemName", updateRecipeItem[0].recipeItemName);
@@ -103,12 +105,12 @@ export const EditRecipe = ({ navigation }) => {
       setValue("memo", updateRecipe.memo);
       setValue("serving", String(updateRecipe.serving));
       setSliderRating(updateRecipe.like);
-      setSelectedCategory(updateRecipe.category);
+      setSelectedCategoryEdit(updateRecipe.category);
     }
   };
 
   const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
+    setSelectedCategoryEdit(value);
   };
 
   const handleServingChange = (value) => {
@@ -132,7 +134,7 @@ export const EditRecipe = ({ navigation }) => {
       memo: data.memo,
       url: data.url,
       serving: Number(selectedServing),
-      category: selectedCategory,
+      category: selectedCategoryEdit,
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
@@ -143,19 +145,14 @@ export const EditRecipe = ({ navigation }) => {
     // レシピの一覧を取得
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
-      // console.log("initRecipeData:", initRecipeData);
       setRecipeData(initRecipeData);
+      setDisplayedRecipes(initRecipeData);
+      setSelectedCategory("全て");
     };
 
     await getAllRecipe();
     navigation.navigate("レシピリスト");
   };
-
-  // //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  // const handleCategorySelect = (id, category) => {
-  //   setSelectedCategory(category);
-  //   // setDisplayedRecipes(defaultRecipes[categoryId]);
-  // };
 
   const handleRemoveRecipeItem = (id) => {
     // console.log("id:", id);
@@ -172,28 +169,6 @@ export const EditRecipe = ({ navigation }) => {
   useEffect(() => {
     initializeForm();
   }, []);
-
-  // //カテゴリタブ表示
-  // const renderCategoryTab = ({ item }) => (
-  //   <>
-  //     <TouchableOpacity
-  //       style={
-  //         selectedCategory === item.category ? styles.activeTab : styles.tab
-  //       }
-  //       onPress={() => handleCategorySelect(item.id, item.category)}
-  //     >
-  //       <Text
-  //         style={
-  //           selectedCategory === item.category
-  //             ? styles.activeTabText
-  //             : styles.tabText
-  //         }
-  //       >
-  //         {item.category}
-  //       </Text>
-  //     </TouchableOpacity>
-  //   </>
-  // );
 
   return (
     <View style={styles.container}>
@@ -235,7 +210,7 @@ export const EditRecipe = ({ navigation }) => {
             onSelect={(selectedItem, index) => {
               handleCategoryChange(selectedItem);
             }}
-            defaultButtonText={selectedCategory}
+            defaultButtonText={selectedCategoryEdit}
             buttonTextAfterSelection={(selectedItem, index) => {
               // 選択した後に何の情報を渡すか
               return selectedItem;
