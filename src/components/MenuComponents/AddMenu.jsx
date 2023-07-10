@@ -112,8 +112,6 @@ export const AddMenu = ({ navigation }) => {
       const getShoppingData = await fetchShoppingListAPI();
       console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
       setItems(getShoppingData);
-      const newFlag = true;
-      setAddFlag(newFlag);
     };
     await allSaveItem();
 
@@ -121,6 +119,8 @@ export const AddMenu = ({ navigation }) => {
       getAllShoppingList();
     }, 50);
     // setItems(newItems);
+    const newFlag = true;
+    setAddFlag(newFlag);
     navigation.navigate("買い物リスト");
     // setAddFlag(true);
   };

@@ -111,7 +111,7 @@ export const MainScreen = ({ navigation }) => {
     // setItems(newBoughtedItems);
   };
 
-  console.log("-----------items 114-------", items);
+  // console.log("-----------items 114-------", items);
 
   //順番付与
   const directionAdd = () => {
@@ -121,19 +121,27 @@ export const MainScreen = ({ navigation }) => {
     );
     //店舗が選択されていなければ処理を抜ける
     if (selectedShopObj === undefined) {
-      setAddFlag(false);
+      const newFlag = false;
+      setAddFlag(newFlag);
       return;
     }
 
     const newItems = items.map((item) => {
-      console.log("----------------129-----------：", item);
-      selectedShopObj.corner.forEach((shopCorner, index) => {
-        if (item.corner === shopCorner) {
-          item.directions = index;
-        } else {
-          item.directions = 99;
-        }
-      });
+      // console.log("----------------129-----------：", item);
+      if (selectedShopObj.corner.indexOf(item.corner) !== -1) {
+        item.directions = selectedShopObj.corner.indexOf(item.corner);
+      } else {
+        item.directions = 99;
+      }
+      // selectedShopObj.corner.forEach((shopCorner, index) => {
+      //   if (item.corner === shopCorner) {
+      //     item.directions = index;
+      //     return;
+      //   } else {
+      //     item.directions = 99;
+      //   }
+      // });
+      console.log("------144---item------", item);
       return item;
     });
     //ソート
@@ -143,7 +151,8 @@ export const MainScreen = ({ navigation }) => {
       return 0;
     });
     setItems(newItems);
-    setAddFlag(false);
+    const newFlag = false;
+    setAddFlag(newFlag);
   };
 
   if (addFlag) {
