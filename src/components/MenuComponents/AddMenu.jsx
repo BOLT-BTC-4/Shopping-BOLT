@@ -102,9 +102,13 @@ export const AddMenu = ({ navigation }) => {
     }
     //追加するitemをDBに保存////////////////////////////////////////////API🔴
     const allSaveItem = async () => {
-      newItems.forEach(async (newData) => {
-        await createShoppingListAPI(newData);
-      });
+      const savedItems = await Promise.all(
+        newItems.map((newItem) => createShoppingListAPI(newItem))
+      );
+      // console.log("-----------savedItems   108-------------", savedItems);
+      // newItems.forEach(async (newData) => {
+      //   await createShoppingListAPI(newData);
+      // });
     };
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
@@ -113,14 +117,15 @@ export const AddMenu = ({ navigation }) => {
       console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
       setItems(getShoppingData);
     };
+
     await allSaveItem();
 
-    setTimeout(function () {
-      getAllShoppingList();
-    }, 50);
+    // setTimeout(function () {
+    await getAllShoppingList();
+    // }, 50);
     // setItems(newItems);
-    const newFlag = true;
-    setAddFlag(newFlag);
+    // const newFlag = true;
+    // setAddFlag(newFlag);
     navigation.navigate("買い物リスト");
     // setAddFlag(true);
   };

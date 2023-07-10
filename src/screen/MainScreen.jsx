@@ -196,7 +196,7 @@ export const MainScreen = ({ navigation }) => {
           style={styles.buyButton}
           onPress={handleAllRemoveItem}
         >
-          <Text style={{ color: "white" }}>購入したよ</Text>
+          <Text style={styles.buttonText}>購入したよ</Text>
         </TouchableOpacity>
         <MaterialIcons
           onPress={() => setModalAddItemVisible(true)}
@@ -273,5 +273,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 120,
     // marginLeft: "10%",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
