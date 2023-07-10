@@ -43,6 +43,12 @@ import { ReferenceRecipe } from "./src/components/RecipeComponents/ReferenceReci
 import { withAuthenticator } from "@aws-amplify/ui-react-native";
 import { copyItemPresetAPI } from "./src/boltAPI";
 
+import {
+  Authenticator,
+  useAuthenticator,
+  useTheme,
+} from '@aws-amplify/ui-react-native';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -134,85 +140,123 @@ const SettingStack = () => {
   );
 };
 
+const signInHeader = () => {
+  const {
+    tokens: { space, fontSizes },
+  } = useTheme();
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+      <Text style={{ fontSize: fontSizes.xxxl, padding: space.xl, color: "#B6C471" }}>
+        Shopping BOLT
+      </Text>
+      <Image
+        style={{ height: 40, width: 40 }}
+        source={require('./assets/logo.png')}
+      // resizeMode="contain"
+      />
+    </View>
+  );
+};
+
 const App = () => {
+  const {
+    tokens: { colors },
+  } = useTheme();
+
   return (
     <>
-      <ShareShopDataProvider>
-        <NavigationContainer>
-          <Tab.Navigator
-            initialRouteName="買物"
-            screenOptions={() => ({
-              tabBarActiveTintColor: "#B45817",//アイコン用のアクティブカラー #007932
-              tabBarInactiveTintColor: "#f5f3f0",//アイコン用の非アクティブカラー
-              activeTintColor: "#B45817", // アイコンラベル用のアクティブカラー
-              inactiveTintColor: "#f5f3f0",// アイコンラベル用の非アクティブカラー
-              tabBarStyle: { backgroundColor: "#b6c471" }
-            })}
-          >
-            <Tab.Screen
-              name="献立"
-              component={MenuStack}
-              options={{
-                headerShown: false,
-                tabBarLabel: "献立",
-                tabBarIcon: ({ color }) => (
-                  <AntDesign name="calendar" color={color} size={26} />
-                ),
-              }}
+      <Authenticator.Provider>
+        <Authenticator
+          // will wrap every subcomponent
+          Container={(props) => (
+            // reuse default `Container` and apply custom background
+            <Authenticator.Container
+              {...props}
+              style={{ backgroundColor: "#FFF0D4" }}
             />
-            <Tab.Screen
-              name="レシピ"
-              component={RecipeStack}
-              options={{
-                headerShown: false,
-                tabBarLabel: "レシピ",
-                tabBarIcon: ({ color }) => (
-                  <FontAwesome5 name="utensils" color={color} size={26} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="買物"
-              component={MainStack}
-              options={{
-                headerShown: false,
-                tabBarLabel: "買物",
-                tabBarIcon: ({ color }) => (
-                  <AntDesign name="shoppingcart" color={color} size={26} />
-                ),
-              }}
-            />
+          )}
+          // will render on every subcomponent
+          Header={signInHeader}
+        >
+          <ShareShopDataProvider>
+            <NavigationContainer>
+              <Tab.Navigator
+                initialRouteName="買物"
+                screenOptions={() => ({
+                  tabBarActiveTintColor: "#B45817",//アイコン用のアクティブカラー #007932
+                  tabBarInactiveTintColor: "#f5f3f0",//アイコン用の非アクティブカラー
+                  activeTintColor: "#B45817", // アイコンラベル用のアクティブカラー
+                  inactiveTintColor: "#f5f3f0",// アイコンラベル用の非アクティブカラー
+                  tabBarStyle: { backgroundColor: "#b6c471" }
+                })}
+              >
+                <Tab.Screen
+                  name="献立"
+                  component={MenuStack}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: "献立",
+                    tabBarIcon: ({ color }) => (
+                      <AntDesign name="calendar" color={color} size={26} />
+                    ),
+                  }}
+                />
+                <Tab.Screen
+                  name="レシピ"
+                  component={RecipeStack}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: "レシピ",
+                    tabBarIcon: ({ color }) => (
+                      <FontAwesome5 name="utensils" color={color} size={26} />
+                    ),
+                  }}
+                />
+                <Tab.Screen
+                  name="買物"
+                  component={MainStack}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: "買物",
+                    tabBarIcon: ({ color }) => (
+                      <AntDesign name="shoppingcart" color={color} size={26} />
+                    ),
+                  }}
+                />
 
-            <Tab.Screen
-              name="お店"
-              component={ShopStack}
-              options={{
-                headerShown: false,
-                tabBarLabel: "お店",
-                tabBarIcon: ({ color }) => (
-                  <Entypo name="shop" color={color} size={26} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="設定"
-              component={SettingStack}
-              options={{
-                headerShown: false,
-                tabBarLabel: "設定",
-                tabBarIcon: ({ color }) => (
-                  <FontAwesome name="gear" color={color} size={26} />
-                ),
-              }}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </ShareShopDataProvider>
+                <Tab.Screen
+                  name="お店"
+                  component={ShopStack}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: "お店",
+                    tabBarIcon: ({ color }) => (
+                      <Entypo name="shop" color={color} size={26} />
+                    ),
+                  }}
+                />
+                <Tab.Screen
+                  name="設定"
+                  component={SettingStack}
+                  options={{
+                    headerShown: false,
+                    tabBarLabel: "設定",
+                    tabBarIcon: ({ color }) => (
+                      <FontAwesome name="gear" color={color} size={26} />
+                    ),
+                  }}
+                />
+              </Tab.Navigator>
+            </NavigationContainer>
+          </ShareShopDataProvider>
+        </Authenticator>
+      </Authenticator.Provider>
     </>
   );
 };
 
-export default withAuthenticator(App);
+// export default withAuthenticator(App);
+export default App;
 
 const styles = StyleSheet.create({
   container: { width: 400, flex: 1, padding: 20, alignSelf: "center" },
