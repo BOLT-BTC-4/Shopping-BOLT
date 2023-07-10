@@ -39,6 +39,8 @@ export const RecipeScreen = ({ navigation }, item) => {
     await deleteRecipeAPI(id);
     const initRecipeData = await fetchRecipeAPI();
     setRecipeData(initRecipeData);
+    setDisplayedRecipes(initRecipeData);
+    setSelectedCategory("全て");
     // setDisplayedRecipes(
     //   initRecipeData.filter((item) => item.category === "主食")
     // );
