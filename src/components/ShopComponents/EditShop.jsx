@@ -91,115 +91,111 @@ export const EditShop = (props) => {
   useEffect(() => {}, [corner, shopName]);
 
   return (
-    <View>
-      <View style={styles.container}>
-        <View style={styles.labelBox}>
-          <Text style={styles.label}>お店の名前</Text>
-          {errors.shopName && (
-            <Text style={styles.alertFont}>お店の名前を入力してください</Text>
-          )}
-        </View>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.input}
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)} //handleInputChange
-              value={value}
-              placeholder="お店の名前を入力してください"
-            />
-          )}
-          name="shopName"
-          rules={{ required: true }}
-        />
-        <View style={styles.labelBox}>
-          <Text style={styles.label}>売場の並び順</Text>
-          <TouchableOpacity
-            style={styles.buttonTouch}
-            onPress={() => setModalAddCornerVisible(true)}>
-            {/* <MaterialIcons name="add-circle-outline" size={24} color="black" /> */}
-            <Text style={styles.buttonInner}>売場を追加</Text>
-          </TouchableOpacity>
-        </View>
-        <Modal
-          visible={modalAddCornerVisible}
-          animationType="none"
-          transparent={true}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <AddCorner
-                filteredCorner={filteredCorner()}
-                corner={corner}
-                setCorner={setCorner}
-                selectedCorner={selectedCorner}
-                setSelectedCorner={setSelectedCorner}
-                setModalAddCornerVisible={setModalAddCornerVisible}
-                targetString={targetString}
-                setTargetString={setTargetString}
-              />
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          visible={modalEditCornerVisible}
-          animationType="none"
-          transparent={true}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <EditCorner
-                filteredCorner={filteredCorner()}
-                corner={corner}
-                setCorner={setCorner}
-                selectedCorner={selectedCorner}
-                setSelectedCorner={setSelectedCorner}
-                setModalEditCornerVisible={setModalEditCornerVisible}
-                targetString={targetString}
-                setTargetString={setTargetString}
-              />
-            </View>
-          </View>
-        </Modal>
-        <FlatList
-          data={corner}
-          renderItem={({ item }) => (
-            <CornerList
-              corner={corner}
-              setCorner={setCorner}
-              cornerName={item}
-              setModalEditCornerVisible={setModalEditCornerVisible}
-              handleCornerUpdate={handleCornerUpdate}
-              setTargetString={setTargetString}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-
-        <View style={styles.underBar}>
-          {/* スタイル統一にあたり、buttonからTouchableOpacityに変更 */}
-          <TouchableOpacity
-            style={styles.buttonTouch}
-            onPress={() => {
-              navigation.navigate("お店リスト");
-              setSelectedCorner("");
-              setShopName("");
-            }}>
-            <Text style={styles.buttonInner}>キャンセル</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonTouch}
-            onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.buttonInner}>お店を更新</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.shopNameBox}>
+        <Text style={styles.label}>お店の名前</Text>
+        {errors.shopName && (
+          <Text style={styles.alertFont}>お店の名前を入力してください</Text>
+        )}
+      </View>
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)} //handleInputChange
+            value={value}
+            placeholder="お店の名前を入力してください"
+          />
+        )}
+        name="shopName"
+        rules={{ required: true }}
+      />
+      <View style={styles.cornerBox}>
+        <Text style={styles.label}>売場の並び順</Text>
+        <TouchableOpacity
+          style={styles.buttonTouch}
+          onPress={() => setModalAddCornerVisible(true)}
+        >
+          {/* <MaterialIcons name="add-circle-outline" size={24} color="black" /> */}
+          <Text style={styles.buttonInner}>売場を追加</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* 正常に動作しなかったため、ボタンだけ変更はボツ
-      {newShopButton ? (
-        <Button title="新規登録" onPress={handleSubmit(onSubmit)} />
-      ) : (
-        <Button title="更新" onPress={handleSubmit(onSubmit)} />
-      )} */}
+      <FlatList
+        data={corner}
+        renderItem={({ item }) => (
+          <CornerList
+            corner={corner}
+            setCorner={setCorner}
+            cornerName={item}
+            setModalEditCornerVisible={setModalEditCornerVisible}
+            handleCornerUpdate={handleCornerUpdate}
+            setTargetString={setTargetString}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <View style={styles.underBar}>
+        {/* スタイル統一にあたり、buttonからTouchableOpacityに変更 */}
+        <TouchableOpacity
+          style={styles.buttonTouch}
+          onPress={() => {
+            navigation.navigate("お店リスト");
+            setSelectedCorner("");
+            setShopName("");
+          }}
+        >
+          <Text style={styles.buttonInner}>キャンセル</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonTouch}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={styles.buttonInner}>お店を更新</Text>
+        </TouchableOpacity>
+      </View>
+      <Modal
+        visible={modalAddCornerVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <AddCorner
+              filteredCorner={filteredCorner()}
+              corner={corner}
+              setCorner={setCorner}
+              selectedCorner={selectedCorner}
+              setSelectedCorner={setSelectedCorner}
+              setModalAddCornerVisible={setModalAddCornerVisible}
+              targetString={targetString}
+              setTargetString={setTargetString}
+            />
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={modalEditCornerVisible}
+        animationType="none"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <EditCorner
+              filteredCorner={filteredCorner()}
+              corner={corner}
+              setCorner={setCorner}
+              selectedCorner={selectedCorner}
+              setSelectedCorner={setSelectedCorner}
+              setModalEditCornerVisible={setModalEditCornerVisible}
+              targetString={targetString}
+              setTargetString={setTargetString}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -209,12 +205,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF0D4",
     padding: 10,
-
-    minWidth: "100%",
-    minHeight: "100%",
-    justifyContent: "center",
   },
-  labelBox: {
+
+  cornerBox: {
     paddingTop: 15,
     paddingRight: 0,
     paddingLeft: 0,
@@ -223,26 +216,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+
   label: {
     marginRight: 10,
-    fontSize: 18,
+    marginBottom: 4,
+    fontSize: 16,
   },
-  // buttonLabel: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  // },
-  buttonText: {
-    fontSize: 18,
-    color: "mediumseagreen",
-  },
-  // button: {
-  //   marginTop: 40,
-  //   color: "white",
-  //   height: 40,
-  //   backgroundColor: "mediumseagreen",
-  //   borderRadius: 4,
-  // },
+
   input: {
     backgroundColor: "#FFF0D4",
     borderColor: "gray",
@@ -251,33 +231,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 4,
   },
+
   alertFont: {
     color: "red",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContents: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   underBar: {
     flexDirection: "row",
+    alignItems: "flex-end",
     justifyContent: "space-between",
-    padding: 10,
-    alignItems: "center",
-    marginBottom: 20,
-    marginRight: 0,
-    marginLeft: 10,
-    marginTop: 10,
+    padding: 5,
+    marginHorizontal: "10%",
+    marginTop: 1,
   },
+
   buttonTouch: {
     //購入したよ　キャンセル、お店を登録
     justifyContent: "center",
@@ -292,5 +259,24 @@ const styles = StyleSheet.create({
   buttonInner: {
     // fontSize: 20,
     color: "white",
+  },
+
+  buttonText: {
+    fontSize: 18,
+    color: "mediumseagreen",
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContents: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
