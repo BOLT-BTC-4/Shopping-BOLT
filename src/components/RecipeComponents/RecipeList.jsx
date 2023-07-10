@@ -55,17 +55,23 @@ export const RecipeList = ({
   return (
     <View style={styles.listContainer}>
       <View style={styles.recipeNameAndCategoryAndLikeBox}>
-        <View style={styles.recipeCategoryAndLikeBox}>
-          <View style={styles.recipeLikeBox}>
-            <Text style={styles.smallText}>{likeImage(item.like)}　</Text>
+        <TouchableOpacity
+          onPress={() => {
+            handleReferenceRecipe(item.id);
+          }}
+        >
+          <View style={styles.recipeCategoryAndLikeBox}>
+            <View style={styles.recipeLikeBox}>
+              <Text style={styles.smallText}>{likeImage(item.like)}　</Text>
+            </View>
+            <View style={styles.recipeCategoryBox}>
+              <Text style={styles.smallText}>{item.category}</Text>
+            </View>
           </View>
-          <View style={styles.recipeCategoryBox}>
-            <Text style={styles.smallText}>{item.category}</Text>
+          <View style={styles.recipeNameBox}>
+            <Text style={styles.defaultText}>{recipeName}</Text>
           </View>
-        </View>
-        <View style={styles.recipeNameBox}>
-          <Text style={styles.defaultText}>{recipeName}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.iconBox}>
