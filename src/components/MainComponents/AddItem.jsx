@@ -7,6 +7,7 @@ import {
   Button,
   Alert,
   FlatList,
+  TouchableOpacity
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
@@ -120,19 +121,19 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         rules={{ required: false }}
       />
 
-      <View style={styles.button}>
-        <Button
-          style={styles.buttonInner}
-          color
-          title="追加"
-          onPress={handleSubmit(onSubmit)}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.buyButton}
+        onPress={handleSubmit(onSubmit)}
+      >
+        <Text style={styles.buttonText}>追加</Text>
+      </TouchableOpacity>
+
       <Button
         color="#fff"
         title="✖️"
         onPress={() => setModalAddItemVisible(false)}
       />
+
     </View>
   );
 };
@@ -142,13 +143,6 @@ const styles = StyleSheet.create({
     // color: "white",
     margin: 20,
     marginLeft: 0,
-  },
-  button: {
-    marginTop: 40,
-    color: "white",
-    height: 40,
-    backgroundColor: "mediumseagreen",
-    borderRadius: 4,
   },
   container: {
     // flex: 1,
@@ -170,7 +164,31 @@ const styles = StyleSheet.create({
   alertFont: {
     color: "red",
   },
+  buyButton: {
+    //購入したよ　ボタン
+    marginTop: 20,
+    // justifyContent: "center",
+    // alignItems: "center",
+    // fontcolor: "#F5F3F0",
+    // height: 40,
+    // backgroundColor: "#B6C471",
+    // borderRadius: 20,
+    // width: 120,
+
+    margin: 8,
+    backgroundColor: "#b6c471",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  }
 });
+
 //  <DropDownPicker
 //    open={open}
 //    value={quantity}
