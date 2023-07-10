@@ -30,6 +30,8 @@ export const RecipeScreen = ({ navigation }, item) => {
     setUpdateRecipeItem,
     displayedRecipes,
     setDisplayedRecipes,
+    selectedCategory,
+    setSelectedCategory,
   } = useContext(ShareShopDataContext);
 
   // 選択したレシピの削除 → レシピ一覧の取得
@@ -53,42 +55,53 @@ export const RecipeScreen = ({ navigation }, item) => {
 
   // カテゴリ毎にレシピ一覧を表示させる
 
-  const [selectedCategory, setSelectedCategory] = useState(1);
+  // const [selectedCategory, setSelectedCategory] = useState(1);
 
+  //カテゴリーに該当するレシピ配列を返す
+  const filterRecipes = (category) => {
+    if (category === "全て") {
+      const newRecipes = [...recipeData];
+      return newRecipes;
+    } else {
+      const newSelectedRecipes = recipeData.filter(
+        (recipe) => recipe.category === category
+      );
+      return newSelectedRecipes;
+    }
+  };
   // カテゴリ
   const categories = [
-    { id: 1, category: "主食" },
-    { id: 2, category: "主菜" },
-    { id: 3, category: "副菜" },
-    { id: 4, category: "汁物" },
-    { id: 5, category: "その他" },
+    { id: 1, category: "全て" },
+    { id: 2, category: "主食" },
+    { id: 3, category: "主菜" },
+    { id: 4, category: "副菜" },
+    { id: 5, category: "汁物" },
+    { id: 6, category: "スイーツ" },
+    { id: 7, category: "その他" },
   ];
 
   //カテゴリタブ表示
   const renderCategoryTab = ({ item }) => (
-    <>
-      <TouchableOpacity
-        style={selectedCategory === item.id ? styles.activeTab : styles.tab}
-        onPress={() => handleCategorySelect(item.id, item.category)}
+    <TouchableOpacity
+      style={selectedCategory === item.category ? styles.activeTab : styles.tab}
+      onPress={() => handleCategorySelect(item.id, item.category)}
+    >
+      <Text
+        style={
+          selectedCategory === item.category
+            ? styles.activeTabText
+            : styles.tabText
+        }
       >
-        <Text
-          style={
-            selectedCategory === item.id ? styles.activeTabText : styles.tabText
-          }
-        >
-          {item.category}
-        </Text>
-      </TouchableOpacity>
-    </>
+        {item.category}
+      </Text>
+    </TouchableOpacity>
   );
 
   //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (categoryId, categoryName) => {
-    // console.log("categoryId:", categoryId);
-    setSelectedCategory(categoryId);
-    setDisplayedRecipes(
-      recipeData.filter((item) => item.category === categoryName)
-    );
+  const handleCategorySelect = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setDisplayedRecipes(filterRecipes(categoryName));
   };
 
   useEffect(() => {
@@ -96,38 +109,40 @@ export const RecipeScreen = ({ navigation }, item) => {
     const getAllRecipe = async () => {
       const initRecipeData = await fetchRecipeAPI();
       setRecipeData(initRecipeData);
-      setDisplayedRecipes(
-        initRecipeData.filter((item) => item.category === "主食")
-      );
+      setDisplayedRecipes(initRecipeData);
+      // setSelectedCategory("全て");
     };
     getAllRecipe();
   }, []);
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.categoryBar}>
         <FlatGrid
           data={categories}
           renderItem={renderCategoryTab}
           keyExtractor={(item) => item.id.toString()}
-          itemDimension={60} // 要素の幅
+          itemDimension={70} // 要素の幅
         />
       </View>
-      <FlatList
-        style={styles.list}
-        data={displayedRecipes}
-        renderItem={({ item }) => (
-          <RecipeList
-            recipeName={item.recipeName}
-            navigation={navigation}
-            // handleCheck={handleCheck}
-            handleEditRecipe={handleEditRecipe}
-            handleRemoveItem={handleRemoveItem}
-            item={item}
-          />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <View style={styles.listBox}>
+        <FlatList
+          style={styles.list}
+          data={displayedRecipes}
+          renderItem={({ item }) => (
+            <RecipeList
+              recipeName={item.recipeName}
+              navigation={navigation}
+              // handleCheck={handleCheck}
+              handleEditRecipe={handleEditRecipe}
+              handleRemoveItem={handleRemoveItem}
+              item={item}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
+
       <View style={styles.underBar}>
         <TouchableOpacity>
           <MaterialIcons
@@ -151,30 +166,71 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  list: {},
-
-  underBar: {
-    alignItems: "flex-end",
-    padding: 25,
-    marginHorizontal: "3%",
+  categoryBar: {
+    flex: 0.23,
+    // height: 95,
+    // backgroundColor: "red",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderBottomColor: "#B6C471",
+    borderLeftColor: "rgba(0,0,0,0)",
+    borderRightColor: "rgba(0,0,0,0)",
+    borderTopColor: "rgba(0,0,0,0)",
   },
+  listBox: {
+    flex: 1,
+    // width: "100%",
+    // height: 30,
+    // borderWidth: 1,
+    // borderBottomColor: "#B6C471",
+    // borderLeftColor: "rgba(0,0,0,0)",
+    // borderRightColor: "rgba(0,0,0,0)",
+    // borderTopColor: "rgba(0,0,0,0)",
+    // flexDirection: "row",
+    // justifyContent: "center",
+    // paddingLeft: 10,
+    // paddingRight: 10,
+    // style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
+    //  marginTop: 10,
+  },
+  underBar: {
+    // height: 30,
+    flex: 0.1,
+    alignItems: "flex-end",
+    justifyContent: "center",
 
+    padding: 5,
+    marginHorizontal: "10%",
+    marginTop: 1,
+  },
   tab: {
-    padding: 10,
+    padding: 5,
+    // padding: 10,
     backgroundColor: "#E6E6E6",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
-
   activeTab: {
-    padding: 10,
+    padding: 5,
+    // backgroundColor: "#B6C471",
+    // borderRadius: 20,
+    // alignItems: "center",
+    // borderWidth: 1.5,
+    // borderBottomColor: "#B6C471",
+    // borderLeftColor: "#B6C471",
+    // borderRightColor: "#B6C471",
+    // borderTopColor: "#B6C471",
+    // justifyContent: "center",
+    // padding: 10,
     backgroundColor: "#B45817",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
-
   tabText: {
     color: "#855E3D",
     fontWeight: "bold",
