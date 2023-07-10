@@ -21,8 +21,11 @@ import { table } from "../../../table";
 import { useForm, Controller } from "react-hook-form";
 import { Rating, AirbnbRating } from "react-native-ratings";
 import { createRecipeAPI, fetchRecipeAPI } from "../../boltAPI";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import SelectDropdown from "react-native-select-dropdown";
 
 export const AddRecipe = ({ navigation }) => {
+  console.log("===== comp_AddRecipe =====");
   const {
     selectedDay,
     setSelectedDay,
@@ -36,6 +39,7 @@ export const AddRecipe = ({ navigation }) => {
     displayedRecipes,
     setDisplayedRecipes,
   } = useContext(ShareShopDataContext);
+
   const {
     register,
     setValue,
@@ -47,25 +51,27 @@ export const AddRecipe = ({ navigation }) => {
     defaultValues: {
       recipeName: "",
       memo: "",
-      serving: defaultServing.toString(),
       url: null,
     },
   });
 
-  const categories = [
-    { id: 1, category: "主食" },
-    { id: 2, category: "主菜" },
-    { id: 3, category: "副菜" },
-    { id: 4, category: "汁物" },
-    { id: 5, category: "その他" },
+  const selectCategoryData = [
+    "主食",
+    "主菜",
+    "副菜",
+    "汁物",
+    "スイーツ",
+    "その他",
   ];
+
+  const selectServingData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   // const defaultRecipes = table.defaultRecipes;
   const [selectedCategory, setSelectedCategory] = useState("主菜");
+  const [selectedServing, setSelectedServing] = useState(4);
+
   // const [selectedCategoryName, setSelectedCategoryName] = useState("主食");
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-
-  // const [serving, setServing] = useState(defaultServing);
 
   // モーダルのuseState
   const [modalAddRecipeItemVisible, setModalAddRecipeItemVisible] =
@@ -78,22 +84,31 @@ export const AddRecipe = ({ navigation }) => {
   // レーティングのuseStateと設定
   const [sliderRating, setSliderRating] = useState(0);
 
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+  };
+
+  const handleServingChange = (value) => {
+    setSelectedServing(value);
+  };
+
   const handleSliderRating = (rating) => {
     setSliderRating(rating);
   };
 
   //選択されたレシピを献立に登録
   const onSubmit = async (data) => {
+    console.log("data:", data);
     postData = {
       recipeName: data.recipeName,
       memo: data.memo,
       url: data.url,
-      serving: Number(data.serving),
+      serving: Number(selectedServing),
       category: selectedCategory,
       like: Number(sliderRating),
       recipeItemList: recipeItems,
     };
-    console.log("postData:", postData);
+    // console.log("postData:", postData);
 
     await createRecipeAPI(postData);
 
@@ -106,13 +121,8 @@ export const AddRecipe = ({ navigation }) => {
       // );
     };
 
-    getAllRecipe();
+    await getAllRecipe();
     navigation.navigate("レシピリスト");
-  };
-
-  //カテゴリが選択されたらそのカテゴリに該当するレシピを表示
-  const handleCategorySelect = (id, category) => {
-    setSelectedCategory(category);
   };
 
   //選択した食材を削除（フィルターで非表示）
@@ -129,38 +139,8 @@ export const AddRecipe = ({ navigation }) => {
 
   useEffect(() => {}, []);
 
-  //カテゴリタブ表示
-  const renderCategoryTab = ({ item }) => (
-    <>
-      <TouchableOpacity
-        style={
-          selectedCategory === item.category ? styles.activeTab : styles.tab
-        }
-        onPress={() => handleCategorySelect(item.id, item.category)}
-      >
-        <Text
-          style={
-            selectedCategory === item.category
-              ? styles.activeTabText
-              : styles.tabText
-          }
-        >
-          {item.category}
-        </Text>
-      </TouchableOpacity>
-    </>
-  );
-
   return (
     <View style={styles.container}>
-      <View style={styles.categoryContainer}>
-        <FlatGrid
-          data={categories}
-          renderItem={renderCategoryTab}
-          keyExtractor={(item) => item.id.toString()}
-          itemDimension={60} // 要素の幅
-        />
-      </View>
       <View style={styles.recipeLikeContainer}>
         <Text style={styles.likeText}>評価：</Text>
         <AirbnbRating
@@ -193,19 +173,48 @@ export const AddRecipe = ({ navigation }) => {
               <Text style={styles.alertFont}>レシピ名を入力してください</Text>
             )}
           </View>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.inputServing}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-              />
-            )}
-            name="serving"
+
+          <SelectDropdown
+            data={selectCategoryData}
+            onSelect={(selectedItem, index) => {
+              handleCategoryChange(selectedItem);
+            }}
+            defaultButtonText={selectedCategory}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // 選択した後に何の情報を渡すか
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              // プルダウンに何の情報を表示するか
+              return item;
+            }}
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
           />
-          <Text style={styles.label}>人前</Text>
+
+          <SelectDropdown
+            data={selectServingData}
+            onSelect={(selectedItem, index) => {
+              handleServingChange(selectedItem);
+            }}
+            defaultButtonText={selectedServing + "人前"}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // 選択した後に何の情報を渡すか
+              return selectedItem + "人前";
+            }}
+            rowTextForSelection={(item, index) => {
+              // プルダウンに何の情報を表示するか
+              return item + "人前";
+            }}
+            buttonStyle={styles.dropdown1BtnStyle}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            dropdownStyle={styles.dropdown1DropdownStyle}
+            rowStyle={styles.dropdown1RowStyle}
+            rowTextStyle={styles.dropdown1RowTxtStyle}
+          />
         </View>
       </View>
       <View style={styles.recipeContainerColumn}>
@@ -477,5 +486,36 @@ const styles = StyleSheet.create({
 
   alertFont: {
     color: "red",
+  },
+
+  //ドロップダウンリストのスタイル
+  dropDownArea: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  dropdown1BtnStyle: {
+    width: 80,
+    height: 27,
+    backgroundColor: "#FFF",
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "gray",
+  },
+  dropdown1BtnTxtStyle: {
+    color: "#444",
+    textAlign: "left",
+    fontSize: 12,
+  },
+  dropdown1DropdownStyle: { backgroundColor: "#EFEFEF" },
+  dropdown1RowStyle: {
+    backgroundColor: "#EFEFEF",
+    borderBottomColor: "#C5C5C5",
+  },
+  dropdown1RowTxtStyle: {
+    marginLeft: 18,
+    color: "#444",
+    textAlign: "left",
+    fontSize: 12,
   },
 });
