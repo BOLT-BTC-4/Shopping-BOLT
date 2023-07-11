@@ -533,7 +533,7 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     margin: 8,
-    backgroundColor: "gray",
+    backgroundColor: "#E6E6E6",
     padding: 8,
     borderRadius: 16,
     justifyContent: "center",
