@@ -23,6 +23,7 @@ import {
   deleteShoppingListAPI,
   updateShoppingListAPI,
   fetchShopAPI,
+  dataClearAPI,
 } from "../boltAPI";
 
 export const MainScreen = ({ navigation }) => {
@@ -83,8 +84,11 @@ export const MainScreen = ({ navigation }) => {
   const handleRemoveItem = async (id) => {
     ///////////////////////////////////////////////////////////////API🔴
     await deleteShoppingListAPI(id);
+    // await dataClearAPI();
     const shoppingListData = await fetchShoppingListAPI();
     setItems(shoppingListData);
+    const newFlag = true;
+    setAddFlag(newFlag);
   };
 
   const handleAllRemoveItem = async () => {
@@ -93,6 +97,8 @@ export const MainScreen = ({ navigation }) => {
       ///////////////////////////////////////////////////////////////API🔴
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
+      const newFlag = true;
+      setAddFlag(newFlag);
     };
     const newBoughtedItems = [...items];
     // //DB上のshoppinglistを更新

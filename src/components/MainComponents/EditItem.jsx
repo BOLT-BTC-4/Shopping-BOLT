@@ -6,7 +6,11 @@ import Constants from "expo-constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import { table } from "../../../table";
 import uuid from "react-native-uuid";
-import { updateShoppingListAPI, fetchShoppingListAPI, createItemAPI } from "../../boltAPI";
+import {
+  updateShoppingListAPI,
+  fetchShoppingListAPI,
+  createItemAPI,
+} from "../../boltAPI";
 
 export const EditItem = ({
   items,
@@ -26,7 +30,7 @@ export const EditItem = ({
     defaultValues: {
       itemName: item.itemName,
       quantity: item.quantity.toString(),
-      unit: item.unit
+      unit: item.unit,
     },
   });
   const [selectedCorner, setSelectedCorner] = React.useState("");
@@ -47,7 +51,9 @@ export const EditItem = ({
       setItems(getShoppingData);
     };
     getAllShoppingList();
-    setAddFlag(true);
+    setItems(shoppingListData);
+    const newFlag = true;
+    setAddFlag(newFlag);
     setModalEditItemVisible(false);
   };
 
