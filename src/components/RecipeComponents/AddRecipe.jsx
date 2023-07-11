@@ -464,7 +464,6 @@ const styles = StyleSheet.create({
     padding: 5,
     marginHorizontal: "10%",
     marginTop: 1,
-    backgroundColor: "red",
   },
 
   modalContainer: {
