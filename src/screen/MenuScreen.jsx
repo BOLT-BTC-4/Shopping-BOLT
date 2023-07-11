@@ -58,6 +58,7 @@ export const MenuScreen = ({ navigation }) => {
       console.log("findedOneRecipe ---------77------------", findedOneRecipe);
       const addArray = [];
       for (const item of findedOneRecipe.items) {
+        console.log("-------item 61------", item);
         //追加するitemObjを加工
         const addObjItem = {
           id: item.id,
