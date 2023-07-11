@@ -145,8 +145,8 @@ const signInHeader = () => {
     tokens: { space, fontSizes },
   } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
-      <Text style={{ fontSize: fontSizes.xxxl, padding: space.xl, color: "#B6C471" }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Text style={{ fontSize: fontSizes.xxl, padding: space.xl, color: "#B6C471" }}>
         Shopping BOLT
       </Text>
       <Image
