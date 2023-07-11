@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, TextInput, Button, Alert, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { SelectList } from "react-native-dropdown-select-list";
 import Constants from "expo-constants";
@@ -49,11 +49,10 @@ export const EditItem = ({
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
       setItems(getShoppingData);
+      const newFlag = true;
+      setAddFlag(newFlag);
     };
     getAllShoppingList();
-    setItems(shoppingListData);
-    const newFlag = true;
-    setAddFlag(newFlag);
     setModalEditItemVisible(false);
   };
 
@@ -130,12 +129,14 @@ export const EditItem = ({
         rules={{ required: false }}
       />
 
-      <TouchableOpacity
-        style={styles.buyButton}
-        onPress={handleSubmit(onSubmit)}
-      >
-        <Text style={styles.buttonText}>変更</Text>
-      </TouchableOpacity>
+      <View style={styles.button}>
+        <Button
+          style={styles.buttonInner}
+          color
+          title="変更"
+          onPress={handleSubmit(onSubmit)}
+        />
+      </View>
       <Button
         color="#fff"
         title="✖️"
@@ -150,6 +151,13 @@ const styles = StyleSheet.create({
     // color: "white",
     margin: 20,
     marginLeft: 0,
+  },
+  button: {
+    marginTop: 40,
+    color: "white",
+    height: 40,
+    backgroundColor: "mediumseagreen",
+    borderRadius: 4,
   },
   container: {
     // flex: 1,
@@ -171,21 +179,6 @@ const styles = StyleSheet.create({
   alertFont: {
     color: "red",
   },
-  buyButton: {
-    //変更　ボタン
-    marginTop: 20,
-    margin: 8,
-    backgroundColor: "#b6c471",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 8,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  }
 });
 //  <DropDownPicker
 //    open={open}
