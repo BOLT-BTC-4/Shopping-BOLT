@@ -61,7 +61,7 @@ export const MenuScreen = ({ navigation }) => {
         //追加するitemObjを加工
         const addObjItem = {
           id: item.id,
-          checked: true,
+          checked: false,
           recipeItemName: item.recipeItemName,
           quantity: Math.ceil(
             (item.quantity / findedOneRecipe.serving) * oneMenu.menuServing
