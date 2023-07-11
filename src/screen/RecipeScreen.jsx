@@ -205,12 +205,10 @@ const styles = StyleSheet.create({
     //  marginTop: 10,
   },
   underBar: {
-    // height: 30,
     flexDirection: "row",
     height: 60,
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "space-between",
-    padding: 5,
     marginHorizontal: "10%",
     marginTop: 1,
   },

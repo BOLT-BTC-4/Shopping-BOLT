@@ -136,6 +136,7 @@ export const AddAiRecipe = ({ navigation }) => {
         console.log("jsData.recipeItems:", jsData.recipeItems);
         console.log("jsData:", jsData);
         setJSAnswer(jsData);
+        console.log("レシピを思いつきました！");
       } else {
         // const jsData = responseText;
         // console.log("jsData.recipeName:", jsData.recipeName);
@@ -152,23 +153,22 @@ export const AddAiRecipe = ({ navigation }) => {
         `頭がパンクしました　○|￣|＿\n少し休憩が必要です\nしばらく経ってから\nもう一度実行してください\n ${error.message}`
       );
     } finally {
-      console.log("レシピを思いつきました！");
       setLoading(false); // ローディング終了
     }
   };
 
   // レシピ登録
   const handleRecipeSubmit = async () => {
-    let categoryText = selectedCategory;
-    if (categoryText === "スイーツ") {
-      categoryText = "その他";
-    }
+    // let categoryText = selectedCategory;
+    // if (categoryText === "スイーツ") {
+    //   categoryText = "その他";
+    // }
     postData = {
       recipeName: jsAnswer.recipeName,
       memo: jsAnswer.memo,
       url: null,
       serving: Number(jsAnswer.serving),
-      category: categoryText,
+      category: selectedCategory,
       like: 0,
       recipeItemList: jsAnswer.recipeItems,
     };
@@ -575,8 +575,11 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
   underBar: {
-    justifyContent: "center",
+    flexDirection: "row",
+    height: 60,
     alignItems: "center",
-    marginTop: 8,
+    justifyContent: "center",
+    marginHorizontal: "10%",
+    marginTop: 1,
   },
 });
