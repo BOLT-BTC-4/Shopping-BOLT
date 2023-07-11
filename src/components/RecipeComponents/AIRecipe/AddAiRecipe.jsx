@@ -394,7 +394,11 @@ export const AddAiRecipe = ({ navigation }) => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <TouchableOpacity
+            style={[styles.button, loading && styles.disabledButton]}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
             <Text style={styles.buttonText}>この条件でAIに考えてもらう</Text>
           </TouchableOpacity>
         </View>
@@ -527,6 +531,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  disabledButton: {
+    margin: 8,
+    backgroundColor: "#E6E6E6",
+    padding: 8,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   buttonText: {
     color: "white",
     fontSize: 16,
