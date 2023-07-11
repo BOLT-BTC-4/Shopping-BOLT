@@ -56,7 +56,7 @@ const LogoTitle = ({ title }) => (
   <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
     <Text style={{ color: "#B6C471", fontSize: 20, fontWeight: "bold", marginLeft: 5 }}>{title}</Text>
     <Image
-      style={{ height: 40, width: 40, marginRight: 40 }}
+      style={{ height: 40, width: 40, marginRight: 60 }}
       source={require('./assets/logo.png')}
       resizeMode="contain"
     />
