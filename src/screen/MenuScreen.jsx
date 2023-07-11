@@ -59,6 +59,7 @@ export const MenuScreen = ({ navigation }) => {
       const addArray = [];
       for (const item of findedOneRecipe.items) {
         //追加するitemObjを加工
+
         const addObjItem = {
           id: item.id,
           checked: false,
@@ -71,7 +72,7 @@ export const MenuScreen = ({ navigation }) => {
         // レシピのitemsを更新するようの配列
         addArray.push(addObjItem);
       }
-      console.log("addArray ---------93------------", addArray);
+      // console.log("addArray ---------93------------", addArray);
       // recipeObj用のobj(レンダリング用)
       const recipeObj = {
         id: findedOneRecipe.id, //recipeIDのこと
@@ -83,7 +84,7 @@ export const MenuScreen = ({ navigation }) => {
         like: findedOneRecipe.like,
         items: addArray,
       };
-      console.log("recipeObj ---------105------------", recipeObj);
+      // console.log("recipeObj ---------105------------", recipeObj);
       //もし日付に値があればrecipeObjをプッシュする
       if (newMenuObj[oneMenu.date]) {
         newMenuObj[oneMenu.date].push(recipeObj);
@@ -91,7 +92,7 @@ export const MenuScreen = ({ navigation }) => {
         newMenuObj[oneMenu.date] = [recipeObj];
       }
     }
-    console.log("newMenuObj ---------113------------", newMenuObj);
+    // console.log("newMenuObj ---------113------------", newMenuObj);
     setMenu(newMenuObj);
   };
 

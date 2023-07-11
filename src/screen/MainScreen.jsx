@@ -47,7 +47,7 @@ export const MainScreen = ({ navigation }) => {
     // // 買い物リスト一覧の取得
     const getAllShoppingList = async () => {
       const shoppingListData = await fetchShoppingListAPI();
-      console.log("------shoppingListData----47----::", shoppingListData);
+      // console.log("------shoppingListData----47----::", shoppingListData);
       setItems(shoppingListData);
     };
     navigation.navigate("買い物リスト");
@@ -161,9 +161,11 @@ export const MainScreen = ({ navigation }) => {
     setAddFlag(newFlag);
   };
 
-  if (addFlag) {
-    directionAdd();
-  }
+  useEffect(() => {
+    if (addFlag) {
+      directionAdd();
+    }
+  }, [addFlag]);
 
   return (
     <View style={styles.container}>
