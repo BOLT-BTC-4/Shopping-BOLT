@@ -20,6 +20,7 @@ import {
   fetchMenuAPI,
   fetchRecipeAndRecipeItemAPI,
 } from "../../boltAPI";
+import { openURL } from "../Common/OpenURL";
 
 export const MenuList = ({ navigation }) => {
   const {
@@ -31,17 +32,17 @@ export const MenuList = ({ navigation }) => {
     setAllGetMenuFlag,
   } = useContext(ShareShopDataContext);
 
-  const openURL = (url) => {
-    Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          return Linking.openURL(url);
-        } else {
-          Alert.alert(`このURLは開けません: ${url}`);
-        }
-      })
-      .catch((error) => console.log("urlエラー", error));
-  };
+  // const openURL = (url) => {
+  //   Linking.canOpenURL(url)
+  //     .then((supported) => {
+  //       if (supported) {
+  //         return Linking.openURL(url);
+  //       } else {
+  //         Alert.alert(`このURLは開けません: ${url}`);
+  //       }
+  //     })
+  //     .catch((error) => console.log("urlエラー", error));
+  // };
 
   // 選択した献立の削除 → 献立リスト一覧の取得
   const handleRemoveMenu = async (menuId) => {
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 27,
   },
   categoryBox: {
-    width: 60,
+    width: 70,
     flexDirection: "row",
     alignItems: "center",
     // backgroundColor: "red",
