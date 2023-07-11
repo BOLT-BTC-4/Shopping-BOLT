@@ -3,7 +3,7 @@ import { Alert, Linking } from "react-native";
 // レシピURLを開く
 export const openURL = (url) => {
   console.log("url:", url);
-  if (url === !null) {
+  if (url !== null) {
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
