@@ -154,6 +154,12 @@ export const MainScreen = ({ navigation }) => {
     newItems.sort(function (a, b) {
       if (a.directions > b.directions) return 1;
       if (b.directions > a.directions) return -1;
+      // itemNameで並び替え
+      if (a.itemName !== b.itemName) {
+        // 文字列は大小で比較する必要がある
+        if (a.itemName > b.itemName) return 1;
+        if (a.itemName < b.itemName) return -1;
+      }
       return 0;
     });
     setItems(newItems);
