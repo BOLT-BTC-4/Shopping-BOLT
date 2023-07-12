@@ -44,7 +44,7 @@ export const SettingScreen = ({ navigation }) => {
     // navigation.navigate("買い物リスト");
     //////////////////////////////////////////////////////////////////////////UseEffect!API🔴
     getAllShoppingList();
-  }, [allGetItemFlag]);
+  }, []);
 
   useEffect(() => {
     // お店の一覧を取得
@@ -54,7 +54,7 @@ export const SettingScreen = ({ navigation }) => {
       const getArrayDropDownList = initShopData.map((item) => {
         return { key: item.id, value: item.shopName, corner: item.corner };
       });
-      console.log("------shoppingListData----64----::", getArrayDropDownList);
+      //console.log("------shoppingListData----64----::", getArrayDropDownList);
       setShopData(initShopData);
       setShopDataDrop(getArrayDropDownList);
     };
@@ -84,9 +84,9 @@ export const SettingScreen = ({ navigation }) => {
       try {
         await dataClearAPI(); // サインアウトしたら、ローカルのデータをクリアする
         await Auth.signOut();
-        console.log("===サインアウト完了===");
+        //console.log("===サインアウト完了===");
       } catch (error) {
-        console.log("error signing out: ", error);
+        //console.log("error signing out: ", error);
       }
     }
     return (

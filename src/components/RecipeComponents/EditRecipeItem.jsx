@@ -35,7 +35,7 @@ export const EditRecipeItem = ({
     formState: { errors },
   } = useForm();
 
-  console.log("EditRecipeItem_updateRecipeItem", updateRecipeItem);
+  //console.log("EditRecipeItem_updateRecipeItem", updateRecipeItem);
 
   const initializeForm = () => {
     setValue("recipeItemName", updateRecipeItem[0].recipeItemName);
@@ -44,7 +44,7 @@ export const EditRecipeItem = ({
   };
 
   const onSubmit = async (data) => {
-    console.log("EditRecipe_onSubmit", data);
+    //console.log("EditRecipe_onSubmit", data);
     const newRecipeItems = [...recipeItems];
     newRecipeItems.forEach((item) => {
       if (updateRecipeItem[0].id === item.id) {
@@ -55,8 +55,8 @@ export const EditRecipeItem = ({
     });
     await setRecipeItems(newRecipeItems);
     setModalEditRecipeItemVisible(false);
-    console.log("recipeItems:", recipeItems);
-    console.log("更新完了");
+    //console.log("recipeItems:", recipeItems);
+    //console.log("更新完了");
   };
 
   useEffect(() => {

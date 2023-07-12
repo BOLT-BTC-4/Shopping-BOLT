@@ -23,7 +23,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdown from "react-native-select-dropdown";
 
 export const EditRecipe = ({ navigation }) => {
-  console.log("===== comp_EditRecipe =====");
+  //console.log("===== comp_EditRecipe =====");
 
   const defaultRecipes = table.defaultRecipes;
   const {

@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
 
 export const ShopList = ({ item, shopName, handleRemoveItem, navigation }) => {
-  console.log("===== comp_ShopList =====");
+  //console.log("===== comp_ShopList =====");
   useEffect(() => {}, []);
   return (
     <View style={styles.box}>

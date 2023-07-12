@@ -20,7 +20,7 @@ import {
 import { FlatGrid } from "react-native-super-grid";
 
 export const RecipeScreen = ({ navigation }, item) => {
-  console.log("===== comp_RecipeScreen =====");
+  //console.log("===== comp_RecipeScreen =====");
   const {
     recipeData,
     setRecipeData,

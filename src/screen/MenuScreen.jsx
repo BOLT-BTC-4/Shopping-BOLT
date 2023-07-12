@@ -30,7 +30,7 @@ export const MenuScreen = ({ navigation }) => {
     const fetchMenu = await Promise.all(
       filteredDate.map((day) => fetchDateMenuAPI(day))
     );
-    console.log("fetchMenu ------------43------------", fetchMenu);
+    //console.log("fetchMenu ------------43------------", fetchMenu);
     // const menuLoop = async () => {
     //取得したmenuを回す
     const getRecipeArray = [];
@@ -39,7 +39,7 @@ export const MenuScreen = ({ navigation }) => {
         getRecipeArray.push(arrayIn);
       }
     }
-    console.log("getRecipeArray ---------62------------", getRecipeArray);
+    //console.log("getRecipeArray ---------62------------", getRecipeArray);
     // const getRecipeID = fetchMenu.map((recipe) => recipe);
 
     const getedRecipes = await Promise.all(
@@ -47,7 +47,7 @@ export const MenuScreen = ({ navigation }) => {
         fetchRecipeAndRecipeItemAPI(recipe.recipeID)
       )
     );
-    console.log("getedRecipes ---------68------------", getedRecipes);
+    //console.log("getedRecipes ---------68------------", getedRecipes);
 
     //取得したメニューを１つずつ取り出し
     for (const oneMenu of getRecipeArray) {
@@ -55,10 +55,10 @@ export const MenuScreen = ({ navigation }) => {
       findedOneRecipe = getedRecipes.find(
         (oneRecipe) => oneRecipe.id === oneMenu.recipeID
       );
-      console.log("findedOneRecipe ---------77------------", findedOneRecipe);
+      //console.log("findedOneRecipe ---------77------------", findedOneRecipe);
       const addArray = [];
       for (const item of findedOneRecipe.items) {
-        console.log("-------item 61------", item);
+        //console.log("-------item 61------", item);
         //追加するitemObjを加工
 
         const addObjItem = {
@@ -105,7 +105,7 @@ export const MenuScreen = ({ navigation }) => {
     const filteredDate = Array.from(
       new Set(allGetMenu.map((menu) => menu.date))
     );
-    console.log("filterDate:::::::::::", filteredDate);
+    //console.log("filterDate:::::::::::", filteredDate);
     // データがDBにあれば日付のみの配列を回して最新のmenuをDBから取得する
     if (filteredDate.length >= 1) {
       getNewMenu(filteredDate);
@@ -125,7 +125,7 @@ export const MenuScreen = ({ navigation }) => {
       const filteredDate = Array.from(
         new Set(allGetMenu.map((menu) => menu.date))
       );
-      console.log("filterDate:::::::::::", filteredDate);
+      //console.log("filterDate:::::::::::", filteredDate);
       // データがDBにあれば日付のみの配列を回して最新のmenuをDBから取得する
       if (filteredDate.length >= 1) {
         getNewMenu(filteredDate);

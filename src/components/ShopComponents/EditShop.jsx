@@ -22,7 +22,7 @@ export const EditShop = (props) => {
   const { navigation } = props;
   const { route } = props;
   const { item } = route.params;
-  console.log("EditShop_item:", item);
+  //console.log("EditShop_item:", item);
 
   const [corner, setCorner] = useState(item.corner);
   const [selectedCorner, setSelectedCorner] = useState("");

@@ -27,7 +27,7 @@ import {
 } from "../boltAPI";
 
 export const MainScreen = ({ navigation }) => {
-  console.log("===== comp_MainScreen =====");
+  //console.log("===== comp_MainScreen =====");
   //アイテムリスト
   const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
     useContext(ShareShopDataContext);
@@ -63,7 +63,7 @@ export const MainScreen = ({ navigation }) => {
       const getArrayDropDownList = initShopData.map((item) => {
         return { key: item.id, value: item.shopName, corner: item.corner };
       });
-      console.log("------shoppingListData----64----::", getArrayDropDownList);
+      //console.log("------shoppingListData----64----::", getArrayDropDownList);
       setShopData(initShopData);
       setShopDataDrop(getArrayDropDownList);
     };
@@ -147,7 +147,7 @@ export const MainScreen = ({ navigation }) => {
       //     item.directions = 99;
       //   }
       // });
-      console.log("------144---item------", item);
+      //console.log("------144---item------", item);
       return item;
     });
     //ソート

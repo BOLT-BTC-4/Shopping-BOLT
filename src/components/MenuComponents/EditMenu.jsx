@@ -50,10 +50,10 @@ export const EditMenu = ({ navigation }) => {
       const getedRecipeItems = await Promise.all(
         newRecipes.map((newRecipe) => fetchIdRecipeItemAPI(newRecipe.id))
       );
-      console.log(
-        "------------getedRecipeItems------55--------",
-        getedRecipeItems
-      );
+      // console.log(
+      //   "------------getedRecipeItems------55--------",
+      //   getedRecipeItems
+      // );
       newRecipes.forEach((newRecipe, index) => {
         //データを加工したら更新
         renderRecipes.push({
@@ -67,7 +67,7 @@ export const EditMenu = ({ navigation }) => {
           items: getedRecipeItems[index],
         });
       });
-      console.log("---------renderRecipes-----65--------", renderRecipes[1]);
+      //console.log("---------renderRecipes-----65--------", renderRecipes[1]);
       setRecipes(renderRecipes);
       setDisplayedRecipes(renderRecipes);
     };
@@ -111,7 +111,7 @@ export const EditMenu = ({ navigation }) => {
           return createMenuAPI(saveData);
         })
       );
-      console.log("-------------result 155-----------", result);
+      //console.log("-------------result 155-----------", result);
     };
 
     await saveMenu();

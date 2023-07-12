@@ -45,7 +45,7 @@ export const AddRecipeItem = ({
       unit: data.unit,
       corner: "",
     };
-    console.log("newRecipeItemData", newRecipeItemData);
+    //console.log("newRecipeItemData", newRecipeItemData);
     setRecipeItems((items) => [...items, newRecipeItemData]);
     setModalAddRecipeItemVisible(false);
     // reset();

@@ -12,7 +12,7 @@ export const CornerList = ({
   handleCornerUpdate,
 }) => {
   const handleCornerDelete = (str) => {
-    console.log(str);
+    //console.log(str);
     // 選択された行のデータを配列から削除;
     const newCorner = corner.filter((item) => item !== str);
     setCorner(newCorner);

@@ -112,10 +112,12 @@ export const AddMenu = ({ navigation }) => {
     };
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
-      console.log("🌝🌝🌝🌝🌝🌝🌝newItems", newItems);
+      //console.log("🌝🌝🌝🌝🌝🌝🌝newItems", newItems);
       const getShoppingData = await fetchShoppingListAPI();
-      console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
+      //console.log("⭐⭐&&&&&&&&&&&&&&&⭐⭐", getShoppingData);
       setItems(getShoppingData);
+      const newFlag = true;
+      setAddFlag(newFlag);
     };
 
     await allSaveItem();

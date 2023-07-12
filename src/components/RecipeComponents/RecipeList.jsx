@@ -24,7 +24,7 @@ export const RecipeList = ({
   handleEditRecipe,
   navigation,
 }) => {
-  console.log("===== comp_RecipeList =====");
+  //console.log("===== comp_RecipeList =====");
 
   const { setUpdateRecipe, setUpdateRecipeItem } =
     useContext(ShareShopDataContext);

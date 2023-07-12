@@ -24,8 +24,8 @@ export const ReferenceRecipe = ({ navigation }) => {
 
   // useState、useContext
   const { updateRecipe, updateRecipeItem } = useContext(ShareShopDataContext);
-  console.log("updateRecipe:", updateRecipe);
-  console.log("updateRecipeItem:", updateRecipeItem);
+  //console.log("updateRecipe:", updateRecipe);
+  //console.log("updateRecipeItem:", updateRecipeItem);
   return (
     <View style={styles.container}>
       <ScrollView>

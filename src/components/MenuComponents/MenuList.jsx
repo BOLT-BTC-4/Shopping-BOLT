@@ -50,7 +50,7 @@ export const MenuList = ({ navigation }) => {
     setAllGetMenuFlag((prev) => !prev);
   };
 
-  console.log("menu⭐⭐", menu);
+  //console.log("menu⭐⭐", menu);
 
   return (
     <View style={{ height: 600 }}>

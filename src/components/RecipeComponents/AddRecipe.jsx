@@ -25,7 +25,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdown from "react-native-select-dropdown";
 
 export const AddRecipe = ({ navigation }) => {
-  console.log("===== comp_AddRecipe =====");
+  //console.log("===== comp_AddRecipe =====");
   const {
     selectedDay,
     setSelectedDay,
@@ -96,7 +96,7 @@ export const AddRecipe = ({ navigation }) => {
 
   //選択されたレシピを献立に登録
   const onSubmit = async (data) => {
-    console.log("data:", data);
+    //console.log("data:", data);
     postData = {
       recipeName: data.recipeName,
       memo: data.memo,

@@ -19,7 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import { deleteShopAPI, fetchShopAPI } from "../boltAPI";
 
 export const ShopScreen = ({ navigation }) => {
-  console.log("===== comp_ShopScreen =====");
+  //console.log("===== comp_ShopScreen =====");
   const { shopData, setShopData } = useContext(ShareShopDataContext);
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
   // const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
