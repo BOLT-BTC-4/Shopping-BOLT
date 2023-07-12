@@ -71,7 +71,7 @@ export const SettingScreen = ({ navigation }) => {
     );
     setTimeout(() => {
       transferTab();
-    }, 5000);
+    }, 15000);
   }, []);
 
   //  useAuthenticator'から'user'の現在の値のみを取り出す。
