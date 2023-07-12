@@ -125,12 +125,12 @@ export const MainScreen = ({ navigation }) => {
     const selectedShopObj = shopDataDrop.find(
       (shop) => shop.value === selectedValue
     );
-    //店舗が選択されていなければ処理を抜ける
-    if (selectedShopObj === undefined) {
-      const newFlag = false;
-      setAddFlag(newFlag);
-      return;
-    }
+    // //店舗が選択されていなければ処理を抜ける
+    // if (selectedShopObj === undefined) {
+    //   const newFlag = false;
+    //   setAddFlag(newFlag);
+    //   return;
+    // }
 
     const newItems = items.map((item) => {
       // console.log("----------------129-----------：", item);

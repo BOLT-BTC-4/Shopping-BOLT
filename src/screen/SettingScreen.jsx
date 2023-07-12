@@ -67,11 +67,11 @@ export const SettingScreen = ({ navigation }) => {
     };
     Alert.alert(
       "ようこそShopping BOLTへ!!",
-      "接続確認をします。\n5秒お待ち下さい。\n確認後、買物タブへ移動します。"
+      "接続確認をします。\n30秒お待ち下さい。\n確認後、買物タブへ移動します。"
     );
     setTimeout(() => {
       transferTab();
-    }, 15000);
+    }, 30000);
   }, []);
 
   //  useAuthenticator'から'user'の現在の値のみを取り出す。
