@@ -126,8 +126,14 @@ export const AddMenu = ({ navigation }) => {
     // setItems(newItems);
     // const newFlag = true;
     // setAddFlag(newFlag);
-    navigation.navigate("買い物リスト");
     // setAddFlag(true);
+    // navigation.navigate("買い物リスト");
+    navigation.navigate("献立リスト");
+    navigation.navigate("買物");
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: "買い物リスト" }],
+    // });
   };
 
   return (
