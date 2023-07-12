@@ -50,7 +50,7 @@ export const MainScreen = ({ navigation }) => {
       // console.log("------shoppingListData----47----::", shoppingListData);
       setItems(shoppingListData);
     };
-    navigation.navigate("買い物リスト");
+    // navigation.navigate("買い物リスト");
     //////////////////////////////////////////////////////////////////////////UseEffect!API🔴
     getAllShoppingList();
   }, [allGetItemFlag]);

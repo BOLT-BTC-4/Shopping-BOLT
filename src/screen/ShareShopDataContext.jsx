@@ -51,10 +51,10 @@ export const ShareShopDataProvider = ({ children }) => {
   const [displayedRecipes, setDisplayedRecipes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("全て");
 
-  useEffect(() => {
-    // getAllShop();
-    // getAllShoppingList();
-  }, []);
+  // useEffect(() => {
+  //   getAllShop();
+  //   getAllShoppingList();
+  // }, []);
   return (
     <ShareShopDataContext.Provider
       value={{

@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Amplify, Auth } from "aws-amplify";
 import awsExports from "./src/aws-exports";
@@ -47,17 +47,33 @@ import {
   Authenticator,
   useAuthenticator,
   useTheme,
-} from '@aws-amplify/ui-react-native';
+} from "@aws-amplify/ui-react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const LogoTitle = ({ title }) => (
-  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-    <Text style={{ color: "#B6C471", fontSize: 20, fontWeight: "bold", marginLeft: 5 }}>{title}</Text>
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+    }}
+  >
+    <Text
+      style={{
+        color: "#B6C471",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginLeft: 5,
+      }}
+    >
+      {title}
+    </Text>
     <Image
       style={{ height: 40, width: 40, marginRight: 60 }}
-      source={require('./assets/logo.png')}
+      source={require("./assets/logo.png")}
       resizeMode="contain"
     />
   </View>
@@ -145,14 +161,16 @@ const signInHeader = () => {
     tokens: { space, fontSizes },
   } = useTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Text style={{ fontSize: fontSizes.xxl, padding: space.xl, color: "#B6C471" }}>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <Text
+        style={{ fontSize: fontSizes.xxl, padding: space.xl, color: "#B6C471" }}
+      >
         Shopping BOLT
       </Text>
       <Image
         style={{ height: 40, width: 40 }}
-        source={require('./assets/logo.png')}
-      // resizeMode="contain"
+        source={require("./assets/logo.png")}
+        // resizeMode="contain"
       />
     </View>
   );
@@ -181,13 +199,13 @@ const App = () => {
           <ShareShopDataProvider>
             <NavigationContainer>
               <Tab.Navigator
-                initialRouteName="買物"
+                initialRouteName="設定"
                 screenOptions={() => ({
-                  tabBarActiveTintColor: "#B45817",//アイコン用のアクティブカラー #007932
-                  tabBarInactiveTintColor: "#f5f3f0",//アイコン用の非アクティブカラー
+                  tabBarActiveTintColor: "#B45817", //アイコン用のアクティブカラー #007932
+                  tabBarInactiveTintColor: "#f5f3f0", //アイコン用の非アクティブカラー
                   activeTintColor: "#B45817", // アイコンラベル用のアクティブカラー
-                  inactiveTintColor: "#f5f3f0",// アイコンラベル用の非アクティブカラー
-                  tabBarStyle: { backgroundColor: "#b6c471" }
+                  inactiveTintColor: "#f5f3f0", // アイコンラベル用の非アクティブカラー
+                  tabBarStyle: { backgroundColor: "#b6c471" },
                 })}
               >
                 <Tab.Screen
