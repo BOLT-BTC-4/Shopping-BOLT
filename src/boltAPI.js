@@ -118,7 +118,7 @@ export const fetchShoppingListAPI = async () => {
 
 // ShoppingList 買い物リストの更新
 export const updateShoppingListAPI = async (item) => {
-  //console.log("///🔴 API利用 : updateShoppingListAPI ///");
+  console.log("///🔴 API利用 : updateShoppingListAPI ///", item);
   const {
     bought,
     check,

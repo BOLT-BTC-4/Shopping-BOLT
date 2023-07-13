@@ -66,7 +66,7 @@ export const EditItem = ({ item, setModalEditItemVisible }) => {
 
     //追加するitemをDBに保存////////////////////////////////////////////API🔴
     await updateShoppingListAPI(updateData);
-    await createItemAPI(itemCopy); //coner売り場のマスターへも登録
+    await createItemAPI(updateData); //coner売り場のマスターへも登録
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {
       const getShoppingData = await fetchShoppingListAPI();
