@@ -191,7 +191,9 @@ export const MainScreen = ({ navigation }) => {
             maxHeight={200}
             // defaultOption={shopData[0]}
             onSelect={() => {
-              directionAdd();
+              // directionAdd();
+              const newFlag = true;
+              setAddFlag(newFlag);
             }}
           />
         </View>
