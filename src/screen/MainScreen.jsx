@@ -74,10 +74,16 @@ export const MainScreen = ({ navigation }) => {
   const [modalAddItemVisible, setModalAddItemVisible] = useState(false);
 
   const handleCheck = (id) => {
-    const newItems = [...items];
-    const item = newItems.find((item) => item.id === id);
-    item.check = !item.check;
-    setItems(newItems);
+    const index = items.findIndex((item) => item.id === id);
+    if (index !== -1) {
+      const newItems = [...items];
+      newItems[index].check = !newItems[index].check;
+      setItems(newItems);
+    }
+    // const newItems = [...items];
+    // const item = newItems.find((item) => item.id === id);
+    // item.check = !item.check;
+    // setItems(newItems);
   };
 
   // 選択した買い物リストアイテムの削除 → 買い物リスト一覧の取得
@@ -155,11 +161,11 @@ export const MainScreen = ({ navigation }) => {
       if (a.directions > b.directions) return 1;
       if (b.directions > a.directions) return -1;
       // itemNameで並び替え
-      if (a.itemName !== b.itemName) {
-        // 文字列は大小で比較する必要がある
-        if (a.itemName > b.itemName) return 1;
-        if (a.itemName < b.itemName) return -1;
-      }
+      // if (a.itemName !== b.itemName) {
+      //   // 文字列は大小で比較する必要がある
+      //   if (a.itemName > b.itemName) return 1;
+      //   if (a.itemName < b.itemName) return -1;
+      // }
       return 0;
     });
     setItems(newItems);
@@ -173,9 +179,9 @@ export const MainScreen = ({ navigation }) => {
         directionAdd();
       }
     };
-    setTimeout(function () {
-      sortFunc();
-    }, 3000);
+    // setTimeout(function () {
+    sortFunc();
+    // }, 3000);
   }, [addFlag]);
 
   return (
