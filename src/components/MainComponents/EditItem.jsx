@@ -46,14 +46,26 @@ export const EditItem = ({ item, setModalEditItemVisible }) => {
   const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   const onSubmit = async (data) => {
-    const newItems = [...items];
-    const itemCopy = newItems.find((newItem) => newItem.id === item.id);
-    itemCopy.corner = selectedCorner;
-    itemCopy.itemName = data.itemName;
-    itemCopy.quantity = data.quantity;
-    itemCopy.unit = data.unit;
+    // const newItems = [...items];
+    // const itemCopy = newItems.find((newItem) => newItem.id === item.id);
+    // itemCopy.corner = selectedCorner;
+    // itemCopy.itemName = data.itemName;
+    // itemCopy.quantity = data.quantity;
+    // itemCopy.unit = data.unit;
+    const updateData = {
+      id: item.id,
+      bought: item.bought,
+      check: item.check,
+      corner: selectedCorner,
+      directions: item.directions,
+      itemName: data.itemName,
+      quantity: Number(data.quantity),
+      unit: data.unit,
+      recipeName: item.recipeName,
+    };
+
     //追加するitemをDBに保存////////////////////////////////////////////API🔴
-    await updateShoppingListAPI(itemCopy);
+    await updateShoppingListAPI(updateData);
     await createItemAPI(itemCopy); //coner売り場のマスターへも登録
     //買い物リスト一覧をDBから取得///////////////////////////////////////API🔴
     const getAllShoppingList = async () => {

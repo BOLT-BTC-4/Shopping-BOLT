@@ -119,6 +119,17 @@ export const fetchShoppingListAPI = async () => {
 // ShoppingList 買い物リストの更新
 export const updateShoppingListAPI = async (item) => {
   //console.log("///🔴 API利用 : updateShoppingListAPI ///");
+  const {
+    bought,
+    check,
+    corner,
+    directions,
+    itemName,
+    quantity,
+    unit,
+    recipeName,
+    id,
+  } = item;
   try {
     const targetItem = await DataStore.query(ShoppingList, item.id);
     await DataStore.save(
