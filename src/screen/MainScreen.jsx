@@ -97,30 +97,45 @@ export const MainScreen = ({ navigation }) => {
     setAddFlag(newFlag);
   };
 
-  const handleAllRemoveItem = async () => {
-    //買い物リスト一覧をDBからboughtがfalseのもののみ取得
-    const getAllShoppingList = async () => {
-      ///////////////////////////////////////////////////////////////API🔴
-      const getShoppingData = await fetchShoppingListAPI();
-      setItems(getShoppingData);
-      const newFlag = true;
-      setAddFlag(newFlag);
-    };
-    const newBoughtedItems = [...items];
+  const handleAllRemoveItem = () => {
     // //DB上のshoppinglistを更新
     const updateShoppingList = async () => {
-      newBoughtedItems.forEach(async (item) => {
-        if (item.check) {
-          item.bought = true;
-          ///////////////////////////////////////////////////////////////API🔴
-          await updateShoppingListAPI(item);
-          getAllShoppingList();
-        }
-      });
+      const newBoughtedItems = [...items];
+      updatedArray = await Promise.all(
+        newBoughtedItems.map((item) => {
+          if (item.check) {
+            item.bought = true;
+            updateShoppingListAPI(item);
+          }
+          return item;
+        })
+      );
+      const sortFunc = () => {
+        setAllGetItemFlag((prev) => !prev);
+      };
+      setTimeout(function () {
+        sortFunc();
+      }, 500);
+      // console.log("--------114---------", items);
     };
+
+    //買い物リスト一覧をDBからboughtがfalseのもののみ取得
+    // const getAllShoppingList = async () => {
+    //   const getShoppingData = await fetchShoppingListAPI();
+    //   setItems(getShoppingData);
+    //   const newFlag = true;
+    //   setAddFlag(newFlag);
+    // };
+    // const updateShoppingList = async () => {
+    //   newBoughtedItems.forEach(async (item) => {
+    //     if (item.check) {
+    //       item.bought = true;
+    //       await updateShoppingListAPI(item);
+    //       getAllShoppingList();
+    //     }
+    //   });
+    // };
     updateShoppingList();
-    // // const newItems = items.filter((item) => item.check === false);
-    // setItems(newBoughtedItems);
   };
 
   // console.log("-----------items 114-------", items);
