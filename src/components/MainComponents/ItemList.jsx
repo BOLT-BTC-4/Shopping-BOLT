@@ -11,17 +11,22 @@ import {
 } from "react-native";
 import { EditItem } from "./EditItem";
 
-export const ItemList = ({
-  item,
-  handleCheck,
-  handleRemoveItem,
-  items,
-  setItems,
-  setAddFlag,
-}) => {
+export const ItemList = ({ item, handleCheck, handleRemoveItem }) => {
   //モーダルのuseState
   const [modalEditItemVisible, setModalEditItemVisible] = useState(false);
+  const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
+    useContext(ShareShopDataContext);
 
+  //商品追加用flag
+  const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
+
+  // Shop関連のuseState
+  // 買物/お店タブで利用するため2つともContext化
+  const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
+
+  // shopタブでも利用するため下記のshopDataに名称変更
+  const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
   return (
     <View style={item.check ? [styles.box, styles.check] : styles.box}>
       <TouchableOpacity
@@ -60,9 +65,6 @@ export const ItemList = ({
           <View style={styles.modalContainer}>
             <View style={styles.modalContents}>
               <EditItem
-                items={items}
-                setItems={setItems}
-                setAddFlag={setAddFlag}
                 item={item}
                 setModalEditItemVisible={setModalEditItemVisible}
               />

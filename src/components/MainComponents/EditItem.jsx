@@ -1,4 +1,5 @@
-import * as React from "react";
+// import * as React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -11,14 +12,9 @@ import {
   fetchShoppingListAPI,
   createItemAPI,
 } from "../../boltAPI";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
-export const EditItem = ({
-  items,
-  setItems,
-  setAddFlag,
-  item,
-  setModalEditItemVisible,
-}) => {
+export const EditItem = ({ item, setModalEditItemVisible }) => {
   const {
     register,
     setValue,
@@ -33,7 +29,21 @@ export const EditItem = ({
       unit: item.unit,
     },
   });
-  const [selectedCorner, setSelectedCorner] = React.useState("");
+  const [selectedCorner, setSelectedCorner] = useState("");
+  //アイテムリスト
+  const { items, setItems, allGetItemFlag, setAllGetItemFlag } =
+    useContext(ShareShopDataContext);
+
+  //商品追加用flag
+  const { addFlag, setAddFlag } = useContext(ShareShopDataContext);
+
+  // Shop関連のuseState
+  // 買物/お店タブで利用するため2つともContext化
+  const { selectedValue, setSelectedValue } = useContext(ShareShopDataContext);
+
+  // shopタブでも利用するため下記のshopDataに名称変更
+  const { shopData, setShopData } = useContext(ShareShopDataContext);
+  const { shopDataDrop, setShopDataDrop } = useContext(ShareShopDataContext);
 
   const onSubmit = async (data) => {
     const newItems = [...items];

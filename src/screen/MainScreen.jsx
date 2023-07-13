@@ -205,9 +205,6 @@ export const MainScreen = ({ navigation }) => {
             item={item}
             handleCheck={handleCheck}
             handleRemoveItem={handleRemoveItem}
-            items={items}
-            setItems={setItems}
-            setAddFlag={setAddFlag}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
@@ -234,11 +231,7 @@ export const MainScreen = ({ navigation }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContents}>
-            <AddItem
-              setItems={setItems}
-              setAddFlag={setAddFlag}
-              setModalAddItemVisible={setModalAddItemVisible}
-            />
+            <AddItem setModalAddItemVisible={setModalAddItemVisible} />
           </View>
         </View>
       </Modal>
