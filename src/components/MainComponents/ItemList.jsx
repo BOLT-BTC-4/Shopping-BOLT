@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 
 import {
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { EditItem } from "./EditItem";
+import { ShareShopDataContext } from "../../screen/ShareShopDataContext";
 
 export const ItemList = ({ item, handleCheck, handleRemoveItem }) => {
   //モーダルのuseState

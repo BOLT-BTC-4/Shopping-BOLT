@@ -7,7 +7,7 @@ import {
   Button,
   Alert,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Constants from "expo-constants";
@@ -133,7 +133,6 @@ export const AddItem = ({ setModalAddItemVisible }) => {
         title="✖️"
         onPress={() => setModalAddItemVisible(false)}
       />
-
     </View>
   );
 };
@@ -186,7 +185,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-  }
+  },
 });
 
 //  <DropDownPicker
